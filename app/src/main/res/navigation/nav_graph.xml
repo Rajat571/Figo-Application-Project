@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/verifyNumber2">
+
+
+    <fragment
+        android:id="@+id/verifyNumber2"
+        android:name="com.pearlorganisation.figgo.UI.Fragments.VerifyNumber"
+        android:label="VerifyNumber" >
+        <action
+            android:id="@+id/action_verifyNumber2_to_MPinGenerate"
+            app:destination="@id/MPinGenerate" />
+    </fragment>
+    <fragment
+        android:id="@+id/MPinGenerate"
+        android:name="com.pearlorganisation.figgo.UI.Fragments.MPinGenerate"
+        android:label="MPinGenerate" >
+        <action
+            android:id="@+id/action_MPinGenerate_to_figgo_FamilyFragment"
+            app:destination="@id/figgo_FamilyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/figgo_FamilyFragment"
+        android:name="com.example.figgodriver.Fragment.Figgo_FamilyFragment"
+        android:label="Figgo_FamilyFragment" >
+        <action
+            android:id="@+id/action_figgo_FamilyFragment_to_partnerWelcomeFragment"
+            app:destination="@id/partnerWelcomeFragment" />
+        <action
+            android:id="@+id/action_figgo_FamilyFragment_to_partnerDetails"
+            app:destination="@id/partnerDetails" />
+        <action
+            android:id="@+id/action_figgo_FamilyFragment_to_driverWelcomeFragment"
+            app:destination="@id/driverWelcomeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/partnerWelcomeFragment"
+        android:name="com.example.figgodriver.Fragment.PartnerWelcomeFragment"
+        android:label="fragment_partner_welcome"
+        tools:layout="@layout/fragment_partner_welcome" >
+        <action
+            android:id="@+id/action_partnerWelcomeFragment_to_partnerDetails"
+            app:destination="@id/partnerDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/partnerDetails"
+        android:name="com.example.figgodriver.Fragment.PartnerDetails"
+        android:label="fragment_partner_details"
+        tools:layout="@layout/fragment_partner_details" >
+        <action
+            android:id="@+id/action_partnerDetails_to_driverDetailsFragment"
+            app:destination="@id/driverDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/driverDetailsFragment"
+        android:name="com.example.figgodriver.Fragment.DriverDetailsFragment"
+        android:label="fragment_driver_details"
+        tools:layout="@layout/fragment_driver_details" >
+        <action
+            android:id="@+id/action_driverDetailsFragment_to_cabDetailsFragment"
+            app:destination="@id/cabDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cabDetailsFragment"
+        android:name="com.example.figgodriver.Fragment.CabDetailsFragment"
+        android:label="fragment_cab_details"
+        tools:layout="@layout/fragment_cab_details" />
+    <fragment
+        android:id="@+id/driverWelcomeFragment"
+        android:name="com.example.figgodriver.Fragment.DriverWelcomeFragment"
+        android:label="DriverWelcomeFragment" >
+        <action
+            android:id="@+id/action_driverWelcomeFragment_to_figgo_Capton"
+            app:destination="@id/figgo_Capton" />
+    </fragment>
+    <fragment
+        android:id="@+id/figgo_Capton"
+        android:name="com.example.figgodriver.Fragment.Figgo_Capton"
+        android:label="fragment_figgo__capton"
+        tools:layout="@layout/fragment_figgo__capton" >
+        <action
+            android:id="@+id/action_figgo_Capton_to_driverCabDetailsFragment"
+            app:destination="@id/driverCabDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/driverCabDetailsFragment"
+        android:name="com.example.figgodriver.Fragment.DriverCabDetailsFragment"
+        android:label="fragment_driver_cab_details"
+        tools:layout="@layout/fragment_driver_cab_details" />
+</navigation>

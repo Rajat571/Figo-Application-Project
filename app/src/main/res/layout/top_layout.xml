@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:background="@drawable/background"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:textColor="@color/white"
+        android:padding="10dp"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_gravity="center"
+        android:drawableStart="@drawable/ic_baseline_arrow_back_ios_24"
+        android:layout_height="43dp"
+        android:text="Back"/>
+
+    <ImageView
+        android:padding="9dp"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="40dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bell_icon"/>
+
+    <ImageView
+        android:padding="9dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_baseline_share_24"/>
+
+    <ImageView
+        android:padding="9dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="40dp"
+        android:src="@drawable/call"/>
+
+    <ImageView
+        android:padding="9dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="40dp"
+        android:src="@drawable/whatsapp_icon"/>
+
+</LinearLayout>

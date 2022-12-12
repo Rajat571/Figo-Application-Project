@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Figgo Partner</string>
+    <string name="welcome">No Commission\nYour Ride - Your price\nUnlimited income plan\n24 x7 support</string>
+    <string name="logindetails">By proceeding,you consent to get calls,whatsapp or sms,messages including by automated means from uber and its affiliates to the number provided</string>
+    <string name="e_verification"> Congratulations,\n e-Verification has been completed successfully.\n To use this app you are requested to generate MPIN</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcomepagepartner">Welcome Page Partner</string>
+    <string name="partner_about">Why you should attach with us?\nNo Commission - Your own price - your own rides.\nSettlement on every .\nYou also can sell your spares booking.\nYou can request for booking when you require.\nCab Insurance Advanced interest free.\nEmergency Business Advance Interest free.</string>
+</resources>

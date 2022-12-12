@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:background="#000F3B"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/back_button"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="BACK"
+        android:drawableStart="@drawable/ic_baseline_arrow_back_ios_24"
+        android:textColor="#324B72"
+        android:textSize="14sp"
+        android:padding="8dp"
+        />
+
+    <TextView
+        android:drawableEnd="@drawable/next"
+        android:id="@+id/next_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NEXT"
+        android:textColor="#324B72"
+        android:textSize="14sp"
+        android:padding="8dp"
+        />
+
+</LinearLayout>
