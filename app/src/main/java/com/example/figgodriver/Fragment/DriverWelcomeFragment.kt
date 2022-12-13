@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
+import android.widget.TextView
 import androidx.navigation.Navigation
 import com.example.figgodriver.R
 
@@ -34,10 +35,12 @@ class DriverWelcomeFragment : Fragment() {
         var taxi_cab=view.findViewById<RadioButton>(R.id.taxi_cab)
        taxi_cab.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked){
-
                 Navigation.findNavController(view).navigate(R.id.action_driverWelcomeFragment_to_figgo_Capton)
             }
         }
+        var back =view.findViewById<TextView>(R.id.back_button)
+        back.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_driverWelcomeFragment_to_figgo_FamilyFragment)
+        }
     }
-
 }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/partner_nav_graph"
+    app:startDestination="@id/home">
+    <fragment
+        android:id="@+id/home"
+        android:name="com.example.FiggoPartner.UI.Fragment.PartnerHomeFragment"
+        android:label="fragment_partner_home"
+        tools:layout="@layout/fragment_partner_home" >
+
+    </fragment>
+    <fragment
+        android:id="@+id/share_ride"
+        android:name="com.example.FiggoPartner.UI.Fragment.PartnerShareRideFragment"
+        android:label="fragment_partner_share_ride"
+        tools:layout="@layout/fragment_partner_share_ride" >
+
+    </fragment>
+    <fragment
+        android:id="@+id/ride_sale"
+        android:name="com.example.FiggoPartner.UI.Fragment.PartnerRideSaleFragment"
+        android:label="fragment_partner_ride_sale"
+        tools:layout="@layout/fragment_partner_ride_sale" >
+    </fragment>
+    <fragment
+        android:id="@+id/active_ride"
+        android:name="com.example.FiggoPartner.UI.Fragment.PartnerActiveRideFragment"
+        android:label="fragment_partner_active_ride"
+        tools:layout="@layout/fragment_partner_active_ride" />
+</navigation>
