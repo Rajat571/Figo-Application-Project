@@ -12,7 +12,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class DriverDashBoard : AppCompatActivity() {
     private lateinit var navController: NavController
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val navHostFragment=supportFragmentManager.findFragmentById(R.id.mainContainer) as NavHostFragment
