@@ -2,14 +2,17 @@ package com.pearlorganisation.figgo.UI.Fragments
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.figgodriver.R
 import com.example.figgodriver.databinding.FragmentMPinGenerateBinding
+import kotlinx.android.synthetic.main.fragment_m_pin_generate.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,9 +39,29 @@ class MPinGenerate : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val mpin = view.findViewById<EditText>(R.id.mPin)
+        val confirm_mpin = view.findViewById<EditText>(R.id.confirm_mpin)
         binding.continuetv.setOnClickListener {
+            if(mpin.text.toString()== "123" && confirm_mpin.text.toString()=="123"){
+                Navigation.findNavController(view).navigate(R.id.action_MPinGenerate_to_figgo_FamilyFragment)
+            }else{
+                Toast.makeText(context,"Wrong MPIN",Toast.LENGTH_LONG).show()
+            }
+        }
 
-            Navigation.findNavController(view).navigate(R.id.action_MPinGenerate_to_figgo_FamilyFragment)   }
+        binding.exit.setOnClickListener {
+            val startMain = Intent(Intent.ACTION_MAIN)
+            startMain.addCategory(Intent.CATEGORY_HOME)
+            startMain.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(startMain)
+        }
+
+
+
+
+
+
+
     }
 
 }
