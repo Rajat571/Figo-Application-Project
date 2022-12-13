@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.DriverShareRideFragment"
-    >
+    tools:context=".ShareRide">
     <include
         android:id="@+id/layout"
         layout="@layout/top_layout"
@@ -15,7 +14,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5" />
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/backgrouund"
@@ -44,12 +42,22 @@
         app:layout_constraintTop_toBottomOf="@+id/layout"
         app:layout_constraintVertical_bias="0.5">
 
+        <Button
+            android:id="@+id/Request_Detals"
+            android:layout_width="152dp"
+            android:layout_height="52dp"
+            android:backgroundTint="@color/light_grey"
+            android:text="Request Details"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+
+            />
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="20dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -58,11 +66,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-
                 android:backgroundTint="@color/white"
                 android:text="Create"
                 android:layout_marginHorizontal="5dp"
-                android:paddingHorizontal="0dp"
+                android:paddingHorizontal="5dp"
                 android:textColor="#F15006"
                 android:textSize="15dp" />
 
@@ -86,24 +93,17 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="-12dp"
         android:background="@drawable/background_layout"
         app:cardCornerRadius="10dp"
 
-        android:layout_marginTop="-10dp"
-        app:layout_constraintBottom_toTopOf="@+id/car"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-
-    </FrameLayout>
-
-    <ImageView
-        android:id="@+id/car"
-        android:layout_width="wrap_content"
-        android:layout_height="90dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/figgofooter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+    >
+
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
