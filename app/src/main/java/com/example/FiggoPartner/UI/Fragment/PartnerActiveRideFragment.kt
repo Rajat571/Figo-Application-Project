@@ -17,5 +17,4 @@ class PartnerActiveRideFragment : Fragment() {
 
         return inflater.inflate(R.layout.fragment_partner_active_ride, container, false)
     }
-
 }
