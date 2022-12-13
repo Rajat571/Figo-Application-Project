@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/partnerWelcomeFragment"
-        android:name="com.example.figgodriver.Fragment.PartnerWelcomeFragment"
+        android:name="com.example.FiggoPartner.UI.Fragment.PartnerWelcomeFragment"
         android:label="fragment_partner_welcome"
         tools:layout="@layout/fragment_partner_welcome" >
         <action
@@ -47,7 +47,7 @@
     </fragment>
     <fragment
         android:id="@+id/partnerDetails"
-        android:name="com.example.figgodriver.Fragment.PartnerDetails"
+        android:name="com.example.FiggoPartner.UI.Fragment.PartnerDetails"
         android:label="fragment_partner_details"
         tools:layout="@layout/fragment_partner_details" >
         <action
@@ -56,7 +56,7 @@
     </fragment>
     <fragment
         android:id="@+id/driverDetailsFragment"
-        android:name="com.example.figgodriver.Fragment.DriverDetailsFragment"
+        android:name="com.example.FiggoPartner.UI.Fragment.DriverDetailsFragment"
         android:label="fragment_driver_details"
         tools:layout="@layout/fragment_driver_details" >
         <action
@@ -65,7 +65,7 @@
     </fragment>
     <fragment
         android:id="@+id/cabDetailsFragment"
-        android:name="com.example.figgodriver.Fragment.CabDetailsFragment"
+        android:name="com.example.FiggoPartner.UI.Fragment.CabDetailsFragment"
         android:label="fragment_cab_details"
         tools:layout="@layout/fragment_cab_details" />
     <fragment

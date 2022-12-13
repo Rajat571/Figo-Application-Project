@@ -8,7 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.figgodriver.Fragment.ViewRideDialog
-import com.example.figgodriver.Partner_Dashboard
+import com.example.FiggoPartner.UI.Partner_Dashboard
+import com.example.figgodriver.DriverDashBoard
 import com.example.figgodriver.R
 import com.example.figgodriver.model.ActiveRide
 
@@ -27,11 +28,11 @@ class ActiveRideAdapter(var context:Context,var datalist:List<ActiveRide>):
         holder.vieww.text=data.view
         holder.vieww.setOnClickListener {
 
-            val activity = context as? Partner_Dashboard
+            val activity = context as DriverDashBoard
+
             var dialog=ViewRideDialog()
 
-            dialog.show(activity!!.supportFragmentManager,"Dialog box")
-
+            dialog.show(activity.supportFragmentManager,"Dialog box")
         }
     }
     override fun getItemCount(): Int {

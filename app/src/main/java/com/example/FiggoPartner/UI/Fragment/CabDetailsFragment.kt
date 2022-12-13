@@ -1,4 +1,4 @@
-package com.example.figgodriver.Fragment
+package com.example.FiggoPartner.UI.Fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.example.figgodriver.Partner_Dashboard
+import com.example.FiggoPartner.UI.Partner_Dashboard
 import com.example.figgodriver.R
 
 class CabDetailsFragment : Fragment() {
@@ -24,7 +24,7 @@ class CabDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         var next=view.findViewById<TextView>(R.id.next_button)
         next.setOnClickListener {
-            startActivity(Intent(context,Partner_Dashboard::class.java))
+            startActivity(Intent(context, Partner_Dashboard::class.java))
         }
     }
 

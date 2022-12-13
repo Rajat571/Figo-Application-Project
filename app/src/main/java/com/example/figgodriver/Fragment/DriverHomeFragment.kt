@@ -1,15 +1,12 @@
 package com.example.figgodriver.Fragment
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.figgodriver.Partner_Dashboard
 import com.example.figgodriver.R
 import com.example.figgodriver.databinding.FragmentDriverHomeBinding
 import com.example.figgodriver.model.Sedan
