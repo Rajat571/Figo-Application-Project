@@ -37,12 +37,13 @@
         android:id="@+id/main_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/car"
         app:layout_constraintTop_toBottomOf="@+id/layout">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="409dp"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="20dp"
             android:layout_height="541dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -464,7 +465,7 @@
         android:background="@drawable/background_layout"
         android:orientation="vertical"
         android:padding="5dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/car"
         app:layout_constraintTop_toBottomOf="@+id/top_buttons">
 
@@ -527,7 +528,7 @@
                     android:layout_gravity="center"
                     android:background="#DEE1E1"
                     android:fontFamily="sans-serif-black"
-                    android:padding="3sp"
+                    android:padding="4sp"
                     android:text="06:20PM"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
