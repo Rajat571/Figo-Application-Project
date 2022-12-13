@@ -25,9 +25,14 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation_bar"
-        app:itemTextColor="@color/white"
+        app:itemTextColor="@drawable/bottom_nav_title_color"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        app:itemIconTint="@color/white"
+        android:textAlignment="center"
+        android:padding="5dp"
+        app:labelVisibilityMode="labeled"
+        android:layout_height="45dp"
+        app:itemRippleColor="@color/purple_200"
         android:background="@color/black"
         app:menu="@menu/driver_dashboard_menu"
         app:layout_constraintBottom_toBottomOf="parent"

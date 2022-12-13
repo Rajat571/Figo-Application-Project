@@ -7,7 +7,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Partner_Dashboard">
+    tools:context="com.example.FiggoPartner.UI.Partner_Dashboard">
 
     <include layout="@layout/top_layout"
         android:id="@+id/layout"

@@ -1,4 +1,4 @@
-package com.example.figgodriver.Adapter
+package com.example.FiggoPartner.Adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,14 +7,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.FiggoPartner.Model.PartnerActiveRide
 import com.example.figgodriver.Fragment.ViewRideDialog
 import com.example.FiggoPartner.UI.Partner_Dashboard
 import com.example.figgodriver.DriverDashBoard
 import com.example.figgodriver.R
 import com.example.figgodriver.model.ActiveRide
 
-class ActiveRideAdapter(var context:Context,var datalist:List<ActiveRide>):
-    Adapter<ActiveRideAdapter.ActiveRideHolder>() {
+class PartnerActiveRideAdapter(var context:Context, var datalist:List<PartnerActiveRide>):
+    Adapter<PartnerActiveRideAdapter.ActiveRideHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActiveRideHolder {
@@ -28,7 +29,7 @@ class ActiveRideAdapter(var context:Context,var datalist:List<ActiveRide>):
         holder.vieww.text=data.view
         holder.vieww.setOnClickListener {
 
-            val activity = context as DriverDashBoard
+            val activity = context as Partner_Dashboard
 
             var dialog=ViewRideDialog()
 

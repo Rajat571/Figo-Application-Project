@@ -39,7 +39,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Partner_Dashboard"
+            android:name="com.example.FiggoPartner.UI.Partner_Dashboard"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

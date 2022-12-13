@@ -1,4 +1,4 @@
-package com.example.figgodriver.Fragment
+package com.example.FiggoPartner.UI.Fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
