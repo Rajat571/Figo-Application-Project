@@ -1,6 +1,7 @@
 package com.example.figgodriver
 
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
@@ -15,6 +16,10 @@ class DriverDashBoard : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_driver_dash_board)
+        var window=window
+        window.setStatusBarColor(Color.parseColor("#000F3B"))
+
         val navHostFragment=supportFragmentManager.findFragmentById(R.id.mainContainer) as NavHostFragment
         navController=navHostFragment.navController
         val bottomNavigationView=findViewById<BottomNavigationView>(R.id.navigation_bar)
