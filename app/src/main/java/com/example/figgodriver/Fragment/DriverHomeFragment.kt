@@ -17,13 +17,12 @@ class DriverHomeFragment : Fragment() {
     lateinit var sedanAdapter: SedanAdapter
     var data=ArrayList<Sedan>()
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-   binding=DataBindingUtil.inflate(inflater,R.layout.fragment_driver_home, container, false)
+  binding=DataBindingUtil.inflate(inflater,R.layout.fragment_driver_home,container,false)
         return binding.root
     }
 
@@ -36,7 +35,5 @@ class DriverHomeFragment : Fragment() {
         sedanAdapter= SedanAdapter(data)
         binding.sedanRecycler.adapter=sedanAdapter
 
-
     }
-
 }

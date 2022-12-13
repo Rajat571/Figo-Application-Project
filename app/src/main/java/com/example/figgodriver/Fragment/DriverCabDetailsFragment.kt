@@ -46,8 +46,9 @@ class DriverCabDetailsFragment : Fragment() {
             context?.startActivity(Intent( requireContext(),DriverDashBoard::class.java))
 //            Navigation.findNavController(view).navigate(R.id.action_cabDetailsFragment_to_blankFragment)
         }
-        back.setOnClickListener{
-//            Navigation.findNavController(view).navigate(R.id.action_cabDetailsFragment_to_partnerDetails)
+
+        back.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_driverCabDetailsFragment_to_figgo_Capton)
         }
         dateEdt.setOnClickListener {
             calendar(dateEdt)

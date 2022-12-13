@@ -75,6 +75,9 @@
         <action
             android:id="@+id/action_driverWelcomeFragment_to_figgo_Capton"
             app:destination="@id/figgo_Capton" />
+        <action
+            android:id="@+id/action_driverWelcomeFragment_to_figgo_FamilyFragment"
+            app:destination="@id/figgo_FamilyFragment" />
     </fragment>
     <fragment
         android:id="@+id/figgo_Capton"
@@ -84,10 +87,17 @@
         <action
             android:id="@+id/action_figgo_Capton_to_driverCabDetailsFragment"
             app:destination="@id/driverCabDetailsFragment" />
+        <action
+            android:id="@+id/action_figgo_Capton_to_driverWelcomeFragment"
+            app:destination="@id/driverWelcomeFragment" />
     </fragment>
     <fragment
         android:id="@+id/driverCabDetailsFragment"
         android:name="com.example.figgodriver.Fragment.DriverCabDetailsFragment"
         android:label="fragment_driver_cab_details"
-        tools:layout="@layout/fragment_driver_cab_details" />
+        tools:layout="@layout/fragment_driver_cab_details" >
+        <action
+            android:id="@+id/action_driverCabDetailsFragment_to_figgo_Capton"
+            app:destination="@id/figgo_Capton" />
+    </fragment>
 </navigation>

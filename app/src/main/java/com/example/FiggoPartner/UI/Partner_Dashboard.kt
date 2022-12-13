@@ -3,32 +3,24 @@ package com.example.FiggoPartner.UI
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.FiggoPartner.Adapter.PartnerActiveRideAdapter
-import com.example.FiggoPartner.Model.PartnerActiveRide
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import com.example.figgodriver.R
-import com.example.figgodriver.databinding.ActivityPartnerDashboardBinding
-
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class Partner_Dashboard : AppCompatActivity() {
-    lateinit var binding: ActivityPartnerDashboardBinding
-    lateinit var activeRideAdapter: PartnerActiveRideAdapter
-    var datalist=ArrayList<PartnerActiveRide>()
+
+    private lateinit var navController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_partner_dashboard)
         var window=window
         window.setStatusBarColor(Color.parseColor("#000F3B"))
-
-       binding=DataBindingUtil.setContentView(this, R.layout.activity_partner_dashboard)
-        binding.activeDriverList.layoutManager=LinearLayoutManager(this)
-        datalist.add(PartnerActiveRide("Oneway","20.10.2022","view"))
-        datalist.add(PartnerActiveRide("Oneway","20.10.2022","view"))
-        datalist.add(PartnerActiveRide("Oneway","20.10.2022","view"))
-        datalist.add(PartnerActiveRide("Oneway","20.10.2022","view"))
-
-        activeRideAdapter= PartnerActiveRideAdapter(this,datalist)
-        binding.activeDriverList.adapter=activeRideAdapter
-
+        val navHostFragment=supportFragmentManager.findFragmentById(R.id.mainContainer) as NavHostFragment
+        navController=navHostFragment.navController
+        val bottomNavigationView=findViewById<BottomNavigationView>(R.id.navigation_bar)
+        NavigationUI.setupWithNavController(bottomNavigationView, navController)
     }
 }

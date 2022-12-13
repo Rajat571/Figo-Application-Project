@@ -68,6 +68,10 @@ class Figgo_Capton : Fragment() {
             sharedPref(view)
             Navigation.findNavController(view).navigate(R.id.action_figgo_Capton_to_driverCabDetailsFragment)
         }
+        var back=view.findViewById<TextView>(R.id.back_button)
+        back.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_figgo_Capton_to_driverWelcomeFragment)
+        }
     }
     private fun sharedPref(view: View) {
         val name = view.findViewById<EditText>(R.id.drivername)
