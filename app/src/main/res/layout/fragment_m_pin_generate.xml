@@ -81,7 +81,7 @@
                     android:layout_margin="5dp"
                     android:layout_marginTop="10dp"
                     android:hint="MPIN"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="numberPassword" />
 
                 <EditText
                     android:id="@+id/confirm_mpin"
@@ -91,7 +91,7 @@
                     android:layout_margin="5dp"
                     android:layout_marginTop="10dp"
                     android:hint="CONFIRM MPIN"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="numberPassword" />
 
                 <TextView
                     android:id="@+id/continuetv"
