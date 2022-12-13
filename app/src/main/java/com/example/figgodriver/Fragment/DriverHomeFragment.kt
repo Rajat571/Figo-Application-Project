@@ -38,10 +38,8 @@ class DriverHomeFragment : Fragment() {
         data.add(Sedan("Sedan","265","Etios,Dzire or similar","25.10.2022","8:00am","Chandigarh, Sector 35, India","Ambala","Panipath","Delhi","Chandigarh",15))
         sedanAdapter= SedanAdapter(data)
         binding.sedanRecycler.adapter=sedanAdapter
-        var next=view.findViewById<TextView>(R.id.next_button)
-        next.setOnClickListener {
 
-        }
+
     }
 
 }
