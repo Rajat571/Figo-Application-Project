@@ -5,7 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.figgodriver.R
+import com.example.figgodriver.model.AllRideData
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,20 +40,69 @@ class DriverRideSaleFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
+        
         return inflater.inflate(R.layout.fragment_driver_ride_sale, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        //var f1 = RequestDetailsOne()
+        //setfragment(f1)
+        val allrideData = ArrayList<AllRideData>();
+        var main1 = view.findViewById<LinearLayout>(R.id.main_1)
+        var topbutton = view.findViewById<LinearLayout>(R.id.top_buttons)
+        var details = view.findViewById<LinearLayout>(R.id.details_view)
+        var allride = view.findViewById<ConstraintLayout>(R.id.allrideview)
+        var details_button = view.findViewById<Button>(R.id.details_button)
+        var allride_button = view.findViewById<Button>(R.id.allride_button)
+//        var details_view = view.findViewById<LinearLayout>(R.id.details_view)
+//        var allride_view = view.findViewById<LinearLayout>(R.id.details_view)
+        var submit = view.findViewById<Button>(R.id.sumit)
+        var allRidefrag = allRideRS()
+        main1.visibility = View.VISIBLE
+        topbutton.visibility = View.GONE
+        details.visibility = View.GONE
+        allride.visibility = View.GONE
+
+        submit.setOnClickListener {
+            main1.visibility = View.GONE
+            topbutton.visibility = View.VISIBLE
+            details.visibility = View.VISIBLE
+            allride.visibility = View.GONE
+        }
+
+        details_button.setOnClickListener{
+            details.visibility = View.VISIBLE
+            allride.visibility = View.GONE
+        }
+
+        allride_button.setOnClickListener {
+            details.visibility = View.GONE
+            allride.visibility = View.VISIBLE
+            //setfragment(allRidefrag)
+
+            allrideData.add(AllRideData("6:30 pm","PGI, Sector 12, Chandigarh","Chandigarh (Google location)"))
+            allrideData.add(AllRideData("7:30 pm","PGI, Sector 12, Chandigarh","Chandigarh (Google location)"))
+            allrideData.add(AllRideData("8:30 pm","PGI, Sector 12, Chandigarh","Chandigarh (Google location)"))
+            val recyclerView1 = view.findViewById<RecyclerView>(R.id.frameRSall)
+            //  val recyclerView2 = view.view.findViewById<RecyclerView>(R.id.drop_recycler)
+            recyclerView1.adapter = AllRideAdapter(allrideData)
+            recyclerView1.layoutManager = LinearLayoutManager(context)
+
+        }
+    }
+
+    private fun setfragment(frag: Fragment) {
+        childFragmentManager.beginTransaction().apply {
+            replace(R.id.frameRS,frag)
+            commit()
+        }
+    }
+
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DriverRideSaleFragment.
-         */
-        // TODO: Rename and change types and number of parameters
+
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             DriverRideSaleFragment().apply {

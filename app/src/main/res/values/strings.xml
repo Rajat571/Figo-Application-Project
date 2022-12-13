@@ -7,4 +7,12 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="welcomepagepartner">Welcome Page Partner</string>
     <string name="partner_about">Why you should attach with us?\nNo Commission - Your own price - your own rides.\nSettlement on every .\nYou also can sell your spares booking.\nYou can request for booking when you require.\nCab Insurance Advanced interest free.\nEmergency Business Advance Interest free.</string>
+    <string-array name="spin_cityname">
+        <item>Dehradun</item>
+        <item>Dehradun</item>
+        <item>Dehradun</item>
+        <item>Dehradun</item>
+        <item>Dehradun</item>
+        <item>Dehradun</item>
+    </string-array>
 </resources>
