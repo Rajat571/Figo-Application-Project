@@ -41,7 +41,7 @@ class RequestDetailsOne : Fragment() {
 
         submit.setOnClickListener {
 
-            parentFragment?.parentFragmentManager?.beginTransaction()?.apply {
+            activity?.supportFragmentManager?.beginTransaction()?.apply {
                 replace(R.id.reqeustdetails_frame,RequestDetailstwo())
             }
         }
