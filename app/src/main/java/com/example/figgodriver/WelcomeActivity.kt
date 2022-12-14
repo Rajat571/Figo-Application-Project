@@ -15,7 +15,7 @@ class WelcomeActivity : AppCompatActivity() {
         window.setStatusBarColor(Color.parseColor("#000F3B"))
         Handler().postDelayed({
             startActivity(Intent(this,ChooseUserActivity::class.java))
-        },3000)
+        },2000)
       /*  var next_btn=findViewById<TextView>(R.id.next_button)
         next_btn.setOnClickListener {
             startActivity(Intent(this,ChooseUserActivity::class.java))
