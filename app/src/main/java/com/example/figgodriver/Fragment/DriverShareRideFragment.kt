@@ -1,5 +1,6 @@
 package com.example.figgodriver.Fragment
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -48,19 +49,21 @@ class DriverShareRideFragment : Fragment() {
         setfragment(createFrag)
         //back = view.findViewById<TextView>(R.id.back_button)
         create.setOnClickListener{
+
             setfragment(createFrag)
-            allride.setBackgroundResource(R.color.purple_200)
-            allride.setTextColor(resources.getColor(R.color.white))
-            create.setBackgroundColor(resources.getColor(R.color.white))
+            allride.setBackgroundColor(Color.parseColor("#FFFFFF"))
+            allride.setTextColor(resources.getColor(R.color.black))
+            create.setBackgroundColor(Color.parseColor("#329EAD"))
             create.text = "CREATE"
-            create.setTextColor(resources.getColor(R.color.orange))
+            create.setTextColor(resources.getColor(R.color.white))
         }
+
         allride.setOnClickListener {
             setfragment(allRidefrag)
-            create.setBackgroundResource(R.color.purple_200)
-            create.setTextColor(resources.getColor(R.color.white))
-            allride.setBackgroundColor(resources.getColor(R.color.white))
-            allride.setTextColor(resources.getColor(R.color.orange))
+            create.setBackgroundColor(Color.parseColor("#FFFFFF"))
+            create.setTextColor(resources.getColor(R.color.black))
+            allride.setBackgroundColor(Color.parseColor("#329EAD"))
+            allride.setTextColor(resources.getColor(R.color.white))
         }
         back.setOnClickListener {
             

@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/teal_200"
     tools:context=".RequestAllRide">
 
     <include
@@ -27,12 +26,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layout"
         tools:ignore="MissingConstraints">
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--    MAIN 1-->
-
 
     <LinearLayout
         android:id="@+id/main_1"
@@ -55,10 +51,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
+            android:layout_marginTop="16dp"
+                android:textAlignment="center"
                 android:text="Request Details"
-                android:textColor="@color/purple_500"
-                android:textSize="24sp"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                android:padding="5dp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/cardView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -68,7 +67,7 @@
                 android:id="@+id/cardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="80dp"
                 android:background="@drawable/background_layout"
                 app:cardCornerRadius="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -93,7 +92,6 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:text="Date"
-                            android:textColor="@color/black"
                             android:textSize="20sp" />
 
                         <TextView
@@ -101,7 +99,6 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:text="Free Time"
-                            android:textColor="@color/black"
                             android:textSize="20sp" />
 
                         <TextView
@@ -110,7 +107,6 @@
                             android:layout_margin="10dp"
                             android:paddingTop="5dp"
                             android:text="Car Type"
-                            android:textColor="@color/black"
                             android:textSize="20sp" />
 
                         <TextView
@@ -118,16 +114,14 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:text="From"
-                            android:textColor="@color/black"
+                            android:padding="5dp"
                             android:textSize="20sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
-                            android:padding="5dp"
                             android:text="Duty Type"
-                            android:textColor="@color/black"
                             android:textSize="20sp" />
 
                         <TextView
@@ -135,10 +129,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:text="Where"
-                            android:textColor="@color/black"
                             android:textSize="20sp" />
-
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -197,6 +188,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Submit"
+                android:backgroundTint="#329EAD"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -212,7 +204,7 @@
         android:id="@+id/top_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/layout">
@@ -225,16 +217,16 @@
             android:layout_weight="1"
             android:backgroundTint="@color/white"
             android:text="Details"
-            android:textColor="#F15006"
+            android:textColor="@color/black"
             android:textSize="15dp" />
 
         <Button
+            android:backgroundTint="#329EAD"
             android:id="@+id/allride_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:layout_weight="1"
-
             android:text="All-Ride"
             android:textSize="15dp" />
     </LinearLayout>
@@ -244,6 +236,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/car"
         app:layout_constraintEnd_toEndOf="parent"
@@ -296,7 +290,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="10dp"
                                 android:text="Date"
-                                android:textColor="@color/black"
                                 android:textSize="20sp" />
 
                             <TextView
@@ -304,7 +297,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="10dp"
                                 android:text="Free Time"
-                                android:textColor="@color/black"
                                 android:textSize="20sp" />
 
                             <TextView
@@ -313,7 +305,6 @@
                                 android:layout_margin="10dp"
                                 android:paddingTop="5dp"
                                 android:text="Car Type"
-                                android:textColor="@color/black"
                                 android:textSize="20sp" />
 
                             <TextView
@@ -321,7 +312,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="10dp"
                                 android:text="Duty"
-                                android:textColor="@color/black"
                                 android:textSize="20sp" />
 
                             <TextView
@@ -330,7 +320,6 @@
                                 android:layout_margin="10dp"
                                 android:padding="5dp"
                                 android:text="From"
-                                android:textColor="@color/black"
                                 android:textSize="20sp" />
 
                             <TextView
@@ -338,7 +327,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="10dp"
                                 android:text="To"
-                                android:textColor="@color/black"
                                 android:textSize="20sp" />
 
                             <TextView
@@ -346,7 +334,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="10dp"
                                 android:text="Price"
-                                android:textColor="@color/black"
                                 android:textSize="20sp" />
 
                             <TextView
@@ -354,7 +341,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="10dp"
                                 android:text="Name"
-                                android:textColor="@color/black"
                                 android:textSize="20sp"
 
                                 />
@@ -364,8 +350,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="10dp"
                                 android:text="Mobile No."
-
-                                android:textColor="@color/black"
+                                android:padding="5dp"
                                 android:textSize="20sp" />
                         </LinearLayout>
 
@@ -441,6 +426,7 @@
                         </LinearLayout>
                     </LinearLayout>
                     <Button
+                        android:backgroundTint="#329EAD"
                         android:id="@+id/request_submit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
