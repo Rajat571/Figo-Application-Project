@@ -1,10 +1,12 @@
 package com.example.figgodriver.Fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.figgodriver.R
@@ -34,6 +36,12 @@ class DriverHomeFragment : Fragment() {
         data.add(Sedan("Sedan","265","Etios,Dzire or similar","25.10.2022","8:00am","Chandigarh, Sector 35, India","Ambala","Panipath","Delhi","Chandigarh",15))
         sedanAdapter= SedanAdapter(data)
         binding.sedanRecycler.adapter=sedanAdapter
-
+        var back = view.findViewById<TextView>(R.id.top_back)
+        back.setOnClickListener {
+            activity?.moveTaskToBack(true);
+            activity?.finish();
+        }
     }
+
+
 }

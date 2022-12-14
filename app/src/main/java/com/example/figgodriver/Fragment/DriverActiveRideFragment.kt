@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.figgodriver.Adapter.ActiveRideAdapter
 import com.example.figgodriver.R
@@ -28,6 +30,7 @@ class DriverActiveRideFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        var back = view.findViewById<TextView>(R.id.top_back)
         super.onViewCreated(view, savedInstanceState)
         binding.activeDriverList.layoutManager= LinearLayoutManager(requireContext())
         datalist.add(ActiveRide("Oneway","20.10.2022","view"))
@@ -37,5 +40,8 @@ class DriverActiveRideFragment : Fragment() {
 
         activeRideAdapter= ActiveRideAdapter(requireContext(),datalist)
         binding.activeDriverList.adapter=activeRideAdapter
+        back.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_active_ride_to_home)
+        }
     }
 }
