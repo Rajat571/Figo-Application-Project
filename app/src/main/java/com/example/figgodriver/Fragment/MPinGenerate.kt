@@ -42,12 +42,11 @@ class MPinGenerate : Fragment() {
         val mpin = view.findViewById<EditText>(R.id.mPin)
         val confirm_mpin = view.findViewById<EditText>(R.id.confirm_mpin)
         binding.continuetv.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_MPinGenerate_to_figgo_FamilyFragment)
-           /* if(mpin.text.toString()== "123" && confirm_mpin.text.toString()=="123"){
+            if(mpin.text.toString()== "123" && confirm_mpin.text.toString()=="123"){
                 Navigation.findNavController(view).navigate(R.id.action_MPinGenerate_to_figgo_FamilyFragment)
             }else{
                 Toast.makeText(context,"Wrong MPIN",Toast.LENGTH_LONG).show()
-            }*/
+            }
         }
 
         binding.exit.setOnClickListener {

@@ -49,18 +49,18 @@
         android:scaleType="centerCrop"
         android:layout_width="wrap_content"
         android:layout_height="90dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottombuttonbar"
+        app:layout_constraintBaseline_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:src="@drawable/figgofooter"/>
-    <include
+   <!-- <include
         layout="@layout/bottom_button_layout"
         android:id="@+id/bottombuttonbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
