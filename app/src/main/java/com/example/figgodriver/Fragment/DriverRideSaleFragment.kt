@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.figgodriver.R
 import com.example.figgodriver.model.AllRideData
+import kotlinx.android.synthetic.main.bottom_button_layout.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +64,7 @@ class DriverRideSaleFragment : Fragment() {
 //        var allride_view = view.findViewById<LinearLayout>(R.id.details_view)
         var submit = view.findViewById<Button>(R.id.sumit)
         var allRidefrag = allRideRS()
+        var back = view.findViewById<TextView>(R.id.top_back)
         main1.visibility = View.VISIBLE
         topbutton.visibility = View.GONE
         details.visibility = View.GONE
@@ -91,6 +95,10 @@ class DriverRideSaleFragment : Fragment() {
             recyclerView1.adapter = AllRideAdapter(allrideData)
             recyclerView1.layoutManager = LinearLayoutManager(context)
 
+        }
+
+        back.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_ride_sale_to_home)
         }
     }
 
