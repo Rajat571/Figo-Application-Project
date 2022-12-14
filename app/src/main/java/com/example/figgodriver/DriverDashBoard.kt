@@ -16,9 +16,8 @@ import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class DriverDashBoard : AppCompatActivity() {
-
-    var doubleBackToExitPressedOnce = false
     private lateinit var navController: NavController
+    var doubleBackToExitPressedOnce = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_driver_dash_board)
@@ -29,6 +28,7 @@ class DriverDashBoard : AppCompatActivity() {
         navController=navHostFragment.navController
         val bottomNavigationView=findViewById<BottomNavigationView>(R.id.navigation_bar)
         setupWithNavController(bottomNavigationView,navController)
+
     }
 
     override fun onBackPressed() {
@@ -53,7 +53,5 @@ class DriverDashBoard : AppCompatActivity() {
             supportFragmentManager.popBackStack()
         }
     }
-
-
 
 }

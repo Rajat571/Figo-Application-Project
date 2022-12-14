@@ -3,6 +3,7 @@
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.figgodriver.R
@@ -30,6 +31,12 @@ class PartnerHomeAdapter(var booking:List<HomeData>):RecyclerView.Adapter<DataHo
         holder.addsub3.text = x.subadd3
         holder.bottomadd.text = x.lastadd
         holder.perkm.text = x.extra_km.toString()
+
+//        holder.cancel.setOnClickListener {
+//            holder.sedan.text="ASPAKSLA"
+//            holder.rideset_view.visibility = View.GONE
+//
+//        }
     }
 
     override fun getItemCount(): Int {
@@ -49,4 +56,7 @@ class DataHolder(itemView: View):RecyclerView.ViewHolder(itemView){
     var addsub3 = itemView.findViewById<TextView>(R.id.delhi)
     var bottomadd = itemView.findViewById<TextView>(R.id.chandigarh)
     var perkm = itemView.findViewById<TextView>(R.id.total_km)
+
+    var rideset_view = itemView.findViewById<LinearLayout>(R.id.rideset_view)
+    var cancel = itemView.findViewById<LinearLayout>(R.id.cancel)
 }

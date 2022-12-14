@@ -10,15 +10,16 @@ import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.FiggoPartner.Model.PartnerSedan
 import com.example.figgodriver.R
 import com.example.figgodriver.databinding.FragmentDriverHomeBinding
-import com.example.figgodriver.model.Sedan
+//import com.example.figgodriver.model.Sedan
 
 
 class DriverHomeFragment : Fragment() {
     lateinit var binding:FragmentDriverHomeBinding
-    lateinit var sedanAdapter: SedanAdapter
-    var data=ArrayList<Sedan>()
+    lateinit var sedanAdapter: PartnerSedanAdapter
+    var data=ArrayList<PartnerSedan>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,15 +34,16 @@ class DriverHomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.sedanRecycler.layoutManager= LinearLayoutManager(requireContext())
-        data.add(Sedan("Sedan","265","Etios,Dzire or similar","25.10.2022","8:00am","Chandigarh, Sector 35, India","Ambala","Panipath","Delhi","Chandigarh",15))
-        data.add(Sedan("Sedan","265","Etios,Dzire or similar","25.10.2022","8:00am","Chandigarh, Sector 35, India","Ambala","Panipath","Delhi","Chandigarh",15))
-        sedanAdapter= SedanAdapter(data)
+        data.add(PartnerSedan("Sedan","265","Etios,Dzire or similar","25.10.2022","8:00am","Chandigarh, Sector 35, India","Ambala","Panipath","Delhi","Chandigarh",15))
+        data.add(PartnerSedan("Sedan","265","Etios,Dzire or similar","25.10.2022","8:00am","Chandigarh, Sector 35, India","Ambala","Panipath","Delhi","Chandigarh",15))
+        sedanAdapter= PartnerSedanAdapter(data)
         binding.sedanRecycler.adapter=sedanAdapter
         var back = view.findViewById<TextView>(R.id.top_back)
         back.setOnClickListener {
             activity?.moveTaskToBack(true);
             activity?.finish();
         }
+
         val callback = requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             activity?.moveTaskToBack(true);
             activity?.finish();

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.Navigation
 import com.example.FiggoPartner.UI.Partner_Dashboard
 import com.example.figgodriver.R
 
@@ -23,9 +24,15 @@ class CabDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var next=view.findViewById<TextView>(R.id.next_button)
+        var back=view.findViewById<TextView>(R.id.back_button)
         next.setOnClickListener {
             startActivity(Intent(context, Partner_Dashboard::class.java))
         }
+        back.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_cabDetailsFragment_to_driverDetailsFragment)
+        }
+
+
     }
 
 }
