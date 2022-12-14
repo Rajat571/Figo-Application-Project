@@ -73,6 +73,7 @@ class Figgo_Capton : Fragment() {
             Navigation.findNavController(view).navigate(R.id.action_figgo_Capton_to_driverWelcomeFragment)
         }
     }
+
     private fun sharedPref(view: View) {
         val name = view.findViewById<EditText>(R.id.drivername)
         val mobileno = view.findViewById<EditText>(R.id.mobileno)
@@ -87,7 +88,6 @@ class Figgo_Capton : Fragment() {
         edit?.putString("Police Verification",policeV.text.toString())
         edit?.putString("Adhar Number",adharno.text.toString())
         edit?.apply()
-
     }
 
     private fun upload() {
@@ -109,7 +109,7 @@ class Figgo_Capton : Fragment() {
 //            val response = retrofit.uploadImage(part)
 //            Log.d("Upload Fragment",response.toString())
 //        }
-    }
+        }
     }
 
 

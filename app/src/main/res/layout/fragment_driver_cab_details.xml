@@ -77,15 +77,15 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <EditText
+             <!--   <EditText
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="3dp"
-                    android:hint="Car Category" />
+                    android:hint="Car Category" />-->
 
                 <Spinner
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
@@ -97,15 +97,15 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <EditText
+        <!--        <EditText
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="3dp"
-                    android:hint="Car Model" />
+                    android:hint="Car Model" />-->
 
                 <Spinner
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
@@ -117,15 +117,15 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <EditText
+<!--                <EditText
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="3dp"
-                    android:hint="Model Year" />
+                    android:hint="Model Year" />-->
 
                 <Spinner
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 

@@ -40,14 +40,14 @@ class DriverHomeFragment : Fragment() {
         binding.sedanRecycler.adapter=sedanAdapter
         var back = view.findViewById<TextView>(R.id.top_back)
         back.setOnClickListener {
-            activity?.moveTaskToBack(true);
+            //activity?.moveTaskToBack(true);
             activity?.finish();
         }
-
-        val callback = requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            activity?.moveTaskToBack(true);
-            activity?.finish();
-        }
+//
+//        val callback = requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+//            activity?.moveTaskToBack(true);
+//            activity?.finish();
+//        }
     }
 
 
