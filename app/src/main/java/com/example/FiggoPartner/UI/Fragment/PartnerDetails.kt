@@ -24,9 +24,14 @@ class PartnerDetails : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var next=view.findViewById<TextView>(R.id.next_button)
+        var back=view.findViewById<TextView>(R.id.back_button)
         next.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_partnerDetails_to_driverDetailsFragment)
         }
+        back.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_partnerDetails_to_partnerWelcomeFragment)
+        }
+
     }
 
 }
