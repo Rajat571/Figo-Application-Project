@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.figgodriver.R
@@ -38,6 +39,10 @@ class DriverHomeFragment : Fragment() {
         binding.sedanRecycler.adapter=sedanAdapter
         var back = view.findViewById<TextView>(R.id.top_back)
         back.setOnClickListener {
+            activity?.moveTaskToBack(true);
+            activity?.finish();
+        }
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             activity?.moveTaskToBack(true);
             activity?.finish();
         }
