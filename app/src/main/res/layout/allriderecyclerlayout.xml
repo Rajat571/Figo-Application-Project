@@ -11,14 +11,7 @@
     android:id="@+id/card"
     >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@color/orange"
-        android:padding="3dp"
-        android:layout_marginTop="3dp"
-        android:orientation="horizontal"
-        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,10 +33,10 @@
         android:layout_marginTop="3dp"
         >
 <ImageView
-    android:layout_width="40dp"
-    android:layout_height="40dp"
+    android:layout_width="30dp"
+    android:layout_height="35dp"
     android:src="@drawable/ic_baseline_location_on_24"
-    android:padding="3dp"
+    android:padding="5dp"
 
     />
 
@@ -55,7 +48,7 @@
             android:text="06:30 pm"
             android:textColor="@color/black"
             android:padding="3dp"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
     </LinearLayout>
 
         <LinearLayout
@@ -70,42 +63,45 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="start"
+            android:text="Start"
             android:id="@+id/allride_startbtn"
-            android:background="@color/purple_700"
-            android:textSize="16sp"
+            android:background="#329EAD"
+            android:padding="2dp"
+            android:textSize="13sp"
             android:textColor="@color/white"
-            android:padding="2dp"/>
+           />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Edit"
             android:id="@+id/allride_editbtn"
-            android:background="@color/purple_700"
+            android:background="#329EAD"
+            android:padding="2dp"
+            android:textSize="13sp"
             android:layout_marginLeft="6dp"
-            android:textSize="16sp"
             android:textColor="@color/white"
-            android:padding="2dp"/>
+          />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Del."
             android:id="@+id/allride_delbtn"
-            android:background="@color/purple_700"
+            android:background="#329EAD"
+            android:padding="2dp"
+            android:textSize="13sp"
             android:layout_marginLeft="6dp"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            android:padding="2dp"/>
+            android:textColor="@color/white" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="View"
             android:id="@+id/allride_viewbtn"
-            android:background="@color/purple_700"
+            android:background="#329EAD"
+            android:padding="2dp"
+            android:textSize="13sp"
             android:layout_marginLeft="6dp"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            android:padding="2dp"/>
+
+            android:textColor="@color/white" />
         </LinearLayout>
 
 
@@ -123,10 +119,9 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed-medium"
         android:text="PGI, Sector 12, Chandihgarh"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:padding="5dp"
         android:layout_marginLeft="35dp"
-        android:textColor="@color/black"
         android:id="@+id/local_location"
         />
     <TextView
@@ -134,11 +129,10 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed-medium"
         android:text="Chandigarh (Google location)"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:padding="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="35dp"
-        android:textColor="@color/black"
         android:id="@+id/google_location"
         />
 </LinearLayout>
@@ -165,4 +159,12 @@
 
 
 </androidx.cardview.widget.CardView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/orange"
+        android:padding="3dp"
+        android:layout_marginTop="3dp"
+        android:orientation="horizontal"
+        />
 </LinearLayout>

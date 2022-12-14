@@ -27,9 +27,11 @@ class PartnerActiveRideFragment : Fragment() {
       binding=DataBindingUtil.inflate(inflater,R.layout.fragment_partner_active_ride, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.activeDriverList.layoutManager= LinearLayoutManager(requireContext())
+
         datalist.add(PartnerActiveRide("Oneway","20.10.2022","view"))
         datalist.add(PartnerActiveRide("Oneway","20.10.2022","view"))
         datalist.add(PartnerActiveRide("Oneway","20.10.2022","view"))

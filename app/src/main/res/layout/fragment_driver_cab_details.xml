@@ -82,6 +82,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="3dp"
+                    android:background="@null"
                     android:hint="Car Category" />
 
                 <Spinner
@@ -102,6 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="3dp"
+                    android:background="@null"
                     android:hint="Car Model" />
 
                 <Spinner
@@ -122,6 +124,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="3dp"
+                    android:background="@null"
                     android:hint="Model Year" />
 
                 <Spinner

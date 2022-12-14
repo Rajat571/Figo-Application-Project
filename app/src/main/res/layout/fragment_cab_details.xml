@@ -61,12 +61,13 @@
                 android:layout_height="40dp"
                 >
 
-             <TextView
+             <EditText
                  android:layout_width="0dp"
                  android:layout_weight="1"
                  android:padding="3dp"
+                 android:background="@null"
                  android:layout_height="wrap_content"
-                 android:text="Car Category"/>
+                 android:hint="Car Category"/>
                 <Spinner
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -82,12 +83,13 @@
                 android:layout_height="40dp"
                 >
 
-                <TextView
+                <EditText
                     android:padding="3dp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:background="@null"
                     android:layout_height="wrap_content"
-                    android:text="Car Model"/>
+                    android:hint="Car Model"/>
                 <Spinner
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -103,12 +105,13 @@
                 android:layout_height="40dp"
                 >
 
-                <TextView
+                <EditText
                     android:padding="3dp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:background="@null"
                     android:layout_height="wrap_content"
-                    android:text="Model Year"/>
+                    android:hint="Model Year"/>
                 <Spinner
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

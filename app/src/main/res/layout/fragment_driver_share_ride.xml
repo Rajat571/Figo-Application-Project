@@ -63,7 +63,7 @@
                 android:text="Create"
                 android:layout_marginHorizontal="5dp"
                 android:paddingHorizontal="0dp"
-                android:textColor="#F15006"
+                android:textColor="@color/black"
                 android:textSize="15dp" />
 
             <Button
@@ -72,6 +72,7 @@
                 android:layout_height="wrap_content"
                 android:text="All-Ride"
                 android:layout_weight="1"
+                android:backgroundTint="#329EAD"
                 android:paddingHorizontal="5dp"
                 android:layout_marginHorizontal="5dp"
                 android:textSize="15dp" />
@@ -88,7 +89,6 @@
         android:layout_marginHorizontal="15dp"
         android:background="@drawable/background_layout"
         app:cardCornerRadius="10dp"
-
         android:layout_marginTop="-10dp"
         app:layout_constraintBottom_toTopOf="@+id/car"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
