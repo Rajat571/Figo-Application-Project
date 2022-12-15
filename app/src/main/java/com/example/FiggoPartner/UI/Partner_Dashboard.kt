@@ -56,6 +56,4 @@ class Partner_Dashboard : AppCompatActivity() {
         }
     }
 
-
-
 }

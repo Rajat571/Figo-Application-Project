@@ -1,5 +1,6 @@
 package com.pearlorganisation.figgo.UI.Fragments
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -27,6 +28,7 @@ private const val ARG_PARAM2 = "param2"
 class MPinGenerate : Fragment() {
     lateinit var binding: FragmentMPinGenerateBinding
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,15 +43,32 @@ class MPinGenerate : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val mpin = view.findViewById<EditText>(R.id.mPin)
         val confirm_mpin = view.findViewById<EditText>(R.id.confirm_mpin)
-        binding.continuetv.setOnClickListener {
+        binding.continuetv.setOnClickListener{
+            val pref = this.activity?.getPreferences(Context.MODE_PRIVATE)
+            val edit =pref?.edit()
+            if (pref?.getString("mpin","")==null){
+              binding.mPin.setError("please fill the box")
+//                edit?.putString("mpin",binding.mPin.text.toString())
+//                edit?.putString("Confirm mpin",binding.confirmMpin.text.toString())
+//                edit?.apply()
+
+            }
+         else{
+            if (pref?.getString("mpin","123").equals(binding.mPin.text.toString())){
+                Navigation.findNavController(view).navigate(R.id.action_MPinGenerate_to_figgo_FamilyFragment)
+            }}
+
           /*  if(mpin.text.toString()== "123" && confirm_mpin.text.toString()=="123"){
                 Navigation.findNavController(view).navigate(R.id.action_MPinGenerate_to_figgo_FamilyFragment)
             }else{
                 Toast.makeText(context,"Wrong MPIN",Toast.LENGTH_LONG).show()
             }*/
-            Navigation.findNavController(view).navigate(R.id.action_MPinGenerate_to_figgo_FamilyFragment)
-        }
 
+
+
+
+
+        }
         binding.exit.setOnClickListener {
             val startMain = Intent(Intent.ACTION_MAIN)
             startMain.addCategory(Intent.CATEGORY_HOME)

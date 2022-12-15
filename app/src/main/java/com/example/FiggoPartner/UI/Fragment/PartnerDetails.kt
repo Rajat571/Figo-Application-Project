@@ -1,5 +1,6 @@
 package com.example.FiggoPartner.UI.Fragment
 
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,8 +10,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import com.example.figgodriver.R
+import com.example.figgodriver.databinding.FragmentPartnerDetailsBinding
 
 
 class PartnerDetails : Fragment() {
@@ -18,12 +21,15 @@ class PartnerDetails : Fragment() {
     lateinit var up_adharfront: ImageView;
     lateinit var up_adharback: ImageView;
     lateinit var imageuri: Uri;
+    lateinit var binding: FragmentPartnerDetailsBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_partner_details, container, false)
+        binding=DataBindingUtil.inflate(inflater,R.layout.fragment_partner_details, container, false)
+        return binding.root
     }
     private val contract1 = registerForActivityResult(ActivityResultContracts.GetContent()){
         imageuri = it!!
@@ -53,6 +59,13 @@ class PartnerDetails : Fragment() {
         }
 
         next.setOnClickListener {
+            val pref = this.activity?.getPreferences(Context.MODE_PRIVATE)
+            val edit =pref?.edit()
+            edit?.putString("Name",binding.partnerName.text.toString())
+            edit?.putString("MobileNo",binding.partnerMobileNo.text.toString())
+            edit?.putString("Pan No",binding.partnerPanNo.text.toString())
+            edit?.putString("Adhar Number",binding.partnerAdharNo.text.toString())
+            edit?.apply()
             Navigation.findNavController(view).navigate(R.id.action_partnerDetails_to_driverDetailsFragment)
         }
         back.setOnClickListener {
