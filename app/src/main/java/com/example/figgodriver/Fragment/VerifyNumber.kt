@@ -43,6 +43,7 @@ class VerifyNumber : Fragment() {
 //            Navigation.findNavController(view).navigate(R.id.action_welcomeFragment_to_MPinGenerate2)
 //        }
 
+
          binding.email.setOnClickListener{
             binding.inputEmail.isVisible=true
             binding.inputNumber.isVisible=false

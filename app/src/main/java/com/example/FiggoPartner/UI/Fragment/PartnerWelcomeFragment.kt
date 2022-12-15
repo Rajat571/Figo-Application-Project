@@ -25,9 +25,14 @@ class PartnerWelcomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var next=view.findViewById<TextView>(R.id.next_button)
+        var value = arguments?.getString("Parent");
+        if(value=="Hotel Partner"){
+        next.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_partnerWelcomeFragment_to_figgoHotelPartner)
+        } }
+        else{
         next.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_partnerWelcomeFragment_to_partnerDetails)
-        }
-    }
+        } }
 
-}
+}}

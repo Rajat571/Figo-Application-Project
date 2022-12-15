@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
+import com.example.FiggoPartner.UI.Fragment.PartnerWelcomeFragment
 import com.example.figgodriver.R
 import com.example.figgodriver.databinding.FragmentFiggoFamilyBinding
+import com.example.hotelPartner.UI.Fragment.FiggoHotelPartner
 
 class Figgo_FamilyFragment : Fragment() {
   lateinit var binding: FragmentFiggoFamilyBinding
@@ -25,17 +27,31 @@ class Figgo_FamilyFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
      binding.taxiPartner.setOnCheckedChangeListener { buttonView, isChecked ->
          if (isChecked){
-
-             Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_partnerWelcomeFragment)
+             var args = Bundle()
+             args.putString("Parent","TaxiPartner");
+             Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_partnerWelcomeFragment,args)
          }
      }
         binding.figgoDriver.setOnCheckedChangeListener { buttonView, isChecked ->
 
             if(isChecked){
-                Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_driverWelcomeFragment)
+                var args = Bundle()
+                args.putString("Parent","Driver");
+                Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_partnerWelcomeFragment,args)
             }
         }
         binding.hotelPartner.setOnCheckedChangeListener { buttonView, isChecked ->
+
+            if(isChecked){
+             //   var hotelPartner = PartnerWelcomeFragment()
+                var args = Bundle()
+                args.putString("Parent","HotelPartner");
+//                hotelPartner.arguments = args;
+                //childFragmentManager.beginTransaction().add(R.id.nav_controller,hotelPartner).commit()
+
+                Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_partnerWelcomeFragment,args)
+
+            }
         }
     }
 }

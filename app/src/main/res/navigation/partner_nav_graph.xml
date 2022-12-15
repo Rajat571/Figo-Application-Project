@@ -17,16 +17,26 @@
         android:label="fragment_partner_share_ride"
         tools:layout="@layout/fragment_partner_share_ride" >
 
+        <action
+            android:id="@+id/action_share_ride_to_home2"
+            app:destination="@id/home" />
     </fragment>
     <fragment
         android:id="@+id/ride_sale"
         android:name="com.example.FiggoPartner.UI.Fragment.PartnerRideSaleFragment"
         android:label="fragment_partner_ride_sale"
         tools:layout="@layout/fragment_partner_ride_sale" >
+        <action
+            android:id="@+id/action_ride_sale_to_home2"
+            app:destination="@id/home" />
     </fragment>
     <fragment
         android:id="@+id/active_ride"
         android:name="com.example.FiggoPartner.UI.Fragment.PartnerActiveRideFragment"
         android:label="fragment_partner_active_ride"
-        tools:layout="@layout/fragment_partner_active_ride" />
+        tools:layout="@layout/fragment_partner_active_ride" >
+        <action
+            android:id="@+id/action_active_ride_to_home2"
+            app:destination="@id/home" />
+    </fragment>
 </navigation>

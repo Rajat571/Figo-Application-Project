@@ -96,7 +96,7 @@ class PartnerRideSaleFragment : Fragment() {
         }
 
         back.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_ride_sale_to_home)
+            Navigation.findNavController(view).navigate(R.id.action_ride_sale_to_home2)
         }
     }
 
