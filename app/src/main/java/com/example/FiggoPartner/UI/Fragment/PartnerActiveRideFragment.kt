@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.FiggoPartner.Adapter.PartnerActiveRideAdapter
 import com.example.FiggoPartner.Model.PartnerActiveRide
@@ -39,5 +41,9 @@ class PartnerActiveRideFragment : Fragment() {
 
         activeRideAdapter=PartnerActiveRideAdapter(requireContext(),datalist)
         binding.activeDriverList.adapter=activeRideAdapter
+        var back = view.findViewById<TextView>(R.id.top_back)
+        back.setOnClickListener {
+         Navigation.findNavController(view).navigate(R.id.action_active_ride_to_home2)
+        }
     }
 }

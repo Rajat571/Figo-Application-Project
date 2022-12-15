@@ -56,6 +56,7 @@ class VerifyNumber : Fragment() {
 //        }
         var mobile_num=binding.inputNumber.text.toString()
 
+
          binding.email.setOnClickListener{
             binding.inputEmail.isVisible=true
             binding.inputNumber.isVisible=false

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.navigation.Navigation
 import com.example.figgodriver.Fragment.RequestDetails
 import com.example.figgodriver.Fragment.allRideRS
 import com.example.figgodriver.Fragment.createRS
@@ -72,7 +73,7 @@ class PartnerShareRideFragment : Fragment() {
             allride.setTextColor(resources.getColor(R.color.orange))
         }
         back.setOnClickListener {
-
+Navigation.findNavController(view).navigate(R.id.action_share_ride_to_home2)
         }
 //        details.setOnClickListener {
 //            setfragment(driverdetails)

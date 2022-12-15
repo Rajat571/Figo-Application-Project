@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.FiggoPartner.Adapter.PartnerActiveRideAdapter
@@ -37,6 +38,10 @@ class PartnerHomeFragment : Fragment() {
         data.add(HomeData("Sedan","265","Etios,Dzire or similar","25.10.2022","8:00am","Chandigarh, Sector 35, India","Ambala","Panipath","Delhi","Chandigarh",15))
       partnerHomeAdapter= PartnerHomeAdapter(data)
         binding.sedanRecycler.adapter=partnerHomeAdapter
+        var back = view.findViewById<TextView>(R.id.top_back)
+        back.setOnClickListener {
+            activity?.finish();
+        }
 
     }
 

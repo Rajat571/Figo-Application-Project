@@ -44,6 +44,12 @@
         <action
             android:id="@+id/action_partnerWelcomeFragment_to_partnerDetails"
             app:destination="@id/partnerDetails" />
+        <action
+            android:id="@+id/action_partnerWelcomeFragment_to_figgoHotelPartner"
+            app:destination="@id/figgoHotelPartner" />
+        <action
+            android:id="@+id/action_partnerWelcomeFragment_to_driverWelcomeFragment"
+            app:destination="@id/driverWelcomeFragment" />
     </fragment>
     <fragment
         android:id="@+id/partnerDetails"
@@ -110,4 +116,18 @@
             android:id="@+id/action_driverCabDetailsFragment_to_figgo_Capton"
             app:destination="@id/figgo_Capton" />
     </fragment>
+    <fragment
+        android:id="@+id/figgoHotelPartner"
+        android:name="com.example.hotelPartner.UI.Fragment.FiggoHotelPartner"
+        android:label="fragment_figgo_hotel_partner"
+        tools:layout="@layout/fragment_figgo_hotel_partner" >
+        <action
+            android:id="@+id/action_figgoHotelPartner_to_hotelDriverDetails"
+            app:destination="@id/hotelDriverDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/hotelDriverDetails"
+        android:name="com.example.hotelPartner.UI.Fragment.HotelDriverDetails"
+        android:label="fragment_hotel_driver_details"
+        tools:layout="@layout/fragment_hotel_driver_details" />
 </navigation>
