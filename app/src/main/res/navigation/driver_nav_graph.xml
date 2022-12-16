@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/home"
-        android:name="com.example.figgodriver.Fragment.DriverHomeFragment"
+        android:name="com.pearl.figgodriver.Fragment.DriverHomeFragment"
         android:label="fragment_driver_home"
 
         tools:layout="@layout/fragment_driver_home" />
     <fragment
         android:id="@+id/share_ride"
-        android:name="com.example.figgodriver.Fragment.DriverShareRideFragment"
+        android:name="com.pearl.figgodriver.Fragment.DriverShareRideFragment"
         android:label="fragment_driver_share_ride"
         tools:layout="@layout/fragment_driver_share_ride" >
         <action
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/ride_sale"
-        android:name="com.example.figgodriver.Fragment.DriverRideSaleFragment"
+        android:name="com.pearl.figgodriver.Fragment.DriverRideSaleFragment"
         android:label="fragment_driver_ride_sale"
         tools:layout="@layout/fragment_driver_ride_sale" >
         <action
@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/active_ride"
-        android:name="com.example.figgodriver.Fragment.DriverActiveRideFragment"
+        android:name="com.pearl.figgodriver.Fragment.DriverActiveRideFragment"
         android:label="fragment_driver_active_ride"
         tools:layout="@layout/fragment_driver_active_ride" >
         <action
