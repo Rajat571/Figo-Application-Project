@@ -19,63 +19,63 @@
         android:theme="@style/Theme.FiggoDriver"
         tools:targetApi="31">
         <activity
-            android:name=".HotelPartnerDashboard"
+            android:name="com.pearl.hotelPartner.HotelPartnerDashboard"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ShareRide"
+            android:name="com.pearl.figgodriver.ShareRide"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".RequestAllRide"
+            android:name="com.pearl.figgodriver.RequestAllRide"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".DriverDashBoard"
+            android:name="com.pearl.figgodriver.DriverDashBoard"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".PriceDetailsActivity"
+            android:name="com.pearl.figgodriver.PriceDetailsActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.example.FiggoPartner.UI.Partner_Dashboard"
+            android:name="com.pearl.FiggoPartner.UI.Partner_Dashboard"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ChooseUserActivity"
+            android:name="com.pearl.figgodriver.ChooseUserActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".WelcomeActivity"
+            android:name="com.pearl.figgodriver.WelcomeActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.pearl.figgodriver.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
