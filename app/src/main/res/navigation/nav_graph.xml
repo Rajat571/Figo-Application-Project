@@ -13,6 +13,18 @@
         <action
             android:id="@+id/action_verifyNumber2_to_MPinGenerate"
             app:destination="@id/MPinGenerate" />
+        <action
+            android:id="@+id/action_verifyNumber2_to_figgo_FamilyFragment"
+            app:destination="@id/figgo_FamilyFragment" />
+        <action
+            android:id="@+id/action_verifyNumber2_to_figgo_FamilyFragment2"
+            app:destination="@id/figgo_FamilyFragment" />
+        <action
+            android:id="@+id/action_verifyNumber2_to_MPinGenerate2"
+            app:destination="@id/MPinGenerate" />
+        <action
+            android:id="@+id/action_verifyNumber2_to_figgo_FamilyFragment3"
+            app:destination="@id/figgo_FamilyFragment" />
     </fragment>
     <fragment
         android:id="@+id/MPinGenerate"
@@ -130,4 +142,9 @@
         android:name="com.pearl.hotelPartner.UI.Fragment.HotelDriverDetails"
         android:label="fragment_hotel_driver_details"
         tools:layout="@layout/fragment_hotel_driver_details" />
+<!--    <fragment-->
+<!--        android:id="@+id/validateMpin"-->
+<!--        android:name="com.pearl.figgodriver.ValidateMpin"-->
+<!--        android:label="fragment_validate_mpin"-->
+<!--        tools:layout="@layout/fragment_validate_mpin" />-->
 </navigation>

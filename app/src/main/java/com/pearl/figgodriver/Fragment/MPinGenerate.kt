@@ -13,6 +13,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.databinding.FragmentMPinGenerateBinding
+import com.google.android.gms.tasks.Task
+import com.pearlorganisation.PrefManager
+//import com.pearl.figgodriver.R
+//import com.example.figgodriver.R
 
 import kotlinx.android.synthetic.main.fragment_m_pin_generate.*
 
@@ -21,11 +25,6 @@ import kotlinx.android.synthetic.main.fragment_m_pin_generate.*
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [MPinGenerate.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MPinGenerate : Fragment() {
     lateinit var binding: FragmentMPinGenerateBinding
 
@@ -34,7 +33,6 @@ class MPinGenerate : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding=DataBindingUtil.inflate(inflater, R.layout.fragment_m_pin_generate, container, false)
         var view=binding.root
         return view
@@ -43,32 +41,16 @@ class MPinGenerate : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val mpin = view.findViewById<EditText>(R.id.mPin)
+        var pref = PrefManager(requireContext())
         val confirm_mpin = view.findViewById<EditText>(R.id.confirm_mpin)
-        binding.continuetv.setOnClickListener{
-            val pref = this.activity?.getPreferences(Context.MODE_PRIVATE)
-            val edit =pref?.edit()
-            if (pref?.getString("mpin","")==null){
-              binding.mPin.setError("please fill the box")
-//                edit?.putString("mpin",binding.mPin.text.toString())
-//                edit?.putString("Confirm mpin",binding.confirmMpin.text.toString())
-//                edit?.apply()
-
+        binding.continuetv.setOnClickListener {
+            if (mpin.text.toString().equals(confirm_mpin.text.toString())) {
+                pref.setMpin(mpin.text.toString())
+                Navigation.findNavController(view)
+                    .navigate(R.id.action_MPinGenerate_to_figgo_FamilyFragment)
+            } else {
+                Toast.makeText(this.context, "MPin not match", Toast.LENGTH_SHORT).show()
             }
-         else{
-            if (pref?.getString("mpin","123").equals(binding.mPin.text.toString())){
-                Navigation.findNavController(view).navigate(R.id.action_MPinGenerate_to_figgo_FamilyFragment)
-            }}
-
-          /*  if(mpin.text.toString()== "123" && confirm_mpin.text.toString()=="123"){
-                Navigation.findNavController(view).navigate(R.id.action_MPinGenerate_to_figgo_FamilyFragment)
-            }else{
-                Toast.makeText(context,"Wrong MPIN",Toast.LENGTH_LONG).show()
-            }*/
-
-
-
-
-
         }
         binding.exit.setOnClickListener {
             val startMain = Intent(Intent.ACTION_MAIN)
@@ -76,13 +58,5 @@ class MPinGenerate : Fragment() {
             startMain.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(startMain)
         }
-
-
-
-
-
-
-
     }
-
 }
