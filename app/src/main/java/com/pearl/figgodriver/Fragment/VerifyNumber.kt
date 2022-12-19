@@ -10,9 +10,10 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import com.android.volley.*
+import com.android.volley.RequestQueue
+import com.android.volley.Response
+import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.databinding.FragmentVerifyNumberBinding
@@ -20,7 +21,6 @@ import com.pearlorganisation.PrefManager
 import kotlinx.android.synthetic.main.top_layout.*
 import org.json.JSONException
 import org.json.JSONObject
-
 
 class VerifyNumber : Fragment() {
     lateinit var binding: FragmentVerifyNumberBinding
@@ -136,9 +136,6 @@ class VerifyNumber : Fragment() {
 
             queue.add(jsonOblect)
         }
-
-
-
         }
 
     private fun SendData(mobileNum: String) {

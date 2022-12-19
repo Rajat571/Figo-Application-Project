@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -89,7 +91,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/mobileno"
+                    android:id="@+id/drivermobileno"
                     android:hint="Mobile No."/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -102,7 +104,7 @@
                     android:drawableEnd="@drawable/upload"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/dlno"
+                    android:id="@+id/driverdlno"
                     android:hint="DL No."/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -116,7 +118,7 @@
                     android:drawableEnd="@drawable/upload"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/policev"
+                    android:id="@+id/driverpolicev"
                     android:hint="Police Verification"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -129,7 +131,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/adharno"
+                    android:id="@+id/driveradharno"
                     android:hint="Adhar No."/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -193,3 +195,4 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
