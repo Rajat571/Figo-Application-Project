@@ -55,6 +55,60 @@ import android.content.SharedPreferences
      fun getUserId():String{
          return pref?.getString("userid","").toString()
      }
+     fun setName(name:String){
+         editor?.putString("name",name)
+         editor?.commit()
+     }
+     fun getName():String{
+         return pref?.getString("name","").toString()
+     }
+
+     fun setMobile_No(mobile_no:String){
+         editor?.putString("mobile_no",mobile_no)
+         editor?.commit()
+     }
+     fun getMobileNo():String{
+         return pref?.getString("mobile_no","").toString()
+     }
+
+     fun setDL_No(DL_no:String){
+         editor?.putString("DL_no",DL_no)
+         editor?.commit()
+     }
+     fun getDL_No():String{
+         return pref?.getString("DL_no","").toString()
+     }
+     fun setPolice_verification(police_ver:String){
+         editor?.putString("police_ver",police_ver)
+         editor?.commit()
+     }
+     fun getPolice_verification():String{
+         return pref?.getString("police_ver","").toString()
+     }
+
+     fun setAadhar_no(aadhar_no:String){
+         editor?.putString("aadhar_no",aadhar_no)
+         editor?.commit()
+     }
+     fun getAadhar_no():String{
+         return pref?.getString("aadhar_no","").toString()
+     }
+     fun setAadhar_verification_front(aadhar_verification_front:String){
+         editor?.putString("aadhar_verification_front",aadhar_verification_front)
+         editor?.commit()
+     }
+     fun getAadhar_verification_front():String{
+         return pref?.getString("aadhar_verification_front","").toString()
+     }
+
+     fun setAadhar_verification_back(aadhar_verification_back:String){
+         editor?.putString("aadhar_verification_front",aadhar_verification_back)
+         editor?.commit()
+     }
+     fun getAadhar_verification_back():String{
+         return pref?.getString("aadhar_verification_back","").toString()
+     }
+
 
 
 }

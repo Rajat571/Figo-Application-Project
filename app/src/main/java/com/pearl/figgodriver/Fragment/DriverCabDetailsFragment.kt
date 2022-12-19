@@ -53,6 +53,7 @@ class DriverCabDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        prefManager = PrefManager(requireContext())
         var base = BaseClass(requireContext())
         var next=view.findViewById<TextView>(R.id.next_button)
         var back=view.findViewById<TextView>(R.id.back_button)
@@ -67,6 +68,7 @@ class DriverCabDetailsFragment : Fragment() {
             var driver_name = arguments?.getString("name");
             var driver_mobile_no= arguments?.getString("mobile_no");
             var driver_dl_no = arguments?.getString("dl_number");
+            System.out.println("Driver_DL_NO"+driver_dl_no)
             var driver_police_verification_no = arguments?.getString("police_verification");
             var driver_adhar_no = arguments?.getString("aadhar_no");
             var aadhar_verification_front = arguments?.getString("aadhar_verification_front");
@@ -121,7 +123,7 @@ class DriverCabDetailsFragment : Fragment() {
         json.put("insurance",insurance_no)
         json.put("permit",permit_no)
 
-
+        Log.d("SendData", "json===" + json)
 
         val jsonOblect=
             object : JsonObjectRequest(Method.POST, URL, json,
@@ -129,7 +131,6 @@ class DriverCabDetailsFragment : Fragment() {
                     Log.d("SendData", "response===" + response)
                     Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
                     if (response != null) {
-
                         context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
                     }
                     // Get your json response and convert it to whatever you want.

@@ -23,6 +23,7 @@ import com.android.volley.toolbox.Volley
 import com.pearl.figgodriver.BaseClass
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.databinding.FragmentFiggoCaptonBinding
+import com.pearlorganisation.PrefManager
 import org.json.JSONObject
 import java.io.File
 import java.io.FileOutputStream
@@ -38,6 +39,7 @@ class Figgo_Capton : Fragment() {
     lateinit var driverdp :String
     lateinit  var  backstr: String
     var args = Bundle()
+    lateinit var prefManager: PrefManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,13 +77,20 @@ class Figgo_Capton : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        prefManager = PrefManager(requireContext())
+
         up_adharfront = view.findViewById<ImageView>(R.id.up_adharfront)
         up_adharback = view.findViewById<ImageView>(R.id.up_adharback)
         selfiee = view.findViewById<ImageView>(R.id.selfiee)
         var driver_name=binding.drivername.text.toString()
+
         var driver_mobile_no=binding.drivermobileno.text.toString()
+        prefManager.setMobile_No(driver_mobile_no)
         var driver_dl_no=binding.driverdlno.text.toString()
+        prefManager.setDL_No(driver_dl_no)
         var driver_police_verification_no=binding.driverpolicev.text.toString()
+
         var driver_adhar_no=binding.driveradharno.text.toString()
      //   var aadhar_verification_front=binding.upAdharfront.resources.toString()
       //  var aadhar_verification_back=binding.upAdharback.resources.toString()
