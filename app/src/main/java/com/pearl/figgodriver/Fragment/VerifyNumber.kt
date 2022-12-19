@@ -44,10 +44,6 @@ class VerifyNumber : Fragment() {
 
 
         prefManager = PrefManager(requireContext())
-//        var next=view.findViewById<TextView>(R.id.next)
-//        next.setOnClickListener {
-//            Navigation.findNavController(view).navigate(R.id.action_welcomeFragment_to_MPinGenerate2)
-//        }
 
 
          binding.email.setOnClickListener{
@@ -102,20 +98,26 @@ class VerifyNumber : Fragment() {
 
                         Log.d("SendData", "response===" + response)
                         if (response != null) {
-                            if(prefManager.getToken().equals("")){
-                                val jsonObject = response.getJSONObject("data")
-                                val jsonObject1 = jsonObject.getJSONObject("user")
-                                val userid = jsonObject1.getString("id")
-                                val token = jsonObject.getString("token")
-                                prefManager.setUserId(userid)
+                            if(prefManager.getToken().equals("") || prefManager.getToken().equals("null")){
+//                                val jsonObject = response.getJSONObject("data")
+                                val profile_status = response.getString("profile_status")
+                             //   val userid = jsonObject1.getString("id")
+                                val token = response.getString("token")
                                 prefManager.setToken(token)
+                                Toast.makeText(requireContext(),"Login Successfully",Toast.LENGTH_SHORT).show()
                                 Log.d("SendData", "token===" + token)
-                                Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
-
-
+                                if(prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")){
+                                    Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
+                                }else{
+                                    Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                                }
                             }else{
-                                Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
-
+                                Toast.makeText(requireContext(),"Login Successfully",Toast.LENGTH_SHORT).show()
+                                if(prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")){
+                                    Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
+                                }else{
+                                    Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                                }
                             }
 
                         }
@@ -137,9 +139,5 @@ class VerifyNumber : Fragment() {
             queue.add(jsonOblect)
         }
         }
-
-    private fun SendData(mobileNum: String) {
-
-    }
 
 }

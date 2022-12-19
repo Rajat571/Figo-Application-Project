@@ -30,7 +30,7 @@ import android.content.SharedPreferences
          editor?.commit()
      }
      fun getMpin():String{
-         return pref?.getString("mpin","").toString()
+         return pref?.getString("mpin","null").toString()
      }
     fun setFirstTimeLaunch(isFirstTime: Boolean) {
         editor!!.putBoolean(IS_FIRST_TIME_LAUNCH, isFirstTime)
@@ -55,11 +55,11 @@ import android.content.SharedPreferences
      fun getUserId():String{
          return pref?.getString("userid","").toString()
      }
-     fun setName(name:String){
+     fun setDriverName(name:String){
          editor?.putString("name",name)
          editor?.commit()
      }
-     fun getName():String{
+     fun getDriverName():String{
          return pref?.getString("name","").toString()
      }
 

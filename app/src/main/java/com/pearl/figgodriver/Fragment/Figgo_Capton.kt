@@ -95,6 +95,18 @@ class Figgo_Capton : Fragment() {
      //   var aadhar_verification_front=binding.upAdharfront.resources.toString()
       //  var aadhar_verification_back=binding.upAdharback.resources.toString()
 
+
+        prefManager.setDL_No(driver_dl_no)
+        prefManager.setDriverName(driver_name)
+        prefManager.setMobile_No(driver_mobile_no)
+        prefManager.setAadhar_no(driver_adhar_no)
+        prefManager.setPolice_verification(driver_police_verification_no)
+        prefManager.setAadhar_verification_front(aadhar_verification_front)
+        prefManager.setAadhar_verification_back(aadhar_verification_back)
+
+
+
+
         args.putString("name",driver_name)
         args.putString("mobile_no",driver_mobile_no)
         args.putString("dl_number",driver_dl_no)
