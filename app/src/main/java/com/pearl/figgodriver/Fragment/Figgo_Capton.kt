@@ -91,29 +91,24 @@ class Figgo_Capton : Fragment() {
         prefManager.setDL_No(driver_dl_no)
         var driver_police_verification_no=binding.driverpolicev.text.toString()
 
+
         var driver_adhar_no=binding.driveradharno.text.toString()
      //   var aadhar_verification_front=binding.upAdharfront.resources.toString()
       //  var aadhar_verification_back=binding.upAdharback.resources.toString()
 
 
-        prefManager.setDL_No(driver_dl_no)
-        prefManager.setDriverName(driver_name)
-        prefManager.setMobile_No(driver_mobile_no)
-        prefManager.setAadhar_no(driver_adhar_no)
-        prefManager.setPolice_verification(driver_police_verification_no)
-        prefManager.setAadhar_verification_front(aadhar_verification_front)
-        prefManager.setAadhar_verification_back(aadhar_verification_back)
 
 
 
 
-        args.putString("name",driver_name)
+
+    /*    args.putString("name",driver_name)
         args.putString("mobile_no",driver_mobile_no)
         args.putString("dl_number",driver_dl_no)
         args.putString("police_verification",driver_police_verification_no)
         args.putString("aadhar_no",driver_adhar_no)
         args.putString("aadhar_verification_front",aadhar_verification_front)
-        args.putString("aadhar_verification_back", aadhar_verification_back)
+        args.putString("aadhar_verification_back", aadhar_verification_back)*/
 
         up_adharfront.setOnClickListener {
             contract1.launch("image/*")
@@ -127,7 +122,13 @@ class Figgo_Capton : Fragment() {
         var next=view.findViewById<TextView>(R.id.next_button)
         next.setOnClickListener {
           //  sharedPref(view)
-
+            prefManager.setDL_No(driver_dl_no)
+            prefManager.setDriverName(driver_name)
+            prefManager.setMobile_No(driver_mobile_no)
+            prefManager.setAadhar_no(driver_adhar_no)
+            prefManager.setPolice_verification(driver_police_verification_no)
+            prefManager.setAadhar_verification_front(aadhar_verification_front)
+            prefManager.setAadhar_verification_back(aadhar_verification_back)
             Navigation.findNavController(view).navigate(R.id.action_figgo_Capton_to_driverCabDetailsFragment,args)
         }
         var back=view.findViewById<TextView>(R.id.back_button)

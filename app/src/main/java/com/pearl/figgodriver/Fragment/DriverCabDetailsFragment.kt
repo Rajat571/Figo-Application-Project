@@ -1,5 +1,6 @@
 package com.pearl.figgodriver.Fragment
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
@@ -36,7 +37,7 @@ class DriverCabDetailsFragment : Fragment() {
     lateinit var prefManager: PrefManager
     private val contract = registerForActivityResult(ActivityResultContracts.GetContent()) {
         //imageuri = it!!
-        val bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), it);
+        val bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), it!!);
         var base = BaseClass(requireContext())
        str =  base.BitMapToString(bitmap)
         carDP.setImageURI(it)
@@ -50,6 +51,7 @@ class DriverCabDetailsFragment : Fragment() {
       binding=DataBindingUtil.inflate(inflater,R.layout.fragment_driver_cab_details, container, false)
             return binding.root
     }
+    @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -65,14 +67,14 @@ class DriverCabDetailsFragment : Fragment() {
 
         }
         next.setOnClickListener {
-            var driver_name = arguments?.getString("name");
-            var driver_mobile_no= arguments?.getString("mobile_no");
-            var driver_dl_no = arguments?.getString("dl_number");
+            var driver_name = prefManager.getDriverName()
+            var driver_mobile_no= prefManager.getMobileNo()
+            var driver_dl_no = prefManager.getDL_No()
             System.out.println("Driver_DL_NO"+driver_dl_no)
-            var driver_police_verification_no = arguments?.getString("police_verification");
-            var driver_adhar_no = arguments?.getString("aadhar_no");
-            var aadhar_verification_front = arguments?.getString("aadhar_verification_front");
-            var aadhar_verification_back= arguments?.getString("aadhar_verification_back");
+            var driver_police_verification_no = prefManager.getPolice_verification()
+            var driver_adhar_no = prefManager.getAadhar_no()
+            var aadhar_verification_front = prefManager.getAadhar_verification_front()
+            var aadhar_verification_back= prefManager.getAadhar_verification_back()
             var  car_category=binding.carCategory.text.toString()
             var car_model=binding.carModel.text.toString()
             var model_year=binding.modelYear.text.toString()
@@ -109,21 +111,24 @@ class DriverCabDetailsFragment : Fragment() {
 
 
         json.put("token",token)
-        json.put("name",driverName)
+        json.put("name",prefManager.getDriverName())
         json.put("email","madhuri@gmail.com")
         json.put("password","123456")
-        json.put("dl_number",driverDlNo)
-        json.put("police_verification",driverPoliceVerificationNo)
-        json.put("aadhar_verification_front",aadharVerificationFront)
-        json.put("aadhar_verification_back",aadharVerificationBack)
+        json.put("dl_number",prefManager.getDL_No())
+
         json.put("category",car_category)
         json.put("model",car_model)
         json.put("year",model_year)
         json.put("registration_no",registration_no)
         json.put("insurance",insurance_no)
         json.put("permit",permit_no)
+        json.put("police_verification",prefManager.getPolice_verification())
 
+        json.put("aadhar_verification_front",aadharVerificationFront)
+        json.put("aadhar_verification_back",aadharVerificationBack)
         Log.d("SendData", "json===" + json)
+        Log.d("SendData", "json===" + aadharVerificationFront)
+        Log.d("SendData", "json===" + aadharVerificationBack)
 
         val jsonOblect=
             object : JsonObjectRequest(Method.POST, URL, json,

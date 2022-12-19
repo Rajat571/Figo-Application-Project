@@ -75,13 +75,16 @@ import android.content.SharedPreferences
          editor?.putString("DL_no",DL_no)
          editor?.commit()
      }
+
      fun getDL_No():String{
          return pref?.getString("DL_no","").toString()
      }
+
      fun setPolice_verification(police_ver:String){
          editor?.putString("police_ver",police_ver)
          editor?.commit()
      }
+
      fun getPolice_verification():String{
          return pref?.getString("police_ver","").toString()
      }
@@ -90,6 +93,7 @@ import android.content.SharedPreferences
          editor?.putString("aadhar_no",aadhar_no)
          editor?.commit()
      }
+
      fun getAadhar_no():String{
          return pref?.getString("aadhar_no","").toString()
      }
@@ -105,6 +109,7 @@ import android.content.SharedPreferences
          editor?.putString("aadhar_verification_front",aadhar_verification_back)
          editor?.commit()
      }
+
      fun getAadhar_verification_back():String{
          return pref?.getString("aadhar_verification_back","").toString()
      }
