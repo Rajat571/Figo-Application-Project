@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.FiggoPartner.UI.Partner_Dashboard">
+    tools:context="com.pearl.FiggoPartner.UI.Partner_Dashboard">
     <include
         android:id="@+id/layout"
         layout="@layout/top_layout"

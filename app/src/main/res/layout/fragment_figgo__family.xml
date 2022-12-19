@@ -61,7 +61,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
-                    android:text="Grow your business  Income with fFiggo family group"
+                    android:text="Grow your business  Income with Figgo family group"
 
                      />
                 <LinearLayout

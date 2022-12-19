@@ -41,7 +41,20 @@ import android.content.SharedPreferences
         return pref!!.getBoolean(IS_FIRST_TIME_LAUNCH, true)
     }
 
-
+     fun setToken(token:String){
+         editor?.putString("token",token)
+         editor?.commit()
+     }
+     fun getToken():String{
+         return pref?.getString("token","null").toString()
+     }
+     fun setUserId(userid:String){
+         editor?.putString("userid",userid)
+         editor?.commit()
+     }
+     fun getUserId():String{
+         return pref?.getString("userid","").toString()
+     }
 
 
 }

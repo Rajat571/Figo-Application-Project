@@ -1,6 +1,7 @@
 package com.pearl.figgodriver.Fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +11,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.databinding.FragmentFiggoFamilyBinding
+import com.pearlorganisation.PrefManager
 
 class Figgo_FamilyFragment : Fragment() {
   lateinit var binding: FragmentFiggoFamilyBinding
+
+
+    lateinit var prefManager: PrefManager
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -23,6 +30,11 @@ class Figgo_FamilyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        prefManager = PrefManager(requireContext())
+        Log.d("onViewCreated","token == "+prefManager.getToken())
+        Log.d("onViewCreated","id === "+ prefManager.getUserId())
+
      binding.taxiPartner.setOnCheckedChangeListener { buttonView, isChecked ->
          if (isChecked){
              var args = Bundle()
@@ -35,7 +47,7 @@ class Figgo_FamilyFragment : Fragment() {
             if(isChecked){
                 var args = Bundle()
                 args.putString("Parent","Driver");
-                Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_partnerWelcomeFragment,args)
+                Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_driverWelcomeFragment,args)
             }
         }
         binding.hotelPartner.setOnCheckedChangeListener { buttonView, isChecked ->
