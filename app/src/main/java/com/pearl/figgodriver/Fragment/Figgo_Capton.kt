@@ -1,43 +1,39 @@
 package com.pearl.figgodriver.Fragment
 
-import android.content.Context
+import android.R.attr
+import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import com.android.volley.Response
-import com.android.volley.VolleyError
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.pearl.figgodriver.BaseClass
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.databinding.FragmentFiggoCaptonBinding
 import com.pearlorganisation.PrefManager
-import org.json.JSONObject
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
+
 
 class Figgo_Capton : Fragment() {
-    lateinit var up_adharfront: ImageView;
-    lateinit var up_adharback:ImageView;
+
     lateinit var imageuri: Uri;
-    lateinit var selfiee:ImageView
     lateinit var binding:FragmentFiggoCaptonBinding
      var  aadhar_verification_front:String=""
      var aadhar_verification_back :String=""
-    lateinit var driverdp :String
-    lateinit  var  backstr: String
+     var driverdp :String=""
+    var police_verification:String=""
+
+   // lateinit  var  backstr: String
     var args = Bundle()
     lateinit var prefManager: PrefManager
 
@@ -49,30 +45,43 @@ class Figgo_Capton : Fragment() {
        binding=DataBindingUtil.inflate(inflater,R.layout.fragment_figgo__capton, container, false)
         return binding.root
     }
+
     private val contract1 = registerForActivityResult(ActivityResultContracts.GetContent()){
         imageuri = it!!
-        up_adharfront.setImageURI(it)
+       // up_adharfront.setImageURI(it)
         val bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), it);
+        binding.upAdharfront.setImageBitmap(bitmap)
         var base = BaseClass(requireContext())
            aadhar_verification_front = base.BitMapToString(bitmap).toString()
         // upload()
     }
     private val contract2 = registerForActivityResult(ActivityResultContracts.GetContent()){
         imageuri = it!!
-        up_adharback.setImageURI(it)
+        //up_adharback.setImageURI(it)
         val bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), it);
+        binding.upAdharback.setImageBitmap(bitmap)
         var base = BaseClass(requireContext())
         aadhar_verification_back = base.BitMapToString(bitmap).toString()
+        System.out.println("aadhar_verification_backo=="+aadhar_verification_back)
         // upload()
-
     }
     private val contract3 = registerForActivityResult(ActivityResultContracts.GetContent()){
         imageuri = it!!
-        selfiee.setImageURI(it)
+      //  selfiee.setImageURI(it)
         val bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), it);
+        binding.selfiee.setImageBitmap(bitmap)
         var base = BaseClass(requireContext())
          driverdp = base.BitMapToString(bitmap).toString()
-        // upload()
+
+    }
+    private val contract4 = registerForActivityResult(ActivityResultContracts.GetContent()){
+        imageuri = it!!
+
+        val bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), it);
+        binding.ivPoliceVerification.setImageBitmap(bitmap)
+        var base = BaseClass(requireContext())
+       police_verification= base.BitMapToString(bitmap).toString()
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -80,55 +89,58 @@ class Figgo_Capton : Fragment() {
 
         prefManager = PrefManager(requireContext())
 
-        up_adharfront = view.findViewById<ImageView>(R.id.up_adharfront)
-        up_adharback = view.findViewById<ImageView>(R.id.up_adharback)
-        selfiee = view.findViewById<ImageView>(R.id.selfiee)
-        var driver_name=binding.drivername.text.toString()
 
-        var driver_mobile_no=binding.drivermobileno.text.toString()
-        prefManager.setMobile_No(driver_mobile_no)
-        var driver_dl_no=binding.driverdlno.text.toString()
-        prefManager.setDL_No(driver_dl_no)
-        var driver_police_verification_no=binding.driverpolicev.text.toString()
+        binding.aadharFront.setOnClickListener {
+            val intent = Intent()
+            intent.type = "image/*"
+            intent.action = Intent.ACTION_GET_CONTENT
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1)
 
 
-        var driver_adhar_no=binding.driveradharno.text.toString()
-     //   var aadhar_verification_front=binding.upAdharfront.resources.toString()
-      //  var aadhar_verification_back=binding.upAdharback.resources.toString()
-
-
-
-
-
-
-
-    /*    args.putString("name",driver_name)
-        args.putString("mobile_no",driver_mobile_no)
-        args.putString("dl_number",driver_dl_no)
-        args.putString("police_verification",driver_police_verification_no)
-        args.putString("aadhar_no",driver_adhar_no)
-        args.putString("aadhar_verification_front",aadhar_verification_front)
-        args.putString("aadhar_verification_back", aadhar_verification_back)*/
-
-        up_adharfront.setOnClickListener {
-            contract1.launch("image/*")
+         //   contract1.launch("image/*")
         }
-        up_adharback.setOnClickListener {
-            contract2.launch("image/*")
+        binding.llAadharBack.setOnClickListener {
+            var intent=Intent()
+            intent.type="image/*"
+            intent.action=Intent.ACTION_GET_CONTENT
+            startActivityForResult(Intent.createChooser(intent,"select Picture"),2)
+           // contract2.launch("image/*")
         }
-        selfiee.setOnClickListener {
-            contract3.launch("image/*")
+        binding.selfiee.setOnClickListener {
+            var intent=Intent()
+            intent.type="image/*"
+            intent.action=Intent.ACTION_GET_CONTENT
+            startActivityForResult(Intent.createChooser(intent,"select Picture"),4)
+            //contract3.launch("image/*")
+        }
+        binding.policeVerification.setOnClickListener {
+            var intent=Intent()
+            intent.type="image/*"
+            intent.action=Intent.ACTION_GET_CONTENT
+            startActivityForResult(Intent.createChooser(intent,"select Picture"),3)
+            //contract4.launch("image/*")
         }
         var next=view.findViewById<TextView>(R.id.next_button)
         next.setOnClickListener {
           //  sharedPref(view)
+            var driver_name=binding.drivername.text.toString()
+            System.out.println("driver_name=="+driver_name)
+
+
+            var driver_mobile_no=binding.drivermobileno.text.toString()
+
+            var driver_dl_no=binding.driverdlno.text.toString()
+            System.out.println("Driver DL no=="+driver_dl_no)
+
+
             prefManager.setDL_No(driver_dl_no)
             prefManager.setDriverName(driver_name)
             prefManager.setMobile_No(driver_mobile_no)
-            prefManager.setAadhar_no(driver_adhar_no)
-            prefManager.setPolice_verification(driver_police_verification_no)
+            prefManager.setPolice_verification(police_verification)
             prefManager.setAadhar_verification_front(aadhar_verification_front)
             prefManager.setAadhar_verification_back(aadhar_verification_back)
+            prefManager.setDriverProfile(driverdp)
+            prefManager.setPolice_verification(police_verification)
             Navigation.findNavController(view).navigate(R.id.action_figgo_Capton_to_driverCabDetailsFragment,args)
         }
         var back=view.findViewById<TextView>(R.id.back_button)
@@ -139,22 +151,6 @@ class Figgo_Capton : Fragment() {
 
     }
 
-
-//    private fun sharedPref(view: View) {
-//        val name = view.findViewById<EditText>(R.id.drivername)
-//        val mobileno = view.findViewById<EditText>(R.id.mobileno)
-//        val dlno = view.findViewById<EditText>(R.id.dlno)
-//        val policeV = view.findViewById<EditText>(R.id.policev)
-//        val adharno = view.findViewById<EditText>(R.id.adharno)
-//        val pref = this.activity?.getPreferences(Context.MODE_PRIVATE)
-//        val edit =pref?.edit()
-//        edit?.putString("Name",name.text.toString())
-//        edit?.putString("MobileNo",mobileno.text.toString())
-//        edit?.putString("DL No",dlno.text.toString())
-//        edit?.putString("Police Verification",policeV.text.toString())
-//        edit?.putString("Adhar Number",adharno.text.toString())
-//        edit?.apply()
-//    }
 
     private fun upload() {
         val fileDir = this.activity?.applicationContext?.filesDir
@@ -176,6 +172,51 @@ class Figgo_Capton : Fragment() {
 //            Log.d("Upload Fragment",response.toString())
 //        }
         }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+    if (requestCode == 1){
+
+        try {
+            //Getting the Bitmap from Gallery
+            val selectedImageUri = data?.getData()
+            val bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), selectedImageUri)
+            binding.upAdharfront.setImageBitmap(bitmap)
+            var base = BaseClass(requireContext())
+            aadhar_verification_front = base.BitMapToString(bitmap).toString()
+
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+    }
+        else if (requestCode==2){
+            var selectedImageUri=data?.data
+        var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri)
+        binding.upAdharback.setImageBitmap(bitmap)
+        var base = BaseClass(requireContext())
+        aadhar_verification_back = base.BitMapToString(bitmap).toString()
+        }
+
+        else if(requestCode==3){
+        var selectedImageUri=data?.data
+        var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri)
+        binding.ivPoliceVerification.setImageBitmap(bitmap)
+        var base = BaseClass(requireContext())
+        police_verification= base.BitMapToString(bitmap).toString()
+        }
+
+    else if(requestCode==4){
+        var selectedImageUri=data?.data
+        var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri)
+        binding.selfiee.setImageBitmap(bitmap)
+        var base = BaseClass(requireContext())
+        driverdp = base.BitMapToString(bitmap).toString()
+    }
+}
+
+
     }
 
 

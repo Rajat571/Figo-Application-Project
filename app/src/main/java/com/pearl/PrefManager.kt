@@ -60,7 +60,7 @@ import android.content.SharedPreferences
          editor?.commit()
      }
      fun getDriverName():String{
-         return pref?.getString("name","").toString()
+         return pref?.getString("name","null").toString()
      }
 
      fun setMobile_No(mobile_no:String){
@@ -112,6 +112,14 @@ import android.content.SharedPreferences
 
      fun getAadhar_verification_back():String{
          return pref?.getString("aadhar_verification_back","").toString()
+     }
+     fun setDriverProfile(DriverProfile:String){
+         editor?.putString("DriverProfile",DriverProfile)
+         editor?.commit()
+     }
+
+     fun getDriverProfile():String{
+         return pref?.getString("DriverProfile","").toString()
      }
 
 

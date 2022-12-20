@@ -74,7 +74,10 @@ class DriverCabDetailsFragment : Fragment() {
             var driver_police_verification_no = prefManager.getPolice_verification()
             var driver_adhar_no = prefManager.getAadhar_no()
             var aadhar_verification_front = prefManager.getAadhar_verification_front()
+
             var aadhar_verification_back= prefManager.getAadhar_verification_back()
+            System.out.println("Aadhar Verification====="+driver_dl_no)
+            var driver_profile=prefManager.getDriverProfile()
             var  car_category=binding.carCategory.text.toString()
             var car_model=binding.carModel.text.toString()
             var model_year=binding.modelYear.text.toString()
@@ -82,7 +85,7 @@ class DriverCabDetailsFragment : Fragment() {
             var insurance_no=binding.insuranceNo.text.toString()
             var permit_no=binding.taxPermitNo.text.toString()
 
-                submitForm(driver_name!!,driver_mobile_no!!,driver_dl_no!!,driver_police_verification_no!!,driver_adhar_no!!, aadhar_verification_front!!, aadhar_verification_back!!,car_category,car_model,model_year,registration_no,insurance_no,permit_no)
+                submitForm(driver_name,driver_mobile_no,driver_dl_no,driver_police_verification_no,driver_adhar_no, aadhar_verification_front, aadhar_verification_back,driver_profile,car_category,car_model,model_year,registration_no,insurance_no,permit_no)
 
 
 //
@@ -103,18 +106,17 @@ class DriverCabDetailsFragment : Fragment() {
         }
     }
 
-    private fun submitForm(driverName: String, driverMobileNo: String, driverDlNo: String, driverPoliceVerificationNo: String, driverAdharNo: String, aadharVerificationFront: String, aadharVerificationBack: String,car_category:String,car_model:String,model_year:String,registration_no:String,insurance_no:String,permit_no:String) {
+    private fun submitForm(driverName: String, driverMobileNo: String, driverDlNo: String, driverPoliceVerificationNo: String, driverAdharNo: String, aadharVerificationFront: String, aadharVerificationBack: String,driver_profile:String,car_category:String,car_model:String,model_year:String,registration_no:String,insurance_no:String,permit_no:String) {
         val URL = " https://test.pearl-developer.com/figo/api/regitser-driver"
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
        var token= prefManager.getToken()
 
-
         json.put("token",token)
-        json.put("name",prefManager.getDriverName())
+        json.put("name",driverName)
         json.put("email","madhuri@gmail.com")
         json.put("password","123456")
-        json.put("dl_number",prefManager.getDL_No())
+        json.put("dl_number",driverDlNo)
 
         json.put("category",car_category)
         json.put("model",car_model)
@@ -122,8 +124,7 @@ class DriverCabDetailsFragment : Fragment() {
         json.put("registration_no",registration_no)
         json.put("insurance",insurance_no)
         json.put("permit",permit_no)
-        json.put("police_verification",prefManager.getPolice_verification())
-
+        json.put("police_verification",driverPoliceVerificationNo)
         json.put("aadhar_verification_front",aadharVerificationFront)
         json.put("aadhar_verification_back",aadharVerificationBack)
         Log.d("SendData", "json===" + json)
