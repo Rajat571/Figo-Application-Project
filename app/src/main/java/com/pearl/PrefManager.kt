@@ -106,7 +106,7 @@ import android.content.SharedPreferences
      }
 
      fun setAadhar_verification_back(aadhar_verification_back:String){
-         editor?.putString("aadhar_verification_front",aadhar_verification_back)
+         editor?.putString("aadhar_verification_back",aadhar_verification_back)
          editor?.commit()
      }
 
