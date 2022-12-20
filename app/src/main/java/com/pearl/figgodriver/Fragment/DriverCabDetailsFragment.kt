@@ -94,9 +94,9 @@ class DriverCabDetailsFragment : Fragment() {
         back.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_driverCabDetailsFragment_to_figgo_Capton)
         }
-       binding.registrationNo.setOnClickListener {
-            calendar(binding.registrationNo)
-        }
+//       binding.registrationNo.setOnClickListener {
+//            //calendar(binding.registrationNo)
+//        }
        binding.insuranceNo .setOnClickListener {
             calendar(binding.insuranceNo)
         }
@@ -165,7 +165,7 @@ class DriverCabDetailsFragment : Fragment() {
             { view, year, monthOfYear, dayOfMonth ->
                 // on below line we are setting
                 // date to our edit text.
-                val dat = (dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year)
+                val dat = (year.toString() + "-" + (monthOfYear + 1) + "-" +dayOfMonth.toString() )
                 edit.setText(dat)
             },
             // on below line we are passing year, month
