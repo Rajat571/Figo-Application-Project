@@ -41,41 +41,106 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:padding="@dimen/_15sdp"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:textAlignment="center"
-                android:text="@string/welcomepagepartner"
-                android:textColor="#325DCB"
-                android:textSize="20sp" />
+                android:text="Welcome"
+                android:textColor="@color/purple_700"
+                android:textSize="@dimen/_25sdp"
+                android:textStyle="bold" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="60dp"
-                android:padding="12dp"
-                android:layout_margin="15dp"
-                android:textStyle="bold"
-                android:lineSpacingExtra="15dp"
-                android:text="@string/partner_about" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Figgo - Sipahi parivar"
+                android:textColor="@color/purple_700"
+                android:textSize="@dimen/_20sdp"
+                />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Why you should attach with us?"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14sdp" />
 
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-            <include
-                layout="@layout/bottom_button_layout"
-                android:id="@+id/bottombuttonbar"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineHeight="@dimen/_25sdp"
+                android:padding="10dp"
+                android:text="No Commission - Your own price - your own rides
+Settlement on every Ride
+You also can sell your spares booking
+You can request for booking when you require
+Cab Insurance Advanced interest free
+Emergency Business Advance Interest free "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10sdp" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                />
+                android:layout_marginVertical="@dimen/_15sdp"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/terms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="I agrree to "
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" terms and conditions."
+                    android:textColor="#0DB1F1"
+                    android:textSize="@dimen/_12sdp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="@dimen/_7ssp"
+                    android:backgroundTint="@color/light_grey"
+                    android:text="Cancel"
+                    android:textColor="#686565" />
+
+                <Button
+                    android:id="@+id/accept"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_7ssp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/purple_700"
+                    android:text="Accept"
+                    android:textColor="@color/white" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

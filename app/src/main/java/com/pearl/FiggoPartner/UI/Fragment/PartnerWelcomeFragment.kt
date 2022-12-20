@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import com.pearl.figgodriver.R
@@ -24,15 +25,31 @@ class PartnerWelcomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var next=view.findViewById<TextView>(R.id.next_button)
-        var value = arguments?.getString("Parent");
+        val check=binding.terms
+        val accept = binding.accept
+        val cancel = binding.cancel
+        val value = arguments?.getString("Parent");
         if(value=="Hotel Partner"){
-        next.setOnClickListener {
+        accept.setOnClickListener {
+            if (check.isChecked)
             Navigation.findNavController(view).navigate(R.id.action_partnerWelcomeFragment_to_figgoHotelPartner)
-        } }
+            else
+                Toast.makeText(requireContext(),"Please accept the terms and conditions.",Toast.LENGTH_SHORT).show()
+        }
+        cancel.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_partnerWelcomeFragment_to_figgo_FamilyFragment)
+        }
+        }
         else{
-        next.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_partnerWelcomeFragment_to_partnerDetails)
+        accept.setOnClickListener {
+            if (check.isChecked)
+                Navigation.findNavController(view).navigate(R.id.action_partnerWelcomeFragment_to_partnerDetails)
+            else
+                Toast.makeText(requireContext(),"Please accept the terms and conditions.",Toast.LENGTH_SHORT).show()
+        }
+            cancel.setOnClickListener {
+                Navigation.findNavController(view).navigate(R.id.action_partnerWelcomeFragment_to_figgo_FamilyFragment)
+            }
         } }
 
-}}
+}
