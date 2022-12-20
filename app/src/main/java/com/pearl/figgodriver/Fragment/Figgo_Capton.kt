@@ -136,18 +136,13 @@ class Figgo_Capton : Fragment() {
             prefManager.setDL_No(driver_dl_no)
             prefManager.setDriverName(driver_name)
             prefManager.setMobile_No(driver_mobile_no)
-            prefManager.setPolice_verification(police_verification)
-            prefManager.setAadhar_verification_front(aadhar_verification_front)
-            prefManager.setAadhar_verification_back(aadhar_verification_back)
             prefManager.setDriverProfile(driverdp)
-            prefManager.setPolice_verification(police_verification)
             Navigation.findNavController(view).navigate(R.id.action_figgo_Capton_to_driverCabDetailsFragment,args)
         }
         var back=view.findViewById<TextView>(R.id.back_button)
         back.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_figgo_Capton_to_driverWelcomeFragment)
         }
-
 
     }
 
@@ -177,39 +172,42 @@ class Figgo_Capton : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
 
     if (requestCode == 1){
-
         try {
             //Getting the Bitmap from Gallery
             val selectedImageUri = data?.getData()
             val bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), selectedImageUri)
-            binding.upAdharfront.setImageBitmap(bitmap)
+
             var base = BaseClass(requireContext())
             aadhar_verification_front = base.BitMapToString(bitmap).toString()
-
+            prefManager.setAadhar_verification_front(aadhar_verification_front)
+            binding.upAdharfront.setImageBitmap(bitmap)
         } catch (e: IOException) {
             e.printStackTrace()
         }
 
-    }
-        else if (requestCode==2){
-            var selectedImageUri=data?.data
-        var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri)
-        binding.upAdharback.setImageBitmap(bitmap)
+    }  else if (requestCode==2){
+            var selectedImageUri2=data?.data
+        var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri2)
+
         var base = BaseClass(requireContext())
         aadhar_verification_back = base.BitMapToString(bitmap).toString()
+        prefManager.setAadhar_verification_back(aadhar_verification_back)
+        binding.upAdharback.setImageBitmap(bitmap)
         }
 
         else if(requestCode==3){
-        var selectedImageUri=data?.data
-        var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri)
-        binding.ivPoliceVerification.setImageBitmap(bitmap)
+        var selectedImageUri3=data?.data
+        var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri3)
+
         var base = BaseClass(requireContext())
         police_verification= base.BitMapToString(bitmap).toString()
+        prefManager.setPolice_verification(police_verification)
+        binding.ivPoliceVerification.setImageBitmap(bitmap)
         }
 
     else if(requestCode==4){
-        var selectedImageUri=data?.data
-        var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri)
+        var selectedImageUri4=data?.data
+        var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
         binding.selfiee.setImageBitmap(bitmap)
         var base = BaseClass(requireContext())
         driverdp = base.BitMapToString(bitmap).toString()

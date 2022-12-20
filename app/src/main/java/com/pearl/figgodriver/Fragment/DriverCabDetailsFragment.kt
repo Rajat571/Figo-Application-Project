@@ -74,7 +74,6 @@ class DriverCabDetailsFragment : Fragment() {
             var driver_police_verification_no = prefManager.getPolice_verification()
             var driver_adhar_no = prefManager.getAadhar_no()
             var aadhar_verification_front = prefManager.getAadhar_verification_front()
-
             var aadhar_verification_back= prefManager.getAadhar_verification_back()
             System.out.println("Aadhar Verification====="+driver_dl_no)
             var driver_profile=prefManager.getDriverProfile()
