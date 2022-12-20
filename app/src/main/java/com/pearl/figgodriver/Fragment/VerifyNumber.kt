@@ -48,12 +48,13 @@ class VerifyNumber : Fragment() {
 
          binding.email.setOnClickListener{
             binding.inputEmail.isVisible=true
-            binding.inputNumber.isVisible=false
+            binding.llNumber.isVisible=false
         }
         binding.number.setOnClickListener {
-            binding.inputNumber.isVisible=true
+            binding.llNumber.isVisible=true
             binding.inputEmail.isVisible=false
         }
+
         binding.continuetv.setOnClickListener {
         /*    var retrofit=Retrofit.Builder()
                 .baseUrl("https://test.pearl-developer.com/figo/api/")
