@@ -83,6 +83,7 @@ class DriverCabDetailsFragment : Fragment() {
             var registration_no=binding.registrationNo.text.toString()
             var insurance_no=binding.insuranceNo.text.toString()
             var permit_no=binding.taxPermitNo.text.toString()
+            context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
 
                 submitForm(driver_name,driver_mobile_no,driver_dl_no,driver_police_verification_no,driver_adhar_no, aadhar_verification_front, aadhar_verification_back,driver_profile,car_category,car_model,model_year,registration_no,insurance_no,permit_no)
 
@@ -94,9 +95,9 @@ class DriverCabDetailsFragment : Fragment() {
         back.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_driverCabDetailsFragment_to_figgo_Capton)
         }
-       binding.registrationNo.setOnClickListener {
-            calendar(binding.registrationNo)
-        }
+//       binding.registrationNo.setOnClickListener {
+//            //calendar(binding.registrationNo)
+//        }
        binding.insuranceNo .setOnClickListener {
             calendar(binding.insuranceNo)
         }
@@ -165,7 +166,7 @@ class DriverCabDetailsFragment : Fragment() {
             { view, year, monthOfYear, dayOfMonth ->
                 // on below line we are setting
                 // date to our edit text.
-                val dat = (dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year)
+                val dat = (year.toString() + "-" + (monthOfYear + 1) + "-" +dayOfMonth.toString() )
                 edit.setText(dat)
             },
             // on below line we are passing year, month

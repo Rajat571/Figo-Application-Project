@@ -113,6 +113,8 @@ class VerifyNumber : Fragment() {
                                     Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
                                 }
                             }else{
+                                val token = response.getString("token")
+                                prefManager.setToken(token)
                                 Toast.makeText(requireContext(),"Login Successfully",Toast.LENGTH_SHORT).show()
                                 if(prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")){
                                     Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
