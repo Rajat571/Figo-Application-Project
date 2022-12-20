@@ -20,6 +20,7 @@ class ChooseUserActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFail
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        actionBar?.hide()
         setContentView(R.layout.activity_choose_user)
         var window=window
         window.setStatusBarColor(Color.parseColor("#000F3B"))
