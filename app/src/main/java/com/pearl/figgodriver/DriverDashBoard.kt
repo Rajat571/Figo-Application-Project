@@ -35,9 +35,10 @@ class DriverDashBoard : AppCompatActivity() {
         var share=findViewById<ImageView>(R.id.share)
         var sidebar=findViewById<ImageView>(R.id.sidebar)
 
-     /*   var navigationDrawer=findViewById<NavigationView>(R.id.navView)
+        var navigationDrawer=findViewById<NavigationView>(R.id.navView)
         var drawer_layout=findViewById<DrawerLayout>(R.id.drawerLayout)
         lateinit var toggle: ActionBarDrawerToggle
+
 
         toggle = ActionBarDrawerToggle(this@DriverDashBoard, drawer_layout, R.string.driver_details,R.string.driver_details)
         drawer_layout.addDrawerListener(toggle)
@@ -59,7 +60,7 @@ class DriverDashBoard : AppCompatActivity() {
 
             }
             true
-        }*/
+        }
 
 
         whataspp.setOnClickListener {

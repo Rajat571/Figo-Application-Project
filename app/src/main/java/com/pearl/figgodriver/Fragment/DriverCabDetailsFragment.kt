@@ -83,6 +83,7 @@ class DriverCabDetailsFragment : Fragment() {
             var registration_no=binding.registrationNo.text.toString()
             var insurance_no=binding.insuranceNo.text.toString()
             var permit_no=binding.taxPermitNo.text.toString()
+            context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
 
                 submitForm(driver_name,driver_mobile_no,driver_dl_no,driver_police_verification_no,driver_adhar_no, aadhar_verification_front, aadhar_verification_back,driver_profile,car_category,car_model,model_year,registration_no,insurance_no,permit_no)
 
