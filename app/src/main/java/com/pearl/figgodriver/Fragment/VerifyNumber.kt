@@ -1,5 +1,6 @@
 package com.pearlorganisation.figgo.UI.Fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.pearl.figgodriver.DriverDashBoard
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.databinding.FragmentVerifyNumberBinding
 import com.pearlorganisation.PrefManager
@@ -110,17 +112,26 @@ class VerifyNumber : Fragment() {
                                 if(prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")){
                                     Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
                                 }else{
+                                    if(prefManager.getCabFormToken().equals(""))
                                     Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                                    else{
+                                        context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
+                                    }
+
+
                                 }
                             }else{
                                 val token = response.getString("token")
                                 prefManager.setToken(token)
                                 Toast.makeText(requireContext(),"Login Successfully",Toast.LENGTH_SHORT).show()
-                                if(prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")){
-                                    Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
-                                }else{
+//                                if(prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")){
+                                if(prefManager.getCabFormToken().equals(""))
                                     Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                                else{
+                                    context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
                                 }
+                                   // Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
+
                             }
 
                         }

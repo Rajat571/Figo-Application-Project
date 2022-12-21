@@ -59,7 +59,11 @@ class DriverCabDetailsFragment : Fragment() {
         var base = BaseClass(requireContext())
         var next=view.findViewById<TextView>(R.id.next_button)
         var back=view.findViewById<TextView>(R.id.back_button)
+        var layout_cab = binding.chooseUser
+        var layout_work = binding.work
 
+        layout_cab.visibility= View.VISIBLE
+        layout_work.visibility = View.GONE
 
         carDP = view.findViewById(R.id.upload_car)
         carDP.setOnClickListener {
@@ -67,6 +71,8 @@ class DriverCabDetailsFragment : Fragment() {
 
         }
         next.setOnClickListener {
+            layout_cab.visibility= View.GONE
+            layout_work.visibility = View.VISIBLE
             var driver_name = prefManager.getDriverName()
             var driver_mobile_no= prefManager.getMobileNo()
             var driver_dl_no = prefManager.getDL_No()
@@ -83,17 +89,23 @@ class DriverCabDetailsFragment : Fragment() {
             var registration_no=binding.registrationNo.text.toString()
             var insurance_no=binding.insuranceNo.text.toString()
             var permit_no=binding.taxPermitNo.text.toString()
-            context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
+            var proceed = binding.proceed
 
+            proceed.setOnClickListener {
                 submitForm(driver_name,driver_mobile_no,driver_dl_no,driver_police_verification_no,driver_adhar_no, aadhar_verification_front, aadhar_verification_back,driver_profile,car_category,car_model,model_year,registration_no,insurance_no,permit_no)
+               // context?.startActivity(Intent(requireContext(), DriverDashBoard::class.java))
+            }
 
 
-//
-        //    Navigation.findNavController(view).navigate(R.id.action_cabDetailsFragment_to_blankFragment)
+
+
         }
 
         back.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_driverCabDetailsFragment_to_figgo_Capton)
+
+            layout_cab.visibility= View.VISIBLE
+            layout_work.visibility = View.GONE
         }
 //       binding.registrationNo.setOnClickListener {
 //            //calendar(binding.registrationNo)
@@ -138,6 +150,7 @@ class DriverCabDetailsFragment : Fragment() {
                     Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
                     if (response != null) {
                         context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
+                        prefManager.setCabFormToken("Submitted")
                     }
                     // Get your json response and convert it to whatever you want.
                 }, Response.ErrorListener {

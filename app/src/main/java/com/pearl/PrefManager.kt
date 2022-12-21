@@ -52,6 +52,14 @@ import android.content.SharedPreferences
          editor?.putString("userid",userid)
          editor?.commit()
      }
+     fun setCabFormToken(formID:String){
+         editor?.putString("formID",formID)
+         editor?.commit()
+     }
+     fun getCabFormToken():String{
+         return pref?.getString("formID","").toString()
+     }
+
      fun getUserId():String{
          return pref?.getString("userid","").toString()
      }

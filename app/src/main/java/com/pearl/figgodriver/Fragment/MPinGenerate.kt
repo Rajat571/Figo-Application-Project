@@ -46,6 +46,7 @@ class MPinGenerate : Fragment() {
         binding.continuetv.setOnClickListener {
             if (mpin.text.toString().equals(confirm_mpin.text.toString())) {
                 pref.setMpin(mpin.text.toString())
+
                 Navigation.findNavController(view)
                     .navigate(R.id.action_MPinGenerate_to_figgo_FamilyFragment)
             } else {
