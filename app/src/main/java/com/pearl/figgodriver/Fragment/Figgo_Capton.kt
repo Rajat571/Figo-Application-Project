@@ -123,6 +123,7 @@ class Figgo_Capton : Fragment() {
         var next=view.findViewById<TextView>(R.id.next_button)
         next.setOnClickListener {
           //  sharedPref(view)
+            validateForm()
             var driver_name=binding.drivername.text.toString()
             System.out.println("driver_name=="+driver_name)
 
@@ -143,6 +144,10 @@ class Figgo_Capton : Fragment() {
         back.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_figgo_Capton_to_driverWelcomeFragment)
         }
+
+    }
+
+    private fun validateForm() {
 
     }
 

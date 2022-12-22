@@ -96,9 +96,6 @@ class DriverCabDetailsFragment : Fragment() {
                // context?.startActivity(Intent(requireContext(), DriverDashBoard::class.java))
             }
 
-
-
-
         }
 
         back.setOnClickListener {
@@ -129,7 +126,6 @@ class DriverCabDetailsFragment : Fragment() {
         json.put("email","madhuri@gmail.com")
         json.put("password","123456")
         json.put("dl_number",driverDlNo)
-
         json.put("category",car_category)
         json.put("model",car_model)
         json.put("year",model_year)
