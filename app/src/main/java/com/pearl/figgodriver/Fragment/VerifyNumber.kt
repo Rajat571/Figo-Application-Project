@@ -112,11 +112,11 @@ class VerifyNumber : Fragment() {
                                 if(prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")){
                                     Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
                                 }else{
-                                    if(prefManager.getCabFormToken().equals(""))
+                                   /* if(prefManager.getCabFormToken().equals(""))
                                     Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
                                     else{
                                         context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
-                                    }
+                                    }*/
 
 
                                 }
@@ -125,11 +125,11 @@ class VerifyNumber : Fragment() {
                                 prefManager.setToken(token)
                                 Toast.makeText(requireContext(),"Login Successfully",Toast.LENGTH_SHORT).show()
 //                                if(prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")){
-                                if(prefManager.getCabFormToken().equals(""))
+                               /* if(prefManager.getCabFormToken().equals(""))
                                     Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
                                 else{
                                     context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
-                                }
+                                }*/
                                    // Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
 
                             }

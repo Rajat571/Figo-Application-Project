@@ -13,6 +13,6 @@
         android:layout_height="200dp"
         android:scaleType="fitXY"
         android:layout_gravity="center"
-        android:src="@drawable/figgoDriverAd"/>
+        android:src="@drawable/figgodriverad"/>
 
 </androidx.cardview.widget.CardView>

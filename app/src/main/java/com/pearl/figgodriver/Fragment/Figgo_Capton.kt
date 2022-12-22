@@ -1,6 +1,6 @@
 package com.pearl.figgodriver.Fragment
 
-import android.R.attr
+
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -15,16 +15,17 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import com.pearl.figgodriver.BaseClass
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.databinding.FragmentFiggoCaptonBinding
+import com.pearl.pearllib.BaseClass
+import com.pearl.pearllib.BasePrivate
 import com.pearlorganisation.PrefManager
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
 
-class Figgo_Capton : Fragment() {
+class Figgo_Capton : Fragment(){
 
     lateinit var imageuri: Uri;
     lateinit var binding:FragmentFiggoCaptonBinding
@@ -33,6 +34,8 @@ class Figgo_Capton : Fragment() {
      var driverdp :String=""
     var police_verification:String=""
 
+    lateinit var baseclass: BaseClass
+    lateinit var basePrivate:  BasePrivate
    // lateinit  var  backstr: String
     var args = Bundle()
     lateinit var prefManager: PrefManager
@@ -46,48 +49,32 @@ class Figgo_Capton : Fragment() {
         return binding.root
     }
 
-    private val contract1 = registerForActivityResult(ActivityResultContracts.GetContent()){
-        imageuri = it!!
-       // up_adharfront.setImageURI(it)
-        val bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), it);
-        binding.upAdharfront.setImageBitmap(bitmap)
-        var base = BaseClass(requireContext())
-           aadhar_verification_front = base.BitMapToString(bitmap).toString()
-        // upload()
-    }
-    private val contract2 = registerForActivityResult(ActivityResultContracts.GetContent()){
-        imageuri = it!!
-        //up_adharback.setImageURI(it)
-        val bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), it);
-        binding.upAdharback.setImageBitmap(bitmap)
-        var base = BaseClass(requireContext())
-        aadhar_verification_back = base.BitMapToString(bitmap).toString()
-        System.out.println("aadhar_verification_backo=="+aadhar_verification_back)
-        // upload()
-    }
-    private val contract3 = registerForActivityResult(ActivityResultContracts.GetContent()){
-        imageuri = it!!
-      //  selfiee.setImageURI(it)
-        val bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), it);
-        binding.selfiee.setImageBitmap(bitmap)
-        var base = BaseClass(requireContext())
-         driverdp = base.BitMapToString(bitmap).toString()
-
-    }
-    private val contract4 = registerForActivityResult(ActivityResultContracts.GetContent()){
-        imageuri = it!!
-
-        val bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), it);
-        binding.ivPoliceVerification.setImageBitmap(bitmap)
-        var base = BaseClass(requireContext())
-       police_verification= base.BitMapToString(bitmap).toString()
-
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         prefManager = PrefManager(requireContext())
+        baseclass=object : BaseClass(){
+            override fun setLayoutXml() {
+                TODO("Not yet implemented")
+            }
+
+            override fun initializeViews() {
+                TODO("Not yet implemented")
+            }
+
+            override fun initializeClickListners() {
+                TODO("Not yet implemented")
+            }
+
+            override fun initializeInputs() {
+                TODO("Not yet implemented")
+            }
+
+            override fun initializeLabels() {
+                TODO("Not yet implemented")
+            }
+
+        }
+      // basePrivate=BasePrivate()
 
 
         binding.aadharFront.setOnClickListener {
@@ -147,9 +134,7 @@ class Figgo_Capton : Fragment() {
 
     }
 
-    private fun validateForm() {
 
-    }
 
 
     private fun upload() {
@@ -182,8 +167,8 @@ class Figgo_Capton : Fragment() {
             val selectedImageUri = data?.getData()
             val bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), selectedImageUri)
 
-            var base = BaseClass(requireContext())
-            aadhar_verification_front = base.BitMapToString(bitmap).toString()
+
+            aadhar_verification_front = baseclass.BitMapToString(bitmap).toString()
             prefManager.setAadhar_verification_front(aadhar_verification_front)
             binding.upAdharfront.setImageBitmap(bitmap)
         } catch (e: IOException) {
@@ -194,8 +179,8 @@ class Figgo_Capton : Fragment() {
             var selectedImageUri2=data?.data
         var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri2)
 
-        var base = BaseClass(requireContext())
-        aadhar_verification_back = base.BitMapToString(bitmap).toString()
+
+        aadhar_verification_back = baseclass.BitMapToString(bitmap).toString()
         prefManager.setAadhar_verification_back(aadhar_verification_back)
         binding.upAdharback.setImageBitmap(bitmap)
         }
@@ -204,8 +189,8 @@ class Figgo_Capton : Fragment() {
         var selectedImageUri3=data?.data
         var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri3)
 
-        var base = BaseClass(requireContext())
-        police_verification= base.BitMapToString(bitmap).toString()
+
+        police_verification= baseclass.BitMapToString(bitmap).toString()
         prefManager.setPolice_verification(police_verification)
         binding.ivPoliceVerification.setImageBitmap(bitmap)
         }
@@ -214,10 +199,20 @@ class Figgo_Capton : Fragment() {
         var selectedImageUri4=data?.data
         var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
         binding.selfiee.setImageBitmap(bitmap)
-        var base = BaseClass(requireContext())
-        driverdp = base.BitMapToString(bitmap).toString()
+        driverdp = baseclass.BitMapToString(bitmap).toString()
     }
 }
+
+    private fun validateForm() {
+       /* if (binding.drivername.text.toString().isEmpty()){
+            binding.driverNameTL.isErrorEnabled=true
+            binding.driverNameTL.error="required driver name"
+        }*/
+
+
+
+
+    }
 
 
     }

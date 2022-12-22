@@ -20,11 +20,11 @@ import androidx.navigation.Navigation
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.pearl.figgodriver.BaseClass
 import com.pearl.figgodriver.DriverDashBoard
 
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.databinding.FragmentDriverCabDetailsBinding
+import com.pearl.pearllib.BaseClass
 import com.pearlorganisation.PrefManager
 import org.json.JSONObject
 import java.util.*
@@ -38,11 +38,33 @@ class DriverCabDetailsFragment : Fragment() {
     private val contract = registerForActivityResult(ActivityResultContracts.GetContent()) {
         //imageuri = it!!
         val bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), it!!);
-        var base = BaseClass(requireContext())
+        var base = object : BaseClass(){
+            override fun setLayoutXml() {
+                TODO("Not yet implemented")
+            }
+
+            override fun initializeViews() {
+                TODO("Not yet implemented")
+            }
+
+            override fun initializeClickListners() {
+                TODO("Not yet implemented")
+            }
+
+            override fun initializeInputs() {
+                TODO("Not yet implemented")
+            }
+
+            override fun initializeLabels() {
+                TODO("Not yet implemented")
+            }
+
+        }
        str =  base.BitMapToString(bitmap)
         carDP.setImageURI(it)
         // upload()
     }
+        @SuppressLint("SuspiciousIndentation")
         override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,7 +78,6 @@ class DriverCabDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         prefManager = PrefManager(requireContext())
-        var base = BaseClass(requireContext())
         var next=view.findViewById<TextView>(R.id.next_button)
         var back=view.findViewById<TextView>(R.id.back_button)
         var layout_cab = binding.chooseUser
@@ -143,10 +164,15 @@ class DriverCabDetailsFragment : Fragment() {
             object : JsonObjectRequest(Method.POST, URL, json,
                 Response.Listener<JSONObject?> { response ->
                     Log.d("SendData", "response===" + response)
-                    Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
+
                     if (response != null) {
-                        context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
-                        prefManager.setCabFormToken("Submitted")
+
+                        Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
+
+                      //  context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
+                       // prefManager.setCabFormToken("Submitted")
+                    }else{
+                        Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
                     }
                     // Get your json response and convert it to whatever you want.
                 }, Response.ErrorListener {
