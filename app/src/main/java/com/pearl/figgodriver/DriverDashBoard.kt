@@ -41,8 +41,10 @@ class DriverDashBoard : AppCompatActivity() {
 
 
         toggle = ActionBarDrawerToggle(this@DriverDashBoard, drawer_layout, R.string.driver_details,R.string.driver_details)
-        drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
+        drawer_layout.setDrawerListener(toggle)
+        drawer_layout.addDrawerListener(toggle)
+
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -114,4 +116,9 @@ class DriverDashBoard : AppCompatActivity() {
             supportFragmentManager.popBackStack()
         }
     }
+
+
+
+
+
 }

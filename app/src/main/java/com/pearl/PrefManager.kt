@@ -10,6 +10,7 @@ import android.content.SharedPreferences
      // Shared preferences file name
      private val PREF_NAME = "welcome"
      private val IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch"
+     private val IS_VALID_LOGIN = "IsValidLogin"
      // shared pref mode
      var PRIVATE_MODE = 0
     var pref: SharedPreferences? = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE)
@@ -40,7 +41,14 @@ import android.content.SharedPreferences
     fun isFirstTimeLaunch(): Boolean {
         return pref!!.getBoolean(IS_FIRST_TIME_LAUNCH, true)
     }
+     fun setisValidLogin(isFirstTime: Boolean) {
+         editor!!.putBoolean(IS_VALID_LOGIN, isFirstTime)
+         editor!!.commit()
+     }
 
+     fun isValidLogin(): Boolean {
+         return pref!!.getBoolean(IS_VALID_LOGIN, false)
+     }
      fun setToken(token:String){
          editor?.putString("token",token)
          editor?.commit()
@@ -96,6 +104,14 @@ import android.content.SharedPreferences
      fun getPolice_verification():String{
          return pref?.getString("police_ver","").toString()
      }
+     fun setPolice_ext(police_ver:String){
+         editor?.putString("police_ext",police_ver)
+         editor?.commit()
+     }
+
+     fun getPolice_ext():String{
+         return pref?.getString("police_ext","").toString()
+     }
 
      fun setAadhar_no(aadhar_no:String){
          editor?.putString("aadhar_no",aadhar_no)
@@ -112,7 +128,13 @@ import android.content.SharedPreferences
      fun getAadhar_verification_front():String{
          return pref?.getString("aadhar_verification_front","").toString()
      }
-
+     fun setAadhar_front_ext(aadhar_verification_front:String){
+         editor?.putString("aadhar_front_ext",aadhar_verification_front)
+         editor?.commit()
+     }
+     fun getAadhar_front_ext():String{
+         return pref?.getString("aadhar_front_ext","").toString()
+     }
      fun setAadhar_verification_back(aadhar_verification_back:String){
          editor?.putString("aadhar_verification_back",aadhar_verification_back)
          editor?.commit()
@@ -121,6 +143,17 @@ import android.content.SharedPreferences
      fun getAadhar_verification_back():String{
          return pref?.getString("aadhar_verification_back","").toString()
      }
+
+     fun setAadhar_back_ext(aadhar_verification_back:String){
+         editor?.putString("aadhar_back_ext",aadhar_verification_back)
+         editor?.commit()
+     }
+
+     fun getAadhar_back_ext():String{
+         return pref?.getString("aadhar_back_ext","").toString()
+     }
+
+
      fun setDriverProfile(DriverProfile:String){
          editor?.putString("DriverProfile",DriverProfile)
          editor?.commit()
@@ -129,6 +162,35 @@ import android.content.SharedPreferences
      fun getDriverProfile():String{
          return pref?.getString("DriverProfile","").toString()
      }
+
+     fun setDriverProfile_ext(DriverProfile:String){
+         editor?.putString("DriverProfile_ext",DriverProfile)
+         editor?.commit()
+     }
+
+     fun getDriverProfile_ext():String{
+         return pref?.getString("DriverProfile_ext","").toString()
+     }
+
+     fun setDriverCab(DriverProfile:String){
+         editor?.putString("DriverCab",DriverProfile)
+         editor?.commit()
+     }
+
+     fun getDriverCab():String{
+         return pref?.getString("DriverCab","").toString()
+     }
+
+     fun setDriverCab_ext(DriverProfile:String){
+         editor?.putString("DriverCab_ext",DriverProfile)
+         editor?.commit()
+     }
+
+     fun getDriverCab_ext():String{
+         return pref?.getString("DriverCab_ext","").toString()
+     }
+
+
 
 
 
