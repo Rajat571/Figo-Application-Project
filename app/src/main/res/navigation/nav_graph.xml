@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/verifyNumber2">
+    app:startDestination="@id/welcomeDriverFragment">
 
 
     <fragment
@@ -145,7 +145,24 @@
         android:name="com.pearl.hotelPartner.UI.Fragment.HotelDriverDetails"
         android:label="fragment_hotel_driver_details"
         tools:layout="@layout/fragment_hotel_driver_details" />
-<!--    <fragment-->
+    <fragment
+        android:id="@+id/welcomeDriverFragment"
+        android:name="com.pearl.figgodriver.Fragment.WelcomeDriverFragment"
+        android:label="fragment_welcome_driver"
+        tools:layout="@layout/fragment_welcome_driver" >
+        <action
+            android:id="@+id/action_welcomeDriverFragment_to_MPinGenerate"
+            app:destination="@id/MPinGenerate" />
+        <action
+            android:id="@+id/action_welcomeDriverFragment_to_verifyNumber2"
+            app:destination="@id/verifyNumber2" />
+        <action
+            android:id="@+id/action_welcomeDriverFragment_to_figgo_FamilyFragment"
+            app:destination="@id/figgo_FamilyFragment" />
+    </fragment>
+
+
+    <!--    <fragment-->
 <!--        android:id="@+id/validateMpin"-->
 <!--        android:name="com.pearl.figgodriver.ValidateMpin"-->
 <!--        android:label="fragment_validate_mpin"-->

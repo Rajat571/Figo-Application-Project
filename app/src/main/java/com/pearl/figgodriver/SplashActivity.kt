@@ -11,11 +11,11 @@ import android.widget.TextView
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_splash)
         val window=window
         window.setStatusBarColor(Color.parseColor("#000F3B"))
         Handler().postDelayed({
-            startActivity(Intent(this,WelcomeActivity::class.java))
+            startActivity(Intent(this,LoginActivity::class.java))
         },3000)
         var become_the_luxury=findViewById<TextView>(R.id.become_the_luxury)
         val slideAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_side)

@@ -83,9 +83,10 @@ class LoginActivity : BasePublic(), GoogleApiClient.OnConnectionFailedListener,
                 .addOnConnectionFailedListener(this).build()
         var nav_host_fragment=supportFragmentManager.findFragmentById(R.id.nav_controller) as NavHostFragment
         nav_controller=nav_host_fragment.navController
+
     }
     override fun setLayoutXml() {
-        setContentView(R.layout.activity_choose_user)
+        setContentView(R.layout.activity_login)
     }
 
     override fun initializeViews() {

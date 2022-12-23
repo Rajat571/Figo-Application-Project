@@ -8,7 +8,10 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.Navigation
 import com.pearlorganisation.PrefManager
+import com.pearlorganisation.figgo.UI.Fragments.MPinGenerate
+import kotlinx.android.synthetic.main.active_ride_layout.*
 
 
 class WelcomeActivity : AppCompatActivity() {
@@ -20,17 +23,13 @@ class WelcomeActivity : AppCompatActivity() {
         window.setStatusBarColor(Color.parseColor("#000F3B"))
         prefManager= PrefManager(this)
         Handler().postDelayed({
-            if (prefManager.getToken().equals("") || prefManager.getToken().equals("null")){
-                startActivity(Intent(this,LoginActivity::class.java))
-            }
-            else{
-               /* val manager: FragmentManager = fragmentManager
-                val transaction: FragmentTransaction = manager.beginTransaction()
-                transaction.replace(R.id.container, YOUR_FRAGMENT_NAME, YOUR_FRAGMENT_STRING_TAG)
-                transaction.addToBackStack(null)
-                transaction.commit()*/
+            startActivity(Intent(this,LoginActivity::class.java))
+          /*  if (prefManager.getToken().equals("") || prefManager.getToken().equals("null")){
 
             }
+            else{
+
+            }*/
 
         },2000)
       /*  var next_btn=findViewById<TextView>(R.id.next_button)

@@ -346,11 +346,11 @@ abstract class BaseClass : AppCompatActivity() {
             val sMessage = "Please enter driver license no..!!"
             setCustomError(sMessage, driverDLNo)
             false
-        } else if (!isValidNumber(num)) {
+        } /*else if (!isValidNumber(num)) {
             val sMessage = "Number must be 15 letter or digits..!!"
             setCustomError(sMessage, driverDLNo)
             false
-        } else {
+        } */else {
             setCustomErrorDisabled(driverDLNo)
             true
         }

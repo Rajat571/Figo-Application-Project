@@ -111,6 +111,8 @@ class VerifyNumber : Fragment() {
                                     val token = response.getString("token")
                                     prefManager.setToken(token)
                                     prefManager.setisValidLogin(true)
+                                    prefManager.setFirstTimeLaunch(true)
+
                                     Toast.makeText(
                                         requireContext(),
                                         "Login Successfully",

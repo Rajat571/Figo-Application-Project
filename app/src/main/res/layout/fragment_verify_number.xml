@@ -6,6 +6,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:visibility="visible"
     tools:context=".UI.Fragments.VerifyNumber">
 
     <androidx.constraintlayout.widget.ConstraintLayout
