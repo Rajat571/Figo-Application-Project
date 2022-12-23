@@ -346,11 +346,11 @@ abstract class BaseClass : AppCompatActivity() {
             val sMessage = "Please enter driver license no..!!"
             setCustomError(sMessage, driverDLNo)
             false
-        } else if (!isValidNumber(num)) {
+        } /*else if (!isValidNumber(num)) {
             val sMessage = "Number must be 15 letter or digits..!!"
             setCustomError(sMessage, driverDLNo)
             false
-        } else {
+        }*/ else {
             setCustomErrorDisabled(driverDLNo)
             true
         }
@@ -386,9 +386,7 @@ abstract class BaseClass : AppCompatActivity() {
 
     fun getExtension(uri: Uri?): String? {
 
-        val mimeType: String? = uri?.let { baseApcContext?.getContentResolver()!!.getType(it).toString()
-        }
-
+        val mimeType: String? = uri?.let { baseApcContext?.getContentResolver()!!.getType(it).toString() }
         return MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType)
     }
 
@@ -460,7 +458,7 @@ abstract class BaseClass : AppCompatActivity() {
         }
      fun isValidMobile(phone: String): Boolean {
             return if (!Pattern.matches("[a-zA-Z]+", phone)) {
-                phone.length >= 9 && phone.length <= 13
+                phone.length > 8 && phone.length <= 13
             }
             else false
         }

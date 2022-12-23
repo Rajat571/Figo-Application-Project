@@ -1,27 +1,38 @@
 package com.pearl.figgodriver.Fragment
 
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.databinding.FragmentFiggoCaptonBinding
+import com.pearl.figgodriver.model.SpinnerObj
 import com.pearl.pearllib.BaseClass
 import com.pearl.pearllib.BasePrivate
 import com.pearlorganisation.PrefManager
 import kotlinx.android.synthetic.main.fragment_driver_cab_details.view.*
 import kotlinx.android.synthetic.main.fragment_figgo__capton.*
+import org.json.JSONObject
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.util.ArrayList
 import java.util.regex.Pattern
 
 
@@ -33,13 +44,14 @@ class Figgo_Capton : Fragment(){
      var aadhar_verification_back :String=""
      var driverdp :String=""
     var police_verification:String=""
-
+    val statelist: ArrayList<SpinnerObj> = ArrayList()
     lateinit var baseclass: BaseClass
     lateinit var basePrivate:  BasePrivate
+    lateinit var spinner_state: Spinner
    // lateinit  var  backstr: String
     var args = Bundle()
     lateinit var prefManager: PrefManager
-
+    var statehashMap : HashMap<String, Int> = HashMap<String, Int> ()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -74,6 +86,8 @@ class Figgo_Capton : Fragment(){
             }
 
         }
+
+        fetchState()
       // basePrivate=BasePrivate()
 
 
@@ -121,31 +135,82 @@ class Figgo_Capton : Fragment(){
 
     }
 
+    private fun fetchState() {
+        statehashMap.clear()
+            val URL = " https://test.pearl-developer.com/figo/api/get-state"
+            val queue = Volley.newRequestQueue(requireContext())
+            val json = JSONObject()
+            var token= prefManager.getToken()
+
+            json.put("country_id","101")
+
+            Log.d("SendData", "json===" + json)
+
+            val jsonOblect=  object : JsonObjectRequest(Method.POST, URL, json,
+                    Response.Listener<JSONObject?> { response ->
+                        Log.d("SendData", "response===" + response)
+                        // Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
+                        if (response != null) {
+                            val status = response.getString("status")
+                            if(status.equals("1")){
+                                val jsonArray = response.getJSONArray("states")
+                                for (i in 0..jsonArray.length()-1){
+                                    val rec: JSONObject = jsonArray.getJSONObject(i)
+                                    var name = rec.getString("name")
+                                    var id = rec.getString("id")
+                                    statehashMap.put(name,id.toInt())
+
+
+                                }
+                                //spinner
+                                val stateadapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,statehashMap.keys.toList());
+                               // val stateadapter = com.pearl.figgodriver.Adapter.SpinnerAdapter( requireContext(),android.R.layout.simple_spinner_dropdown_item, statehashMap.keys.toList())
+                                stateadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                                binding.spinnerState.setAdapter(stateadapter)
+                                binding.spinnerState.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+                                    override fun onItemSelected(adapterView: AdapterView<*>?, view: View, position: Int, id: Long) {
+
+                                        statehashMap.values.toList()[position]
+
+                                        val keys = statehashMap.filterValues { it == position }.keys
+                                        Log.d("SendData", "statehashMap.keys.toList()===" + statehashMap.keys.toList())
+                                        Log.d("SendData", "statehashMap.values.toList()===" + statehashMap.values.toList())
+                                        Log.d("SendData", "position===" + position)
+                                        Log.d("SendData", "keys===" + keys)
+                                        Log.d("SendData", " statehashMap.values.toList()[position]===" +  statehashMap.values.toList()[position])
+
+                                      //  var selected_Couponid = stateadapter.getItem(position)?.id
+                                    //    var  selected_coupon = stateadapter.getItem(position)?.name
+                                        //    txt_coupon_type.setBackground(getDrawable(R.drawable.input_boder_profile))
+                                        //   txt_coupon_type.setText(adapter.getItem(position).getName())
+                                    }
+
+                                    @SuppressLint("SetTextI18n")
+                                    override fun onNothingSelected(adapter: AdapterView<*>?) {
+                                      //  (binding.spinnerState.getChildAt(0) as TextView).text = "Select Category"
+                                    }
+                                })
 
 
 
 
+                            }else{
 
-    private fun upload() {
-        val fileDir = this.activity?.applicationContext?.filesDir
-        val file = File(fileDir,"adhar_front.png")
-        val inputStream = this.activity?.contentResolver?.openInputStream(imageuri)
-        val outputStream = FileOutputStream(file)
-        inputStream!!.copyTo(outputStream)
+                            }
 
-//        val requestbody = file.asRequestBody("image/*".toMediaTypeOrNull())
-//        val part = MultipartBody.Part.createFormData("profile",file.name,requestbody)
 
-//        val retrofit =
-//            Retrofit.Builder().baseUrl("https://jsonplaceholder.typicode.com/posts")
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build().create(Upload::class.java)
-//
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val response = retrofit.uploadImage(part)
-//            Log.d("Upload Fragment",response.toString())
-//        }
-        }
+                            Log.d("SendData", "json===" + json)
+
+
+                        }
+                        // Get your json response and convert it to whatever you want.
+                    }, Response.ErrorListener {
+                        // Error
+                    }){}
+            queue.add(jsonOblect)
+
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

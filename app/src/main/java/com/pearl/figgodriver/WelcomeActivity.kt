@@ -20,6 +20,7 @@ class WelcomeActivity : AppCompatActivity() {
         window.setStatusBarColor(Color.parseColor("#000F3B"))
         prefManager= PrefManager(this)
         Handler().postDelayed({
+            startActivity(Intent(this,LoginActivity::class.java))
             if (prefManager.getToken().equals("") || prefManager.getToken().equals("null")){
                 startActivity(Intent(this,LoginActivity::class.java))
             }
