@@ -124,6 +124,8 @@ class Figgo_Capton : Fragment(){
 
 
 
+
+
     private fun upload() {
         val fileDir = this.activity?.applicationContext?.filesDir
         val file = File(fileDir,"adhar_front.png")
