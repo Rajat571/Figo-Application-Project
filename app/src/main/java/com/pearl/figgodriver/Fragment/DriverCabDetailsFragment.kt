@@ -44,6 +44,8 @@ class DriverCabDetailsFragment : Fragment() {
             = HashMap<String, Int> ()
 
 
+
+
     var base = object :BaseClass(){
         override fun setLayoutXml() {
             TODO("Not yet implemented")
