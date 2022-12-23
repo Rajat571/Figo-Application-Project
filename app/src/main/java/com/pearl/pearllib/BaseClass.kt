@@ -458,7 +458,7 @@ abstract class BaseClass : AppCompatActivity() {
         }
      fun isValidMobile(phone: String): Boolean {
             return if (!Pattern.matches("[a-zA-Z]+", phone)) {
-                phone.length > 6 && phone.length <= 13
+                phone.length >= 9 && phone.length <= 13
             }
             else false
         }
