@@ -33,7 +33,7 @@ class AccountDetails : AppCompatActivity() {
             on_toggle.setBackgroundColor(Color.GREEN)
             off_toggle.setBackgroundColor(Color.WHITE)
         }
-//        var ad = AccountDetailsFragment()
-//        supportFragmentManager.beginTransaction().add(R.id.account_detailsFrame,ad).commit()
+        var ad = com.pearl.figgodriver.Fragment.AccountDetails()
+        supportFragmentManager.beginTransaction().add(R.id.account_detailsFrame,ad).commit()
     }
 }

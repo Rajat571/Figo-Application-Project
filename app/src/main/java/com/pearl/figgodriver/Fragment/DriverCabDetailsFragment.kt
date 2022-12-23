@@ -15,16 +15,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.pearl.figgodriver.BaseClass
 import com.pearl.figgodriver.DriverDashBoard
 
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.databinding.FragmentDriverCabDetailsBinding
-import com.pearl.pearllib.BaseClass
 import com.pearlorganisation.PrefManager
 import org.json.JSONObject
 import java.util.*
@@ -33,38 +34,18 @@ import java.util.*
 class DriverCabDetailsFragment : Fragment() {
     private lateinit var carDP: ImageView
     private var  str: String? = null
+    lateinit var work:ConstraintLayout
+    lateinit var cabdetails_view:ConstraintLayout
     lateinit var binding:FragmentDriverCabDetailsBinding
     lateinit var prefManager: PrefManager
     private val contract = registerForActivityResult(ActivityResultContracts.GetContent()) {
         //imageuri = it!!
         val bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), it!!);
-        var base = object : BaseClass(){
-            override fun setLayoutXml() {
-                TODO("Not yet implemented")
-            }
-
-            override fun initializeViews() {
-                TODO("Not yet implemented")
-            }
-
-            override fun initializeClickListners() {
-                TODO("Not yet implemented")
-            }
-
-            override fun initializeInputs() {
-                TODO("Not yet implemented")
-            }
-
-            override fun initializeLabels() {
-                TODO("Not yet implemented")
-            }
-
-        }
+        var base = BaseClass(requireContext())
        str =  base.BitMapToString(bitmap)
         carDP.setImageURI(it)
         // upload()
     }
-        @SuppressLint("SuspiciousIndentation")
         override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -73,18 +54,16 @@ class DriverCabDetailsFragment : Fragment() {
       binding=DataBindingUtil.inflate(inflater,R.layout.fragment_driver_cab_details, container, false)
             return binding.root
     }
-    @SuppressLint("SuspiciousIndentation")
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         prefManager = PrefManager(requireContext())
+        var base = BaseClass(requireContext())
         var next=view.findViewById<TextView>(R.id.next_button)
         var back=view.findViewById<TextView>(R.id.back_button)
-        var layout_cab = binding.chooseUser
-        var layout_work = binding.work
-
-        layout_cab.visibility= View.VISIBLE
-        layout_work.visibility = View.GONE
+        work = binding.work
+        cabdetails_view = binding.chooseUser
 
         carDP = view.findViewById(R.id.upload_car)
         carDP.setOnClickListener {
@@ -92,11 +71,10 @@ class DriverCabDetailsFragment : Fragment() {
 
         }
         next.setOnClickListener {
-            layout_cab.visibility= View.GONE
-            layout_work.visibility = View.VISIBLE
             var driver_name = prefManager.getDriverName()
             var driver_mobile_no= prefManager.getMobileNo()
             var driver_dl_no = prefManager.getDL_No()
+
             System.out.println("Driver_DL_NO"+driver_dl_no)
             var driver_police_verification_no = prefManager.getPolice_verification()
             var driver_adhar_no = prefManager.getAadhar_no()
@@ -110,20 +88,16 @@ class DriverCabDetailsFragment : Fragment() {
             var registration_no=binding.registrationNo.text.toString()
             var insurance_no=binding.insuranceNo.text.toString()
             var permit_no=binding.taxPermitNo.text.toString()
-            var proceed = binding.proceed
+            context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
 
-            proceed.setOnClickListener {
                 submitForm(driver_name,driver_mobile_no,driver_dl_no,driver_police_verification_no,driver_adhar_no, aadhar_verification_front, aadhar_verification_back,driver_profile,car_category,car_model,model_year,registration_no,insurance_no,permit_no)
-               // context?.startActivity(Intent(requireContext(), DriverDashBoard::class.java))
-            }
+
+
 
         }
 
         back.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_driverCabDetailsFragment_to_figgo_Capton)
-
-            layout_cab.visibility= View.VISIBLE
-            layout_work.visibility = View.GONE
         }
 //       binding.registrationNo.setOnClickListener {
 //            //calendar(binding.registrationNo)
@@ -147,6 +121,7 @@ class DriverCabDetailsFragment : Fragment() {
         json.put("email","madhuri@gmail.com")
         json.put("password","123456")
         json.put("dl_number",driverDlNo)
+
         json.put("category",car_category)
         json.put("model",car_model)
         json.put("year",model_year)
@@ -164,21 +139,21 @@ class DriverCabDetailsFragment : Fragment() {
             object : JsonObjectRequest(Method.POST, URL, json,
                 Response.Listener<JSONObject?> { response ->
                     Log.d("SendData", "response===" + response)
-
+                    Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
                     if (response != null) {
-
-                        Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
-
-                      //  context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
-                       // prefManager.setCabFormToken("Submitted")
-                    }else{
-                        Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
+                        //context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
+                        work.visibility=View.VISIBLE
+                        cabdetails_view.visibility=View.GONE
+                        binding.proceed.setOnClickListener {
+                            context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
+                        }
                     }
                     // Get your json response and convert it to whatever you want.
                 }, Response.ErrorListener {
                     // Error
                 }){}
         queue.add(jsonOblect)
+
 
 
 
