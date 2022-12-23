@@ -77,7 +77,7 @@ class Figgo_Capton : Fragment(){
       // basePrivate=BasePrivate()
 
 
-        binding.aadharFront.setOnClickListener {
+        binding.llAadharFront.setOnClickListener {
             val intent = Intent()
             intent.type = "image/*"
             intent.action = Intent.ACTION_GET_CONTENT
@@ -100,7 +100,7 @@ class Figgo_Capton : Fragment(){
             startActivityForResult(Intent.createChooser(intent,"select Picture"),4)
             //contract3.launch("image/*")
         }
-        binding.policeVerification.setOnClickListener {
+        binding.llPoliceVerification.setOnClickListener {
             var intent=Intent()
             intent.type="image/*"
             intent.action=Intent.ACTION_GET_CONTENT
@@ -172,6 +172,8 @@ class Figgo_Capton : Fragment(){
         aadhar_verification_back = baseclass.BitMapToString(bitmap).toString()
         prefManager.setAadhar_verification_back(aadhar_verification_back)
         binding.upAdharback.setImageBitmap(bitmap)
+        binding.upAdharback.visibility=View.VISIBLE
+        binding.aadharBackIV.visibility=View.GONE
         }
 
         else if(requestCode==3){
@@ -182,6 +184,7 @@ class Figgo_Capton : Fragment(){
         police_verification= baseclass.BitMapToString(bitmap).toString()
         prefManager.setPolice_verification(police_verification)
         binding.ivPoliceVerification.setImageBitmap(bitmap)
+        binding.llPoliceVerification.setBackgroundResource(R.drawable.input_boder_profile)
         }
 
     else if(requestCode==4){
@@ -198,18 +201,26 @@ class Figgo_Capton : Fragment(){
            baseclass.validateState(binding.driverstate)
            baseclass.validateCity(binding.drivercity)
            baseclass.validatedriverDLNo(binding.driverdlno)
+
         if (binding.upAdharfront.drawable==null){
-            aadhar_front.setBackgroundResource(R.drawable.input_error_profile)
+            ll_aadhar_front.setBackgroundResource(R.drawable.input_error_profile)
         }
-        else {
-            aadhar_front.setBackgroundResource(R.drawable.input_error_profile)
+        else{
+            ll_aadhar_front.setBackgroundResource(R.drawable.input_boder_profile)
+        }
+         if (binding.upAdharback.drawable==null){
+            ll_aadhar_back.setBackgroundResource(R.drawable.input_error_profile)
+            }
+        else{
+
+            ll_aadhar_back.setBackgroundResource(R.drawable.input_boder_profile)
         }
 
 
 
        // binding.aadharfrontTV.setError("Please upload aadhar front image")
 
-        if (!binding.drivername.text.isEmpty()&&!binding.drivermobileno.text.isEmpty()&&!binding.driverstate.text.isEmpty()&&!binding.drivercity.text.isEmpty()&&!binding.driverdlno.text.isEmpty()&&binding.upAdharfront.drawable!=null){
+        if (!binding.drivername.text.isEmpty()&&!binding.drivermobileno.text.isEmpty()&&!binding.driverstate.text.isEmpty()&&!binding.drivercity.text.isEmpty()&&!binding.driverdlno.text.isEmpty()&&binding.upAdharfront.drawable!=null&&binding.upAdharback.drawable!=null){
 
             var driver_name=binding.drivername.text.toString()
             var driver_mobile_no=binding.drivermobileno.text.toString()
@@ -217,6 +228,8 @@ class Figgo_Capton : Fragment(){
 
            // binding.aadharfrontIV.visibility=View.GONE
             binding.upAdharfront.visibility=View.VISIBLE
+            binding.aadharBackIV.visibility=View.GONE
+            binding.upAdharback.visibility=View.VISIBLE
 
             prefManager.setDL_No(driver_dl_no)
             prefManager.setDriverName(driver_name)

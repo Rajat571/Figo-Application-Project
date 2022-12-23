@@ -166,7 +166,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:id="@+id/aadhar_front"
+                    android:id="@+id/ll_aadhar_front"
                     android:orientation="vertical">
 
                     <ImageView
@@ -197,12 +197,22 @@
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:id="@+id/up_adharback"
+                        android:id="@+id/aadharBackIV"
                         android:layout_weight="1"
                         android:layout_height="50dp"
+                        android:visibility="visible"
                         android:layout_gravity="center"
                         android:padding="2dp"
                         android:src="@drawable/upload"/>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:id="@+id/up_adharback"
+                        android:layout_weight="1"
+                        android:layout_height="50dp"
+                        android:visibility="gone"
+                        android:layout_gravity="center"
+                        android:padding="2dp"
+                     />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_weight="1"
@@ -216,7 +226,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:id="@+id/police_verification"
+                    android:id="@+id/ll_police_verification"
                     android:orientation="vertical">
 
                     <ImageView
