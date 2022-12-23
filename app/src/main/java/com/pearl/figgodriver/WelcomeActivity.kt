@@ -1,12 +1,15 @@
 package com.pearl.figgodriver
 
+
+import android.app.FragmentManager
+import android.app.FragmentTransaction
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import com.pearlorganisation.PrefManager
-import com.pearlorganisation.figgo.UI.Fragments.MPinGenerate
+
 
 class WelcomeActivity : AppCompatActivity() {
     lateinit var prefManager: PrefManager
@@ -21,8 +24,12 @@ class WelcomeActivity : AppCompatActivity() {
                 startActivity(Intent(this,LoginActivity::class.java))
             }
             else{
-         var mPinGenerate=MPinGenerate().childFragmentManager
-                // startActivity(this,MPinGenerate::class.java)
+               /* val manager: FragmentManager = fragmentManager
+                val transaction: FragmentTransaction = manager.beginTransaction()
+                transaction.replace(R.id.container, YOUR_FRAGMENT_NAME, YOUR_FRAGMENT_STRING_TAG)
+                transaction.addToBackStack(null)
+                transaction.commit()*/
+
             }
 
         },2000)
