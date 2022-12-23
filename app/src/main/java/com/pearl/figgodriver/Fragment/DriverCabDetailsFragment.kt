@@ -27,6 +27,7 @@ import com.pearlorganisation.PrefManager
 import org.json.JSONObject
 import java.io.IOException
 import java.util.*
+import kotlin.collections.HashMap
 
 
 class DriverCabDetailsFragment : Fragment() {
@@ -36,9 +37,11 @@ class DriverCabDetailsFragment : Fragment() {
     lateinit var binding:FragmentDriverCabDetailsBinding
     lateinit var prefManager: PrefManager
     lateinit var spinner_cabcategory: Spinner
- //   var categorylist: List<CabCategoryObj> = listOf<CabCategoryObj>(CabCategoryObj("",""))
+    //   var categorylist: List<CabCategoryObj> = listOf<CabCategoryObj>(CabCategoryObj("",""))
 
     val categorylist: ArrayList<SpinnerObj> = ArrayList()
+    var hashMap : HashMap<String, Int>
+            = HashMap<String, Int> ()
 
 
     var base = object :BaseClass(){
@@ -67,7 +70,7 @@ class DriverCabDetailsFragment : Fragment() {
         //imageuri = it!!
         val bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), it!!);
 
-       str =  base.BitMapToString(bitmap)
+       str = base.BitMapToString(bitmap)
         carDP.setImageURI(it)
         // upload()
     }
@@ -87,9 +90,12 @@ class DriverCabDetailsFragment : Fragment() {
         prefManager = PrefManager(requireContext())
         var next=view.findViewById<TextView>(R.id.next_button)
         var back=view.findViewById<TextView>(R.id.back_button)
-         spinner_cabcategory = view?.findViewById<Spinner>(R.id.spinner_cabcategory)!!
-        var spinner_cabtype = view?.findViewById<Spinner>(R.id.spinner_cabtype)
+         spinner_cabcategory = view.findViewById<Spinner>(R.id.spinner_cabtype)
+        var spinner_cabtype = view?.findViewById<Spinner>(R.id.spinner_cabcategory)!!
+        var workingarea = view.findViewById<Spinner>(R.id.working_area_spinner)
         var adapter = ArrayAdapter.createFromResource(requireContext(),R.array.CabType,android.R.layout.simple_spinner_item);
+        var adapter2 = ArrayAdapter.createFromResource(requireContext(),R.array.work_type,android.R.layout.simple_spinner_item);
+
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
         spinner_cabtype?.adapter = adapter
 
@@ -99,6 +105,7 @@ class DriverCabDetailsFragment : Fragment() {
                 Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
 
                 fetchCabCategory(position)
+                hashMap.clear()
 
 
             }
@@ -108,19 +115,45 @@ class DriverCabDetailsFragment : Fragment() {
             }
         }
 
-        val cabcategoryadapter = com.pearl.figgodriver.Adapter.SpinnerAdapter(requireContext(), android.R.layout.simple_spinner_item,categorylist)
-        //   val cabcategoryadapter: ArrayAdapter<CabCategoryObj> = ArrayAdapter<CabCategoryObj>(requireContext(),android.R.layout.simple_spinner_item, categorylist)
-       // cabcategoryadapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
-        spinner_cabcategory?.adapter = cabcategoryadapter
+//
+//        hashMap.put("IronMan" , 3000)
+//        hashMap.put("Thor" , 100)
+//        hashMap.put("SpiderMan" , 1100)
+
 
         spinner_cabcategory?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
 
-                // fetchCabCategory(position)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // write code to perform some action
+            }
+        }
+
+
+
+
+        binding.proceed.visibility=View.GONE
+        workingarea.adapter = adapter2
+        workingarea.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+               if(position==2){
+                   binding.workingStateLayout.visibility=View.GONE
+                   binding.workingLocalLayout.visibility=View.VISIBLE
+               }
+                else{
+
+                   binding.workingStateLayout.visibility=View.VISIBLE
+                   binding.workingLocalLayout.visibility=View.GONE
+               }
 
 
             }
+
+
 
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // write code to perform some action
@@ -141,12 +174,14 @@ class DriverCabDetailsFragment : Fragment() {
             intent.action = Intent.ACTION_GET_CONTENT
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1)
         }
+
         next.setOnClickListener {
             layout_cab.visibility= View.GONE
             layout_work.visibility = View.VISIBLE
             var driver_name = prefManager.getDriverName()
             var driver_mobile_no= prefManager.getMobileNo()
             var driver_dl_no = prefManager.getDL_No()
+            binding.proceed.visibility=View.VISIBLE
             System.out.println("Driver_DL_NO"+driver_dl_no)
             var driver_police_verification_no = prefManager.getPolice_verification()
             var driver_adhar_no = prefManager.getAadhar_no()
@@ -163,14 +198,11 @@ class DriverCabDetailsFragment : Fragment() {
             var permit_no=binding.taxPermitNo.text.toString()
             var proceed = binding.proceed
 
-            proceed.setOnClickListener {
+
+        proceed.setOnClickListener {
                 submitForm(driver_name,driver_mobile_no,driver_dl_no,driver_police_verification_no,driver_adhar_no, aadhar_verification_front, aadhar_verification_back,driver_profile,car_category,car_model,model_year,registration_no,insurance_no,permit_no)
                // context?.startActivity(Intent(requireContext(), DriverDashBoard::class.java))
             }
-
-
-
-
         }
 
         back.setOnClickListener {
@@ -214,14 +246,13 @@ class DriverCabDetailsFragment : Fragment() {
                                 val rec: JSONObject = jsonArray.getJSONObject(i)
                                 var name = rec.getString("name")
                                 var id = rec.getString("id")
-                               val obj: SpinnerObj = SpinnerObj("","")
-                                obj.name = name
-                                obj.id = id
-                             categorylist.add(obj)
+                                hashMap.put(name,id.toInt())
 
-
-                                Log.d("SendData", "categorylist===" + categorylist)
                             }
+
+                            val cabcategoryadapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,hashMap.keys.toList());
+                            cabcategoryadapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+                            spinner_cabcategory.adapter = cabcategoryadapter
                         }else{
 
                         }
@@ -236,8 +267,6 @@ class DriverCabDetailsFragment : Fragment() {
                     // Error
                 }){}
         queue.add(jsonOblect)
-
-
 
 
 
