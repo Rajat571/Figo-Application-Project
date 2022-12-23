@@ -24,8 +24,10 @@ import com.pearl.figgodriver.model.CabCategoryObj
 import com.pearl.figgodriver.model.SpinnerObj
 import com.pearl.pearllib.BaseClass
 import com.pearlorganisation.PrefManager
+import kotlinx.android.synthetic.main.cancel_ride_dialog.*
 import org.json.JSONObject
 import java.io.IOException
+import java.time.Year
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -34,13 +36,16 @@ class DriverCabDetailsFragment : Fragment() {
     private lateinit var carDP: ImageView
     private var  str: String? = null
     var  driver_cab_image:String=""
+
     lateinit var binding:FragmentDriverCabDetailsBinding
     lateinit var prefManager: PrefManager
     lateinit var spinner_cabcategory: Spinner
     //   var categorylist: List<CabCategoryObj> = listOf<CabCategoryObj>(CabCategoryObj("",""))
-
-    val categorylist: ArrayList<SpinnerObj> = ArrayList()
-    var hashMap : HashMap<String, Int> = HashMap<String, Int> ()
+    lateinit var carModel:Spinner
+    //val categorylist: ArrayList<SpinnerObj> = ArrayList()
+    var hashMap : HashMap<String, Int>
+            = HashMap<String, Int> ()
+    var modelHashMap  : HashMap<String, Int> = HashMap<String, Int> ()
 
 
 
@@ -91,22 +96,31 @@ class DriverCabDetailsFragment : Fragment() {
         prefManager = PrefManager(requireContext())
         var next=view.findViewById<TextView>(R.id.next_button)
         var back=view.findViewById<TextView>(R.id.back_button)
-         spinner_cabcategory = view.findViewById<Spinner>(R.id.spinner_cabtype)
+        var current_year:Int = Calendar.getInstance().get(Calendar.YEAR)
+        spinner_cabcategory = view.findViewById<Spinner>(R.id.spinner_cabtype)
         var spinner_cabtype = view?.findViewById<Spinner>(R.id.spinner_cabcategory)!!
         var workingarea = view.findViewById<Spinner>(R.id.working_area_spinner)
+        var yearList= listOf<Int>()
+         carModel = view.findViewById<Spinner>(R.id.vechle_model)
         var adapter = ArrayAdapter.createFromResource(requireContext(),R.array.CabType,android.R.layout.simple_spinner_item);
         var adapter2 = ArrayAdapter.createFromResource(requireContext(),R.array.work_type,android.R.layout.simple_spinner_item);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
         spinner_cabtype?.adapter = adapter
-
+        for(i in 2000..current_year)
+        {
+            yearList+=i
+        }
+        val dateadapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,yearList);
+        dateadapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+        binding.modelYear.adapter = dateadapter
         spinner_cabtype?.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
 
                 fetchCabCategory(position)
-                hashMap.clear()
+
 
 
             }
@@ -120,6 +134,8 @@ class DriverCabDetailsFragment : Fragment() {
 //        hashMap.put("IronMan" , 3000)
 //        hashMap.put("Thor" , 100)
 //        hashMap.put("SpiderMan" , 1100)
+
+
 
 
 
@@ -182,7 +198,7 @@ class DriverCabDetailsFragment : Fragment() {
            // var  car_category=binding.carCategory.text.toString()
             var  car_category="binding.carCategory.text.toString()"
             var car_model="binding.carModel.text.toString()"
-            var model_year=binding.modelYear.text.toString()
+            var model_year="binding.modelYear.text.toString()"
             var registration_no=binding.registrationNo.text.toString()
             var insurance_no=binding.insuranceNo.text.toString()
             var permit_no=binding.taxPermitNo.text.toString()
@@ -213,7 +229,7 @@ class DriverCabDetailsFragment : Fragment() {
     }
 
     private fun fetchCabCategory(position: Int) {
-
+        hashMap.clear()
         val URL = " https://test.pearl-developer.com/figo/api/f_category"
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
@@ -243,18 +259,16 @@ class DriverCabDetailsFragment : Fragment() {
                             val cabcategoryadapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,hashMap.keys.toList());
                             cabcategoryadapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
                             spinner_cabcategory.adapter = cabcategoryadapter
-
                             spinner_cabcategory?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
                                 override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                                    Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
+                                    fetchModel(hashMap.values.toList()[position])
 
                                 }
 
                                 override fun onNothingSelected(parent: AdapterView<*>) {
-                                    // write code to perform some action
+                                    hashMap.clear()
                                 }
                             }
-
                         }else{
 
                         }
@@ -270,9 +284,67 @@ class DriverCabDetailsFragment : Fragment() {
                 }){}
         queue.add(jsonOblect)
 
+    }
 
+
+    private fun fetchModel(position: Int) {
+        modelHashMap.clear()
+        val URL = "https://test.pearl-developer.com/figo/api/f_model"
+        val queue = Volley.newRequestQueue(requireContext())
+        val json = JSONObject()
+        var token= prefManager.getToken()
+
+        json.put("category_id",position)
+
+        Log.d("SendData", "json===" + json)
+
+        val jsonOblect=
+            object : JsonObjectRequest(Method.POST, URL, json,
+                Response.Listener<JSONObject?> { response ->
+                    Log.d("SendData", "response===" + response)
+                    // Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
+                    if (response != null) {
+                        val status = response.getString("status")
+                        if(status.equals("1")){
+                            val jsonArray = response.getJSONArray("models")
+                            for (i in 0..jsonArray.length()-1){
+                                val rec: JSONObject = jsonArray.getJSONObject(i)
+                                var name = rec.getString("name")
+                                var id = rec.getString("id")
+                                modelHashMap.put(name,id.toInt())
+                            }
+
+                            val cabModeladapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,modelHashMap.keys.toList());
+                            cabModeladapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+                            carModel.adapter = cabModeladapter
+                            carModel?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                                  //  fetchModel(hashMap.values.toList()[position])
+                                    Log.d("SendData", "modelHashMap.values.toList()[position]===" + modelHashMap.values.toList()[position])
+                                }
+
+                                override fun onNothingSelected(parent: AdapterView<*>) {
+                                    modelHashMap.clear()
+                                }
+                            }
+                        }else{
+
+                        }
+
+
+                        Log.d("SendData", "json===" + json)
+
+
+                    }
+                    // Get your json response and convert it to whatever you want.
+                }, Response.ErrorListener {
+                    // Error
+                }){}
+        queue.add(jsonOblect)
 
     }
+
+
 
     private fun submitForm(driverName: String, driverMobileNo: String, driverDlNo: String, driverPoliceVerificationNo: String, driverAdharNo: String, aadharVerificationFront: String, aadharVerificationBack: String,driver_profile:String,car_category:String,car_model:String,model_year:String,registration_no:String,insurance_no:String,permit_no:String) {
         val URL = " https://test.pearl-developer.com/figo/api/regitser-driver"
