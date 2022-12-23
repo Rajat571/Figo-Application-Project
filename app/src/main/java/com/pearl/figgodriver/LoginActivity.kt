@@ -3,7 +3,6 @@ package com.pearl.figgodriver
 import android.Manifest
 import android.app.AlertDialog
 import android.content.DialogInterface
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
@@ -17,7 +16,7 @@ import com.pearl.pearllib.BasePublic
 import com.pearl.pearllib.Session
 
 
-class ChooseUserActivity : BasePublic(), GoogleApiClient.OnConnectionFailedListener,
+class LoginActivity : BasePublic(), GoogleApiClient.OnConnectionFailedListener,
     GoogleApiClient.ConnectionCallbacks  {
     private val REQUEST_LOCATION = 1
     private var mGoogleApiClient: GoogleApiClient? = null
@@ -53,7 +52,7 @@ class ChooseUserActivity : BasePublic(), GoogleApiClient.OnConnectionFailedListe
         }
         else {
             val alertDialog2: AlertDialog.Builder = AlertDialog.Builder(
-                this@ChooseUserActivity
+                this@LoginActivity
             )
             alertDialog2.setTitle("No Internet Connection")
             alertDialog2.setPositiveButton("Try Again",

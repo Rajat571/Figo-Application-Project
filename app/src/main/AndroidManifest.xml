@@ -67,7 +67,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name="com.pearl.figgodriver.ChooseUserActivity"
+            android:name="com.pearl.figgodriver.LoginActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:exported="false">
             <meta-data
@@ -83,7 +83,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name="com.pearl.figgodriver.MainActivity"
+            android:name="com.pearl.figgodriver.SplashActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:exported="true">
             <intent-filter>

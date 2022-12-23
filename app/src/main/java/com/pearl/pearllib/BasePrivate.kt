@@ -6,7 +6,7 @@ import android.location.Criteria
 import android.location.LocationManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.pearl.figgodriver.ChooseUserActivity
+import com.pearl.figgodriver.LoginActivity
 
 abstract class BasePrivate : BaseClass() {
     var minteger = 0
@@ -43,7 +43,7 @@ abstract class BasePrivate : BaseClass() {
             printLogs("BasePublic ", "CheckSession ", "is_session_available - $session_available")
         }
         if (!session_available) {
-            val intent1 = Intent(baseApbcContext, ChooseUserActivity::class.java)
+            val intent1 = Intent(baseApbcContext, LoginActivity::class.java)
             startActivity(intent1)
             activityIn.finish()
         }

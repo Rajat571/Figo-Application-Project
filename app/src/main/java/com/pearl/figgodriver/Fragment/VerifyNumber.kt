@@ -117,13 +117,14 @@ class VerifyNumber : Fragment() {
                                         Toast.LENGTH_SHORT
                                     ).show()
                                     Log.d("SendData", "token===" + token)
-                                    if (prefManager.getMpin().equals("") || prefManager.getMpin()
-                                            .equals("null")
-                                    ) {
-                                        //      Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
+
+                                    Log.d("SendData", "token===" + prefManager.getMpin())
+                                    if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")) {
+                                             Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
                                     } else {
+                                        Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
                                         /* if(prefManager.getCabFormToken().equals(""))
-                                    Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+
                                     else{
                                         context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
                                     }*/
