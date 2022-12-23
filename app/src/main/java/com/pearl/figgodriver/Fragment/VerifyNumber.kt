@@ -88,6 +88,7 @@ class VerifyNumber : Fragment() {
                     Toast.makeText(context,"Registration failed",Toast.LENGTH_SHORT).show()
                 }
             })*/
+           Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
             var mobile_num=binding.inputNumber.text.toString()
             val URL = "https://test.pearl-developer.com/figo/api/create-driver"
             val queue = Volley.newRequestQueue(requireContext())
@@ -110,7 +111,7 @@ class VerifyNumber : Fragment() {
                                 Toast.makeText(requireContext(),"Login Successfully",Toast.LENGTH_SHORT).show()
                                 Log.d("SendData", "token===" + token)
                                 if(prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")){
-                                    Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
+//                                    Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
                                 }else{
                                    /* if(prefManager.getCabFormToken().equals(""))
                                     Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)

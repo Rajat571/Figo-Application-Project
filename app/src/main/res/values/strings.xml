@@ -16,4 +16,9 @@
         <item>Dehradun</item>
     </string-array>
     <string name="driver_details">Hello blank fragment</string>
+<string-array name="work_type">
+    <item>OutStation</item>
+    <item>Local</item>
+    <item>Both</item>
+</string-array>
 </resources>

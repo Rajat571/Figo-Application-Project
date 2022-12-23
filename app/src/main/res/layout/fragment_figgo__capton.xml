@@ -172,12 +172,14 @@
                         android:padding="2dp"
                         android:id="@+id/up_adharfront"
                         android:layout_height="50dp"
-                        android:src="@drawable/upload"/>
+                        android:src="@drawable/upload"
+                      />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_weight="1"
                         android:layout_gravity="center"
+                        android:id="@+id/aadharfrontTV"
                         android:textAlignment="center"
                         android:layout_height="wrap_content"
                         android:text="Adhar Front"/>

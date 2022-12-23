@@ -211,7 +211,8 @@ abstract class BaseClass : AppCompatActivity() {
     }
 
     fun validateName(inputUser: EditText): Boolean {
-        val name: String = inputUser.getText().toString().trim { it <= ' ' }
+        val name = inputUser.text.toString()
+        System.out.println("NAMEE==="+name)
         setCustomError(null, inputUser)
         return if (name.isEmpty()) {
             val sMessage = "Please enter name..!!"
@@ -225,6 +226,9 @@ abstract class BaseClass : AppCompatActivity() {
             setCustomErrorDisabled(inputUser)
             true
         }
+
+
+
     }
 
     fun validateAddress1(inputUser: EditText): Boolean {
@@ -287,6 +291,42 @@ abstract class BaseClass : AppCompatActivity() {
             true
         }
     }
+    fun validateState(state: EditText): Boolean {
+        val dob_id: String = state.getText().toString().trim { it <= ' ' }
+        setCustomError(null, state)
+        return if (dob_id.isEmpty()) {
+            val sMessage = "state is must required ..!!"
+            setCustomError(sMessage, state)
+            false
+        } else {
+            setCustomErrorDisabled(state)
+            true
+        }
+    }
+    fun validateCity(city: EditText): Boolean {
+        val dob_id: String = city.getText().toString().trim { it <= ' ' }
+        setCustomError(null, city)
+        return if (dob_id.isEmpty()) {
+            val sMessage = "city is must required ..!!"
+            setCustomError(sMessage, city)
+            false
+        } else {
+            setCustomErrorDisabled(city)
+            true
+        }
+    }
+    fun validateWorkState(workState: EditText): Boolean {
+        val dob_id: String = workState.getText().toString().trim { it <= ' ' }
+        setCustomError(null, workState)
+        return if (dob_id.isEmpty()) {
+            val sMessage = "first work state is must required ..!!"
+            setCustomError(sMessage, workState)
+            false
+        } else {
+            setCustomErrorDisabled(workState)
+            true
+        }
+    }
 
     fun validateNumber(number: EditText): Boolean {
         val num: String = number.getText().toString().trim { it <= ' ' }
@@ -301,6 +341,50 @@ abstract class BaseClass : AppCompatActivity() {
             false
         } else {
             setCustomErrorDisabled(number)
+            true
+        }
+    }
+    fun validatedriverDLNo(driverDLNo: EditText): Boolean {
+        val num: String = driverDLNo.getText().toString().trim { it <= ' ' }
+        setCustomError(null, driverDLNo)
+        return if (num.isEmpty()) {
+            val sMessage = "Please enter driver license no..!!"
+            setCustomError(sMessage, driverDLNo)
+            false
+        } else if (!isValidNumber(num)) {
+            val sMessage = "Number must be 15 letter or digits..!!"
+            setCustomError(sMessage, driverDLNo)
+            false
+        } else {
+            setCustomErrorDisabled(driverDLNo)
+            true
+        }
+    }
+    fun validatedriverRegistrationNo(registrationNo: EditText): Boolean {
+        val num: String = registrationNo.getText().toString().trim { it <= ' ' }
+        setCustomError(null,registrationNo)
+        return if (num.isEmpty()) {
+            val sMessage = "Please enter driver registeration no..!!"
+            setCustomError(sMessage, registrationNo)
+            false
+        } else if (!isValidNumber(num)) {
+            val sMessage = "Number must be 15 letter or digits..!!"
+            setCustomError(sMessage, registrationNo)
+            false
+        } else {
+            setCustomErrorDisabled(registrationNo)
+            true
+        }
+    }
+    fun validateDriverInsuranceDate(insurance: EditText): Boolean {
+        val dob_id: String = insurance.getText().toString().trim { it <= ' ' }
+        setCustomError(null, insurance)
+        return if (dob_id.isEmpty()) {
+            val sMessage = "please enter valid date ..!!"
+            setCustomError(sMessage, insurance)
+            false
+        } else {
+            setCustomErrorDisabled(insurance)
             true
         }
     }

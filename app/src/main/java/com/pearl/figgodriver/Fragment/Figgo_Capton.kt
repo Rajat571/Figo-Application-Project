@@ -111,22 +111,9 @@ class Figgo_Capton : Fragment(){
         next.setOnClickListener {
           //  sharedPref(view)
             validateForm()
-            var driver_name=binding.drivername.text.toString()
-            System.out.println("driver_name=="+driver_name)
 
-
-            var driver_mobile_no=binding.drivermobileno.text.toString()
-
-            var driver_dl_no=binding.driverdlno.text.toString()
-            System.out.println("Driver DL no=="+driver_dl_no)
-
-
-            prefManager.setDL_No(driver_dl_no)
-            prefManager.setDriverName(driver_name)
-            prefManager.setMobile_No(driver_mobile_no)
-            prefManager.setDriverProfile(driverdp)
-            Navigation.findNavController(view).navigate(R.id.action_figgo_Capton_to_driverCabDetailsFragment,args)
         }
+
         var back=view.findViewById<TextView>(R.id.back_button)
         back.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_figgo_Capton_to_driverWelcomeFragment)
@@ -204,13 +191,49 @@ class Figgo_Capton : Fragment(){
 }
 
     private fun validateForm() {
-       /* if (binding.drivername.text.toString().isEmpty()){
-            binding.driverNameTL.isErrorEnabled=true
-            binding.driverNameTL.error="required driver name"
-        }*/
+        if (binding.drivername.text.toString().isEmpty()){
+            baseclass.validateName(binding.drivername)
+        }
+        else if (binding.drivermobileno.text.isEmpty()){
+            baseclass.validateNumber(binding.drivermobileno)
+        }
+        else if (binding.driverstate.text.isEmpty()){
+            baseclass.validateState(binding.driverstate)
 
+        }
+        else if (binding.drivercity.text.isEmpty()){
+            baseclass.validateCity(binding.drivercity)
 
+        }
+        else if (binding.driverdlno.text.isEmpty()){
+            baseclass.validatedriverDLNo(binding.driverdlno)
 
+        }
+        else if (binding.drivername.text.toString().isEmpty()&&binding.drivermobileno.text.isEmpty()&&binding.driverstate.text.isEmpty()&&binding.drivercity.text.isEmpty()&&binding.driverdlno.text.isEmpty()){
+
+            baseclass.validateName(binding.drivername)
+            baseclass.validateNumber(binding.drivermobileno)
+            baseclass.validateState(binding.driverstate)
+            baseclass.validateCity(binding.drivercity)
+            baseclass.validatedriverDLNo(binding.driverdlno)
+
+        }
+        else if (binding.upAdharfront.drawable==null){
+            binding.aadharfrontTV.setError("Please upload aadhar front image")
+        }
+        else{
+
+            var driver_name=binding.drivername.text.toString()
+            var driver_mobile_no=binding.drivermobileno.text.toString()
+            var driver_dl_no=binding.driverdlno.text.toString()
+
+            prefManager.setDL_No(driver_dl_no)
+            prefManager.setDriverName(driver_name)
+            prefManager.setMobile_No(driver_mobile_no)
+            prefManager.setDriverProfile(driverdp)
+
+            Navigation.findNavController(requireView()).navigate(R.id.action_figgo_Capton_to_driverCabDetailsFragment,args)
+        }
 
     }
 
