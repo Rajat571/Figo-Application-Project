@@ -6,21 +6,22 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.pearl.figgodriver.DriverDashBoard
-
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.databinding.FragmentDriverCabDetailsBinding
+import com.pearl.figgodriver.model.CabCategoryObj
+import com.pearl.figgodriver.model.SpinnerObj
 import com.pearl.pearllib.BaseClass
 import com.pearlorganisation.PrefManager
 import org.json.JSONObject
@@ -34,6 +35,12 @@ class DriverCabDetailsFragment : Fragment() {
     var  driver_cab_image:String=""
     lateinit var binding:FragmentDriverCabDetailsBinding
     lateinit var prefManager: PrefManager
+    lateinit var spinner_cabcategory: Spinner
+ //   var categorylist: List<CabCategoryObj> = listOf<CabCategoryObj>(CabCategoryObj("",""))
+
+    val categorylist: ArrayList<SpinnerObj> = ArrayList()
+
+
     var base = object :BaseClass(){
         override fun setLayoutXml() {
             TODO("Not yet implemented")
@@ -80,7 +87,7 @@ class DriverCabDetailsFragment : Fragment() {
         prefManager = PrefManager(requireContext())
         var next=view.findViewById<TextView>(R.id.next_button)
         var back=view.findViewById<TextView>(R.id.back_button)
-
+         spinner_cabcategory = view?.findViewById<Spinner>(R.id.spinner_cabcategory)!!
         var spinner_cabtype = view?.findViewById<Spinner>(R.id.spinner_cabtype)
         var adapter = ArrayAdapter.createFromResource(requireContext(),R.array.CabType,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
@@ -90,6 +97,10 @@ class DriverCabDetailsFragment : Fragment() {
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
+
+                fetchCabCategory(position)
+
+
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -97,9 +108,24 @@ class DriverCabDetailsFragment : Fragment() {
             }
         }
 
+        val cabcategoryadapter = com.pearl.figgodriver.Adapter.SpinnerAdapter(requireContext(), android.R.layout.simple_spinner_item,categorylist)
+        //   val cabcategoryadapter: ArrayAdapter<CabCategoryObj> = ArrayAdapter<CabCategoryObj>(requireContext(),android.R.layout.simple_spinner_item, categorylist)
+       // cabcategoryadapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+        spinner_cabcategory?.adapter = cabcategoryadapter
+
+        spinner_cabcategory?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
+
+                // fetchCabCategory(position)
 
 
+            }
 
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // write code to perform some action
+            }
+        }
 
 
         var layout_cab = binding.chooseUser
@@ -162,6 +188,59 @@ class DriverCabDetailsFragment : Fragment() {
        binding.taxPermitNo.setOnClickListener {
             calendar(binding.taxPermitNo)
         }
+    }
+
+    private fun fetchCabCategory(position: Int) {
+
+        val URL = " https://test.pearl-developer.com/figo/api/f_category"
+        val queue = Volley.newRequestQueue(requireContext())
+        val json = JSONObject()
+        var token= prefManager.getToken()
+
+        json.put("type_id",position)
+
+        Log.d("SendData", "json===" + json)
+
+        val jsonOblect=
+            object : JsonObjectRequest(Method.POST, URL, json,
+                Response.Listener<JSONObject?> { response ->
+                    Log.d("SendData", "response===" + response)
+                   // Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
+                    if (response != null) {
+                        val status = response.getString("status")
+                        if(status.equals("1")){
+                            val jsonArray = response.getJSONArray("categories")
+                            for (i in 0..jsonArray.length()-1){
+                                val rec: JSONObject = jsonArray.getJSONObject(i)
+                                var name = rec.getString("name")
+                                var id = rec.getString("id")
+                               val obj: SpinnerObj = SpinnerObj("","")
+                                obj.name = name
+                                obj.id = id
+                             categorylist.add(obj)
+
+
+                                Log.d("SendData", "categorylist===" + categorylist)
+                            }
+                        }else{
+
+                        }
+
+
+                        Log.d("SendData", "json===" + json)
+
+
+                    }
+                    // Get your json response and convert it to whatever you want.
+                }, Response.ErrorListener {
+                    // Error
+                }){}
+        queue.add(jsonOblect)
+
+
+
+
+
     }
 
     private fun submitForm(driverName: String, driverMobileNo: String, driverDlNo: String, driverPoliceVerificationNo: String, driverAdharNo: String, aadharVerificationFront: String, aadharVerificationBack: String,driver_profile:String,car_category:String,car_model:String,model_year:String,registration_no:String,insurance_no:String,permit_no:String) {
