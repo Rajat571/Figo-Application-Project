@@ -27,7 +27,7 @@ import java.io.IOException
 
 class Figgo_Capton : Fragment(){
 
-    lateinit var imageuri: Uri;
+    lateinit var imageuri: Uri
     lateinit var binding:FragmentFiggoCaptonBinding
      var  aadhar_verification_front:String=""
      var aadhar_verification_back :String=""
@@ -191,37 +191,13 @@ class Figgo_Capton : Fragment(){
 }
 
     private fun validateForm() {
-        if (binding.drivername.text.toString().isEmpty()){
-            baseclass.validateName(binding.drivername)
-        }
-        else if (binding.drivermobileno.text.isEmpty()){
-            baseclass.validateNumber(binding.drivermobileno)
-        }
-        else if (binding.driverstate.text.isEmpty()){
-            baseclass.validateState(binding.driverstate)
 
-        }
-        else if (binding.drivercity.text.isEmpty()){
-            baseclass.validateCity(binding.drivercity)
+           baseclass.validateNumber(binding.drivermobileno)
+           baseclass.validateState(binding.driverstate)
+           baseclass.validateCity(binding.drivercity)
+           baseclass.validatedriverDLNo(binding.driverdlno)
 
-        }
-        else if (binding.driverdlno.text.isEmpty()){
-            baseclass.validatedriverDLNo(binding.driverdlno)
-
-        }
-        else if (binding.drivername.text.toString().isEmpty()&&binding.drivermobileno.text.isEmpty()&&binding.driverstate.text.isEmpty()&&binding.drivercity.text.isEmpty()&&binding.driverdlno.text.isEmpty()){
-
-            baseclass.validateName(binding.drivername)
-            baseclass.validateNumber(binding.drivermobileno)
-            baseclass.validateState(binding.driverstate)
-            baseclass.validateCity(binding.drivercity)
-            baseclass.validatedriverDLNo(binding.driverdlno)
-
-        }
-        else if (binding.upAdharfront.drawable==null){
-            binding.aadharfrontTV.setError("Please upload aadhar front image")
-        }
-        else{
+        if (!binding.drivername.text.isEmpty()&&!binding.drivermobileno.text.isEmpty()&&!binding.driverstate.text.isEmpty()&&!binding.drivercity.text.isEmpty()&&!binding.driverdlno.text.isEmpty()){
 
             var driver_name=binding.drivername.text.toString()
             var driver_mobile_no=binding.drivermobileno.text.toString()
@@ -233,6 +209,14 @@ class Figgo_Capton : Fragment(){
             prefManager.setDriverProfile(driverdp)
 
             Navigation.findNavController(requireView()).navigate(R.id.action_figgo_Capton_to_driverCabDetailsFragment,args)
+
+        }
+       /* else if (binding.upAdharfront.drawable==null){
+            binding.aadharfrontTV.setError("Please upload aadhar front image")
+        }*/
+        else{
+
+
         }
 
     }
