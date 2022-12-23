@@ -38,6 +38,8 @@ import android.content.SharedPreferences
         editor!!.commit()
     }
 
+
+
     fun isFirstTimeLaunch(): Boolean {
         return pref!!.getBoolean(IS_FIRST_TIME_LAUNCH, true)
     }
