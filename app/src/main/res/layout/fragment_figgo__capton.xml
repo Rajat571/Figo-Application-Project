@@ -82,6 +82,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:nextFocusDown="@id/drivermobileno"
                     android:id="@+id/drivername"
                     android:hint="Name"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -96,6 +97,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/drivermobileno"
+                    android:nextFocusDown="@id/driverstate"
                     android:hint="Mobile No."/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -109,6 +111,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/driverstate"
+                    android:nextFocusDown="@id/drivercity"
                     android:hint="State"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -124,6 +127,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/drivercity"
+                    android:nextFocusDown="@id/driverdlno"
                     android:hint="City"/>
 
             </com.google.android.material.textfield.TextInputLayout>

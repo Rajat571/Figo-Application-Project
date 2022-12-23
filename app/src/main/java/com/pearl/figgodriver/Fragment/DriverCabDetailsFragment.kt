@@ -23,6 +23,7 @@ import com.pearl.figgodriver.R
 import com.pearl.figgodriver.databinding.FragmentDriverCabDetailsBinding
 import com.pearl.pearllib.BaseClass
 import com.pearlorganisation.PrefManager
+import kotlinx.android.synthetic.main.fragment_driver_cab_details.*
 import org.json.JSONObject
 import java.io.IOException
 import java.util.*
@@ -76,13 +77,15 @@ class DriverCabDetailsFragment : Fragment() {
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        var working_Area_position:Int = 0
         prefManager = PrefManager(requireContext())
         var next=view.findViewById<TextView>(R.id.next_button)
         var back=view.findViewById<TextView>(R.id.back_button)
+        var spinner_workingarea = view?.findViewById<Spinner>(R.id.working_area_spinner)
 
         var spinner_cabtype = view?.findViewById<Spinner>(R.id.spinner_cabtype)
         var adapter = ArrayAdapter.createFromResource(requireContext(),R.array.CabType,android.R.layout.simple_spinner_item);
+        var adapter_workingarea = ArrayAdapter.createFromResource(requireContext(),R.array.work_type,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
         spinner_cabtype?.adapter = adapter
 
@@ -90,6 +93,30 @@ class DriverCabDetailsFragment : Fragment() {
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // write code to perform some action
+            }
+        }
+
+        spinner_workingarea?.adapter = adapter_workingarea
+        binding.workingStateLayout.visibility=View.VISIBLE
+        binding.workingLocalLayout.visibility = View.GONE
+        spinner_workingarea?.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+
+              if (position == 2){
+                  working_Area_position =1
+                  binding.workingStateLayout.visibility=View.GONE
+                  binding.workingLocalLayout.visibility = View.VISIBLE
+
+              }
+                else{
+                  binding.workingStateLayout.visibility=View.VISIBLE
+                  binding.workingLocalLayout.visibility = View.GONE
+              }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -107,7 +134,7 @@ class DriverCabDetailsFragment : Fragment() {
 
         layout_cab.visibility= View.VISIBLE
         layout_work.visibility = View.GONE
-
+        binding.proceed.visibility=View.GONE
         carDP = view.findViewById(R.id.upload_car)
         carDP.setOnClickListener {
             val intent = Intent()
@@ -118,6 +145,7 @@ class DriverCabDetailsFragment : Fragment() {
         next.setOnClickListener {
             layout_cab.visibility= View.GONE
             layout_work.visibility = View.VISIBLE
+            binding.proceed.visibility=View.VISIBLE
             var driver_name = prefManager.getDriverName()
             var driver_mobile_no= prefManager.getMobileNo()
             var driver_dl_no = prefManager.getDL_No()
@@ -152,6 +180,7 @@ class DriverCabDetailsFragment : Fragment() {
 
             layout_cab.visibility= View.VISIBLE
             layout_work.visibility = View.GONE
+            binding.proceed.visibility=View.GONE
         }
 //       binding.registrationNo.setOnClickListener {
 //            //calendar(binding.registrationNo)
