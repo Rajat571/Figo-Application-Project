@@ -26,7 +26,11 @@ class SpinnerAdapter(context: Context?, resource: Int, myarrayList: ArrayList<Sp
         return myarrayList[position]
     }
 
-   // var count: Int = myarrayList.size
+  //  var count: Int = myarrayList.size
+
+    fun count(): Int {
+        return myarrayList.size
+    }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         return getCustomView(position, parent)

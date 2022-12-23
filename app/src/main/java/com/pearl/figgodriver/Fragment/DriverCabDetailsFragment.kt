@@ -40,8 +40,7 @@ class DriverCabDetailsFragment : Fragment() {
     //   var categorylist: List<CabCategoryObj> = listOf<CabCategoryObj>(CabCategoryObj("",""))
 
     val categorylist: ArrayList<SpinnerObj> = ArrayList()
-    var hashMap : HashMap<String, Int>
-            = HashMap<String, Int> ()
+    var hashMap : HashMap<String, Int> = HashMap<String, Int> ()
 
 
 
@@ -122,17 +121,6 @@ class DriverCabDetailsFragment : Fragment() {
 //        hashMap.put("Thor" , 100)
 //        hashMap.put("SpiderMan" , 1100)
 
-
-        spinner_cabcategory?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
-
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // write code to perform some action
-            }
-        }
 
 
 
@@ -255,6 +243,18 @@ class DriverCabDetailsFragment : Fragment() {
                             val cabcategoryadapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,hashMap.keys.toList());
                             cabcategoryadapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
                             spinner_cabcategory.adapter = cabcategoryadapter
+
+                            spinner_cabcategory?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                                    Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
+
+                                }
+
+                                override fun onNothingSelected(parent: AdapterView<*>) {
+                                    // write code to perform some action
+                                }
+                            }
+
                         }else{
 
                         }
