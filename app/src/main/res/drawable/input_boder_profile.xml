@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:state_pressed="true"><shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+  <!--  <item android:state_pressed="true"><shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
 
-        <stroke android:width=".7dp" android:color="#616365" />
+       &lt;!&ndash; <stroke android:width=".7dp" android:color="#616365" />&ndash;&gt;
+
 
         <padding android:bottom="8dp" android:left="8dp" android:right="8dp" android:top="8dp" />
-        <solid android:color="@color/white"/>
+        <solid android:color="#E0DFEF"/>
         <corners android:radius="2px"/>
-    </shape></item>
+    </shape></item>-->
     <item><shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
 
-        <solid android:color="@color/white"/>
-        <stroke android:width=".7dp" android:color="#616365" />
+        <solid android:color="#E0DFEF"/>
+        <!--  <stroke android:width=".7dp" android:color="#616365" />-->
 
-        <padding android:bottom="8dp" android:left="8dp" android:right="8dp" android:top="8dp" />
-
+      <!--  <padding android:bottom="8dp" android:left="8dp" android:right="8dp" android:top="8dp" />
+-->
         <corners android:radius="2px"/>
     </shape></item>
 
