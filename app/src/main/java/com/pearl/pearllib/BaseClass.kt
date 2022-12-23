@@ -6,10 +6,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.Color.blue
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
@@ -26,9 +24,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.pearl.figgodriver.R
-
 import java.io.ByteArrayOutputStream
-import java.lang.Exception
+import java.util.regex.Pattern
 
 abstract class BaseClass : AppCompatActivity() {
     protected var versionNew: String? = null
@@ -227,10 +224,6 @@ abstract class BaseClass : AppCompatActivity() {
             true
         }
 
-
-
-
-
     }
 
     fun validateAddress1(inputUser: EditText): Boolean {
@@ -337,8 +330,8 @@ abstract class BaseClass : AppCompatActivity() {
             val sMessage = "Please enter number..!!"
             setCustomError(sMessage, number)
             false
-        } else if (!isValidNumber(num)) {
-            val sMessage = "Number must be 10 character..!!"
+        } else if (!isValidMobile(num)) {
+            val sMessage = "Number must be 10 or less than 13 character and not be alphabet..!!"
             setCustomError(sMessage, number)
             false
         } else {
@@ -456,13 +449,20 @@ abstract class BaseClass : AppCompatActivity() {
         fun isValidNumber(number: String): Boolean {
             var result: Boolean
             result = true
-            if (number.length < 10) {
+            if (number.length < 12) {
                 result = false
             }
-            if (number.length > 10) {
+            if (number.length > 12) {
                 result = false
             }
+
             return result
+        }
+     fun isValidMobile(phone: String): Boolean {
+            return if (!Pattern.matches("[a-zA-Z]+", phone)) {
+                phone.length > 6 && phone.length <= 13
+            }
+            else false
         }
 
         fun isValidName(name: String): Boolean {
