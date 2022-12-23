@@ -52,6 +52,7 @@ class Figgo_Capton : Fragment(){
     var args = Bundle()
     lateinit var prefManager: PrefManager
     var statehashMap : HashMap<String, Int> = HashMap<String, Int> ()
+    var cityhashMap : HashMap<String, Int> = HashMap<String, Int> ()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -170,19 +171,10 @@ class Figgo_Capton : Fragment(){
                                 binding.spinnerState.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                                     override fun onItemSelected(adapterView: AdapterView<*>?, view: View, position: Int, id: Long) {
 
-                                        statehashMap.values.toList()[position]
+                                        val id = statehashMap.values.toList()[position]
 
-                                        val keys = statehashMap.filterValues { it == position }.keys
-                                        Log.d("SendData", "statehashMap.keys.toList()===" + statehashMap.keys.toList())
-                                        Log.d("SendData", "statehashMap.values.toList()===" + statehashMap.values.toList())
-                                        Log.d("SendData", "position===" + position)
-                                        Log.d("SendData", "keys===" + keys)
-                                        Log.d("SendData", " statehashMap.values.toList()[position]===" +  statehashMap.values.toList()[position])
+                                        fetchCity(id)
 
-                                      //  var selected_Couponid = stateadapter.getItem(position)?.id
-                                    //    var  selected_coupon = stateadapter.getItem(position)?.name
-                                        //    txt_coupon_type.setBackground(getDrawable(R.drawable.input_boder_profile))
-                                        //   txt_coupon_type.setText(adapter.getItem(position).getName())
                                     }
 
                                     @SuppressLint("SetTextI18n")
@@ -208,6 +200,77 @@ class Figgo_Capton : Fragment(){
                         // Error
                     }){}
             queue.add(jsonOblect)
+
+    }
+
+    private fun fetchCity(id: Int) {
+        cityhashMap.clear()
+        val URL = " https://test.pearl-developer.com/figo/api/get-city"
+        val queue = Volley.newRequestQueue(requireContext())
+        val json = JSONObject()
+        var token= prefManager.getToken()
+
+        json.put("state_id",id)
+
+        Log.d("SendData", "json===" + json)
+
+        val jsonOblect=  object : JsonObjectRequest(Method.POST, URL, json,
+            Response.Listener<JSONObject?> { response ->
+                Log.d("SendData", "response===" + response)
+                // Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
+                if (response != null) {
+                    val status = response.getString("status")
+                    if(status.equals("1")){
+                        val jsonArray = response.getJSONArray("cities")
+                        for (i in 0..jsonArray.length()-1){
+                            val rec: JSONObject = jsonArray.getJSONObject(i)
+                            var name = rec.getString("name")
+                            var id = rec.getString("id")
+                            cityhashMap.put(name,id.toInt())
+
+
+                        }
+                        //spinner
+                        val stateadapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,cityhashMap.keys.toList());
+                        // val stateadapter = com.pearl.figgodriver.Adapter.SpinnerAdapter( requireContext(),android.R.layout.simple_spinner_dropdown_item, statehashMap.keys.toList())
+                        stateadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        binding.spinnerCity.setAdapter(stateadapter)
+                        binding.spinnerCity.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(adapterView: AdapterView<*>?, view: View, position: Int, id: Long) {
+
+                                val id = cityhashMap.values.toList()[position]
+                                Log.d("SendData", "cityid===" + id)
+                              //  fetchCity(id)
+
+                            }
+
+                            @SuppressLint("SetTextI18n")
+                            override fun onNothingSelected(adapter: AdapterView<*>?) {
+                                //  (binding.spinnerState.getChildAt(0) as TextView).text = "Select Category"
+                            }
+                        })
+
+
+
+
+                    }else{
+
+                    }
+
+
+                    Log.d("SendData", "json===" + json)
+
+
+                }
+                // Get your json response and convert it to whatever you want.
+            }, Response.ErrorListener {
+                // Error
+            }){}
+        queue.add(jsonOblect)
+
+
+
+
 
     }
 
@@ -265,8 +328,8 @@ class Figgo_Capton : Fragment(){
     private fun validateForm() {
            baseclass.validateName(binding.drivername)
            baseclass.validateNumber(binding.drivermobileno)
-           baseclass.validateState(binding.driverstate)
-           baseclass.validateCity(binding.drivercity)
+           //baseclass.validateState(binding.driverstate)
+           //baseclass.validateCity(binding.drivercity)
            baseclass.validatedriverDLNo(binding.driverdlno)
 
         if (binding.upAdharfront.drawable==null){
@@ -287,7 +350,7 @@ class Figgo_Capton : Fragment(){
 
        // binding.aadharfrontTV.setError("Please upload aadhar front image")
 
-        if (!binding.drivername.text.isEmpty()&&!binding.drivermobileno.text.isEmpty()&&!binding.driverstate.text.isEmpty()&&!binding.drivercity.text.isEmpty()&&!binding.driverdlno.text.isEmpty()&&binding.upAdharfront.drawable!=null&&binding.upAdharback.drawable!=null){
+        if (!binding.drivername.text.isEmpty()&&!binding.drivermobileno.text.isEmpty()&&!binding.driverdlno.text.isEmpty()&&binding.upAdharfront.drawable!=null&&binding.upAdharback.drawable!=null){
 
             var driver_name=binding.drivername.text.toString()
             var driver_mobile_no=binding.drivermobileno.text.toString()

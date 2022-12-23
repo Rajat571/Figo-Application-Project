@@ -23,8 +23,10 @@ import com.pearl.figgodriver.databinding.FragmentDriverCabDetailsBinding
 import com.pearl.figgodriver.model.CabCategoryObj
 import com.pearl.figgodriver.model.SpinnerObj
 import com.pearl.pearllib.BaseClass
+import com.pearl.pearllib.BasePrivate
 import com.pearlorganisation.PrefManager
 import kotlinx.android.synthetic.main.cancel_ride_dialog.*
+import kotlinx.android.synthetic.main.fragment_driver_cab_details.*
 import org.json.JSONObject
 import java.io.IOException
 import java.time.Year
@@ -46,9 +48,6 @@ class DriverCabDetailsFragment : Fragment() {
     var hashMap : HashMap<String, Int>
             = HashMap<String, Int> ()
     var modelHashMap  : HashMap<String, Int> = HashMap<String, Int> ()
-
-
-
 
     var base = object :BaseClass(){
         override fun setLayoutXml() {
@@ -72,6 +71,31 @@ class DriverCabDetailsFragment : Fragment() {
         }
 
     }
+
+    var baseprivate = object :BasePrivate(){
+        override fun setLayoutXml() {
+            TODO("Not yet implemented")
+        }
+
+        override fun initializeViews() {
+            TODO("Not yet implemented")
+        }
+
+        override fun initializeClickListners() {
+            TODO("Not yet implemented")
+        }
+
+        override fun initializeInputs() {
+            TODO("Not yet implemented")
+        }
+
+        override fun initializeLabels() {
+            TODO("Not yet implemented")
+        }
+
+    }
+
+
     private val contract = registerForActivityResult(ActivityResultContracts.GetContent()) {
         //imageuri = it!!
         val bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), it!!);
@@ -137,10 +161,6 @@ class DriverCabDetailsFragment : Fragment() {
 
 
 
-
-
-
-
         binding.proceed.visibility=View.GONE
         workingarea.adapter = adapter2
         workingarea.onItemSelectedListener = object :
@@ -151,7 +171,6 @@ class DriverCabDetailsFragment : Fragment() {
                    binding.workingLocalLayout.visibility=View.VISIBLE
                }
                 else{
-
                    binding.workingStateLayout.visibility=View.VISIBLE
                    binding.workingLocalLayout.visibility=View.GONE
                }
@@ -226,6 +245,16 @@ class DriverCabDetailsFragment : Fragment() {
        binding.taxPermitNo.setOnClickListener {
             calendar(binding.taxPermitNo)
         }
+
+
+        baseprivate.fetchStates(requireContext(),binding.selectState1)
+        baseprivate.fetchStates(requireContext(),binding.selectState2)
+        baseprivate.fetchStates(requireContext(),binding.selectState3)
+        baseprivate.fetchStates(requireContext(),binding.selectState4)
+        baseprivate.fetchStates(requireContext(),binding.selectState5)
+
+
+
     }
 
     private fun fetchCabCategory(position: Int) {
