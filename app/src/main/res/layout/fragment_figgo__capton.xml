@@ -75,17 +75,15 @@
             </LinearLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_margin="9dp"
+                android:layout_margin="10dp"
                 android:id="@+id/driver_nameTL"
                 android:layout_height="wrap_content"
                 >
                 <EditText
-                    android:background="@drawable/input_boder_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:nextFocusDown="@id/drivermobileno"
                     android:id="@+id/drivername"
-                    android:textSize="13sp"
-                    android:padding="15dp"
                     android:hint="Name"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -96,12 +94,10 @@
                 android:layout_height="wrap_content"
                 >
                 <EditText
-                    android:background="@drawable/input_boder_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/drivermobileno"
-                    android:textSize="13sp"
-                    android:padding="15dp"
+                    android:nextFocusDown="@id/driverstate"
                     android:hint="Mobile No."/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -112,12 +108,10 @@
                 android:layout_height="wrap_content"
                 >
                 <EditText
-                    android:background="@drawable/input_boder_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/driverstate"
-                    android:textSize="13sp"
-                    android:padding="15dp"
+                    android:nextFocusDown="@id/drivercity"
                     android:hint="State"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -129,12 +123,11 @@
                 android:layout_height="wrap_content"
                 >
                 <EditText
-                    android:background="@drawable/input_boder_profile"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/drivercity"
-                    android:textSize="13sp"
-                    android:padding="15dp"
+                    android:nextFocusDown="@id/driverdlno"
                     android:hint="City"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -146,13 +139,9 @@
                 android:layout_height="wrap_content"
                 >
                 <EditText
-
-                    android:background="@drawable/input_boder_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/driverdlno"
-                    android:textSize="13sp"
-                    android:padding="15dp"
                     android:hint="Driving License Number"/>
             </com.google.android.material.textfield.TextInputLayout>
 <!--
@@ -185,21 +174,10 @@
                         android:layout_weight="1"
                         android:layout_gravity="center"
                         android:padding="2dp"
-                        android:visibility="visible"
-                        android:id="@+id/aadharfrontIV"
+                        android:id="@+id/up_adharfront"
                         android:layout_height="50dp"
                         android:src="@drawable/upload"
                       />
-                    <ImageView
-                        android:id="@+id/up_adharfront"
-                        android:layout_width="match_parent"
-                        android:layout_weight="1"
-                        android:layout_gravity="center"
-                        android:padding="2dp"
-                        android:visibility="gone"
-                        android:layout_height="50dp"
-
-                        />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -207,7 +185,6 @@
                         android:layout_gravity="center"
                         android:id="@+id/aadharfrontTV"
                         android:textAlignment="center"
-                        android:textSize="13sp"
                         android:layout_height="wrap_content"
                         android:text="Adhar Front"/>
                 </LinearLayout>
@@ -240,7 +217,6 @@
                         android:layout_width="match_parent"
                         android:layout_weight="1"
                         android:textAlignment="center"
-                        android:textSize="13sp"
                         android:layout_height="wrap_content"
                         android:text="Adhar Back"
                         android:layout_gravity="center"
@@ -265,7 +241,6 @@
                         android:layout_width="match_parent"
                         android:layout_weight="1"
                         android:textAlignment="center"
-                        android:textSize="13sp"
                         android:layout_height="wrap_content"
                         android:text="Police Verification"
                         android:layout_gravity="center"

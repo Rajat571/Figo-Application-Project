@@ -159,7 +159,7 @@ class Figgo_Capton : Fragment(){
             prefManager.setAadhar_verification_front(aadhar_verification_front)
             binding.upAdharfront.setImageBitmap(bitmap)
             binding.upAdharfront.visibility=View.VISIBLE
-            binding.aadharfrontIV.visibility=View.GONE
+           // binding.aadharfrontIV.visibility=View.GONE
         } catch (e: IOException) {
             e.printStackTrace()
         }
@@ -226,7 +226,7 @@ class Figgo_Capton : Fragment(){
             var driver_mobile_no=binding.drivermobileno.text.toString()
             var driver_dl_no=binding.driverdlno.text.toString()
 
-            binding.aadharfrontIV.visibility=View.GONE
+           // binding.aadharfrontIV.visibility=View.GONE
             binding.upAdharfront.visibility=View.VISIBLE
             binding.aadharBackIV.visibility=View.GONE
             binding.upAdharback.visibility=View.VISIBLE

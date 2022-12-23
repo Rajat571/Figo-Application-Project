@@ -24,6 +24,7 @@
     </string-array>
 
     <string-array name="work_type">
+        <item>Select Working Area</item>
         <item>OutStation</item>
         <item>Local</item>
         <item>Both</item>
