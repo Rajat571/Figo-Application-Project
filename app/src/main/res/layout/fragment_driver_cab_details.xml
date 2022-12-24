@@ -377,7 +377,7 @@
                             android:padding="10dp">
 
                             <Spinner
-                                android:id="@+id/select_state"
+                                android:id="@+id/select_state_local"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Choose Working State" />

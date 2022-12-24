@@ -155,9 +155,6 @@ class DriverCabDetailsFragment : Fragment() {
         }
 
 //
-//        hashMap.put("IronMan" , 3000)
-//        hashMap.put("Thor" , 100)
-//        hashMap.put("SpiderMan" , 1100)
 
 
 
@@ -207,7 +204,7 @@ class DriverCabDetailsFragment : Fragment() {
             var driver_mobile_no= prefManager.getMobileNo()
             var driver_dl_no = prefManager.getDL_No()
             binding.proceed.visibility=View.VISIBLE
-            System.out.println("Driver_DL_NO"+driver_dl_no)
+            //System.out.println("Driver_DL_NO"+driver_dl_no)
             var driver_police_verification_no = prefManager.getPolice_verification()
             var driver_adhar_no = prefManager.getAadhar_no()
             var aadhar_verification_front = prefManager.getAadhar_verification_front()
@@ -247,11 +244,14 @@ class DriverCabDetailsFragment : Fragment() {
         }
 
 
-        baseprivate.fetchStates(requireContext(),binding.selectState1)
-        baseprivate.fetchStates(requireContext(),binding.selectState2)
-        baseprivate.fetchStates(requireContext(),binding.selectState3)
-        baseprivate.fetchStates(requireContext(),binding.selectState4)
-        baseprivate.fetchStates(requireContext(),binding.selectState5)
+        baseprivate.fetchStates(requireContext(),binding.selectState1,0,binding.selectState1)
+        baseprivate.fetchStates(requireContext(),binding.selectState2,0,binding.selectState1)
+        baseprivate.fetchStates(requireContext(),binding.selectState3,0,binding.selectState1)
+        baseprivate.fetchStates(requireContext(),binding.selectState4,0,binding.selectState1)
+        baseprivate.fetchStates(requireContext(),binding.selectState5,0,binding.selectState1)
+        baseprivate.fetchStates(requireContext(),binding.selectStateLocal,2,binding.selectCity)
+        //baseprivate.fetchStates(requireContext(),binding.selectCity)
+
 
 
 
@@ -291,7 +291,6 @@ class DriverCabDetailsFragment : Fragment() {
                             spinner_cabcategory?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
                                 override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                                     fetchModel(hashMap.values.toList()[position])
-
                                 }
 
                                 override fun onNothingSelected(parent: AdapterView<*>) {
