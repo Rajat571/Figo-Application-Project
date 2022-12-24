@@ -154,12 +154,14 @@ class Figgo_Capton : Fragment(){
                         if (response != null) {
                             val status = response.getString("status")
                             if(status.equals("1")){
+                                statehashMap.put("Select State",-1)
                                 val jsonArray = response.getJSONArray("states")
                                 for (i in 0..jsonArray.length()-1){
                                     val rec: JSONObject = jsonArray.getJSONObject(i)
                                     var name = rec.getString("name")
                                     var id = rec.getString("id")
                                     statehashMap.put(name,id.toInt())
+
 
 
                                 }

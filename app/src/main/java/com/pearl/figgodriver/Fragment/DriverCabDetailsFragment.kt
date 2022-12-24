@@ -5,6 +5,7 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.method.Touch
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -224,6 +225,8 @@ class DriverCabDetailsFragment : Fragment() {
         proceed.setOnClickListener {
                 submitForm(driver_name,driver_mobile_no,driver_dl_no,driver_police_verification_no,driver_adhar_no, aadhar_verification_front, aadhar_verification_back,driver_profile,car_category,car_model,model_year,registration_no,insurance_no,permit_no)
                // context?.startActivity(Intent(requireContext(), DriverDashBoard::class.java))
+            Navigation.findNavController(view).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration)
+            prefManager.setRegistrationToken("Done")
             }
         }
 

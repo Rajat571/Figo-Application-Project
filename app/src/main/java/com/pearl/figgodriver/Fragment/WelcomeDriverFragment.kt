@@ -26,7 +26,11 @@ class WelcomeDriverFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         prefManager= PrefManager(requireContext())
         Handler().postDelayed({
-            if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null"))
+            if (!prefManager.getRegistrationToken().equals(""))
+            {
+                Navigation.findNavController(view).navigate(R.id.action_welcomeDriverFragment_to_waitingRegistration)
+            }
+            else if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null"))
          {
              Navigation.findNavController(view).navigate(R.id.action_welcomeDriverFragment_to_verifyNumber2)
          } else{

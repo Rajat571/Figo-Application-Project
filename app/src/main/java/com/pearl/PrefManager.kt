@@ -66,6 +66,7 @@ import android.content.SharedPreferences
          editor?.putString("formID",formID)
          editor?.commit()
      }
+
      fun getCabFormToken():String{
          return pref?.getString("formID","").toString()
      }
@@ -193,7 +194,11 @@ import android.content.SharedPreferences
      }
 
 
-
-
-
+    fun getRegistrationToken():String{
+        return  pref?.getString("RegistrationW","").toString()
+    }
+     fun setRegistrationToken(reg:String){
+         editor?.putString("RegistrationW",reg)
+         editor?.commit()
+     }
 }
