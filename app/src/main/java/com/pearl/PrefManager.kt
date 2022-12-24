@@ -192,7 +192,79 @@ import android.content.SharedPreferences
          return pref?.getString("DriverCab_ext","").toString()
      }
 
+     fun setDriveCity(DriverCity:Int){
+         editor?.putInt("DriverCity",DriverCity)
+         editor?.commit()
+     }
 
+     fun getDriverCity():Int{
+         return pref?.getInt("DriverCity",0)!!
+     }
+     fun setDriveState(DriverState:Int){
+         editor?.putInt("DriverState",DriverState)
+         editor?.commit()
+     }
+
+     fun getDriverState():Int{
+         return pref?.getInt("DriverState",0)!!
+     }
+     fun setDriverVechleType(VechleType:String){
+         editor?.putString("VechleType",VechleType)
+         editor?.commit()
+     }
+
+     fun getDriverVechleType():String{
+         return pref?.getString("VechleType","")!!
+     }
+     fun setDriverCabCategory(cab_category:String){
+         editor?.putString("cab_category",cab_category)
+         editor?.commit()
+     }
+
+     fun getDriverCabCategory():String{
+         return pref?.getString("cab_category","")!!
+     }
+     fun setDriverVechleModel(vechle_model:String){
+         editor?.putString("vechle_model",vechle_model)
+         editor?.commit()
+     }
+
+     fun getDriverVechleModel():String{
+         return pref?.getString("vechle_model","")!!
+     }
+     fun setDriverVechleYear(vechle_year:String){
+         editor?.putString("vechle_year",vechle_year)
+         editor?.commit()
+     }
+
+     fun getDriverVechleYear():String{
+         return pref?.getString("vechle_year","")!!
+     }
+
+     fun setDriverRegistrationNo(registration_no:String){
+         editor?.putString("registration_no",registration_no)
+         editor?.commit()
+     }
+
+     fun getDriverRegistrationNo():String{
+         return pref?.getString("registration_no","")!!
+     }
+     fun setDriverInsuranceDate(insurance_date:String){
+         editor?.putString("insurance_date",insurance_date)
+         editor?.commit()
+     }
+
+     fun getDriverInsuranceDate():String{
+         return pref?.getString("insurance_date","")!!
+     }
+     fun setDriverTaxiPermitDate(permit_valid_date:String){
+         editor?.putString("permit_valid_date",permit_valid_date)
+         editor?.commit()
+     }
+
+     fun getDriverTaxiPermitDate():String{
+         return pref?.getString("permit_valid_date","")!!
+     }
 
 
 

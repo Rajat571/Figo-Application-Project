@@ -95,7 +95,6 @@ class DriverCabDetailsFragment : Fragment() {
 
     }
 
-
     private val contract = registerForActivityResult(ActivityResultContracts.GetContent()) {
         //imageuri = it!!
         val bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), it!!);
@@ -134,17 +133,17 @@ class DriverCabDetailsFragment : Fragment() {
         for(i in 2000..current_year)
         {
             yearList+=i
+
         }
         val dateadapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,yearList);
         dateadapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
         binding.modelYear.adapter = dateadapter
-        spinner_cabtype?.onItemSelectedListener = object :
+       carModel?.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
-
-                fetchCabCategory(position)
-
+                // Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
+                prefManager.setDriverVechleYear(position.toString())
+                Log.d("Model year","Model year==="+ prefManager.setDriverVechleType(position.toString()))
 
 
             }
@@ -154,9 +153,22 @@ class DriverCabDetailsFragment : Fragment() {
             }
         }
 
+        spinner_cabtype?.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+               // Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
+                prefManager.setDriverVechleType(position.toString())
+                Log.d("CAB TYPE","CAB type==="+ prefManager.setDriverVechleType(position.toString()))
+                fetchCabCategory(position)
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // write code to perform some action
+            }
+        }
+
 //
-
-
 
         binding.proceed.visibility=View.GONE
         workingarea.adapter = adapter2
@@ -172,10 +184,7 @@ class DriverCabDetailsFragment : Fragment() {
                    binding.workingLocalLayout.visibility=View.GONE
                }
 
-
             }
-
-
 
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // write code to perform some action
@@ -197,13 +206,15 @@ class DriverCabDetailsFragment : Fragment() {
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1)
         }
 
+
+
         next.setOnClickListener {
-            layout_cab.visibility= View.GONE
-            layout_work.visibility = View.VISIBLE
-            var driver_name = prefManager.getDriverName()
+            validateForm()
+
+          /*  var driver_name = prefManager.getDriverName()
             var driver_mobile_no= prefManager.getMobileNo()
             var driver_dl_no = prefManager.getDL_No()
-            binding.proceed.visibility=View.VISIBLE
+
             //System.out.println("Driver_DL_NO"+driver_dl_no)
             var driver_police_verification_no = prefManager.getPolice_verification()
             var driver_adhar_no = prefManager.getAadhar_no()
@@ -224,7 +235,7 @@ class DriverCabDetailsFragment : Fragment() {
         proceed.setOnClickListener {
                 submitForm(driver_name,driver_mobile_no,driver_dl_no,driver_police_verification_no,driver_adhar_no, aadhar_verification_front, aadhar_verification_back,driver_profile,car_category,car_model,model_year,registration_no,insurance_no,permit_no)
                // context?.startActivity(Intent(requireContext(), DriverDashBoard::class.java))
-            }
+            }*/
         }
 
         back.setOnClickListener {
@@ -243,7 +254,6 @@ class DriverCabDetailsFragment : Fragment() {
             calendar(binding.taxPermitNo)
         }
 
-
         baseprivate.fetchStates(requireContext(),binding.selectState1,0,binding.selectState1)
         baseprivate.fetchStates(requireContext(),binding.selectState2,0,binding.selectState1)
         baseprivate.fetchStates(requireContext(),binding.selectState3,0,binding.selectState1)
@@ -253,9 +263,9 @@ class DriverCabDetailsFragment : Fragment() {
         //baseprivate.fetchStates(requireContext(),binding.selectCity)
 
 
-
-
     }
+
+
 
     private fun fetchCabCategory(position: Int) {
         hashMap.clear()
@@ -282,7 +292,6 @@ class DriverCabDetailsFragment : Fragment() {
                                 var name = rec.getString("name")
                                 var id = rec.getString("id")
                                 hashMap.put(name,id.toInt())
-
                             }
 
                             val cabcategoryadapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,hashMap.keys.toList());
@@ -291,6 +300,10 @@ class DriverCabDetailsFragment : Fragment() {
                             spinner_cabcategory?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
                                 override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                                     fetchModel(hashMap.values.toList()[position])
+                                   /* prefManager.setDriverCabCategory(fetchModel(hashMap.values.toList()[position]).toString())
+                                    Log.d("DriverCabCategory","DriverCabCategory==="+ prefManager.setDriverCabCategory(fetchModel(hashMap.values.toList()[position]).toString()))*/
+
+
                                 }
 
                                 override fun onNothingSelected(parent: AdapterView<*>) {
@@ -298,7 +311,6 @@ class DriverCabDetailsFragment : Fragment() {
                                 }
                             }
                         }else{
-
                         }
 
 
@@ -349,6 +361,8 @@ class DriverCabDetailsFragment : Fragment() {
                                 override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                                   //  fetchModel(hashMap.values.toList()[position])
                                     Log.d("SendData", "modelHashMap.values.toList()[position]===" + modelHashMap.values.toList()[position])
+                                    prefManager.setDriverVechleModel(modelHashMap.values.toList()[position].toString())
+                                    Log.d("DriverVechleModel","DriverVechleModel==="+  prefManager.setDriverVechleModel(modelHashMap.values.toList()[position].toString()))
                                 }
 
                                 override fun onNothingSelected(parent: AdapterView<*>) {
@@ -374,8 +388,8 @@ class DriverCabDetailsFragment : Fragment() {
 
 
 
-    private fun submitForm(driverName: String, driverMobileNo: String, driverDlNo: String, driverPoliceVerificationNo: String, driverAdharNo: String, aadharVerificationFront: String, aadharVerificationBack: String,driver_profile:String,car_category:String,car_model:String,model_year:String,registration_no:String,insurance_no:String,permit_no:String) {
-        val URL = " https://test.pearl-developer.com/figo/api/regitser-driver"
+    private fun submitForm(driverName: String, driverMobileNo: String, driverDlNo: String, driverPoliceVerificationNo: String, driverAdharNo: String, aadharVerificationFront: String, aadharVerificationBack: String,driver_profile:String,car_category:String,car_model:String,model_year:String,registration_no:String,v_number:String,insurance_no:String,permit_no:String) {
+        val URL = "https://test.pearl-developer.com/figo/api/regitser-driver"
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
        var token= prefManager.getToken()
@@ -385,15 +399,16 @@ class DriverCabDetailsFragment : Fragment() {
         json.put("email","madhuri@gmail.com")
         json.put("password","123456")
         json.put("dl_number",driverDlNo)
+        json.put("aadhar_no",driverAdharNo)
         json.put("aadhar_front_ext",prefManager.getAadhar_front_ext())
         json.put("aadhar_back_ext",prefManager.getAadhar_back_ext())
         json.put("police_ext",prefManager.getPolice_ext())
         json.put("driver_ext",prefManager.getDriverProfile_ext())
         json.put("cab_ext",prefManager.getDriverCab_ext())
-
         json.put("category",car_category)
         json.put("model",car_model)
         json.put("year",model_year)
+        json.put("v_no","")
         json.put("registration_no",registration_no)
         json.put("insurance",insurance_no)
         json.put("permit",permit_no)
@@ -402,10 +417,10 @@ class DriverCabDetailsFragment : Fragment() {
         json.put("aadhar_verification_back",aadharVerificationBack)
         json.put("cab_image",prefManager.getDriverCab())
         Log.d("SendData", "json===" + json)
-        Log.d("SendData", "json===" + aadharVerificationFront)
-        Log.d("SendData", "json===" + aadharVerificationBack)
+        Log.d("SendData", "aadharVerificationFront===" + aadharVerificationFront)
+        Log.d("SendData", "aadharVerificationBack" + aadharVerificationBack)
 
-        val jsonOblect=
+       /* val jsonOblect=
             object : JsonObjectRequest(Method.POST, URL, json,
                 Response.Listener<JSONObject?> { response ->
                     Log.d("SendData", "response===" + response)
@@ -418,7 +433,7 @@ class DriverCabDetailsFragment : Fragment() {
                 }, Response.ErrorListener {
                     // Error
                 }){}
-        queue.add(jsonOblect)
+        queue.add(jsonOblect)*/
 
 
 
@@ -464,7 +479,7 @@ class DriverCabDetailsFragment : Fragment() {
                 //Getting the Bitmap from Gallery
                 val selectedImageUri = data?.getData()
                 val bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), selectedImageUri)
-                val extension = base.getExtension(selectedImageUri)
+                val extension = base.getExtension(selectedImageUri!!)
                 prefManager.setDriverCab_ext(extension!!)
                 driver_cab_image = base.BitMapToString(bitmap).toString()
                 prefManager.setDriverCab(driver_cab_image)
@@ -476,6 +491,57 @@ class DriverCabDetailsFragment : Fragment() {
         }
     }
 
+    private fun validateForm() {
+
+        var driver_name = prefManager.getDriverName()
+        var driver_mobile_no= prefManager.getMobileNo()
+        var driver_dl_no = prefManager.getDL_No()
+        var driver_police_verification_no = prefManager.getPolice_verification()
+        var driver_adhar_no = prefManager.getAadhar_no()
+        var aadhar_verification_front = prefManager.getAadhar_verification_front()
+        var aadhar_verification_back= prefManager.getAadhar_verification_back()
+        System.out.println("Aadhar Verification====="+driver_dl_no)
+        var driver_profile=prefManager.getDriverProfile()
+        var vechle_type=prefManager.getDriverVechleType()
+        var  car_category=prefManager.getDriverCabCategory()
+        var car_model=prefManager.getDriverVechleModel()
+        var model_year=prefManager.getDriverVechleYear()
+        var v_number=binding.vechleNo.text.toString()
+        var registration_no=binding.registrationNo.text.toString()
+        var insurance_no=binding.insuranceNo.text.toString()
+        var permit_no=binding.taxPermitNo.text.toString()
+
+        base.validateDriverInsuranceDate(binding.registrationNo)
+        base.validateDriverInsuranceDate(binding.insuranceNo)
+        base.validateDriverInsuranceDate(binding.taxPermitNo)
+
+        if (!binding.registrationNo.text.toString().isEmpty()&&!binding.insuranceNo.text.toString().isEmpty()&&!binding.taxPermitNo.text.toString().isEmpty()){
 
 
-}
+
+
+
+
+
+
+                    binding.chooseUser.visibility=View.GONE
+                    binding.work.visibility=View.VISIBLE
+
+
+                    var proceed = binding.proceed
+
+                    proceed.setOnClickListener {
+                        /*if (binding.firstWorkState.text.toString().isEmpty()){
+                            baseClass.validateWorkState(binding.firstWorkState)
+                        }
+                        else{*/
+                            submitForm(driver_name,driver_mobile_no,driver_dl_no,driver_police_verification_no,driver_adhar_no, aadhar_verification_front, aadhar_verification_back,driver_profile,car_category,car_model,model_year,v_number,registration_no,insurance_no,permit_no)
+                       // }
+
+                        // context?.startActivity(Intent(requireContext(), DriverDashBoard::class.java))
+                    }
+                }
+    }
+
+
+    }

@@ -29,11 +29,7 @@ import com.pearlorganisation.PrefManager
 import kotlinx.android.synthetic.main.fragment_driver_cab_details.view.*
 import kotlinx.android.synthetic.main.fragment_figgo__capton.*
 import org.json.JSONObject
-import java.io.File
-import java.io.FileOutputStream
 import java.io.IOException
-import java.util.ArrayList
-import java.util.regex.Pattern
 
 
 class Figgo_Capton : Fragment(){
@@ -127,6 +123,13 @@ class Figgo_Capton : Fragment(){
           //  sharedPref(view)
             validateForm()
 
+            var driver_name=binding.drivername.text.toString()
+            var driver_mobile_no=binding.drivermobileno.text.toString()
+            var driver_dl_no=binding.driverdlno.text.toString()
+            prefManager.setDL_No(driver_dl_no)
+            prefManager.setDriverName(driver_name)
+            prefManager.setMobile_No(driver_mobile_no)
+
         }
 
         var back=view.findViewById<TextView>(R.id.back_button)
@@ -137,6 +140,7 @@ class Figgo_Capton : Fragment(){
     }
 
     private fun fetchState() {
+
         statehashMap.clear()
             val URL = " https://test.pearl-developer.com/figo/api/get-state"
             val queue = Volley.newRequestQueue(requireContext())
@@ -155,14 +159,17 @@ class Figgo_Capton : Fragment(){
                             val status = response.getString("status")
                             if(status.equals("1")){
                                 val jsonArray = response.getJSONArray("states")
+                               // statehashMap.put("Select State",0)
                                 for (i in 0..jsonArray.length()-1){
                                     val rec: JSONObject = jsonArray.getJSONObject(i)
                                     var name = rec.getString("name")
                                     var id = rec.getString("id")
+
+
                                     statehashMap.put(name,id.toInt())
 
-
                                 }
+
                                 //spinner
                                 val stateadapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,statehashMap.keys.toList());
                                // val stateadapter = com.pearl.figgodriver.Adapter.SpinnerAdapter( requireContext(),android.R.layout.simple_spinner_dropdown_item, statehashMap.keys.toList())
@@ -171,15 +178,18 @@ class Figgo_Capton : Fragment(){
                                 binding.spinnerState.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                                     override fun onItemSelected(adapterView: AdapterView<*>?, view: View, position: Int, id: Long) {
 
-                                        val id = statehashMap.values.toList()[position]
+                                       /* (view as TextView).text = null*/
+                                            val id = statehashMap.values.toList()[position]
 
-                                        fetchCity(id)
+                                        //binding.selectStateTV.text=statehashMap.keys.toList()[position]
+                                        prefManager.setDriveState(id)
+                                            fetchCity(id)
+                                        }
 
-                                    }
 
                                     @SuppressLint("SetTextI18n")
                                     override fun onNothingSelected(adapter: AdapterView<*>?) {
-                                      //  (binding.spinnerState.getChildAt(0) as TextView).text = "Select Category"
+                                        //(binding.spinnerState.getChildAt(0) as TextView).text = "Select Category"
                                     }
                                 })
 
@@ -229,6 +239,7 @@ class Figgo_Capton : Fragment(){
                             cityhashMap.put(name,id.toInt())
 
 
+
                         }
                         //spinner
                         val stateadapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,cityhashMap.keys.toList());
@@ -239,6 +250,7 @@ class Figgo_Capton : Fragment(){
                             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, position: Int, id: Long) {
 
                                 val id = cityhashMap.values.toList()[position]
+                                prefManager.setDriveCity(id)
                                 Log.d("SendData", "cityid===" + id)
                               //  fetchCity(id)
 
@@ -286,6 +298,8 @@ class Figgo_Capton : Fragment(){
 
 
             aadhar_verification_front = baseclass.BitMapToString(bitmap).toString()
+
+            prefManager.setAadhar_front_ext(baseclass.getExtension(selectedImageUri!!))
             prefManager.setAadhar_verification_front(aadhar_verification_front)
             binding.upAdharfront.setImageBitmap(bitmap)
             binding.upAdharfront.visibility=View.VISIBLE
@@ -298,7 +312,7 @@ class Figgo_Capton : Fragment(){
             var selectedImageUri2=data?.data
         var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri2)
 
-
+        prefManager.setAadhar_back_ext(baseclass.getExtension(selectedImageUri2!!))
         aadhar_verification_back = baseclass.BitMapToString(bitmap).toString()
         prefManager.setAadhar_verification_back(aadhar_verification_back)
         binding.upAdharback.setImageBitmap(bitmap)
@@ -310,7 +324,7 @@ class Figgo_Capton : Fragment(){
         var selectedImageUri3=data?.data
         var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri3)
 
-
+        prefManager.setPolice_ext(baseclass.getExtension(selectedImageUri3!!))
         police_verification= baseclass.BitMapToString(bitmap).toString()
         prefManager.setPolice_verification(police_verification)
         binding.ivPoliceVerification.setImageBitmap(bitmap)
@@ -319,18 +333,23 @@ class Figgo_Capton : Fragment(){
 
     else if(requestCode==4){
         var selectedImageUri4=data?.data
+        prefManager.setDriverProfile_ext(baseclass.getExtension(selectedImageUri4!!))
         var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
-        binding.selfiee.setImageBitmap(bitmap)
         driverdp = baseclass.BitMapToString(bitmap).toString()
+        binding.selfiee.setImageBitmap(bitmap)
+        prefManager.setDriverProfile(driverdp)
     }
 }
 
     private fun validateForm() {
+
+
            baseclass.validateName(binding.drivername)
            baseclass.validateNumber(binding.drivermobileno)
            //baseclass.validateState(binding.driverstate)
            //baseclass.validateCity(binding.drivercity)
            baseclass.validatedriverDLNo(binding.driverdlno)
+
 
         if (binding.upAdharfront.drawable==null){
             ll_aadhar_front.setBackgroundResource(R.drawable.input_error_profile)
@@ -352,26 +371,21 @@ class Figgo_Capton : Fragment(){
 
         if (!binding.drivername.text.isEmpty()&&!binding.drivermobileno.text.isEmpty()&&!binding.driverdlno.text.isEmpty()&&binding.upAdharfront.drawable!=null&&binding.upAdharback.drawable!=null){
 
-            var driver_name=binding.drivername.text.toString()
-            var driver_mobile_no=binding.drivermobileno.text.toString()
-            var driver_dl_no=binding.driverdlno.text.toString()
+
 
            // binding.aadharfrontIV.visibility=View.GONE
             binding.upAdharfront.visibility=View.VISIBLE
             binding.aadharBackIV.visibility=View.GONE
             binding.upAdharback.visibility=View.VISIBLE
 
-            prefManager.setDL_No(driver_dl_no)
-            prefManager.setDriverName(driver_name)
-            prefManager.setMobile_No(driver_mobile_no)
-            prefManager.setDriverProfile(driverdp)
+
+
 
             Navigation.findNavController(requireView()).navigate(R.id.action_figgo_Capton_to_driverCabDetailsFragment,args)
 
         }
 
     }
-
 
     }
 

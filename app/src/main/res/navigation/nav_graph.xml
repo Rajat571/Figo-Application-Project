@@ -147,7 +147,7 @@
         tools:layout="@layout/fragment_hotel_driver_details" />
     <fragment
         android:id="@+id/welcomeDriverFragment"
-        android:name="com.pearl.figgodriver.Fragment.WelcomeDriverFragment"
+        android:name="com.pearl.figgodriver.Fragment.WelcomeFragment"
         android:label="fragment_welcome_driver"
         tools:layout="@layout/fragment_welcome_driver" >
         <action

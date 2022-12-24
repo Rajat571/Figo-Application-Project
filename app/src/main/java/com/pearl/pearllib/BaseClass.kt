@@ -362,11 +362,11 @@ abstract class BaseClass : AppCompatActivity() {
             val sMessage = "Please enter driver registeration no..!!"
             setCustomError(sMessage, registrationNo)
             false
-        } else if (!isValidNumber(num)) {
+        } /*else if (!isValidNumber(num)) {
             val sMessage = "Number must be 15 letter or digits..!!"
             setCustomError(sMessage, registrationNo)
             false
-        } else {
+        } */else {
             setCustomErrorDisabled(registrationNo)
             true
         }
@@ -384,12 +384,12 @@ abstract class BaseClass : AppCompatActivity() {
         }
     }
 
-    fun getExtension(uri: Uri?): String? {
+    fun getExtension(uri: Uri): String {
 
-        val mimeType: String? = uri?.let { baseApcContext?.getContentResolver()!!.getType(it).toString()
+        val mimeType: String = uri.let { baseApcContext?.getContentResolver()!!.getType(it).toString()
         }
 
-        return MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType)
+        return MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType)!!
     }
 
     fun requestPermission() {

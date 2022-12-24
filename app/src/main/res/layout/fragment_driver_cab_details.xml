@@ -31,7 +31,7 @@
             android:layout_margin="20dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/background_layout"
-            android:visibility="gone"
+            android:visibility="visible"
             app:cardCornerRadius="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -86,7 +86,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_margin="10dp"
-                        android:background="@drawable/background_card"
+                        android:background="@drawable/input_boder_profile"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -109,7 +109,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_margin="10dp"
-                        android:background="@drawable/background_card"
+                        android:background="@drawable/input_boder_profile"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -125,7 +125,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_margin="10dp"
-                        android:background="@drawable/background_card"
+                        android:background="@drawable/input_boder_profile"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -140,7 +140,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_margin="10dp"
-                        android:background="@drawable/background_card"
+                        android:background="@drawable/input_boder_profile"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -152,6 +152,22 @@
                             android:layout_height="wrap_content" />
                     </LinearLayout>
 
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp">
+
+                        <EditText
+                            android:background="@drawable/input_boder_profile"
+                            android:id="@+id/vechle_no"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="13sp"
+                            android:padding="15dp"
+                            android:hint="Vechle No." />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
@@ -159,10 +175,12 @@
                         android:layout_margin="10dp">
 
                         <EditText
+                            android:background="@drawable/input_boder_profile"
                             android:id="@+id/registration_no"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-
+                            android:textSize="13sp"
+                            android:padding="15dp"
                             android:hint="Registration No." />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -173,6 +191,7 @@
                         android:layout_margin="10dp">
 
                         <EditText
+                            android:background="@drawable/input_boder_profile"
                             android:id="@+id/insurance_no"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -180,6 +199,8 @@
                             android:cursorVisible="false"
                             android:drawableEnd="@drawable/ic_baseline_calendar_month_24"
                             android:focusable="false"
+                            android:textSize="13sp"
+                            android:padding="15dp"
                             android:focusableInTouchMode="false"
                             android:hint="Insurance Valid till" />
 
@@ -191,6 +212,7 @@
                         android:layout_margin="10dp">
 
                         <EditText
+                            android:background="@drawable/input_boder_profile"
                             android:id="@+id/tax_permit_no"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -198,6 +220,8 @@
                             android:cursorVisible="false"
                             android:drawableEnd="@drawable/ic_baseline_calendar_month_24"
                             android:focusable="false"
+                            android:textSize="13sp"
+                            android:padding="15dp"
                             android:focusableInTouchMode="false"
                             android:hint="Taxi Permit Valid till" />
 
@@ -211,7 +235,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@drawable/background_layout"
-            android:visibility="visible"
+            android:visibility="gone"
             app:cardCornerRadius="10dp"
             android:layout_marginHorizontal="@dimen/_7ssp"
             android:layout_marginVertical="100dp"

@@ -11,7 +11,7 @@ import com.pearl.figgodriver.R
 import com.pearlorganisation.PrefManager
 
 
-class WelcomeDriverFragment : Fragment() {
+class WelcomeFragment : Fragment() {
     lateinit var prefManager: PrefManager
 
     override fun onCreateView(
