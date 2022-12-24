@@ -299,9 +299,10 @@ class Figgo_Capton : Fragment(){
 
             aadhar_verification_front = baseclass.BitMapToString(bitmap).toString()
 
-            prefManager.setAadhar_front_ext(baseclass.getExtension(selectedImageUri!!))
             prefManager.setAadhar_verification_front(aadhar_verification_front)
             binding.upAdharfront.setImageBitmap(bitmap)
+            val extension = baseclass.getExtension(selectedImageUri!!)
+            prefManager.setAadhar_front_ext(extension)
             binding.upAdharfront.visibility=View.VISIBLE
             binding.aadharfrontIV.visibility=View.GONE
         } catch (e: IOException) {
@@ -311,8 +312,8 @@ class Figgo_Capton : Fragment(){
     }  else if (requestCode==2){
             var selectedImageUri2=data?.data
         var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri2)
-
-        prefManager.setAadhar_back_ext(baseclass.getExtension(selectedImageUri2!!))
+        val extension2 = baseclass.getExtension(selectedImageUri2!!)
+        prefManager.setAadhar_back_ext(extension2)
         aadhar_verification_back = baseclass.BitMapToString(bitmap).toString()
         prefManager.setAadhar_verification_back(aadhar_verification_back)
         binding.upAdharback.setImageBitmap(bitmap)
@@ -323,8 +324,8 @@ class Figgo_Capton : Fragment(){
         else if(requestCode==3){
         var selectedImageUri3=data?.data
         var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri3)
-
-        prefManager.setPolice_ext(baseclass.getExtension(selectedImageUri3!!))
+        val extension3 = baseclass.getExtension(selectedImageUri3!!)
+        prefManager.setPolice_ext(extension3)
         police_verification= baseclass.BitMapToString(bitmap).toString()
         prefManager.setPolice_verification(police_verification)
         binding.ivPoliceVerification.setImageBitmap(bitmap)
@@ -333,7 +334,8 @@ class Figgo_Capton : Fragment(){
 
     else if(requestCode==4){
         var selectedImageUri4=data?.data
-        prefManager.setDriverProfile_ext(baseclass.getExtension(selectedImageUri4!!))
+        val extension3 = baseclass.getExtension(selectedImageUri4!!)
+        prefManager.setDriverProfile_ext(extension3)
         var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
         driverdp = baseclass.BitMapToString(bitmap).toString()
         binding.selfiee.setImageBitmap(bitmap)
