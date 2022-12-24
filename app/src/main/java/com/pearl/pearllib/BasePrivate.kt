@@ -26,6 +26,7 @@ abstract class BasePrivate : BaseClass() {
     var locationManager: LocationManager? = null
     var latitude: String? = null
     var longitude: String? = null
+
     var bestProvider: String? = null
     var criteria: Criteria? = null
     var coin_balance: TextView? = null
