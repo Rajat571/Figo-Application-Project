@@ -536,6 +536,9 @@ class DriverCabDetailsFragment : Fragment() {
                         }
                         else{*/
                             submitForm(driver_name,driver_mobile_no,driver_dl_no,driver_police_verification_no,driver_adhar_no, aadhar_verification_front, aadhar_verification_back,driver_profile,car_category,car_model,model_year,v_number,registration_no,insurance_no,permit_no)
+                        Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration)
+                        prefManager.setRegistrationToken("Done")
+
                        // }
 
                         // context?.startActivity(Intent(requireContext(), DriverDashBoard::class.java))

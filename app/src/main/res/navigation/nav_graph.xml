@@ -130,7 +130,12 @@
         <action
             android:id="@+id/action_driverCabDetailsFragment_to_figgo_Capton"
             app:destination="@id/figgo_Capton" />
+        <action
+            android:id="@+id/action_driverCabDetailsFragment_to_waitingRegistration"
+            app:destination="@id/waitingRegistration" />
+
     </fragment>
+
     <fragment
         android:id="@+id/figgoHotelPartner"
         android:name="com.pearl.hotelPartner.UI.Fragment.FiggoHotelPartner"
@@ -159,7 +164,15 @@
         <action
             android:id="@+id/action_welcomeDriverFragment_to_figgo_FamilyFragment"
             app:destination="@id/figgo_FamilyFragment" />
+        <action
+            android:id="@+id/action_welcomeDriverFragment_to_waitingRegistration"
+            app:destination="@id/waitingRegistration" />
     </fragment>
+    <fragment
+        android:id="@+id/waitingRegistration"
+        android:name="com.pearl.figgodriver.Fragment.WaitingRegistration"
+        android:label="fragment_waiting_registration"
+        tools:layout="@layout/fragment_waiting_registration" />
 
 
     <!--    <fragment-->

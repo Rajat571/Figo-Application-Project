@@ -266,6 +266,12 @@ import android.content.SharedPreferences
          return pref?.getString("permit_valid_date","")!!
      }
 
-
+     fun getRegistrationToken():String{
+         return  pref?.getString("RegistrationW","").toString()
+     }
+     fun setRegistrationToken(reg:String){
+         editor?.putString("RegistrationW",reg)
+         editor?.commit()
+     }
 
 }
