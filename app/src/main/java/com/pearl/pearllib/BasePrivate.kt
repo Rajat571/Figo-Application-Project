@@ -65,7 +65,12 @@ abstract class BasePrivate : BaseClass() {
         }
     }
 
-    fun fetchStates(baseApbcContext: Context?,spinner: Spinner,loc:Int,spinner2:Spinner): Int {
+    fun fetchStates(
+        baseApbcContext: Context?, spinner: Spinner, loc: Int,
+        spinner2: Spinner,
+        outstationStateHashMap: ArrayList<String>
+    ): ArrayList<String> {
+        outstationStateHashMap.clear()
         prefManager=PrefManager(baseApbcContext!!)
         var hashMap : HashMap<String, Int> = HashMap<String, Int> ()
         var state_id:Int = 0
@@ -83,6 +88,7 @@ abstract class BasePrivate : BaseClass() {
                 if (response != null) {
                     val status = response.getString("status")
                     if(status.equals("1")){
+
                         val jsonArray = response.getJSONArray("states")
                         for (i in 0..jsonArray.length()-1){
                             val rec: JSONObject = jsonArray.getJSONObject(i)
@@ -92,19 +98,16 @@ abstract class BasePrivate : BaseClass() {
                         }
                         //spinner
                         val stateadapter =  ArrayAdapter(baseApbcContext!!,R.layout.simple_spinner_item,hashMap.keys.toList());
-                        // val stateadapter = com.pearl.figgodriver.Adapter.SpinnerAdapter( requireContext(),android.R.layout.simple_spinner_dropdown_item, statehashMap.keys.toList())
                         stateadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                         spinner.setAdapter(stateadapter)
                         spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, position: Int, id: Long) {
 
                                 state_id = hashMap.values.toList()[position]
-                                prefManager.setdriverWorkState(state_id)
-                                Log.d("data","State_id===="+state_id)
-
-                                if(loc==2)
-                             fetchCity(baseApbcContext,spinner2,state_id)
-
+                            //    prefManager.setdriverWorkState(state_id)
+                                Log.d("data","State_id===="+state_id+loc)
+                                outstationStateHashMap.add(loc.toString()+"=="+state_id.toString())
+                               // outstationStateHashMap.put("state"+loc,state_id)
                             }
 
                             @SuppressLint("SetTextI18n")
@@ -123,7 +126,7 @@ abstract class BasePrivate : BaseClass() {
         queue.add(jsonOblect)
 
 
-        return state_id
+        return outstationStateHashMap
 
     }
     private fun fetchCity(baseApbcContext: Context?,spinnerCity: Spinner,id: Int) {

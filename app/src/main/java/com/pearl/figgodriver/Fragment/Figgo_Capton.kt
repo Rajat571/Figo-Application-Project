@@ -140,9 +140,9 @@ class Figgo_Capton : Fragment(){
     }
 
     private fun fetchState() {
-
         statehashMap.clear()
             val URL = " https://test.pearl-developer.com/figo/api/get-state"
+
             val queue = Volley.newRequestQueue(requireContext())
             val json = JSONObject()
             var token= prefManager.getToken()
@@ -172,8 +172,7 @@ class Figgo_Capton : Fragment(){
 
                                 //spinner
                                 val stateadapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,statehashMap.keys.toList());
-                               // val stateadapter = com.pearl.figgodriver.Adapter.SpinnerAdapter( requireContext(),android.R.layout.simple_spinner_dropdown_item, statehashMap.keys.toList())
-                                stateadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                               stateadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                                 binding.spinnerState.setAdapter(stateadapter)
                                 binding.spinnerState.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                                     override fun onItemSelected(adapterView: AdapterView<*>?, view: View, position: Int, id: Long) {
