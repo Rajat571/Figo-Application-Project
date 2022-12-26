@@ -479,7 +479,7 @@ class DriverCabDetailsFragment : Fragment() {
                 //Getting the Bitmap from Gallery
                 val selectedImageUri = data?.getData()
                 val bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), selectedImageUri)
-                val extension = base.getExtension(selectedImageUri!!)
+                val extension = base.getExtension(selectedImageUri!!,requireContext())
                 prefManager.setDriverCab_ext(extension!!)
                 driver_cab_image = base.BitMapToString(bitmap).toString()
                 prefManager.setDriverCab(driver_cab_image)

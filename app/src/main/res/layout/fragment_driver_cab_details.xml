@@ -72,13 +72,18 @@
                             android:textColor="#325DCB"
                             android:textSize="20sp" />
 
-                        <ImageView
-                            android:id="@+id/upload_car"
+
+
+                        <de.hdodenhof.circleimageview.CircleImageView
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="10dp"
+                            android:id="@+id/upload_car"
+                            android:padding="2dp"
+                            android:layout_margin="10dp"
+                            android:background="@drawable/circle_bg"
                             android:src="@drawable/cab" />
+
+
 
                     </LinearLayout>
 

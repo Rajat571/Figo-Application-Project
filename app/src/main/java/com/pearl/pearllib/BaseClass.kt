@@ -384,8 +384,8 @@ abstract class BaseClass : AppCompatActivity() {
         }
     }
 
-    fun getExtension(uri: Uri): String {
-        val mimeType: String = uri.let { baseApcContext?.getContentResolver()!!.getType(it).toString()
+    fun getExtension(uri: Uri,context: Context): String {
+        val mimeType: String = uri.let { context?.getContentResolver()!!.getType(uri).toString()
         }
 
         return MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType)!!
