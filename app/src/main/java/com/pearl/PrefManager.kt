@@ -224,21 +224,21 @@ import android.content.SharedPreferences
      fun getDriverCabCategory():String{
          return pref?.getString("cab_category","")!!
      }
-     fun setDriverVechleModel(vechle_model:String){
-         editor?.putString("vechle_model",vechle_model)
+     fun setDriverVechleModel(vechle_model:Int){
+         editor?.putInt("vechle_model",vechle_model)
          editor?.commit()
      }
 
-     fun getDriverVechleModel():String{
-         return pref?.getString("vechle_model","")!!
+     fun getDriverVechleModel():Int{
+         return pref?.getInt("vechle_model",0)!!
      }
-     fun setDriverVechleYear(vechle_year:String){
-         editor?.putString("vechle_year",vechle_year)
+     fun setDriverVechleYear(vechle_year:Int){
+         editor?.putInt("vechle_year",vechle_year)
          editor?.commit()
      }
 
-     fun getDriverVechleYear():String{
-         return pref?.getString("vechle_year","")!!
+     fun getDriverVechleYear():Int{
+         return pref?.getInt("vechle_year",0)!!
      }
 
      fun setDriverRegistrationNo(registration_no:String){
@@ -273,5 +273,20 @@ import android.content.SharedPreferences
          editor?.putString("RegistrationW",reg)
          editor?.commit()
      }
+     fun getdriverWorkState():Int{
+         return  pref?.getInt("work_city",0)!!
+     }
+     fun setdriverWorkState(work_state:Int){
+         editor?.putInt("work_state",work_state)
+         editor?.commit()
+     }
+     fun getdriverWorkCity():Int{
+         return  pref?.getInt("work_city",0)!!
+     }
+     fun setdriverWorkCity(work_city:Int){
+         editor?.putInt("work_state",work_city)
+         editor?.commit()
+     }
+
 
 }

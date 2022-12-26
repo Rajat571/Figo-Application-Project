@@ -25,13 +25,13 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/choose_user"
+            android:id="@+id/cab_details_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/background_layout"
-            android:visibility="visible"
+            android:visibility="gone"
             app:cardCornerRadius="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -240,7 +240,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@drawable/background_layout"
-            android:visibility="gone"
+            android:visibility="visible"
             app:cardCornerRadius="10dp"
             android:layout_marginHorizontal="@dimen/_7ssp"
             android:layout_marginVertical="100dp"
@@ -434,7 +434,7 @@
             </ScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
+       <!-- <Button
             android:id="@+id/proceed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -445,7 +445,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/bottombuttonbar"
             app:layout_constraintEnd_toEndOf="parent" />
-
+-->
         <include
             android:id="@+id/bottombuttonbar"
             layout="@layout/bottom_button_layout"

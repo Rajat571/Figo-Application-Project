@@ -18,6 +18,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.pearl.figgodriver.LoginActivity
+import com.pearlorganisation.PrefManager
 import org.json.JSONObject
 
 abstract class BasePrivate : BaseClass() {
@@ -31,8 +32,10 @@ abstract class BasePrivate : BaseClass() {
     var criteria: Criteria? = null
     var coin_balance: TextView? = null
     var shiprocketToken: String? = null
+    lateinit var prefManager: PrefManager
     fun CheckSession(baseApbcContext: Context?, activityIn: AppCompatActivity) {
         session = Session(baseApbcContext!!)
+        prefManager=PrefManager(baseApbcContext)
         val token = session!!.token
         var session_available = false
         if (session!!.hasSession!!) {
@@ -63,6 +66,7 @@ abstract class BasePrivate : BaseClass() {
     }
 
     fun fetchStates(baseApbcContext: Context?,spinner: Spinner,loc:Int,spinner2:Spinner): Int {
+        prefManager=PrefManager(baseApbcContext!!)
         var hashMap : HashMap<String, Int> = HashMap<String, Int> ()
         var state_id:Int = 0
         val URL = " https://test.pearl-developer.com/figo/api/get-state"
@@ -95,6 +99,9 @@ abstract class BasePrivate : BaseClass() {
                             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, position: Int, id: Long) {
 
                                 state_id = hashMap.values.toList()[position]
+                                prefManager.setdriverWorkState(state_id)
+                                Log.d("data","State_id===="+state_id)
+
                                 if(loc==2)
                              fetchCity(baseApbcContext,spinner2,state_id)
 
@@ -120,6 +127,7 @@ abstract class BasePrivate : BaseClass() {
 
     }
     private fun fetchCity(baseApbcContext: Context?,spinnerCity: Spinner,id: Int) {
+        prefManager=PrefManager(baseApbcContext!!)
         var cityhashMap : HashMap<String, Int> = HashMap<String, Int> ()
         val URL = " https://test.pearl-developer.com/figo/api/get-city"
         val queue = Volley.newRequestQueue(baseApbcContext)
@@ -157,6 +165,7 @@ abstract class BasePrivate : BaseClass() {
                             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, position: Int, id: Long) {
 
                                 val id = cityhashMap.values.toList()[position]
+                                prefManager.setdriverWorkCity(id)
                                 Log.d("SendData", "cityid===" + id)
                                 //  fetchCity(id)
 
