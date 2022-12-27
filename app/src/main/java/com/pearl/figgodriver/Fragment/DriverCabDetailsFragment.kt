@@ -592,12 +592,11 @@ class DriverCabDetailsFragment : Fragment() {
            // binding.proceed.visibility = View.VISIBLE
             if (binding.work.visibility==View.VISIBLE){
                 next.setOnClickListener {
+                    context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
                     submitForm(registration_no,insurance_valid_date,permit_valid_date,car_category,car_model,model_year,v_number)
 
                 }
-
             }
-
 
                     //var proceed = binding.proceed
 
@@ -671,7 +670,7 @@ class DriverCabDetailsFragment : Fragment() {
                      Log.d("SendData", "response===" + response)
                      Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
                      if (response != null) {
-                         context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
+
                        //  Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration)
                          prefManager.setRegistrationToken("Done")
                          prefManager.setCabFormToken("Submitted")
