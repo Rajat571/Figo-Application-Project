@@ -2,21 +2,24 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/home_dashboard_navgraph">
-
+   app:startDestination="@id/outstation_ride"
+    android:id="@+id/home_nav_graph">
     <fragment
         android:id="@+id/outstation_ride"
         android:name="com.pearl.figgodriver.Fragment.DriverHomeFragment"
         android:label="fragment_driver_home"
+
         tools:layout="@layout/fragment_driver_home" />
     <fragment
         android:id="@+id/all_ride"
-        android:name="com.pearl.FiggoPartner.UI.Fragment.PartnerActiveRideFragment"
-        android:label="fragment_partner_active_ride"
-        tools:layout="@layout/fragment_partner_active_ride" />
-
-    <fragment android:id="@+id/city_ride"
+        android:name="com.pearl.figgodriver.Fragment.DriverRideSaleFragment"
+        android:label="fragment_driver_ride_sale"
+        tools:layout="@layout/fragment_driver_ride_sale" />
+    <fragment
+        android:id="@+id/city_ride"
         android:name="com.pearl.figgodriver.Fragment.CityRideFragment"
-        tools:layout="@layout/fragment_city_ride"/>
+        tools:layout="@layout/fragment_city_ride"
+        android:label="fragment_driver_city_ride"
+        />
 
 </navigation>

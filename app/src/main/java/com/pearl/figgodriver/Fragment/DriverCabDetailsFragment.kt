@@ -615,7 +615,7 @@ class DriverCabDetailsFragment : Fragment() {
     }
 
     private fun submitForm(registration_no:String,insurance_valid_date:String,permit_valid_date:String,car_category:String,car_model:Int,model_year:Int,v_number:String) {
-
+prefManager.setRegistrationToken("okkkkkk")
         Log.d("SendData", "updatedStateList==="+updatedStateList)
 
         val URL = "https://test.pearl-developer.com/figo/api/regitser-driver"
