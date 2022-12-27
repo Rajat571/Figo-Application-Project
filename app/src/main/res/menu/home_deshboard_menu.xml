@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-<item android:id="@+id/city_ride"
-    android:title="City-Ride"/>
+
+    <item android:id="@+id/outstation_ride"
+        android:title="OutStation"/>
 
     <item android:id="@+id/all_ride"
         android:title="All-Ride"/>
 
-    <item android:id="@+id/outstation_ride"
-        android:title="OutStation"/>
+    <item android:id="@+id/city_ride"
+    android:title="City-Ride"/>
+
+
+
 </menu>

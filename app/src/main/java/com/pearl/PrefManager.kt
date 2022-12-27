@@ -288,4 +288,18 @@ import android.content.SharedPreferences
          editor?.commit()
      }
 
+     fun setlatitude(lat:Float){
+         editor?.putFloat("lat",lat)
+         editor?.commit()
+     }
+     fun getlatitude():Float{
+         return  pref?.getFloat("lat",0.0f)!!
+     }
+     fun setlongitude(long:Float){
+         editor?.putFloat("long",long)
+         editor?.commit()
+     }
+     fun getlongitude():Float{
+         return  pref?.getFloat("long",0.0f)!!
+     }
 }

@@ -20,6 +20,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FiggoDriver"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAlx8qGhesdmQOyprqMV3Wzppo4Ih4kFso"/>
+
         <activity
             android:name="com.pearl.hotelPartner.HotelPartnerDashboard"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
@@ -51,6 +55,8 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
+
+
         </activity>
         <activity
             android:name="com.pearl.figgodriver.PriceDetailsActivity"
