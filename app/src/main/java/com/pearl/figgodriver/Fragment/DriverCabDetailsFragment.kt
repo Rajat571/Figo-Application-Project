@@ -17,6 +17,7 @@ import androidx.navigation.Navigation
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.pearl.figgodriver.DriverDashBoard
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.databinding.FragmentDriverCabDetailsBinding
 import com.pearl.pearllib.BaseClass
@@ -263,10 +264,7 @@ class DriverCabDetailsFragment : Fragment() {
             calendar(binding.taxPermitNo)
         }
 
-
-
        // baseprivate.fetchStates(requireContext(),binding.selectStateLocal,2,binding.selectCity)
-
 
     }
 
@@ -290,13 +288,14 @@ class DriverCabDetailsFragment : Fragment() {
                     if(status.equals("1")){
                         val jsonArray = response.getJSONArray("states")
                         for (i in 0..jsonArray.length()-1){
+
                             val rec: JSONObject = jsonArray.getJSONObject(i)
                             var name = rec.getString("name")
                             var id = rec.getString("id")
                             hashMap.put(name,id.toInt())
                         }
                         //spinner
-                        val stateadapter =  ArrayAdapter(baseApbcContext!!, android.R.layout.simple_spinner_item,hashMap.keys.toList());
+                        val stateadapter = ArrayAdapter(baseApbcContext!!, android.R.layout.simple_spinner_item,hashMap.keys.toList());
                           stateadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                         binding.selectStateLocal.setAdapter(stateadapter)
                         binding.selectStateLocal.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
@@ -666,14 +665,14 @@ class DriverCabDetailsFragment : Fragment() {
         Log.d("SendData", "aadharVerificationBack" + prefManager.getDriverCab())
 
 
-       /*  val jsonOblect=
+         val jsonOblect=
              object : JsonObjectRequest(Method.POST, URL, json,
                  Response.Listener<JSONObject?> { response ->
                      Log.d("SendData", "response===" + response)
                      Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
                      if (response != null) {
-                         //context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
-                         Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration)
+                         context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
+                       //  Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration)
                          prefManager.setRegistrationToken("Done")
                          prefManager.setCabFormToken("Submitted")
                      }
@@ -682,7 +681,6 @@ class DriverCabDetailsFragment : Fragment() {
                      // Error
                  }){}
          queue.add(jsonOblect)
-*/
 
 
     }
