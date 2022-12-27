@@ -4,10 +4,13 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Layout
+import android.view.Gravity
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.drawerlayout.widget.DrawerLayout
 //import com.example.figgodriver.Fragment.AccountDetailsFragment
 import com.pearl.figgodriver.R
 import kotlinx.android.synthetic.main.active_ride_layout.*
@@ -23,6 +26,12 @@ class AccountDetails : AppCompatActivity() {
         var topLayout = findViewById<LinearLayout>(R.id.layout)
         var off_toggle = topLayout.toggle_off
         var on_toggle = topLayout.toggle_on
+        var menu = topLayout.sidebar
+        var drawer = findViewById<DrawerLayout>(R.id.Account_Drawer_layout)
+        var action_bar_toggle = ActionBarDrawerToggle(this,drawer,R.string.nav_open, R.string.nav_close)
+        drawer.addDrawerListener(action_bar_toggle)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
 //        topLayout.setOnTouchListener { , motionEvent ->  }
         topLayout.toggle_off.setOnClickListener {
             off_toggle.setBackgroundColor(Color.RED)
@@ -32,6 +41,9 @@ class AccountDetails : AppCompatActivity() {
         topLayout.toggle_on.setOnClickListener {
             on_toggle.setBackgroundColor(Color.GREEN)
             off_toggle.setBackgroundColor(Color.WHITE)
+        }
+        menu.setOnClickListener {
+            drawer.openDrawer(Gravity.LEFT)
         }
         var ad = com.pearl.figgodriver.Fragment.AccountDetails()
         supportFragmentManager.beginTransaction().add(R.id.account_detailsFrame,ad).commit()

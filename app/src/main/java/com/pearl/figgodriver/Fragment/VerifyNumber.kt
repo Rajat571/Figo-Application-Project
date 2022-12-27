@@ -97,7 +97,7 @@ class VerifyNumber : Fragment() {
 
                 val jsonOblect: JsonObjectRequest =
                     object : JsonObjectRequest(Method.POST, URL, json, object :
-                        Response.Listener<JSONObject?> {
+                        Response.Listener<JSONObject?>               {
                         override fun onResponse(response: JSONObject?) {
 
                             Log.d("SendData", "response===" + response)

@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.Gravity
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -38,13 +40,11 @@ class DriverDashBoard : AppCompatActivity() {
         var navigationDrawer=findViewById<NavigationView>(R.id.navView)
         var drawer_layout=findViewById<DrawerLayout>(R.id.drawerLayout)
         lateinit var toggle: ActionBarDrawerToggle
-
-
+      //  var menu =  findViewById<ImageView>(R.id.sidebar)
         toggle = ActionBarDrawerToggle(this@DriverDashBoard, drawer_layout, R.string.driver_details,R.string.driver_details)
         toggle.syncState()
         drawer_layout.setDrawerListener(toggle)
         drawer_layout.addDrawerListener(toggle)
-
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 

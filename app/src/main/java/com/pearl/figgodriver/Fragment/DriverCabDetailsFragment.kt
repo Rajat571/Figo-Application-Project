@@ -429,7 +429,6 @@ class DriverCabDetailsFragment : Fragment() {
                                    /* prefManager.setDriverCabCategory(fetchModel(hashMap.values.toList()[position]).toString())
                                     Log.d("DriverCabCategory","DriverCabCategory==="+ prefManager.setDriverCabCategory(fetchModel(hashMap.values.toList()[position]).toString()))*/
 
-
                                 }
 
                                 override fun onNothingSelected(parent: AdapterView<*>) {
@@ -623,7 +622,7 @@ class DriverCabDetailsFragment : Fragment() {
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
         var token= prefManager.getToken()
-
+        prefManager.setRegistrationToken("ok")
         json.put("token",token)
         json.put("name",prefManager.getDriverName())
         json.put("mobile",prefManager.getMobileNo())

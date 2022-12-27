@@ -84,10 +84,10 @@
                     android:textStyle="bold" />
 
                 <LinearLayout
-
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="right"
+                    android:id="@+id/rechargeClick"
                     android:text="Recharge"
                     android:textSize="@dimen/_15sdp"
                     android:textStyle="bold"

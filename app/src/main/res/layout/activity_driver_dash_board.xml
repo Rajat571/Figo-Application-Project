@@ -68,7 +68,10 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />-->
 
-    <include layout="@layout/driver_navigation_drawer"/>
+    <include
+        android:id="@+id/include"
+
+        layout="@layout/driver_navigation_drawer" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
