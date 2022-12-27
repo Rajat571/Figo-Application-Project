@@ -9,6 +9,7 @@
         tools:context=".Fragment.DriverHomeFragment"
        >
 
+
         <include
             android:id="@+id/layout"
             layout="@layout/top_layout"

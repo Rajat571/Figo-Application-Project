@@ -89,10 +89,10 @@ class DriverDashBoard : AppCompatActivity() {
         sidebar.setOnClickListener {
 
         }
-        val navHostFragment=supportFragmentManager.findFragmentById(R.id.mainContainer) as NavHostFragment
+    /*    val navHostFragment=supportFragmentManager.findFragmentById(R.id.mainContainer) as NavHostFragment
         navController=navHostFragment.navController
-        val bottomNavigationView=findViewById<BottomNavigationView>(R.id.navigation_bar)
-        setupWithNavController(bottomNavigationView,navController)
+        val bottomNavigationView=findViewById<BottomNavigationView>(R.id.top_navigation_bar)
+        setupWithNavController(bottomNavigationView,navController)*/
     }
     override fun onBackPressed() {
         val count = supportFragmentManager.backStackEntryCount

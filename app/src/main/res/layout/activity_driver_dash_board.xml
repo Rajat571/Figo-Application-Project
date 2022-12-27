@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DriverDashBoard">
+
     <include
         android:id="@+id/layout"
         layout="@layout/top_layout"
@@ -16,24 +17,41 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5" />
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/top_navigation_bar"
+        app:itemTextColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_margin="20dp"
+        app:itemIconTint="@color/white"
+        android:textAlignment="center"
+        android:padding="5dp"
+        app:labelVisibilityMode="labeled"
+        android:background="@drawable/menu_item_background"
+        android:layout_height="45dp"
+        app:itemRippleColor="@color/purple_200"
+        app:menu="@menu/home_deshboard_menu"
+        app:layout_constraintTop_toBottomOf="@+id/layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <fragment
+
+   <!-- <fragment
+        app:layout_constraintTop_toBottomOf="@+id/top_navigation_bar"
         android:id="@+id/mainContainer"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@+id/navigation_bar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/navigation_bar"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5"
-        app:navGraph="@navigation/driver_nav_graph"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintVertical_bias="0.942"
+        app:navGraph="@navigation/home_dashboard_navgraph"
+        tools:ignore="MissingConstraints" />-->
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+   <!-- <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation_bar"
         app:itemTextColor="@drawable/bottom_nav_title_color"
         android:layout_width="match_parent"
@@ -48,7 +66,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />-->
 
     <include layout="@layout/driver_navigation_drawer"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+

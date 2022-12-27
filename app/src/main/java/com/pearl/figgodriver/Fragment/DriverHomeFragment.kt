@@ -30,7 +30,7 @@ class DriverHomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-  binding=DataBindingUtil.inflate(inflater,R.layout.fragment_driver_home,container,false)
+       binding=DataBindingUtil.inflate(inflater,R.layout.fragment_driver_home,container,false)
         return binding.root
     }
 
