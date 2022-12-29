@@ -13,10 +13,12 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.Gravity
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -189,6 +191,30 @@ class DriverDashBoard : AppCompatActivity() {
         navController=navHostFragment.navController
         val bottomNavigationView=findViewById<BottomNavigationView>(R.id.top_navigation_bar)
         setupWithNavController(bottomNavigationView,navController)
+        var home_layout = findViewById<ConstraintLayout>(R.id.home_layout)
+        var all_Ride = findViewById<ConstraintLayout>(R.id.activeRide_layout)
+        home_layout.visibility = View.VISIBLE
+        all_Ride.visibility=View.GONE
+
+        var bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNav.setOnItemSelectedListener {
+            when(it.itemId){
+                R.id.home->{
+                    home_layout.visibility = View.VISIBLE
+                    all_Ride.visibility = View.GONE
+                }
+                R.id.call->{
+                    var intent_call = Intent(Intent.ACTION_DIAL)
+                    intent_call.data = Uri.parse("tel:"+"+919715597855")
+                        startActivity(intent_call)
+                }
+                R.id.active_ride->{
+                    home_layout.visibility = View.GONE
+                    all_Ride.visibility = View.VISIBLE
+                }
+            }
+            true
+        }
     }
     override fun onBackPressed() {
         val count = supportFragmentManager.backStackEntryCount

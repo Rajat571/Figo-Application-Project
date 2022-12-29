@@ -23,13 +23,13 @@ class WelcomeActivity : AppCompatActivity() {
         window.setStatusBarColor(Color.parseColor("#000F3B"))
         prefManager= PrefManager(this)
         Handler().postDelayed({
-            startActivity(Intent(this,LoginActivity::class.java))
-          /*  if (prefManager.getToken().equals("") || prefManager.getToken().equals("null")){
 
+           if (prefManager.getToken().equals("") || prefManager.getToken().equals("null")||prefManager.getMpin().equals("")||prefManager.getRegistrationToken().equals("")){
+startActivity(Intent(this,LoginActivity::class.java))
             }
-            else{
-
-            }*/
+            else if(prefManager.getMpin().equals("") || prefManager.getToken().equals("null")){
+            startActivity(Intent(this,DriverDashBoard::class.java))
+            }
 
         },2000)
       /*  var next_btn=findViewById<TextView>(R.id.next_button)

@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.location.Location
 import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -146,7 +147,7 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
             val request = Request.Builder().url(url).build()
             val response = client.newCall(request).execute()
             val data = response.body().toString()
-
+//Log.d("Response == ",""+data)
             val result =  ArrayList<List<LatLng>>()
             try{
                 val respObj = Gson().fromJson(data, MapData::class.java)
@@ -156,7 +157,7 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
                 }
                 result.add(path)
             }catch (e:Exception){
-                e.printStackTrace()
+                Log.d("response == ",""+e.stackTrace)
             }
             return result
         }
