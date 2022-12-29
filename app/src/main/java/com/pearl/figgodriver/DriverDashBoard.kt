@@ -18,6 +18,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityCompat
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 
 import androidx.navigation.NavController
@@ -35,6 +36,7 @@ import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.pearlorganisation.PrefManager
+import kotlinx.android.synthetic.main.bottom_button_layout.view.*
 import kotlinx.android.synthetic.main.top_layout.view.*
 import java.util.concurrent.TimeUnit
 
@@ -44,8 +46,6 @@ class DriverDashBoard : AppCompatActivity() {
     var doubleBackToExitPressedOnce = false
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     lateinit var prefManager: PrefManager
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,13 +61,16 @@ class DriverDashBoard : AppCompatActivity() {
         var sidebar=findViewById<ImageView>(R.id.sidebar)
         var topLayout = findViewById<LinearLayout>(R.id.layout)
         var menu = topLayout.sidebar
+        var off_toggle = topLayout.toggle_off
+        var on_toggle = topLayout.toggle_on
+       // var back = topLayout.back_button
 
         var drawer = findViewById<DrawerLayout>(R.id.Dashboard_Drawer_layout)
         var action_bar_toggle = ActionBarDrawerToggle(this,drawer,R.string.nav_open, R.string.nav_close)
         drawer.addDrawerListener(action_bar_toggle)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         menu.setOnClickListener {
-            drawer.openDrawer(Gravity.LEFT)
+            drawer.openDrawer(GravityCompat.END)
         }
 
 
@@ -153,6 +156,7 @@ class DriverDashBoard : AppCompatActivity() {
             callIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(callIntent)
         }
+
         share.setOnClickListener {
             var intent= Intent()
             intent.action= Intent.ACTION_SEND
@@ -162,7 +166,24 @@ class DriverDashBoard : AppCompatActivity() {
         }
 
         sidebar.setOnClickListener {
+            drawer.openDrawer(GravityCompat.END)
 
+        }
+        topLayout.toggle_off.setOnClickListener {
+            off_toggle.setBackgroundColor(Color.RED)
+            on_toggle.setBackgroundColor(Color.WHITE)
+            Toast.makeText(this,"off",Toast.LENGTH_SHORT).show()
+        }
+        topLayout.toggle_on.setOnClickListener {
+            on_toggle.setBackgroundColor(Color.GREEN)
+            off_toggle.setBackgroundColor(Color.WHITE)
+            Toast.makeText(this,"on",Toast.LENGTH_SHORT).show()
+        }
+        topLayout.top_back.setOnClickListener {
+            val startMain = Intent(Intent.ACTION_MAIN)
+            startMain.addCategory(Intent.CATEGORY_HOME)
+            startMain.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(startMain)
         }
         val navHostFragment=supportFragmentManager.findFragmentById(R.id.mainContainer) as NavHostFragment
         navController=navHostFragment.navController
