@@ -65,7 +65,7 @@ class DriverRideSaleFragment : Fragment() {
 //        var allride_view = view.findViewById<LinearLayout>(R.id.details_view)
         var submit = view.findViewById<Button>(R.id.sumit)
         var allRidefrag = allRideRS()
-        var back = view.findViewById<TextView>(R.id.top_back)
+    //    var back = view.findViewById<TextView>(R.id.top_back)
         main1.visibility = View.VISIBLE
         topbutton.visibility = View.GONE
         details.visibility = View.GONE
@@ -98,9 +98,9 @@ class DriverRideSaleFragment : Fragment() {
 
         }
 
-        back.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_ride_sale_to_home)
-        }
+//        back.setOnClickListener {
+//            Navigation.findNavController(view).navigate(R.id.action_ride_sale_to_home)
+//        }
     }
 
     private fun setfragment(frag: Fragment) {

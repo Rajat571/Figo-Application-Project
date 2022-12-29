@@ -34,4 +34,5 @@
     <!-- to toggle the open close button of the navigation drawer -->
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
+    <string name="google_map_api_key">AIzaSyC1uqsZFjBRpnP2On9w1L9P3ayv-bjjOBI</string>
 </resources>

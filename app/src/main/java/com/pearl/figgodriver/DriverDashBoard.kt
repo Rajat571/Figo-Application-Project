@@ -12,7 +12,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.Gravity
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityCompat
@@ -33,6 +35,7 @@ import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.pearlorganisation.PrefManager
+import kotlinx.android.synthetic.main.top_layout.view.*
 import java.util.concurrent.TimeUnit
 
 class DriverDashBoard : AppCompatActivity() {
@@ -56,6 +59,17 @@ class DriverDashBoard : AppCompatActivity() {
         var call=findViewById<ImageView>(R.id.call)
         var share=findViewById<ImageView>(R.id.share)
         var sidebar=findViewById<ImageView>(R.id.sidebar)
+        var topLayout = findViewById<LinearLayout>(R.id.layout)
+        var menu = topLayout.sidebar
+
+        var drawer = findViewById<DrawerLayout>(R.id.Dashboard_Drawer_layout)
+        var action_bar_toggle = ActionBarDrawerToggle(this,drawer,R.string.nav_open, R.string.nav_close)
+        drawer.addDrawerListener(action_bar_toggle)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        menu.setOnClickListener {
+            drawer.openDrawer(Gravity.LEFT)
+        }
+
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         if (ActivityCompat.checkSelfPermission(
