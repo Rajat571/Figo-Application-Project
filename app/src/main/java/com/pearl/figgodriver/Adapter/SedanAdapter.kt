@@ -1,15 +1,21 @@
 package com.example.figgodriver.Fragment
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.model.Sedan
 
+
 class SedanAdapter(var booking:List<Sedan>):RecyclerView.Adapter<ViewHolder>() {
+    lateinit var x:Context
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.rideset,parent,false))
     }
 
@@ -26,6 +32,12 @@ class SedanAdapter(var booking:List<Sedan>):RecyclerView.Adapter<ViewHolder>() {
         holder.addsub3.text = x.subadd3
         holder.bottomadd.text = x.lastadd
         holder.perkm.text = x.extra_km.toString()
+        holder.submit.setOnClickListener {
+            Toast.makeText(holder.x.context,"Submitted",Toast.LENGTH_SHORT).show()
+        }
+        holder.accept.setOnClickListener {
+            Toast.makeText(holder.x.context,"Accepted",Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun getItemCount(): Int {
@@ -45,5 +57,12 @@ class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
     var addsub3 = itemView.findViewById<TextView>(R.id.delhi)
     var bottomadd = itemView.findViewById<TextView>(R.id.chandigarh)
     var perkm = itemView.findViewById<TextView>(R.id.total_km)
+    var driver_price = itemView.findViewById<EditText>(R.id.driver_price)
+    var submit = itemView.findViewById<TextView>(R.id.rideset_submit)
+    var accept = itemView.findViewById<TextView>(R.id.rideset_accept)
+    var x=itemView
 
-}
+    }
+
+
+

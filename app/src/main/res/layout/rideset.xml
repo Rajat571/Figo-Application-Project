@@ -233,6 +233,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:hint=" Your Price"
+                                android:background="@null"
+                                android:padding="@dimen/_8sdp"
 
                                 android:id="@+id/driver_price"
                                 />
@@ -242,6 +244,7 @@
                                 android:text="Submit"
                                 android:padding="@dimen/_10sdp"
                                 android:gravity="center"
+                                android:id="@+id/rideset_submit"
                                 android:textSize="@dimen/_7sdp"
                                 android:textColor="@color/white"
                                 android:background="#13B92E"
@@ -280,7 +283,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:text="Accept"
-
+                                    android:id="@+id/rideset_accept"
                                     android:padding="@dimen/_10sdp"
                                     android:gravity="center"
                                     android:textSize="@dimen/_8sdp"
