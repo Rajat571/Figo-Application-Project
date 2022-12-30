@@ -37,6 +37,8 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import com.pearl.figgodriver.Fragment.ActiveRide
+import com.pearl.figgodriver.Fragment.allRideRS
 import com.pearlorganisation.PrefManager
 import kotlinx.android.synthetic.main.bottom_button_layout.view.*
 import kotlinx.android.synthetic.main.top_layout.view.*
@@ -112,39 +114,6 @@ class DriverDashBoard : AppCompatActivity() {
 
             }
 
-
-
-        /* var navigationDrawer=findViewById<NavigationView>(R.id.navView)
-         var drawer_layout=findViewById<DrawerLayout>(R.id.drawerLayout)
-         lateinit var toggle: ActionBarDrawerToggle
-
-
-         toggle = ActionBarDrawerToggle(this@DriverDashBoard, drawer_layout, R.string.driver_details,R.string.driver_details)
-         toggle.syncState()
-         drawer_layout.setDrawerListener(toggle)
-         drawer_layout.addDrawerListener(toggle)
-
-
-         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-         navigationDrawer.setNavigationItemSelectedListener {
-             when (it.itemId) {
-                 R.id.change_mpin -> {
-                     Toast.makeText(this, "change_mpin Clicked", Toast.LENGTH_SHORT).show()
-                 }
-                 R.id.rides -> {
-                     Toast.makeText(this, "rides Clicked", Toast.LENGTH_SHORT).show()
-                 }
-                 R.id.Logout -> {
-                     //startActivity(Intent(this,LoginActivity::class.java))
-                 }
-
-             }
-             true
-         }
-
- */
-
         whataspp.setOnClickListener {
             val url = "https://api.whatsapp.com/send?phone=7505145405"
             val i = Intent(Intent.ACTION_VIEW)
@@ -211,6 +180,8 @@ class DriverDashBoard : AppCompatActivity() {
                 R.id.active_ride->{
                     home_layout.visibility = View.GONE
                     all_Ride.visibility = View.VISIBLE
+                    supportFragmentManager.beginTransaction().replace(R.id.allRide_frame,ActiveRide()).commit()
+
                 }
             }
             true

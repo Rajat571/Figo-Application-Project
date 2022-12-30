@@ -41,6 +41,7 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     var lat:Double = 0.0
     var long:Double = 0.0
+    var customerLatLng:HashMap<Double,Double> = HashMap()
     var mCurrLocationMarker: Marker? = null
 
 
@@ -94,6 +95,13 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
                 }
 
             }
+
+
+
+
+
+
+
 
         mapFragment.getMapAsync {
             mMap = it
