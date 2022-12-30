@@ -17,6 +17,9 @@ import kotlinx.android.synthetic.main.active_ride_layout.*
 import kotlinx.android.synthetic.main.fragment_driver_cab_details.view.*
 import kotlinx.android.synthetic.main.top_layout.view.*
 
+//C:\Users\Admin\AppData\Local\Android\Sdk\platform-tools..\
+//.\adb connect 192.168.137.43
+
 class AccountDetails : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

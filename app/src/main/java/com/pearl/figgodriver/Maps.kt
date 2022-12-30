@@ -1,37 +1,28 @@
-package com.pearl.figgodriver
 
-import android.Manifest
+package com.pearl.figgodriver
+import android.os.Bundle
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import android.annotation.SuppressLint
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.AsyncTask
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import com.maps.route.extensions.drawMarker
-import com.maps.route.extensions.drawRouteOnMap
-
+import android.util.Log
 import android.widget.Button
-import androidx.core.app.ActivityCompat
+import androidx.appcompat.app.AppCompatActivity
 
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.libraries.places.api.Places
 import com.google.gson.Gson
-import com.maps.route.extensions.drawRouteOnMap
-import com.maps.route.extensions.moveCameraOnMap
-import com.pearlorganisation.PrefManager
+
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import java.util.concurrent.Executors
+
 
 
 class Maps : AppCompatActivity(),OnMapReadyCallback {
@@ -60,7 +51,7 @@ class Maps : AppCompatActivity(),OnMapReadyCallback {
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        val gd = findViewById<Button>(R.id.directions)
+ val gd = findViewById<Button>(R.id.directions)
         gd.setOnClickListener{
             mapFragment.getMapAsync {
                 mMap = it
@@ -73,6 +64,7 @@ class Maps : AppCompatActivity(),OnMapReadyCallback {
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 14F))
             }
         }
+
     }
 
 
@@ -92,6 +84,7 @@ class Maps : AppCompatActivity(),OnMapReadyCallback {
             val request = Request.Builder().url(url).build()
             val response = client.newCall(request).execute()
             val data = response.body().toString()
+            Log.d("DATA","LOCATION DATA==="+data)
 
             val result =  ArrayList<List<LatLng>>()
             try{
@@ -160,3 +153,5 @@ class Maps : AppCompatActivity(),OnMapReadyCallback {
     }
 
 }
+
+

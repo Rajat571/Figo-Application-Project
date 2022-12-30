@@ -69,9 +69,6 @@ class DriverDashBoard : AppCompatActivity() {
         var action_bar_toggle = ActionBarDrawerToggle(this,drawer,R.string.nav_open, R.string.nav_close)
         drawer.addDrawerListener(action_bar_toggle)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        menu.setOnClickListener {
-            drawer.openDrawer(GravityCompat.END)
-        }
 
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
@@ -109,8 +106,6 @@ class DriverDashBoard : AppCompatActivity() {
                 }
 
             }
-
-
 
         /* var navigationDrawer=findViewById<NavigationView>(R.id.navView)
          var drawer_layout=findViewById<DrawerLayout>(R.id.drawerLayout)

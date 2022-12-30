@@ -5,8 +5,10 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
+import android.media.MediaRouter2.RoutingController
 import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,11 +34,16 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 
 
-class CityRideFragment : Fragment(),OnMapReadyCallback {
+class CityRideFragment : Fragment(),OnMapReadyCallback, GoogleMap.OnPolylineClickListener {
     private lateinit var mMap: GoogleMap
     lateinit var prefManager: PrefManager
     //private lateinit var mMap: GoogleMap
+    private val PATTERN_GAP_LENGTH_PX = 20
+    private val DOT: PatternItem = Dot()
+    private val GAP: PatternItem = Gap(PATTERN_GAP_LENGTH_PX.toFloat())
 
+    // Create a stroke pattern of a gap followed by a dot.
+    private val PATTERN_POLYLINE_DOTTED = listOf(GAP, DOT)
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     var lat:Double = 0.0
     var long:Double = 0.0
@@ -91,22 +98,20 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
                     prefManager.setlongitude(long.toFloat())
                     Toast.makeText(requireContext(),"Lat :"+lat+"\nLong: "+long, Toast.LENGTH_SHORT).show()
                 }
-
             }
 
         mapFragment.getMapAsync {
             mMap = it
             val originLocation = LatLng(prefManager.getlatitude().toDouble(), prefManager.getlongitude().toDouble())
-            mMap.addMarker(MarkerOptions().position(originLocation))
-            val destinationLocation = LatLng(30.288793853142632, 77.99709732183523)//30.288793853142632, 77.99709732183523
-            mMap.addMarker(MarkerOptions().position(destinationLocation))
+            mMap.addMarker(MarkerOptions().position(originLocation).title("Pearl"))
+            val destinationLocation = LatLng(30.369461087347446, 77.87932323818708)//30.288793853142632, 77.99709732183523
+            mMap.addMarker(MarkerOptions().position(destinationLocation).title("ISBT"))
             val urll = getDirectionURL(originLocation, destinationLocation, "AIzaSyC1uqsZFjBRpnP2On9w1L9P3ayv-bjjOBI")
             GetDirection(urll).execute()
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 14F))
         }
+
     }
-
-
 
     private fun getDirectionURL(origin:LatLng, dest:LatLng, secret: String) : String{
         return "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}" +
@@ -115,27 +120,37 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
                 "&mode=driving" +
                 "&key=$secret"
     }
-
+   /* https://maps.googleapis.com/maps/api/directions/json?origin=ADDRESS_1&destination=ADDRESS_2&waypoints=ADDRESS_X|ADDRESS_Y&key=API_KEY*/
     override fun onMapReady( googleMap: GoogleMap) {
 
         mMap = googleMap
 
+       // Polylines are useful to show a route or some other connection between points.
+       val polyline1 = googleMap.addPolyline(PolylineOptions()
+           .clickable(true)
+           .add(
+               LatLng(prefManager.getlatitude().toDouble(), prefManager.getlongitude().toDouble()),
+               LatLng(30.285447024168842, 77.99259585206043),
+               //LatLng(30.289467779787685, 77.99463433070844),
 
-        // Add a marker in Sydney and move the camera
-      //  val sydney = LatLng(prefManager.getlatitude().toDouble(), prefManager.getlongitude().toDouble())
-        val sydney=LatLng(prefManager.getlatitude().toDouble(),prefManager.getlongitude().toDouble())
-        mMap.clear()
-        mCurrLocationMarker =   mMap.addMarker(
-            MarkerOptions()
-            .position(sydney)
-            .title("Marker in Uttarakhand"))
-        val markerOptions = MarkerOptions()
-        // mMap.addMarker(markerOptions);
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+               LatLng(30.288878637914124, 77.99424612097803),
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney,18f))
+
+               LatLng(30.288078136339724, 77.99643677516433),
+
+               LatLng(30.369461087347446, 77.87932323818708),
+           ).color(Color.BLUE).pattern(PATTERN_POLYLINE_DOTTED))
+
+       // Position the map's camera near Alice Springs in the center of Australia,
+       // and set the zoom factor so most of Australia shows on the screen.
+       googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-23.684, 133.903), 4f))
+
+       // Set listeners for click events.
+
+
+
     }
+
 
 
 
@@ -146,6 +161,7 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
             val request = Request.Builder().url(url).build()
             val response = client.newCall(request).execute()
             val data = response.body().toString()
+            Log.d("DATA","data"+data)
 
             val result =  ArrayList<List<LatLng>>()
             try{
@@ -158,6 +174,12 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
             }catch (e:Exception){
                 e.printStackTrace()
             }
+            result.add(listOf(LatLng(-35.016, 143.321),
+                LatLng(-34.747, 145.592),
+                LatLng(-34.364, 147.891),
+                LatLng(-33.501, 150.217),
+                LatLng(-32.306, 149.248),
+                LatLng(-32.491, 147.309)))
             return result
         }
 
@@ -205,7 +227,9 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
         return poly
     }
 
-
+    override fun onPolylineClick(p0: Polyline) {
+        TODO("Not yet implemented")
+    }
 
 
 }
