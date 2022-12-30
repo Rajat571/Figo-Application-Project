@@ -7,16 +7,28 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.findFragment
 import androidx.recyclerview.widget.RecyclerView
+import com.pearl.figgodriver.DriverDashBoard
+import com.pearl.figgodriver.Fragment.ActiveRide
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.model.Sedan
+import kotlinx.android.synthetic.main.activity_driver_dash_board.view.*
+import org.w3c.dom.Text
+//import kotlin.coroutines.jvm.internal.CompletedContinuation.context
 
 
-class SedanAdapter(var booking:List<Sedan>):RecyclerView.Adapter<ViewHolder>() {
+class SedanAdapter(var booking:List<Sedan>,var f:Fragment):RecyclerView.Adapter<ViewHolder>() {
     lateinit var x:Context
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        var view = LayoutInflater.from(parent.context).inflate(R.layout.rideset,parent,false)
+//        view.findViewById<TextView>(R.id.rideset_submit).setOnClickListener {
+//            Toast.makeText(parent.context,"Submitted",Toast.LENGTH_SHORT).show()
+//        }
 
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.rideset,parent,false))
+        return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -32,11 +44,12 @@ class SedanAdapter(var booking:List<Sedan>):RecyclerView.Adapter<ViewHolder>() {
         holder.addsub3.text = x.subadd3
         holder.bottomadd.text = x.lastadd
         holder.perkm.text = x.extra_km.toString()
+        //val activity = context as DriverDashBoard
         holder.submit.setOnClickListener {
             Toast.makeText(holder.x.context,"Submitted",Toast.LENGTH_SHORT).show()
         }
         holder.accept.setOnClickListener {
-            Toast.makeText(holder.x.context,"Accepted",Toast.LENGTH_SHORT).show()
+
         }
     }
 
@@ -60,6 +73,8 @@ class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
     var driver_price = itemView.findViewById<EditText>(R.id.driver_price)
     var submit = itemView.findViewById<TextView>(R.id.rideset_submit)
     var accept = itemView.findViewById<TextView>(R.id.rideset_accept)
+
+  //  var home_layout = itemView.home_layout
     var x=itemView
 
     }

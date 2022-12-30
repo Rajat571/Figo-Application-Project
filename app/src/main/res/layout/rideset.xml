@@ -229,16 +229,17 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
                                 >
-                            <EditText
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:hint=" Your Price"
-                                android:background="@null"
-                                android:padding="@dimen/_8sdp"
 
-                                android:id="@+id/driver_price"
-                                />
-                            <TextView
+                                <EditText
+                                    android:id="@+id/driver_price"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@null"
+                                    android:hint=" Your Price"
+                                    android:inputType="number"
+                                    android:padding="@dimen/_8sdp" />
+
+                                <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:text="Submit"

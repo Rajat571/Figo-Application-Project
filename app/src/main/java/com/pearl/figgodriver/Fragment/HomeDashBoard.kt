@@ -1,16 +1,14 @@
 package com.pearl.figgodriver.Fragment
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.pearl.FiggoPartner.Model.AllRideData
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.pearl.figgodriver.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -20,10 +18,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [ActiveRide.newInstance] factory method to
+ * Use the [HomeDashBoard.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ActiveRide : Fragment() {
+class HomeDashBoard : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -41,33 +39,16 @@ class ActiveRide : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_active_ride, container, false)
+        return inflater.inflate(R.layout.fragment_home_dash_board, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val allrideData = ArrayList<AllRideData>();
-        val submit = view.findViewById<Button>(R.id.active_ride_submit)
-        var local = view.findViewById<TextView>(R.id.ar_local)
-        var outstation = view.findViewById<TextView>(R.id.ar_outstation)
-
-        allrideData.add(AllRideData("6:30 pm","PGI, Sector 12, Chandigarh","Chandigarh (Google location)"))
-        allrideData.add(AllRideData("7:30 pm","PGI, Sector 12, Chandigarh","Chandigarh (Google location)"))
-        allrideData.add(AllRideData("8:30 pm","PGI, Sector 12, Chandigarh","Chandigarh (Google location)"))
-
-
-        val recyclerView1 = view.findViewById<RecyclerView>(R.id.activeride_recyclerview)
-        recyclerView1.adapter = AllRideAdapter(allrideData)
-        recyclerView1.layoutManager = LinearLayoutManager(context)
-        local.setOnClickListener {
-            outstation.setBackgroundColor(Color.LTGRAY)
-            local.setBackgroundColor(Color.WHITE)
-        }
-        outstation.setOnClickListener {
-            local.setBackgroundColor(Color.LTGRAY)
-            outstation.setBackgroundColor(Color.WHITE)
-        }
-
+        lateinit var navController: NavController
+        val navHostFragment=childFragmentManager.findFragmentById(R.id.mainContainer) as NavHostFragment
+        navController=navHostFragment.navController
+        val bottomNavigationView=view.findViewById<BottomNavigationView>(R.id.top_navigation_bar)
+        NavigationUI.setupWithNavController(bottomNavigationView, navController)
     }
 
     companion object {
@@ -77,12 +58,12 @@ class ActiveRide : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment ActiveRide.
+         * @return A new instance of fragment HomeDashBoard.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            ActiveRide().apply {
+            HomeDashBoard().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

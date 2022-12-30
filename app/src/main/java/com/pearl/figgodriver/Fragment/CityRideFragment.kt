@@ -57,7 +57,7 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
         prefManager=PrefManager(requireContext())
         val mapFragment = childFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
+            .findFragmentById(R.id.mapX) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
@@ -96,6 +96,11 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
 
             }
 
+
+
+
+
+
         customerLatLng.put(30.288747155809858, 77.99142154400673)
         customerLatLng.put(30.282224877386177, 77.9951122634793)
         customerLatLng.put(30.280927781694515, 77.98987659166937)
@@ -107,10 +112,9 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
             val originLocation = LatLng(prefManager.getlatitude().toDouble(), prefManager.getlongitude().toDouble())
             mMap.addMarker(MarkerOptions().position(originLocation))
             val destinationLocation = LatLng(30.288793853142632, 77.99709732183523)//30.288793853142632, 77.99709732183523
-            //mMap.addMarker(MarkerOptions().position(destinationLocation))
-            for (i in 0 until customerLatLng.size-1)
-                mMap.addMarker(MarkerOptions().position(LatLng(customerLatLng.keys.toList()[i],customerLatLng.values.toList()[i]))
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)))
+            mMap.addMarker(MarkerOptions().position(destinationLocation))
+            for(i in 0..customerLatLng.size-1)
+                mMap.addMarker(MarkerOptions().position(LatLng(customerLatLng.keys.toList()[i],customerLatLng.values.toList()[i])))
             val urll = getDirectionURL(originLocation, destinationLocation, "AIzaSyC1uqsZFjBRpnP2On9w1L9P3ayv-bjjOBI")
             GetDirection(urll).execute()
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 14F))

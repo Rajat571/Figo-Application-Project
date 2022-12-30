@@ -38,6 +38,7 @@ import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.pearl.figgodriver.Fragment.ActiveRide
+import com.pearl.figgodriver.Fragment.HomeDashBoard
 import com.pearl.figgodriver.Fragment.allRideRS
 import com.pearlorganisation.PrefManager
 import kotlinx.android.synthetic.main.bottom_button_layout.view.*
@@ -46,7 +47,7 @@ import java.util.concurrent.TimeUnit
 
 class DriverDashBoard : AppCompatActivity() {
 
-    private lateinit var navController: NavController
+
     var doubleBackToExitPressedOnce = false
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     lateinit var prefManager: PrefManager
@@ -156,21 +157,13 @@ class DriverDashBoard : AppCompatActivity() {
             startMain.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(startMain)
         }
-        val navHostFragment=supportFragmentManager.findFragmentById(R.id.mainContainer) as NavHostFragment
-        navController=navHostFragment.navController
-        val bottomNavigationView=findViewById<BottomNavigationView>(R.id.top_navigation_bar)
-        setupWithNavController(bottomNavigationView,navController)
-        var home_layout = findViewById<ConstraintLayout>(R.id.home_layout)
-        var all_Ride = findViewById<ConstraintLayout>(R.id.activeRide_layout)
-        home_layout.visibility = View.VISIBLE
-        all_Ride.visibility=View.GONE
 
+        supportFragmentManager.beginTransaction().replace(R.id.home_frame,HomeDashBoard()).commit()
         var bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNav.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.home->{
-                    home_layout.visibility = View.VISIBLE
-                    all_Ride.visibility = View.GONE
+                    supportFragmentManager.beginTransaction().replace(R.id.home_frame,HomeDashBoard()).commit()
                 }
                 R.id.call->{
                     var intent_call = Intent(Intent.ACTION_DIAL)
@@ -178,10 +171,7 @@ class DriverDashBoard : AppCompatActivity() {
                         startActivity(intent_call)
                 }
                 R.id.active_ride->{
-                    home_layout.visibility = View.GONE
-                    all_Ride.visibility = View.VISIBLE
-                    supportFragmentManager.beginTransaction().replace(R.id.allRide_frame,ActiveRide()).commit()
-
+                    supportFragmentManager.beginTransaction().replace(R.id.home_frame,ActiveRide()).commit()
                 }
             }
             true
