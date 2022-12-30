@@ -147,12 +147,7 @@ class CityRideFragment : Fragment(),OnMapReadyCallback, GoogleMap.OnPolylineClic
 
        // Set listeners for click events.
 
-
-
     }
-
-
-
 
     @SuppressLint("StaticFieldLeak")
     private inner class GetDirection(val url : String) : AsyncTask<Void, Void, List<List<LatLng>>>(){
