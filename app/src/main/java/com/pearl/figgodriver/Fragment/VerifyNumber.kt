@@ -102,55 +102,40 @@ class VerifyNumber : Fragment() {
 
                             Log.d("SendData", "response===" + response)
                             if (response != null) {
-                                if (prefManager.getToken().equals("") || prefManager.getToken()
-                                        .equals("null")
-                                ) {
-//                                val jsonObject = response.getJSONObject("data")
-//                                val profile_status = response.getString("profile_status")
-                                    //   val userid = jsonObject1.getString("id")
+                                if (prefManager.getToken().equals("") || prefManager.getToken().equals("null")) {
                                     val token = response.getString("token")
+                                    val profile_status = response.getString("profile_status").toInt()
                                     prefManager.setToken(token)
                                     prefManager.setisValidLogin(true)
-                                    prefManager.setFirstTimeLaunch(true)
+                                   // prefManager.setFirstTimeLaunch(true)
 
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "Login Successfully",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    Toast.makeText(requireContext(), "Login Successfully", Toast.LENGTH_SHORT).show()
                                     Log.d("SendData", "token===" + token)
 
-                                    Log.d("SendData", "token===" + prefManager.getMpin())
                                     if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")) {
                                              Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
                                     } else {
-                                        Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
-                                        /* if(prefManager.getCabFormToken().equals(""))
-
-                                    else{
-                                        context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
-                                    }*/
-
-                                    }
-
+                                        if(profile_status == 0){
+                                            Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                                        }else{
+                                            startActivity(Intent(requireContext(),DriverDashBoard::class.java))
+                                        }
+                                         }
                                 } else {
                                     val token = response.getString("token")
+                                    val profile_status = response.getString("profile_status").toInt()
                                     prefManager.setToken(token)
                                     prefManager.setisValidLogin(true)
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "Login Successfully",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-//                                if(prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")){
-                                    /* if(prefManager.getCabFormToken().equals(""))
-                                    Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
-                                else{
-                                    context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
-                                }*/
-                                    Navigation.findNavController(view)
-                                        .navigate(R.id.action_verifyNumber2_to_MPinGenerate)
-
+                                    Toast.makeText( requireContext(), "Login Successfully", Toast.LENGTH_SHORT).show()
+                                    if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")) {
+                                        Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
+                                    } else {
+                                        if(profile_status == 0){
+                                            Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                                        }else{
+                                            startActivity(Intent(requireContext(),DriverDashBoard::class.java))
+                                        }
+                                    }
                                 }
                                 binding.progress.isVisible = false
                                 binding.chooseUser.isVisible = true

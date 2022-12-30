@@ -24,8 +24,8 @@ class WelcomeActivity : AppCompatActivity() {
         prefManager= PrefManager(this)
         Handler().postDelayed({
 
-           if (prefManager.getToken().equals("") || prefManager.getToken().equals("null")||prefManager.getMpin().equals("")||prefManager.getRegistrationToken().equals("")){
-startActivity(Intent(this,LoginActivity::class.java))
+           if (prefManager.getToken().equals("") || prefManager.getToken().equals("null")||prefManager.getMpin().equals("")){
+                startActivity(Intent(this,LoginActivity::class.java))
             }
             else if(prefManager.getMpin().equals("") || prefManager.getToken().equals("null")){
             startActivity(Intent(this,DriverDashBoard::class.java))

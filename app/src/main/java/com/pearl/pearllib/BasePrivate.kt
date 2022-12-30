@@ -17,7 +17,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.pearl.figgodriver.Adapter.SpinnerAdapter
 import com.pearl.figgodriver.LoginActivity
+import com.pearl.figgodriver.model.SpinnerObj
 import com.pearlorganisation.PrefManager
 import org.json.JSONObject
 
@@ -27,7 +29,8 @@ abstract class BasePrivate : BaseClass() {
     var locationManager: LocationManager? = null
     var latitude: String? = null
     var longitude: String? = null
-
+    val statelist: ArrayList<SpinnerObj> = ArrayList()
+    val citylist: ArrayList<SpinnerObj> = ArrayList()
     var bestProvider: String? = null
     var criteria: Criteria? = null
     var coin_balance: TextView? = null
@@ -94,20 +97,26 @@ abstract class BasePrivate : BaseClass() {
                             val rec: JSONObject = jsonArray.getJSONObject(i)
                             var name = rec.getString("name")
                             var id = rec.getString("id")
+                            statelist.add(SpinnerObj(name,id))
                             hashMap.put(name,id.toInt())
                         }
                         //spinner
-                        val stateadapter =  ArrayAdapter(baseApbcContext!!,R.layout.simple_spinner_item,hashMap.keys.toList());
-                        stateadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        val stateadapter = SpinnerAdapter(baseApbcContext,statelist)
+                        // val stateadapter =  ArrayAdapter(baseApbcContext!!,R.layout.simple_spinner_item,hashMap.keys.toList());
+                        //stateadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                         spinner.setAdapter(stateadapter)
                         spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, position: Int, id: Long) {
 
-                                state_id = hashMap.values.toList()[position]
-                            //    prefManager.setdriverWorkState(state_id)
-                                Log.d("data","State_id===="+state_id+loc)
-                                outstationStateHashMap.add(loc.toString()+"=="+state_id.toString())
-                               // outstationStateHashMap.put("state"+loc,state_id)
+                                if(position !=0){
+                                    state_id = statelist.get(position).id.toInt()
+                                    //    prefManager.setdriverWorkState(state_id)
+                                    Log.d("data","State_id===="+state_id+loc)
+                                    outstationStateHashMap.add(state_id.toString())
+                                    // outstationStateHashMap.put("state"+loc,state_id)
+                                }
+
+
                             }
 
                             @SuppressLint("SetTextI18n")
@@ -135,7 +144,7 @@ abstract class BasePrivate : BaseClass() {
         val URL = " https://test.pearl-developer.com/figo/api/get-city"
         val queue = Volley.newRequestQueue(baseApbcContext)
         val json = JSONObject()
-    //    var token= prefManager.getToken()
+        //    var token= prefManager.getToken()
 
         json.put("state_id",id)
 

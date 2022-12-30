@@ -14,6 +14,7 @@ import androidx.navigation.Navigation
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.databinding.FragmentMPinGenerateBinding
 import com.google.android.gms.tasks.Task
+import com.pearl.figgodriver.DriverDashBoard
 import com.pearlorganisation.PrefManager
 //import com.pearl.figgodriver.R
 //import com.example.figgodriver.R
@@ -46,9 +47,11 @@ class MPinGenerate : Fragment() {
         binding.continuetv.setOnClickListener {
             if (mpin.text.toString().equals(confirm_mpin.text.toString())) {
                 pref.setMpin(mpin.text.toString())
-
-                Navigation.findNavController(view)
-                    .navigate(R.id.action_MPinGenerate_to_figgo_FamilyFragment)
+                if(pref.getRegistrationToken().equals("") || pref.getRegistrationToken().equals("null")){
+                    Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                }else{
+                    startActivity(Intent(requireContext(), DriverDashBoard::class.java))
+                }
             } else {
                 Toast.makeText(this.context, "MPin not match", Toast.LENGTH_SHORT).show()
             }
