@@ -1,9 +1,9 @@
 package com.pearlorganisation.figgo.UI.Fragments
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,26 +12,34 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.auth.api.signin.GoogleSignInResult
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.api.GoogleApiClient
 import com.pearl.figgodriver.DriverDashBoard
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.databinding.FragmentVerifyNumberBinding
 import com.pearl.pearllib.BaseClass
 import com.pearlorganisation.PrefManager
-import kotlinx.android.synthetic.main.top_layout.*
-import org.json.JSONException
 import org.json.JSONObject
 
-class VerifyNumber : Fragment() {
+
+class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
     lateinit var binding: FragmentVerifyNumberBinding
     lateinit var queue:RequestQueue
     var base_url="https://test.pearl-developer.com/figo/api/create-driver"
     lateinit var prefManager: PrefManager
     lateinit var baseClass: BaseClass
+    lateinit var googleApiClient: GoogleApiClient
+    private val RC_SIGN_IN = 1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,11 +78,20 @@ class VerifyNumber : Fragment() {
             }
         }
 
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build()
+        googleApiClient = GoogleApiClient.Builder(requireContext())
+            .enableAutoManage(requireActivity(),this)
+            .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+            .build()
+        binding.signInButton.setOnClickListener {
+            val intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient)
+            startActivityForResult(intent, RC_SIGN_IN)
+        }
 
-         binding.email.setOnClickListener{
+        /*  binding.email.setOnClickListener{
             binding.inputEmail.isVisible=true
             binding.llNumber.isVisible=false
-        }
+        }*/
         binding.number.setOnClickListener {
             binding.llNumber.isVisible=true
             binding.inputEmail.isVisible=false
@@ -160,5 +177,27 @@ class VerifyNumber : Fragment() {
             }
         }
         }
+
+    override fun onConnectionFailed(p0: ConnectionResult) {
+        TODO("Not yet implemented")
+    }
+
+ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_SIGN_IN) {
+            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data!!)
+            handleSignInResult(result)
+        }
+    }
+
+    private fun handleSignInResult(result: GoogleSignInResult?) {
+        if (result!!.isSuccess) {
+            Toast.makeText(requireContext(),"google signin successful",Toast.LENGTH_SHORT).show()
+
+        } else {
+            Toast.makeText(ApplicationProvider.getApplicationContext<Context>(),"Sign in cancel", Toast.LENGTH_LONG).show()
+        }
+    }
+
 
 }
