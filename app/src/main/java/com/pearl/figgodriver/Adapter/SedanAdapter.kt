@@ -50,6 +50,7 @@ class SedanAdapter(var booking:List<Sedan>,var f:Fragment):RecyclerView.Adapter<
         }
         holder.accept.setOnClickListener {
 
+
         }
     }
 

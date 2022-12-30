@@ -601,7 +601,8 @@ class DriverCabDetailsFragment : Fragment() {
         var permit_valid_date=binding.taxPermitNo.text.toString()
 
 
-        base.validateDriverInsuranceDate(binding.registrationNo)
+        base.validatedriverRegistrationNo(binding.registrationNo)
+        base.validatedriverRegistrationNo(binding.vechleNo)
         base.validateDriverInsuranceDate(binding.insuranceNo)
         base.validateDriverInsuranceDate(binding.taxPermitNo)
 

@@ -1,6 +1,5 @@
 package com.pearlorganisation.figgo.UI.Fragments
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -12,18 +11,19 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.auth.api.signin.GoogleSignInResult
 import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.tasks.Task
 import com.pearl.figgodriver.DriverDashBoard
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.databinding.FragmentVerifyNumberBinding
@@ -185,19 +185,38 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_SIGN_IN) {
-            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data!!)
-            handleSignInResult(result)
+            val task: Task<GoogleSignInAccount> =
+                GoogleSignIn.getSignedInAccountFromIntent(data)
+            handleSignInResult(task)
+           /* val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data!!)
+            handleSignInResult(result)*/
         }
     }
 
-    private fun handleSignInResult(result: GoogleSignInResult?) {
-        if (result!!.isSuccess) {
+    private fun handleSignInResult(result: Task<GoogleSignInAccount>) {
+        Log.d("TAG", "result====" +result);
+        /* if (result!!.isSuccess) {
             Toast.makeText(requireContext(),"google signin successful",Toast.LENGTH_SHORT).show()
 
+
         } else {
-            Toast.makeText(ApplicationProvider.getApplicationContext<Context>(),"Sign in cancel", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(),"Sign in cancel", Toast.LENGTH_LONG).show()
+        }*/
+        try {
+            val account: GoogleSignInAccount = result.getResult(ApiException::class.java)
+            if (result.isSuccessful){
+
+                Toast.makeText(requireContext(),"google signin successful",Toast.LENGTH_SHORT).show()
+            }
+
+            // Signed in successfully, show authenticated UI.
+            //updateUI(account)
+        } catch (e: ApiException) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.w("TAG", "signInResult:failed code=" + e.getStatusCode());
+            //updateUI(null);
         }
+
     }
-
-
 }

@@ -359,14 +359,14 @@ abstract class BaseClass : AppCompatActivity() {
         val num: String = registrationNo.getText().toString().trim { it <= ' ' }
         setCustomError(null,registrationNo)
         return if (num.isEmpty()) {
-            val sMessage = "Please enter driver registeration no..!!"
+            val sMessage = "Please fill the field..!!"
             setCustomError(sMessage, registrationNo)
             false
-        } /*else if (!isValidNumber(num)) {
-            val sMessage = "Number must be 15 letter or digits..!!"
+        } else if (!isValidRegisterationNo(num)) {
+            val sMessage = "Number must be 8 letter or digits..!!"
             setCustomError(sMessage, registrationNo)
             false
-        } */else {
+        } else {
             setCustomErrorDisabled(registrationNo)
             true
         }
@@ -445,15 +445,13 @@ abstract class BaseClass : AppCompatActivity() {
 
     companion object {
         var isInternetReceiver = false
-        fun isValidNumber(number: String): Boolean {
+        fun isValidRegisterationNo(number: String): Boolean {
             var result: Boolean
             result = true
-            if (number.length < 12) {
+            if (number.length <=9) {
                 result = false
             }
-            if (number.length > 12) {
-                result = false
-            }
+
 
             return result
         }
