@@ -62,10 +62,14 @@ class ActiveRide : Fragment() {
         local.setOnClickListener {
             outstation.setBackgroundColor(Color.LTGRAY)
             local.setBackgroundColor(Color.WHITE)
+            recyclerView1.adapter = AllRideAdapter(allrideData)
+            recyclerView1.layoutManager = LinearLayoutManager(context)
         }
         outstation.setOnClickListener {
             local.setBackgroundColor(Color.LTGRAY)
             outstation.setBackgroundColor(Color.WHITE)
+            recyclerView1.adapter = OutstationAdapter(allrideData)
+            recyclerView1.layoutManager = LinearLayoutManager(context)
         }
 
     }
