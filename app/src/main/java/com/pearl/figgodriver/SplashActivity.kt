@@ -16,6 +16,7 @@ class SplashActivity : AppCompatActivity() {
         window.setStatusBarColor(Color.parseColor("#000F3B"))
         Handler().postDelayed({
             startActivity(Intent(this,LoginActivity::class.java))
+           // startActivity(Intent(this,DriverDashBoard::class.java))
         },3000)
         var become_the_luxury=findViewById<TextView>(R.id.become_the_luxury)
         val slideAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_side)

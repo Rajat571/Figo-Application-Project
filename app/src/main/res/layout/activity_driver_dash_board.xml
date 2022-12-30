@@ -112,6 +112,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end"
+        app:headerLayout="@layout/nav_header_customer_menu_drawer"
         app:menu="@menu/activity_driver_menu__drawer" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

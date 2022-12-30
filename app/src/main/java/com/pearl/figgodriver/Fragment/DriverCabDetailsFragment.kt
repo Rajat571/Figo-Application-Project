@@ -17,9 +17,10 @@ import androidx.navigation.Navigation
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.pearl.figgodriver.DriverDashBoard
+import com.pearl.figgodriver.Adapter.SpinnerAdapter
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.databinding.FragmentDriverCabDetailsBinding
+import com.pearl.figgodriver.model.SpinnerObj
 import com.pearl.pearllib.BaseClass
 import com.pearl.pearllib.BasePrivate
 import com.pearlorganisation.PrefManager
@@ -36,6 +37,8 @@ class DriverCabDetailsFragment : Fragment() {
     private lateinit var carDP: ImageView
     private var  str: String? = null
     var  driver_cab_image:String=""
+    val statelist: ArrayList<SpinnerObj> = ArrayList()
+    val citylist: ArrayList<SpinnerObj> = ArrayList()
     var yearList= listOf<Int>()
     lateinit var binding:FragmentDriverCabDetailsBinding
     lateinit var prefManager: PrefManager
@@ -99,14 +102,14 @@ class DriverCabDetailsFragment : Fragment() {
 
     }
 
-        @SuppressLint("SuspiciousIndentation")
-        override fun onCreateView(
+    @SuppressLint("SuspiciousIndentation")
+    override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-             ): View? {
+    ): View? {
         // Inflate the layout for this fragment
-      binding=DataBindingUtil.inflate(inflater,R.layout.fragment_driver_cab_details, container, false)
-            return binding.root
+        binding=DataBindingUtil.inflate(inflater,R.layout.fragment_driver_cab_details, container, false)
+        return binding.root
     }
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -120,47 +123,47 @@ class DriverCabDetailsFragment : Fragment() {
 
     }
 
-     fun initializeViews(view: View) {
-          next               =view.findViewById<TextView>(R.id.next_button)
-          back               =view.findViewById<TextView>(R.id.back_button)
-          current_year   = Calendar.getInstance().get(Calendar.YEAR)
-         spinner_cabcategory    = view.findViewById<Spinner>(R.id.spinner_cabtype)
-          spinner_cabtype    = view?.findViewById<Spinner>(R.id.spinner_cabcategory)!!
-          workingarea        = view.findViewById<Spinner>(R.id.working_area_spinner)
-         carDP                  = view.findViewById(R.id.upload_car)
-         carModel               = view.findViewById<Spinner>(R.id.vechle_model)
+    fun initializeViews(view: View) {
+        next               =view.findViewById<TextView>(R.id.next_button)
+        back               =view.findViewById<TextView>(R.id.back_button)
+        current_year   = Calendar.getInstance().get(Calendar.YEAR)
+        spinner_cabcategory    = view.findViewById<Spinner>(R.id.spinner_cabtype)
+        spinner_cabtype    = view?.findViewById<Spinner>(R.id.spinner_cabcategory)!!
+        workingarea        = view.findViewById<Spinner>(R.id.working_area_spinner)
+        carDP                  = view.findViewById(R.id.upload_car)
+        carModel               = view.findViewById<Spinner>(R.id.vechle_model)
         // binding.proceed.visibility=View.GONE
     }
 
-     fun initializeClickListners(view: View) {
-         var layout_cab = binding.cabDetailsLayout
-         var layout_work = binding.work
+    fun initializeClickListners(view: View) {
+        var layout_cab = binding.cabDetailsLayout
+        var layout_work = binding.work
 
-         layout_cab.visibility= View.VISIBLE
-         layout_work.visibility = View.GONE
+        layout_cab.visibility= View.VISIBLE
+        layout_work.visibility = View.GONE
 
 
-         carDP.setOnClickListener {
-             val intent = Intent()
-             intent.type = "image/*"
-             intent.action = Intent.ACTION_GET_CONTENT
-             startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1)
-         }
-         next.setOnClickListener {
-             validateForm()
+        carDP.setOnClickListener {
+            val intent = Intent()
+            intent.type = "image/*"
+            intent.action = Intent.ACTION_GET_CONTENT
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1)
+        }
+        next.setOnClickListener {
+            validateForm()
 
-         }
+        }
 
-         back.setOnClickListener {
-             if (layout_cab.visibility==View.VISIBLE){
+        back.setOnClickListener {
+            if (layout_cab.visibility==View.VISIBLE){
                 // binding.proceed.visibility=View.GONE
-                 Navigation.findNavController(view).navigate(R.id.action_driverCabDetailsFragment_to_figgo_Capton)
-             }else{
-               //  binding.proceed.visibility=View.GONE
-                 layout_cab.visibility= View.VISIBLE
-                 layout_work.visibility = View.GONE
-             }
-         }
+                Navigation.findNavController(view).navigate(R.id.action_driverCabDetailsFragment_to_figgo_Capton)
+            }else{
+                //  binding.proceed.visibility=View.GONE
+                layout_cab.visibility= View.VISIBLE
+                layout_work.visibility = View.GONE
+            }
+        }
     }
 
     fun initializeInputs() {
@@ -193,7 +196,7 @@ class DriverCabDetailsFragment : Fragment() {
         val dateadapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,yearList);
         dateadapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
         binding.modelYear.adapter = dateadapter
-            binding.modelYear?.onItemSelectedListener = object :
+        binding.modelYear?.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 // Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
@@ -219,12 +222,10 @@ class DriverCabDetailsFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 prefManager.setDriverVechleType(position.toString())
 
-
-
                 if(position==2){
                     updatedStateList.clear()
                     selectedState =0
-                    selectedcity = 0
+                    selectedcity  =0
                     fetchState(requireContext())
                     binding.workingStateLayout.visibility=View.GONE
                     binding.workingLocalLayout.visibility=View.VISIBLE
@@ -246,7 +247,7 @@ class DriverCabDetailsFragment : Fragment() {
 
                     binding.workingStateLayout.visibility=View.VISIBLE
                     binding.workingLocalLayout.visibility=View.GONE
-                    updatedStateList.clear()
+
                 }
 
             }
@@ -264,11 +265,16 @@ class DriverCabDetailsFragment : Fragment() {
             calendar(binding.taxPermitNo)
         }
 
-       // baseprivate.fetchStates(requireContext(),binding.selectStateLocal,2,binding.selectCity)
+
+
+        // baseprivate.fetchStates(requireContext(),binding.selectStateLocal,2,binding.selectCity)
+
 
     }
 
     private fun fetchState(baseApbcContext: Context?) {
+        statelist.clear()
+        updatedStateList.clear()
         prefManager=PrefManager(baseApbcContext!!)
         var hashMap : HashMap<String, Int> = HashMap<String, Int> ()
         var state_id:Int = 0
@@ -288,24 +294,31 @@ class DriverCabDetailsFragment : Fragment() {
                     if(status.equals("1")){
                         val jsonArray = response.getJSONArray("states")
                         for (i in 0..jsonArray.length()-1){
-
                             val rec: JSONObject = jsonArray.getJSONObject(i)
                             var name = rec.getString("name")
                             var id = rec.getString("id")
+                            statelist.add(SpinnerObj(name,id))
                             hashMap.put(name,id.toInt())
                         }
                         //spinner
-                        val stateadapter = ArrayAdapter(baseApbcContext!!, android.R.layout.simple_spinner_item,hashMap.keys.toList());
-                          stateadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        //  val stateadapter =  ArrayAdapter(baseApbcContext!!,android.R.layout.simple_spinner_item,hashMap.keys.toList());
+                        val stateadapter = SpinnerAdapter(requireContext(),statelist)
+                        //  stateadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                         binding.selectStateLocal.setAdapter(stateadapter)
                         binding.selectStateLocal.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, position: Int, id: Long) {
 
-                               selectedState = hashMap.values.toList()[position]
-                             //   prefManager.setdriverWorkState(state_id)
-                                Log.d("data","selectedState===="+selectedState)
 
-                                    fetchCity(selectedState,baseApbcContext)
+                                if(position != 0){
+                                    selectedState = statelist.get(position).id.toInt()
+                                    updatedStateList.add(selectedState.toString())
+                                    //   prefManager.setdriverWorkState(state_id)
+                                    Log.d("data","selectedState===="+selectedState)
+
+                                    //fetchCity(selectedState,baseApbcContext)
+                                    fetchCity(stateadapter.getItem(position)!!.id.toInt())
+                                }
+
 
                             }
 
@@ -326,17 +339,18 @@ class DriverCabDetailsFragment : Fragment() {
 
     }
 
-    private fun fetchCity(localStateId: Int, baseApbcContext: Context) {
-        prefManager=PrefManager(baseApbcContext!!)
+    private fun fetchCity(localStateId: Int) {
+        citylist.clear()
+        //prefManager=PrefManager(baseApbcContext!!)
         var cityhashMap : HashMap<String, Int> = HashMap<String, Int> ()
         val URL = " https://test.pearl-developer.com/figo/api/get-city"
-        val queue = Volley.newRequestQueue(baseApbcContext)
+        val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
         //    var token= prefManager.getToken()
 
         json.put("state_id",localStateId)
 
-        Log.d("SendData", "json===" + json)
+        Log.d("fetchCity", "json===" + json)
 
         val jsonOblect=  object : JsonObjectRequest(Method.POST, URL, json,
             Response.Listener<JSONObject?> { response ->
@@ -350,21 +364,28 @@ class DriverCabDetailsFragment : Fragment() {
                             val rec: JSONObject = jsonArray.getJSONObject(i)
                             var name = rec.getString("name")
                             var id = rec.getString("id")
+                            citylist.add(SpinnerObj(name,id))
                             cityhashMap.put(name,id.toInt())
                         }
                         //spinner
-                        val cityadapter = baseApbcContext?.let { ArrayAdapter(it,android.R.layout.simple_spinner_item,cityhashMap.keys.toList()) };
-                         if (cityadapter != null) {
-                             cityadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                        }
+                        /* val cityadapter = baseApbcContext?.let { ArrayAdapter(it,android.R.layout.simple_spinner_item,cityhashMap.keys.toList()) };
+                          if (cityadapter != null) {
+                              cityadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                         }*/
+                        val cityadapter = SpinnerAdapter(requireContext(),citylist)
                         binding.selectCity.setAdapter(cityadapter)
                         binding.selectCity.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, position: Int, id: Long) {
 
-                                selectedcity = cityhashMap.values.toList()[position]
-                             //  prefManager.setdriverWorkCity(selectedcity)
-                                Log.d("SendData", "selectCityid===" + selectedcity)
-                                //  fetchCity(id)
+
+
+                                if(position !=0){
+                                    selectedcity = citylist.get(position).id.toInt()
+                                    //  prefManager.setdriverWorkCity(selectedcity)
+                                    Log.d("SendData", "selectCityid===" + selectedcity)
+                                    //  fetchCity(id)
+                                }
+
 
                             }
 
@@ -408,7 +429,7 @@ class DriverCabDetailsFragment : Fragment() {
             object : JsonObjectRequest(Method.POST, URL, json,
                 Response.Listener<JSONObject?> { response ->
                     Log.d("SendData", "response===" + response)
-                   // Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
+                    // Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
                     if (response != null) {
                         val status = response.getString("status")
                         if(status.equals("1")){
@@ -426,8 +447,9 @@ class DriverCabDetailsFragment : Fragment() {
                             spinner_cabcategory?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
                                 override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                                     fetchModel(hashMap.values.toList()[position])
-                                   /* prefManager.setDriverCabCategory(fetchModel(hashMap.values.toList()[position]).toString())
-                                    Log.d("DriverCabCategory","DriverCabCategory==="+ prefManager.setDriverCabCategory(fetchModel(hashMap.values.toList()[position]).toString()))*/
+                                    /* prefManager.setDriverCabCategory(fetchModel(hashMap.values.toList()[position]).toString())
+                                     Log.d("DriverCabCategory","DriverCabCategory==="+ prefManager.setDriverCabCategory(fetchModel(hashMap.values.toList()[position]).toString()))*/
+
 
                                 }
 
@@ -484,7 +506,7 @@ class DriverCabDetailsFragment : Fragment() {
                             carModel.adapter = cabModeladapter
                             carModel?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
                                 override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                                  //  fetchModel(hashMap.values.toList()[position])
+                                    //  fetchModel(hashMap.values.toList()[position])
                                     Log.d("SendData", "modelHashMap.values.toList()[position]===" + modelHashMap.values.toList()[position])
                                     prefManager.setDriverVechleModel(modelHashMap.values.toList()[position])
                                     Log.d("DriverVechleModel","DriverVechleModel==="+  prefManager.setDriverVechleModel(modelHashMap.values.toList()[position]))
@@ -585,22 +607,23 @@ class DriverCabDetailsFragment : Fragment() {
 
         if (!binding.registrationNo.text.toString().isEmpty()&&!binding.insuranceNo.text.toString().isEmpty()&&!binding.taxPermitNo.text.toString().isEmpty()){
 
-                    binding.cabDetailsLayout.visibility=View.GONE
-                    binding.work.visibility=View.VISIBLE
+            binding.cabDetailsLayout.visibility=View.GONE
+            binding.work.visibility=View.VISIBLE
             next.text="Proceed"
-           // binding.proceed.visibility = View.VISIBLE
+            // binding.proceed.visibility = View.VISIBLE
             if (binding.work.visibility==View.VISIBLE){
                 next.setOnClickListener {
-                    context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
                     submitForm(registration_no,insurance_valid_date,permit_valid_date,car_category,car_model,model_year,v_number)
 
                 }
+
             }
 
-                    //var proceed = binding.proceed
 
-                    /*proceed.setOnClickListener {
-                        *//*if (binding.firstWorkState.text.toString().isEmpty()){
+            //var proceed = binding.proceed
+
+            /*proceed.setOnClickListener {
+                *//*if (binding.firstWorkState.text.toString().isEmpty()){
                             baseClass.validateWorkState(binding.firstWorkState)
                         }
                         else{*//*
@@ -611,42 +634,42 @@ class DriverCabDetailsFragment : Fragment() {
 
                         // context?.startActivity(Intent(requireContext(), DriverDashBoard::class.java))
                     }*/
-                }
+        }
     }
 
     private fun submitForm(registration_no:String,insurance_valid_date:String,permit_valid_date:String,car_category:String,car_model:Int,model_year:Int,v_number:String) {
-prefManager.setRegistrationToken("okkkkkk")
+
         Log.d("SendData", "updatedStateList==="+updatedStateList)
 
         val URL = "https://test.pearl-developer.com/figo/api/regitser-driver"
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
         var token= prefManager.getToken()
-        prefManager.setRegistrationToken("ok")
+
         json.put("token",token)
         json.put("name",prefManager.getDriverName())
-        json.put("mobile",prefManager.getMobileNo())
+        // json.put("mobile",prefManager.getMobileNo())      //
         json.put("state",prefManager.getDriverState())
         json.put("city",prefManager.getDriverCity())
         json.put("dl_number",prefManager.getDL_No())
-       // json.put("aadhar_no","8349889375")
-        json.put("v_type","type")
-        json.put("v_cat","category")
+        json.put("aadhar_no",prefManager.getMobileNo())
+        // json.put("v_type","type")
+        //   json.put("v_cat","category")
         json.put("v_modal",prefManager.getDriverVechleModel())
         json.put("year",prefManager.getDriverVechleYear())
-        json.put("v_no","v_no")
+        json.put("v_number",v_number)
         json.put("registration_no",registration_no)
         json.put("insurance",insurance_valid_date)
         json.put("permit",permit_valid_date)
         json.put("work_place",prefManager.getDriverVechleType().toInt())
-        json.put("work_state", selectedState)
+        json.put("work_state", updatedStateList)
         json.put("work_city",selectedcity)
-        json.put("selected_state",updatedStateList)
-        json.put("driver_ext",prefManager.getDriverProfile_ext())
-        json.put("police_ext",prefManager.getPolice_ext())
-        json.put("aadhar_front_ext",prefManager.getAadhar_front_ext())
-        json.put("aadhar_back_ext",prefManager.getAadhar_back_ext())
-        json.put("cab_ext",prefManager.getDriverCab_ext())
+        //  json.put("selected_state",updatedStateList)
+        json.put("driver_image_ext",prefManager.getDriverProfile_ext())
+        json.put("police_verification_ext",prefManager.getPolice_ext())
+        json.put("aadhar_verification_front_ext",prefManager.getAadhar_front_ext())
+        json.put("aadhar_verification_back_ext",prefManager.getAadhar_back_ext())
+        json.put("cab_image_ext",prefManager.getDriverCab_ext())
         Log.d("SendData", "json===" + json)
 
 
@@ -669,10 +692,11 @@ prefManager.setRegistrationToken("okkkkkk")
                      Log.d("SendData", "response===" + response)
                      Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
                      if (response != null) {
-
-                       //  Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration)
+                         //context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
                          prefManager.setRegistrationToken("Done")
-                         prefManager.setCabFormToken("Submitted")
+                         Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration)
+
+                       //  prefManager.setCabFormToken("Submitted")
                      }
                      // Get your json response and convert it to whatever you want.
                  }, Response.ErrorListener {
@@ -683,4 +707,4 @@ prefManager.setRegistrationToken("okkkkkk")
 
     }
 
-    }
+}
