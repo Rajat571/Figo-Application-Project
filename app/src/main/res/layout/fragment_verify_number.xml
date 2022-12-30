@@ -71,6 +71,7 @@
                     android:layout_marginRight="20dp"
                     android:drawableStart="@drawable/email"
                     android:text="Email"
+                    android:visibility="gone"
                     android:textSize="16sp" />
 
                 <TextView
@@ -200,6 +201,16 @@
                 android:textAlignment="center"
                 android:textAllCaps="true"
                 android:textColor="@color/black" />
+
+            <com.google.android.gms.common.SignInButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sign_in_button"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="20dp"/>
+
 
             <TextView
                 android:id="@+id/login_details"
