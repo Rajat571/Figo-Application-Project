@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/_250sdp"
+    android:background="#B9E5FA"
+    android:orientation="vertical"
+    android:padding="@dimen/_10sdp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+        android:text="Zikarpur - Ambala"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:textColor="@color/black"
+        android:text="Passenger Name"
+        android:textSize="@dimen/_12sdp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:textColor="#0380E3"
+        android:textSize="@dimen/_15sdp"
+        android:text="Ravindra Sharma"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:textColor="@color/black"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="Mobile No"
+        android:textSize="@dimen/_12sdp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:textColor="#0380E3"
+        android:textSize="@dimen/_15sdp"
+        android:text="95215544664"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:textColor="@color/black"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="Pickup Location"
+        android:textSize="@dimen/_10sdp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:textColor="#0380E3"
+        android:textSize="@dimen/_12sdp"
+        android:text="Sector 4824928\nChangigarh"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:padding="@dimen/_10sdp"
+        android:orientation="horizontal"
+        >
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_location"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="#0380E3"
+        android:layout_margin="@dimen/_5sdp"
+        android:textSize="@dimen/_15sdp"
+        android:text="Sanvg, ambala, haryana\nIndia"/>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:padding="@dimen/_10sdp"
+        android:orientation="horizontal"
+        >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_margin="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:background="@color/white"
+        >
+    <EditText
+        android:layout_width="match_parent"
+        android:padding="@dimen/_5sdp"
+        android:layout_height="wrap_content"
+
+        android:hint="Booking OTP"
+        android:background="@drawable/edittext"
+        android:autofillHints="" />
+    </LinearLayout>
+        <Button
+            android:layout_margin="@dimen/_5sdp"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:id="@+id/dialog_submit"
+            android:backgroundTint="#FFC107"
+            />
+    </LinearLayout>
+</LinearLayout>

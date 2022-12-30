@@ -1,10 +1,12 @@
 package com.pearl.figgodriver.Fragment
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -22,12 +24,13 @@ class OutstationAdapter(val allrideData:List<AllRideData>): RecyclerView.Adapter
     @SuppressLint("MissingInflatedId")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflator = LayoutInflater.from(parent.context)
-        val view = inflator.inflate(R.layout.allriderecyclerlayout, parent, false)
+        val view = inflator.inflate(R.layout.outstationrecycler, parent, false)
 
         val recyclerView2 = view.findViewById<RecyclerView>(R.id.drop_recycler)
 
         val droparray: List<String> = listOf("z", "zx", "zy", "zr", "zt")
         val view_btn = view.findViewById<TextView>(R.id.allride_viewbtn)
+        val start_btn = view.findViewById<TextView>(R.id.outstation_startbtn)
 
         recyclerView2.adapter = DropAdapter(droparray)
         recyclerView2.layoutManager = LinearLayoutManager(parent.context)
@@ -47,8 +50,20 @@ class OutstationAdapter(val allrideData:List<AllRideData>): RecyclerView.Adapter
                 ontap.visibility = View.GONE
                 hidden.visibility = View.VISIBLE
                 view_btn.text = "Hide"
+            }}
+            start_btn.setOnClickListener {
+
+                val dialog = Dialog(view.context)
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                dialog.setCancelable(false)
+                dialog.setContentView(R.layout.otp_start_layout)
+                var submit = dialog.findViewById<Button>(R.id.dialog_submit)
+                submit.setOnClickListener {
+                    dialog.dismiss()
+                }
+                dialog.show()
             }
-        }
+
 
 
 
