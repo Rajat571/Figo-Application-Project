@@ -13,10 +13,12 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.Gravity
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -35,6 +37,8 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import com.pearl.figgodriver.Fragment.ActiveRide
+import com.pearl.figgodriver.Fragment.allRideRS
 import com.pearlorganisation.PrefManager
 import kotlinx.android.synthetic.main.bottom_button_layout.view.*
 import kotlinx.android.synthetic.main.top_layout.view.*
@@ -69,6 +73,9 @@ class DriverDashBoard : AppCompatActivity() {
         var action_bar_toggle = ActionBarDrawerToggle(this,drawer,R.string.nav_open, R.string.nav_close)
         drawer.addDrawerListener(action_bar_toggle)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        menu.setOnClickListener {
+            drawer.openDrawer(GravityCompat.END)
+        }
 
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
@@ -106,37 +113,6 @@ class DriverDashBoard : AppCompatActivity() {
                 }
 
             }
-
-        /* var navigationDrawer=findViewById<NavigationView>(R.id.navView)
-         var drawer_layout=findViewById<DrawerLayout>(R.id.drawerLayout)
-         lateinit var toggle: ActionBarDrawerToggle
-
-
-         toggle = ActionBarDrawerToggle(this@DriverDashBoard, drawer_layout, R.string.driver_details,R.string.driver_details)
-         toggle.syncState()
-         drawer_layout.setDrawerListener(toggle)
-         drawer_layout.addDrawerListener(toggle)
-
-
-         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-         navigationDrawer.setNavigationItemSelectedListener {
-             when (it.itemId) {
-                 R.id.change_mpin -> {
-                     Toast.makeText(this, "change_mpin Clicked", Toast.LENGTH_SHORT).show()
-                 }
-                 R.id.rides -> {
-                     Toast.makeText(this, "rides Clicked", Toast.LENGTH_SHORT).show()
-                 }
-                 R.id.Logout -> {
-                     //startActivity(Intent(this,LoginActivity::class.java))
-                 }
-
-             }
-             true
-         }
-
- */
 
         whataspp.setOnClickListener {
             val url = "https://api.whatsapp.com/send?phone=7505145405"
@@ -184,6 +160,32 @@ class DriverDashBoard : AppCompatActivity() {
         navController=navHostFragment.navController
         val bottomNavigationView=findViewById<BottomNavigationView>(R.id.top_navigation_bar)
         setupWithNavController(bottomNavigationView,navController)
+        var home_layout = findViewById<ConstraintLayout>(R.id.home_layout)
+        var all_Ride = findViewById<ConstraintLayout>(R.id.activeRide_layout)
+        home_layout.visibility = View.VISIBLE
+        all_Ride.visibility=View.GONE
+
+        var bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNav.setOnItemSelectedListener {
+            when(it.itemId){
+                R.id.home->{
+                    home_layout.visibility = View.VISIBLE
+                    all_Ride.visibility = View.GONE
+                }
+                R.id.call->{
+                    var intent_call = Intent(Intent.ACTION_DIAL)
+                    intent_call.data = Uri.parse("tel:"+"+919715597855")
+                        startActivity(intent_call)
+                }
+                R.id.active_ride->{
+                    home_layout.visibility = View.GONE
+                    all_Ride.visibility = View.VISIBLE
+                    supportFragmentManager.beginTransaction().replace(R.id.allRide_frame,ActiveRide()).commit()
+
+                }
+            }
+            true
+        }
     }
     override fun onBackPressed() {
         val count = supportFragmentManager.backStackEntryCount

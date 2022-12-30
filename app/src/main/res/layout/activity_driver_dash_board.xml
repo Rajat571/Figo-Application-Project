@@ -10,7 +10,6 @@
     tools:context=".DriverDashBoard">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -26,9 +25,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/home_layout"
-            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -57,9 +56,36 @@
                 android:layout_height="0dp"
                 app:defaultNavHost="true"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/top_navigation_bar"
                 app:navGraph="@navigation/home_nav_graph" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/activeRide_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:padding="@dimen/_10sdp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+            app:layout_constraintTop_toBottomOf="@+id/layout">
+
+            <FrameLayout
+                android:id="@+id/allRide_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
@@ -77,24 +103,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:menu="@menu/new_bottom_nav" />
 
-        <!-- <com.google.android.material.bottomnavigation.BottomNavigationView
-         android:id="@+id/navigation_bar"
-         app:itemTextColor="@drawable/bottom_nav_title_color"
-         android:layout_width="match_parent"
-         app:itemIconTint="@color/white"
-         android:textAlignment="center"
-         android:padding="5dp"
-         app:labelVisibilityMode="labeled"
-         android:layout_height="45dp"
-         app:itemRippleColor="@color/purple_200"
-         android:background="@color/black"
-         app:menu="@menu/driver_dashboard_menu"
-         app:layout_constraintBottom_toBottomOf="parent"
-         app:layout_constraintEnd_toEndOf="parent"
-         app:layout_constraintHorizontal_bias="0.0"
-         app:layout_constraintStart_toStartOf="parent" />-->
 
-        <!--  <include layout="@layout/driver_navigation_drawer"/>-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
