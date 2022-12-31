@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dashboard_nav"
+    app:startDestination="@id/homedash">
+    <fragment
+        android:id="@+id/homedash"
+        android:name="com.pearl.figgodriver.Fragment.HomeDashBoard"
+        android:label="fragment_driver_home"
+
+        tools:layout="@layout/fragment_driver_home" >
+        <action
+            android:id="@+id/action_homedash_to_active_ride"
+            app:destination="@id/active_ride" />
+    </fragment>
+    <fragment
+        android:id="@+id/active_ride"
+        android:name="com.pearl.figgodriver.Fragment.ActiveRide"
+        android:label="fragment_driver_home"
+
+        tools:layout="@layout/fragment_driver_home" >
+        <action
+            android:id="@+id/action_active_ride_to_homedash"
+            app:destination="@id/homedash" />
+    </fragment>
+</navigation>

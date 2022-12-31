@@ -29,7 +29,6 @@ class Figgo_FamilyFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         prefManager = PrefManager(requireContext())
         Log.d("onViewCreated","token == "+prefManager.getToken())
         Log.d("onViewCreated","id === "+ prefManager.getUserId())

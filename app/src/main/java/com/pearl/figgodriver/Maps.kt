@@ -5,9 +5,6 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.PolylineOptions
 import android.annotation.SuppressLint
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
@@ -16,42 +13,62 @@ import android.os.AsyncTask
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.android.volley.RequestQueue
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 
 import com.google.android.libraries.places.api.Places
 import com.google.gson.Gson
+import com.maps.route.extensions.drawRouteOnMap
+import com.maps.route.extensions.moveCameraOnMap
 
 import okhttp3.OkHttpClient
-import okhttp3.Request
+import com.android.volley.Request
+import com.google.android.gms.maps.model.*
+import org.json.JSONException
 
 
+class Maps : AppCompatActivity() , OnMapReadyCallback, GoogleMap.OnPolylineClickListener,
+    GoogleMap.OnPolygonClickListener {
 
-class Maps : AppCompatActivity(),OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private var originLatitude: Double = 28.5021359
     private var originLongitude: Double = 77.4054901
     private var destinationLatitude: Double = 28.5151087
+    lateinit var data:String
+    val path =  ArrayList<LatLng>()
+    var result =  ArrayList<List<LatLng>>()
     private var destinationLongitude: Double = 77.3932163
-
+    private var requestQueue: RequestQueue? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_maps)
+ setContentView(R.layout.activity_maps)
 
-        // Fetching API_KEY which we wrapped
-        val ai: ApplicationInfo = applicationContext.packageManager
-            .getApplicationInfo(applicationContext.packageName, PackageManager.GET_META_DATA)
-        val value = ai.metaData["com.google.android.geo.API_KEY"]
-        val apiKey = value.toString()
 
-        // Initializing the Places API with the help of our API_KEY
-        if (!Places.isInitialized()) {
-            Places.initialize(applicationContext, "AIzaSyC1uqsZFjBRpnP2On9w1L9P3ayv-bjjOBI")
-        }
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.mapXX) as SupportMapFragment
 
-        // Map Fragment
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
- val gd = findViewById<Button>(R.id.directions)
+
+
+        val urll = "https://maps.googleapis.com/maps/api/directions/json?origin=30.28791336599283, 77.99502643295264&destination=30.2835219559435, 77.99350293828664&key=AIzaSyA695FzYYRDkyrvue7VCb-kZeOlfbfG22w"
+        val queue = Volley.newRequestQueue(baseContext)
+
+        val request = JsonObjectRequest(Request.Method.GET, urll, null, {
+
+                response ->try {
+            data = response.toString()
+            Log.d("Response === ", "Res" + data)
+        }
+        catch (e: JSONException) {
+            Log.d("Response === ","REs"+e.stackTrace.toString())
+        }
+        }, { error -> error.printStackTrace() })
+
+        queue?.add(request)
+
+        val gd = findViewById<Button>(R.id.directions)
         gd.setOnClickListener{
             mapFragment.getMapAsync {
                 mMap = it
@@ -59,16 +76,37 @@ class Maps : AppCompatActivity(),OnMapReadyCallback {
                 mMap.addMarker(MarkerOptions().position(originLocation))
                 val destinationLocation = LatLng(destinationLatitude, destinationLongitude)
                 mMap.addMarker(MarkerOptions().position(destinationLocation))
-                val urll = getDirectionURL(originLocation, destinationLocation, apiKey)
-                GetDirection(urll).execute()
+                val urll = "https://maps.googleapis.com/maps/api/directions/json?origin=30.28791336599283, 77.99502643295264&destination=30.2835219559435, 77.99350293828664&key=AIzaSyA695FzYYRDkyrvue7VCb-kZeOlfbfG22w"
+               GetDirection(urll,data).execute()
+                Log.d("Path == ", " =$path")
+                val polyline1 = mMap.addPolyline(PolylineOptions()
+                    .clickable(true)
+                    .addAll(path))
+
+                mMap.addMarker(MarkerOptions().position(originLocation))
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 18F))
+                mMap.setOnPolylineClickListener(this)
+                mMap.setOnPolygonClickListener(this)
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 14F))
             }
         }
+}
 
+
+    override fun onMapReady(p0: GoogleMap) {
+        mMap = p0!!
+        val originLocation = LatLng(originLatitude, originLongitude)
+        mMap.clear()
+        Log.d("Path == ", " =$path")
+        val polyline1 = p0.addPolyline(PolylineOptions()
+            .clickable(true)
+            .addAll(path))
+
+        mMap.addMarker(MarkerOptions().position(originLocation))
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 18F))
+        p0.setOnPolylineClickListener(this)
+        p0.setOnPolygonClickListener(this)
     }
-
-
-
     private fun getDirectionURL(origin:LatLng, dest:LatLng, secret: String) : String{
         return "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}" +
                 "&destination=${dest.latitude},${dest.longitude}" +
@@ -78,25 +116,20 @@ class Maps : AppCompatActivity(),OnMapReadyCallback {
     }
 
     @SuppressLint("StaticFieldLeak")
-    private inner class GetDirection(val url : String) : AsyncTask<Void, Void, List<List<LatLng>>>(){
+    private inner class GetDirection(val url : String,val data:String) : AsyncTask<Void, Void, List<List<LatLng>>>(){
         override fun doInBackground(vararg params: Void?): List<List<LatLng>> {
-            val client = OkHttpClient()
-            val request = Request.Builder().url(url).build()
-            val response = client.newCall(request).execute()
-            val data = response.body().toString()
-            Log.d("DATA","LOCATION DATA==="+data)
+            Log.d("ssss","rrrr")
 
-            val result =  ArrayList<List<LatLng>>()
-            try{
-                val respObj = Gson().fromJson(data,MapData::class.java)
-                val path =  ArrayList<LatLng>()
+
+
+            val respObj = Gson().fromJson(data,MapData::class.java)
+                Log.d("Response X == ", " =$data")
+
                 for (i in 0 until respObj.routes[0].legs[0].steps.size){
                     path.addAll(decodePolyline(respObj.routes[0].legs[0].steps[i].polyline.points))
                 }
                 result.add(path)
-            }catch (e:Exception){
-                e.printStackTrace()
-            }
+            Log.d("LatLNG X == ", " =$result")
             return result
         }
 
@@ -144,13 +177,14 @@ class Maps : AppCompatActivity(),OnMapReadyCallback {
         return poly
     }
 
-    override fun onMapReady(p0: GoogleMap) {
-        mMap = p0!!
-        val originLocation = LatLng(originLatitude, originLongitude)
-        mMap.clear()
-        mMap.addMarker(MarkerOptions().position(originLocation))
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 18F))
+    override fun onPolylineClick(p0: Polyline) {
+        TODO("Not yet implemented")
     }
+
+    override fun onPolygonClick(p0: Polygon) {
+        TODO("Not yet implemented")
+    }
+
 
 }
 

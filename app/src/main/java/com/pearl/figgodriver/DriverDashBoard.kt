@@ -2,6 +2,7 @@ package com.pearl.figgodriver
 
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -26,6 +27,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -56,6 +58,7 @@ class DriverDashBoard : AppCompatActivity() {
     lateinit var baseclass: BaseClass
 
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_driver_dash_board)
@@ -195,9 +198,14 @@ class DriverDashBoard : AppCompatActivity() {
             startMain.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(startMain)
         }
+//        lateinit var navController: NavController
+//        val navHostFragment=supportFragmentManager.findFragmentById(R.id.home_frame) as NavHostFragment
+//        navController=navHostFragment.navController
+//        val bottomNavigationView=findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+//        bottomNavigationView.setupWithNavController(bottomNavigationView, navController)
 
         supportFragmentManager.beginTransaction().replace(R.id.home_frame,HomeDashBoard()).commit()
-        var bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+      var bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNav.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.home->{
@@ -214,7 +222,7 @@ class DriverDashBoard : AppCompatActivity() {
             }
             true
         }
-    }
+   }
     override fun onBackPressed() {
         val count = supportFragmentManager.backStackEntryCount
         if (count == 0) {

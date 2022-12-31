@@ -10,12 +10,14 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.findFragment
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.pearl.figgodriver.DriverDashBoard
 import com.pearl.figgodriver.Fragment.ActiveRide
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.model.Sedan
 import kotlinx.android.synthetic.main.activity_driver_dash_board.view.*
+import kotlinx.android.synthetic.main.rideset.view.*
 import org.w3c.dom.Text
 //import kotlin.coroutines.jvm.internal.CompletedContinuation.context
 
@@ -27,8 +29,13 @@ class SedanAdapter(var booking:List<Sedan>,var f:Fragment):RecyclerView.Adapter<
 //        view.findViewById<TextView>(R.id.rideset_submit).setOnClickListener {
 //            Toast.makeText(parent.context,"Submitted",Toast.LENGTH_SHORT).show()
 //        }
+        view.findViewById<TextView>(R.id.rideset_accept).setOnClickListener {
+            //parent.findFragment<Fragment>().childFragmentManager.beginTransaction().add(R.id.home_frame,ActiveRide()).commit()
 
-        return ViewHolder(view)
+            Toast.makeText(parent.context,"Submitted",Toast.LENGTH_SHORT).show()
+        }
+
+        return ViewHolder(view,f)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -46,11 +53,17 @@ class SedanAdapter(var booking:List<Sedan>,var f:Fragment):RecyclerView.Adapter<
         holder.perkm.text = x.extra_km.toString()
         //val activity = context as DriverDashBoard
         holder.submit.setOnClickListener {
-            Toast.makeText(holder.x.context,"Submitted",Toast.LENGTH_SHORT).show()
+          //  Toast.makeText(holder.x.context,"Submitted",Toast.LENGTH_SHORT).show()
         }
         holder.accept.setOnClickListener {
-
-
+           holder.x.parentFragment
+        }
+        holder.apply {
+            with(holder.itemView){
+                itemView.findViewById<TextView>(R.id.rideset_accept).setOnClickListener {
+                  //  Navigation.findNavController(itemView).navigate(R.id.action_active_ride_to_homedash)
+                }
+            }
         }
     }
 
@@ -58,7 +71,7 @@ class SedanAdapter(var booking:List<Sedan>,var f:Fragment):RecyclerView.Adapter<
         return booking.size
     }
 }
-class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
+class ViewHolder(itemView: View,f:Fragment):RecyclerView.ViewHolder(itemView){
 
     var sedan = itemView.findViewById<TextView>(R.id.sedan)
     var sub_sean = itemView.findViewById<TextView>(R.id.etios)
@@ -76,7 +89,7 @@ class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
     var accept = itemView.findViewById<TextView>(R.id.rideset_accept)
 
   //  var home_layout = itemView.home_layout
-    var x=itemView
+    var x=f
 
     }
 
