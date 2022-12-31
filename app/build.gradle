@@ -69,5 +69,9 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
     implementation 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1'
 
+  /*  implementation 'com.razorpay:checkout:1.6.4'
+    implementation 'com.google.android.gms:play-services:12.0.1'
+    implementation 'com.google.maps.android:android-maps-utils:0.4+'
+*/
 
 }

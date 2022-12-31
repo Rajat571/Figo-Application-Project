@@ -67,7 +67,7 @@
                         android:padding="2dp"
                         android:layout_margin="10dp"
                         android:background="@drawable/circle_bg"
-                        android:src="@drawable/person_icon" />
+                      />
 
                 </LinearLayout>
                 <com.google.android.material.textfield.TextInputLayout

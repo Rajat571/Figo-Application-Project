@@ -17,6 +17,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -42,6 +43,7 @@ import com.google.android.material.navigation.NavigationView
 import com.pearl.figgodriver.Fragment.ActiveRide
 import com.pearl.figgodriver.Fragment.HomeDashBoard
 import com.pearl.figgodriver.Fragment.allRideRS
+import com.pearl.pearllib.BaseClass
 import com.pearlorganisation.PrefManager
 import kotlinx.android.synthetic.main.bottom_button_layout.view.*
 import kotlinx.android.synthetic.main.top_layout.view.*
@@ -53,6 +55,7 @@ class DriverDashBoard : AppCompatActivity() {
     var doubleBackToExitPressedOnce = false
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     lateinit var prefManager: PrefManager
+    lateinit var baseclass: BaseClass
 
 
     @SuppressLint("SuspiciousIndentation")
@@ -63,6 +66,29 @@ class DriverDashBoard : AppCompatActivity() {
         var window=window
         window.setStatusBarColor(Color.parseColor("#000F3B"))
         prefManager=PrefManager(this)
+        baseclass=object : BaseClass(){
+            override fun setLayoutXml() {
+                TODO("Not yet implemented")
+            }
+
+            override fun initializeViews() {
+                TODO("Not yet implemented")
+            }
+
+            override fun initializeClickListners() {
+                TODO("Not yet implemented")
+            }
+
+            override fun initializeInputs() {
+                TODO("Not yet implemented")
+            }
+
+            override fun initializeLabels() {
+                TODO("Not yet implemented")
+            }
+
+        }
+
         var whataspp=findViewById<ImageView>(R.id.whatsapp)
         var call=findViewById<ImageView>(R.id.call)
         var share=findViewById<ImageView>(R.id.share)
@@ -71,6 +97,20 @@ class DriverDashBoard : AppCompatActivity() {
         var menu = topLayout.sidebar
         var off_toggle = topLayout.toggle_off
         var on_toggle = topLayout.toggle_on
+
+
+      var draw_layout=findViewById<NavigationView>(R.id.draw_layout)
+
+        var vieww= draw_layout.getHeaderView(0);
+       var driverImage=vieww.findViewById<ImageView>(R.id.driverIV)
+        var drivername=vieww.findViewById<TextView>(R.id.drivernamee)
+        var driver_num=vieww.findViewById<TextView>(R.id.driver_numberr)
+        var image =baseclass.StringToBitMap(prefManager.getDriverProfile())
+        driverImage.setImageBitmap(image)
+        drivername.text=prefManager.getDriverName()
+        driver_num.text=prefManager.getMobileNo()
+
+
        // var back = topLayout.back_button
 
         var drawer = findViewById<DrawerLayout>(R.id.Dashboard_Drawer_layout)
@@ -80,7 +120,6 @@ class DriverDashBoard : AppCompatActivity() {
         menu.setOnClickListener {
             drawer.openDrawer(GravityCompat.END)
         }
-
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -206,5 +245,6 @@ class DriverDashBoard : AppCompatActivity() {
             supportFragmentManager.popBackStack()
         }
     }
+
 
 }

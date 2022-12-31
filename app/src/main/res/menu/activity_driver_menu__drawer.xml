@@ -7,13 +7,13 @@
 
             <item
                 android:id="@+id/change_mpin"
-                android:title="proffile" />
+                android:title="Profile" />
             <item
                 android:id="@+id/rides"
-                android:title="driver cab" />
+                android:title="Driver cab" />
             <item
                 android:id="@+id/offer_plan"
-                android:title="driver detauls" />
+                android:title="Driver details" />
             <item
                 android:id="@+id/figgo_bussiness"
                 android:title="Figgo_business"/>
@@ -38,7 +38,7 @@
                 android:id="@+id/Support"
                 android:title="Support"/>
             <item
-                android:id="@+id/Logout"
+                android:id="@+id/logout"
                 android:title="Logout"/>
 
 

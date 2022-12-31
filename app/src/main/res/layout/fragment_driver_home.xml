@@ -5,9 +5,27 @@
    >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:visibility="visible"
         android:layout_height="match_parent"
         tools:context=".Fragment.DriverHomeFragment"
-       >
+        >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="50dp"
+            android:src="@drawable/work_in_progress"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent"
+        >
 
         <include
             android:id="@+id/layout"
@@ -61,7 +79,7 @@
             app:layout_constraintVertical_bias="1.0" />
 
 
-
+</androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

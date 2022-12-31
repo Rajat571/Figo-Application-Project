@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
@@ -26,6 +27,7 @@ import androidx.core.content.ContextCompat
 import com.pearl.figgodriver.R
 import java.io.ByteArrayOutputStream
 import java.util.regex.Pattern
+
 
 abstract class BaseClass : AppCompatActivity() {
     protected var versionNew: String? = null
@@ -418,7 +420,16 @@ abstract class BaseClass : AppCompatActivity() {
         Base64.encodeToString(b, Base64.DEFAULT)
         return Base64.encodeToString(b, Base64.DEFAULT)
     }
-
+    open fun StringToBitMap(encodedString: String?): Bitmap? {
+        return try {
+            val encodeByte =
+                Base64.decode(encodedString, Base64.DEFAULT)
+            BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.size)
+        } catch (e: java.lang.Exception) {
+            e.message
+            null
+        }
+    }
     fun hideKeybaord(v: View) {
         val inputMethodManager =
             getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -448,10 +459,12 @@ abstract class BaseClass : AppCompatActivity() {
         fun isValidRegisterationNo(number: String): Boolean {
             var result: Boolean
             result = true
-            if (number.length <=9) {
+            if (number.length <8) {
                 result = false
             }
-
+            if (number.length >13) {
+                result = false
+            }
 
             return result
         }
