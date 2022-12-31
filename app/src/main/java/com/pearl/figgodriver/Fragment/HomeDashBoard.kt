@@ -1,5 +1,6 @@
 package com.pearl.figgodriver.Fragment
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -21,7 +22,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [HomeDashBoard.newInstance] factory method to
  * create an instance of this fragment.
  */
-class HomeDashBoard : Fragment() {
+class HomeDashBoard : Fragment(){
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -45,11 +46,13 @@ class HomeDashBoard : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lateinit var navController: NavController
+
         val navHostFragment=childFragmentManager.findFragmentById(R.id.mainContainer) as NavHostFragment
         navController=navHostFragment.navController
         val bottomNavigationView=view.findViewById<BottomNavigationView>(R.id.top_navigation_bar)
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
     }
+
 
     companion object {
         /**

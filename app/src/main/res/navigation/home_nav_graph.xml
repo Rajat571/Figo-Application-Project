@@ -9,7 +9,14 @@
         android:name="com.pearl.figgodriver.Fragment.DriverHomeFragment"
         android:label="fragment_driver_home"
 
-        tools:layout="@layout/fragment_driver_home" />
+        tools:layout="@layout/fragment_driver_home" >
+        <action
+            android:id="@+id/action_outstation_ride_to_all_ride"
+            app:destination="@id/all_ride" />
+        <action
+            android:id="@+id/action_outstation_ride_to_city_ride"
+            app:destination="@id/city_ride" />
+    </fragment>
     <fragment
         android:id="@+id/all_ride"
         android:name="com.pearl.figgodriver.Fragment.DriverRideSaleFragment"

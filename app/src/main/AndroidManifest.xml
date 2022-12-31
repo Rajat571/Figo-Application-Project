@@ -12,7 +12,7 @@
 
     <meta-data
         android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyC1uqsZFjBRpnP2On9w1L9P3ayv-bjjOBI"/>
+        android:value="AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -25,7 +25,7 @@
         tools:targetApi="31">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyC1uqsZFjBRpnP2On9w1L9P3ayv-bjjOBI"/>
+            android:value="AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU"/>
 
         <activity
             android:name="com.pearl.hotelPartner.HotelPartnerDashboard"
@@ -124,11 +124,11 @@
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:exported="true"
             >
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

@@ -37,7 +37,10 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     lateinit var prefManager: PrefManager
     //private lateinit var mMap: GoogleMap
-
+    private var originLatitude: Double = 28.5021359
+    private var originLongitude: Double = 77.4054901
+    private var destinationLatitude: Double = 28.5151087
+    private var destinationLongitude: Double = 77.3932163
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     var lat:Double = 0.0
     var long:Double = 0.0
@@ -101,11 +104,11 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
 
 
 
-        customerLatLng.put(30.288747155809858, 77.99142154400673)
-        customerLatLng.put(30.282224877386177, 77.9951122634793)
-        customerLatLng.put(30.280927781694515, 77.98987659166937)
-        customerLatLng.put(30.28355901506611, 77.98661502562382)
-        customerLatLng.put(30.292934526443705, 77.99579890896257)
+//        customerLatLng.put(30.288747155809858, 77.99142154400673)
+//        customerLatLng.put(30.282224877386177, 77.9951122634793)
+//        customerLatLng.put(30.280927781694515, 77.98987659166937)
+//        customerLatLng.put(30.28355901506611, 77.98661502562382)
+//        customerLatLng.put(30.292934526443705, 77.99579890896257)
 
         mapFragment.getMapAsync {
             mMap = it
@@ -113,9 +116,9 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
             mMap.addMarker(MarkerOptions().position(originLocation))
             val destinationLocation = LatLng(30.288793853142632, 77.99709732183523)//30.288793853142632, 77.99709732183523
             mMap.addMarker(MarkerOptions().position(destinationLocation))
-            for(i in 0..customerLatLng.size-1)
-                mMap.addMarker(MarkerOptions().position(LatLng(customerLatLng.keys.toList()[i],customerLatLng.values.toList()[i])))
-            val urll = getDirectionURL(originLocation, destinationLocation, "AIzaSyC1uqsZFjBRpnP2On9w1L9P3ayv-bjjOBI")
+//            for(i in 0..customerLatLng.size-1)
+//                mMap.addMarker(MarkerOptions().position(LatLng(customerLatLng.keys.toList()[i],customerLatLng.values.toList()[i])))
+            val urll = getDirectionURL(originLocation, destinationLocation, "AIzaSyA695FzYYRDkyrvue7VCb-kZeOlfbfG22w")
             GetDirection(urll).execute()
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 14F))
         }
@@ -153,7 +156,6 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
     }
 
 
-
     @SuppressLint("StaticFieldLeak")
     private inner class GetDirection(val url : String) : AsyncTask<Void, Void, List<List<LatLng>>>(){
         override fun doInBackground(vararg params: Void?): List<List<LatLng>> {
@@ -161,17 +163,17 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
             val request = Request.Builder().url(url).build()
             val response = client.newCall(request).execute()
             val data = response.body().toString()
-//Log.d("Response == ",""+data)
+
             val result =  ArrayList<List<LatLng>>()
             try{
-                val respObj = Gson().fromJson(data, MapData::class.java)
+                val respObj = Gson().fromJson(data,MapData::class.java)
                 val path =  ArrayList<LatLng>()
                 for (i in 0 until respObj.routes[0].legs[0].steps.size){
                     path.addAll(decodePolyline(respObj.routes[0].legs[0].steps[i].polyline.points))
                 }
                 result.add(path)
             }catch (e:Exception){
-                Log.d("response == ",""+e.stackTrace)
+                e.printStackTrace()
             }
             return result
         }
@@ -219,8 +221,6 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
         }
         return poly
     }
-
-
 
 
 }

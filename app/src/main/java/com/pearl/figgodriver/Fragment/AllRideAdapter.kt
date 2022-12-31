@@ -38,20 +38,8 @@ class AllRideAdapter(val allrideData:List<AllRideData>):RecyclerView.Adapter<All
 
         hidden.visibility=View.GONE
         view_btn.setOnClickListener {
-//            if(hidden.visibility == View.VISIBLE)
-//            {
-//                TransitionManager.beginDelayedTransition(cardView, AutoTransition())
-//                ontap.visibility = View.VISIBLE
-//                hidden.visibility = View.GONE
-//                view_btn.text = "View"
-//            }
-//
-//            else{
-//                TransitionManager.beginDelayedTransition(cardView, AutoTransition())
-//                ontap.visibility = View.GONE
-//                hidden.visibility = View.VISIBLE
-//                view_btn.text = "Hide"
-//            }
+
+
         }
         start_btn.setOnClickListener {
 

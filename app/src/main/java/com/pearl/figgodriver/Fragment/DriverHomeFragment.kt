@@ -46,7 +46,7 @@ class DriverHomeFragment : Fragment() {
         sedanAdapter= SedanAdapter(data,this)
         binding.sedanRecycler.adapter=sedanAdapter
         var back = view.findViewById<TextView>(R.id.top_back)
-        //childFragmentManager.
+      //  parentFragment?.childFragmentManager?.beginTransaction()?.replace(R.id.home_frame,ActiveRide())?.commit()
         back.setOnClickListener {
             //activity?.moveTaskToBack(true);
             activity?.finish();
