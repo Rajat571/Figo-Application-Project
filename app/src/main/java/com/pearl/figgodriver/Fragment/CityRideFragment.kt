@@ -33,6 +33,7 @@ import com.pearl.figgodriver.R
 import com.pearlorganisation.PrefManager
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.w3c.dom.Text
 
 
 class CityRideFragment : Fragment(),OnMapReadyCallback {
@@ -58,14 +59,22 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prefManager=PrefManager(requireContext())
-        val mapFragment = childFragmentManager.findFragmentById(R.id.mapX) as SupportMapFragment
+        val mapFragment = childFragmentManager.findFragmentById(R.id.mapR) as SupportMapFragment
         mapFragment.getMapAsync(this)
+//        var accept = view.findViewById<TextView>(R.id.city_ride_accept)
+//        var reject = view.findViewById<TextView>(R.id.city_ride_reject)
+
+
 
         var accept_city_ride_btn=view.findViewById<TextView>(R.id.accept_city_ride_btn)
         var reject_city_ride_btn=view.findViewById<TextView>(R.id.reject_city_ride_btn)
 
         accept_city_ride_btn.setOnClickListener {
             getCityRideDetails(view)
+            Toast.makeText(requireContext(),"Accepted",Toast.LENGTH_SHORT).show()
+        }
+        reject_city_ride_btn.setOnClickListener {
+            Toast.makeText(requireContext(),"Reject",Toast.LENGTH_SHORT).show()
         }
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
@@ -118,7 +127,8 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
             val destinationLocation = LatLng(30.288793853142632, 77.99709732183523)//30.288793853142632, 77.99709732183523
             mMap.addMarker(MarkerOptions().position(destinationLocation))
             for(i in 0..customerLatLng.size-1)
-                mMap.addMarker(MarkerOptions().position(LatLng(customerLatLng.keys.toList()[i],customerLatLng.values.toList()[i])))
+                mMap.addMarker(MarkerOptions().position(LatLng(customerLatLng.keys.toList()[i],customerLatLng.values.toList()[i]))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)))
             val urll = getDirectionURL(originLocation, destinationLocation, "AIzaSyA695FzYYRDkyrvue7VCb-kZeOlfbfG22w")
             GetDirection(urll).execute()
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 14F))
