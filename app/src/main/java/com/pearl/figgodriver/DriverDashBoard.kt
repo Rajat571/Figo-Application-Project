@@ -81,7 +81,6 @@ class DriverDashBoard : AppCompatActivity() {
             drawer.openDrawer(GravityCompat.END)
         }
 
-
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         if (ActivityCompat.checkSelfPermission(
                 this,
