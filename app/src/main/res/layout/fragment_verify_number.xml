@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="What's your MOBILE NUMBER or Email-id?"
+                android:text="What's your MOBILE NUMBER?"
                 android:textAlignment="center"
                 android:textSize="17sp" />
 
@@ -79,7 +79,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:drawableLeft="@drawable/call"
                     android:text="Number"
                     android:textSize="16sp" />
 
@@ -193,6 +192,7 @@
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
+                android:visibility="gone"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/background_card"
                 android:drawableStart="@drawable/google"
