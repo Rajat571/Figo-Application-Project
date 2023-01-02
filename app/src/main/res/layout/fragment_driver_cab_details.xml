@@ -7,6 +7,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#8DD7f7"
         tools:context=".Fragment.DriverCabDetailsFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,13 +18,14 @@
             tools:ignore="MissingConstraints">
 
             <ImageView
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="160dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/wall" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
+               <!--  Driver cab details layout-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cab_details_layout"
             android:layout_width="match_parent"
@@ -31,7 +33,7 @@
             android:layout_margin="20dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/background_layout"
-            android:visibility="gone"
+            android:visibility="visible"
             app:cardCornerRadius="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -79,6 +81,7 @@
                             android:layout_height="60dp"
                             android:id="@+id/upload_car"
                             android:padding="2dp"
+                            android:visibility="gone"
                             android:layout_margin="10dp"
                             android:background="@drawable/circle_bg"
                             android:src="@drawable/cab" />
@@ -116,6 +119,7 @@
                         android:layout_margin="10dp"
                         android:background="@drawable/input_boder_profile"
                         android:gravity="center"
+                        android:visibility="gone"
                         android:orientation="horizontal">
 
 
@@ -176,6 +180,7 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
+                        android:visibility="gone"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp">
 
@@ -207,7 +212,7 @@
                             android:textSize="13sp"
                             android:padding="15dp"
                             android:focusableInTouchMode="false"
-                            android:hint="Insurance Valid till" />
+                            android:hint="Insurance valid up to" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -228,19 +233,40 @@
                             android:textSize="13sp"
                             android:padding="15dp"
                             android:focusableInTouchMode="false"
-                            android:hint="Taxi Permit Valid till" />
+                            android:hint="Local Permit valid up to" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp">
+
+                        <EditText
+                            android:background="@drawable/input_boder_profile"
+                            android:id="@+id/national_permit_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:cursorVisible="false"
+                            android:drawableEnd="@drawable/ic_baseline_calendar_month_24"
+                            android:focusable="false"
+                            android:textSize="13sp"
+                            android:padding="15dp"
+                            android:focusableInTouchMode="false"
+                            android:hint="National Permit valid up to" />
 
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
             </ScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
+               <!-- working layout-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/work"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@drawable/background_layout"
-            android:visibility="visible"
+            android:visibility="gone"
             app:cardCornerRadius="10dp"
             android:layout_marginHorizontal="@dimen/_7ssp"
             android:layout_marginVertical="100dp"
@@ -426,6 +452,207 @@
                                 android:text="Choose Working City" />
                         </LinearLayout>
                     </LinearLayout>
+
+
+
+
+                </LinearLayout>
+            </ScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+                <!--  Image upload layout-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/upload_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_layout"
+            android:visibility="gone"
+            app:cardCornerRadius="10dp"
+            android:layout_marginHorizontal="@dimen/_7ssp"
+            android:layout_marginVertical="100dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottombuttonbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/backgrouund">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_15sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Upload the Picture"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_18sdp"
+                            android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/Image_upload_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/_5sdp"
+                            android:background="@color/light_grey"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:drawableEnd="@drawable/upload"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Selfie"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/_5sdp"
+                            android:background="@color/light_grey"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:drawableEnd="@drawable/upload"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Driving Licence"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/_5sdp"
+                            android:background="@color/light_grey"
+                            android:padding="10dp">
+
+
+                            <TextView
+                                android:drawableEnd="@drawable/upload"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Cab Insurance"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/_5sdp"
+                            android:background="@color/light_grey"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:drawableEnd="@drawable/upload"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Registration Certificate"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/_5sdp"
+                            android:background="@color/light_grey"
+                            android:padding="10dp">
+
+
+                            <TextView
+                                android:drawableEnd="@drawable/upload"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="National Permit"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/_5sdp"
+                            android:background="@color/light_grey"
+                            android:padding="10dp">
+
+
+                            <TextView
+                                android:drawableEnd="@drawable/upload"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Local Permit"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/_5sdp"
+                            android:background="@color/light_grey"
+                            android:padding="10dp">
+
+
+                            <TextView
+                                android:drawableEnd="@drawable/upload"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Taxi Front Pic \nwith number plate"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/_5sdp"
+                            android:background="@color/light_grey"
+                            android:padding="10dp">
+
+
+                            <TextView
+                                android:drawableEnd="@drawable/upload"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Aadhar Card Front"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/_5sdp"
+                            android:background="@color/light_grey"
+                            android:padding="10dp">
+
+
+                            <TextView
+                                android:drawableEnd="@drawable/upload"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Aadhar Card Back"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/_5sdp"
+                            android:background="@color/light_grey"
+                            android:padding="10dp">
+
+
+                            <TextView
+                                android:drawableEnd="@drawable/upload"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Police Certification"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
 
 
 

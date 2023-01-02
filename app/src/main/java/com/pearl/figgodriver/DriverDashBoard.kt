@@ -4,6 +4,7 @@ package com.pearl.figgodriver
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
@@ -62,6 +63,7 @@ class DriverDashBoard : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_driver_dash_board)
+
 
         var window=window
         window.setStatusBarColor(Color.parseColor("#000F3B"))

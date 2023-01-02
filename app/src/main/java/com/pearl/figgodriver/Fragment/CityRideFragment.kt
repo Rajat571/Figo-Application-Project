@@ -2,6 +2,7 @@ package com.pearl.figgodriver.Fragment
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
@@ -27,6 +28,7 @@ import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
+import com.google.android.libraries.places.api.Places
 import com.google.gson.Gson
 import com.pearl.figgodriver.MapData
 import com.pearl.figgodriver.R
@@ -47,6 +49,14 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
     var customerLatLng:HashMap<Double,Double> = HashMap()
     var mCurrLocationMarker: Marker? = null
 
+    lateinit var originLocation:LatLng
+    lateinit var destinationLocation:LatLng
+
+    private var originLatitude: Double =30.28401063526107
+    private var originLongitude: Double = 77.99210085398012
+    private var destinationLatitude: Double =  30.35335500972683
+    private var destinationLongitude: Double = 78.02461312748794
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,23 +69,8 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prefManager=PrefManager(requireContext())
-        val mapFragment = childFragmentManager.findFragmentById(R.id.mapR) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-//        var accept = view.findViewById<TextView>(R.id.city_ride_accept)
-//        var reject = view.findViewById<TextView>(R.id.city_ride_reject)
 
-
-
-        var accept_city_ride_btn=view.findViewById<TextView>(R.id.accept_city_ride_btn)
-        var reject_city_ride_btn=view.findViewById<TextView>(R.id.reject_city_ride_btn)
-
-        accept_city_ride_btn.setOnClickListener {
-            getCityRideDetails(view)
-            Toast.makeText(requireContext(),"Accepted",Toast.LENGTH_SHORT).show()
-        }
-        reject_city_ride_btn.setOnClickListener {
-            Toast.makeText(requireContext(),"Reject",Toast.LENGTH_SHORT).show()
-        }
+        //get current location
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
         if (ActivityCompat.checkSelfPermission(
@@ -86,13 +81,6 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return
         }
         fusedLocationProviderClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, object : CancellationToken() {
@@ -113,28 +101,71 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
             }
 
 
+
+        // Fetching API_KEY which we wrapped
+        val ai: ApplicationInfo = activity?.applicationContext?.packageManager
+            ?.getApplicationInfo(activity?.applicationContext!!.packageName, PackageManager.GET_META_DATA)!!
+
+        val value = ai.metaData["com.google.android.geo.${R.string.Google_maps_key}"]
+        val apiKey = value.toString()
+        // Initializing the Places API with the help of our API_KEY
+        if (!Places.isInitialized()) {
+            Places.initialize(requireActivity().applicationContext,apiKey)
+        }
+
+        val mapFragment = childFragmentManager.findFragmentById(R.id.mapR) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
+
+
+        var accept_city_ride_btn=view.findViewById<TextView>(R.id.accept_city_ride_btn)
+        var reject_city_ride_btn=view.findViewById<TextView>(R.id.reject_city_ride_btn)
+
+        accept_city_ride_btn.setOnClickListener {
+            getCityRideDetails(view)
+            Toast.makeText(requireContext(),"Accepted",Toast.LENGTH_SHORT).show()
+        }
+        reject_city_ride_btn.setOnClickListener {
+            Toast.makeText(requireContext(),"Reject",Toast.LENGTH_SHORT).show()
+        }
+
+
+/*
         customerLatLng.put(30.288747155809858, 77.99142154400673)
         customerLatLng.put(30.282224877386177, 77.9951122634793)
         customerLatLng.put(30.280927781694515, 77.98987659166937)
         customerLatLng.put(30.28355901506611, 77.98661502562382)
-        customerLatLng.put(30.292934526443705, 77.99579890896257)
+        customerLatLng.put(30.292934526443705, 77.99579890896257)*/
 
         mapFragment.getMapAsync {
             mMap = it
-            val originLocation = LatLng(prefManager.getlatitude().toDouble(), prefManager.getlongitude().toDouble())
+            val originLocation = LatLng(originLatitude, originLongitude)
+            mMap.addMarker(MarkerOptions().position(originLocation))
+            val destinationLocation = LatLng(destinationLatitude, destinationLongitude)
+            mMap.addMarker(MarkerOptions().position(destinationLocation))
+            val urll = getDirectionURL(originLocation, destinationLocation, "AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
+            GetDirection(urll).execute()
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 14F))
+        }
+
+
+       /* mapFragment.getMapAsync {
+            mMap = it
+            originLocation = LatLng(prefManager.getlatitude().toDouble(), prefManager.getlongitude().toDouble())
             Log.d("originLocation","originLocation"+originLocation)
             mMap.addMarker(MarkerOptions().position(originLocation))
-            val destinationLocation = LatLng(30.288793853142632, 77.99709732183523)//30.288793853142632, 77.99709732183523
+         destinationLocation = LatLng(30.288793853142632, 77.99709732183523)//30.288793853142632, 77.99709732183523
             mMap.addMarker(MarkerOptions().position(destinationLocation))
             for(i in 0..customerLatLng.size-1)
                 mMap.addMarker(MarkerOptions().position(LatLng(customerLatLng.keys.toList()[i],customerLatLng.values.toList()[i]))
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)))
-            val urll = getDirectionURL(originLocation, destinationLocation, "AIzaSyA695FzYYRDkyrvue7VCb-kZeOlfbfG22w")
+            val urll = getDirectionURL(originLocation, destinationLocation, "AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
             GetDirection(urll).execute()
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 14F))
-        }
+        }*/
     }
 
+/*
 
     private fun getDirectionURL(origin:LatLng, dest:LatLng, secret: String) : String{
         return "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}" +
@@ -143,12 +174,11 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
                 "&mode=driving" +
                 "&key=$secret"
     }
+*/
+
 
     override fun onMapReady( googleMap: GoogleMap) {
-
-        mMap = googleMap
-
-
+      /*  mMap = googleMap
         // Add a marker in Sydney and move the camera
       //  val sydney = LatLng(prefManager.getlatitude().toDouble(), prefManager.getlongitude().toDouble())
         val sydney=LatLng(prefManager.getlatitude().toDouble(),prefManager.getlongitude().toDouble())
@@ -162,10 +192,21 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney,18f))
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney,18f))*/
+        mMap =googleMap
+        val originLocation = LatLng(originLatitude, originLongitude)
+        mMap.clear()
+        mMap.addMarker(MarkerOptions().position(originLocation))
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 18F))
     }
 
-
+    private fun getDirectionURL(origin:LatLng, dest:LatLng, secret: String) : String{
+        return "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}" +
+                "&destination=${dest.latitude},${dest.longitude}" +
+                "&sensor=false" +
+                "&mode=driving" +
+                "&key=$secret"
+    }
 
     @SuppressLint("StaticFieldLeak")
     private inner class GetDirection(val url : String) : AsyncTask<Void, Void, List<List<LatLng>>>(){
@@ -173,8 +214,44 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
             val client = OkHttpClient()
             val request = Request.Builder().url(url).build()
             val response = client.newCall(request).execute()
+            val data = response.body()?.string()
+            Log.d("SEND DATA"," data ===="+ data )
+
+            val result =  ArrayList<List<LatLng>>()
+            try{
+                val respObj = Gson().fromJson(data,MapData::class.java)
+                val path =  ArrayList<LatLng>()
+                for (i in 0 until respObj.routes[0].legs[0].steps.size){
+                    path.addAll(decodePolyline(respObj.routes[0].legs[0].steps[i].polyline.points))
+                }
+                result.add(path)
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
+            return result
+        }
+
+        override fun onPostExecute(result: List<List<LatLng>>) {
+            val lineoption = PolylineOptions()
+            for (i in result.indices){
+                lineoption.addAll(result[i])
+                lineoption.width(10f)
+                lineoption.color(Color.GREEN)
+                lineoption.geodesic(true)
+            }
+            mMap.addPolyline(lineoption)
+        }
+    }
+
+
+
+   /* private inner class GetDirection(val url : String) : AsyncTask<Void, Void, List<List<LatLng>>>(){
+        override fun doInBackground(vararg params: Void?): List<List<LatLng>> {
+            val client = OkHttpClient()
+            val request = Request.Builder().url(url).build()
+            val response = client.newCall(request).execute()
             val data = response.body().toString()
-//Log.d("Response == ",""+data)
+Log.d("Response == ","ResponseLatLANg == "+data)
             val result =  ArrayList<List<LatLng>>()
             try{
                 val respObj = Gson().fromJson(data, MapData::class.java)
@@ -199,7 +276,7 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
             }
             mMap.addPolyline(lineoption)
         }
-    }
+    }*/
 
     fun decodePolyline(encoded: String): List<LatLng> {
         val poly = ArrayList<LatLng>()

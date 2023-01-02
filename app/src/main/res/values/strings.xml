@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Figgo Partner</string>
-    <string name="welcome">No Commission\nYour Ride - Your price\nUnlimited income plan\n24 x7 support</string>
+    <string name="welcome" translatable="false">Sign up to begin your future\nwith Figgo and grow in life</string>
     <string name="logindetails">By proceeding,you consent to get calls,whatsapp or sms,messages including by automated means from uber and its affiliates to the number provided</string>
     <string name="e_verification"> Congratulations,\n e-Verification has been completed successfully.\n To use this app you are requested to generate MPIN</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -37,4 +37,6 @@
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
     <string name="google_map_api_key">AIzaSyC1uqsZFjBRpnP2On9w1L9P3ayv-bjjOBI</string>
+    <string name="Google_maps_key" translatable="false" templateMergeStrategy="preserve">AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU</string>
+    <string name="sipahi_parivar_welcome">As we understand the basic\nneeds,requirements and \nfinancial problems of drivers,we\nare here to ensure and entrust \nthem after joining with us\nthey would definitely be able to \nfullfill all.</string>
 </resources>

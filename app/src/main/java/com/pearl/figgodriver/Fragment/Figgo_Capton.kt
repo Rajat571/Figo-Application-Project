@@ -128,6 +128,8 @@ class Figgo_Capton : Fragment(){
             var driver_name=binding.drivername.text.toString()
             var driver_mobile_no=binding.drivermobileno.text.toString()
             var driver_dl_no=binding.driverdlno.text.toString()
+            var driver_pan_no=binding.driverPanNo.text.toString()
+            var driver_aadhar_no=binding.driverAdharNo.text.toString()
             prefManager.setDL_No(driver_dl_no)
             prefManager.setDriverName(driver_name)
             prefManager.setMobile_No(driver_mobile_no)
@@ -359,6 +361,8 @@ class Figgo_Capton : Fragment(){
         //baseclass.validateState(binding.driverstate)
         //baseclass.validateCity(binding.drivercity)
         baseclass.validatedriverDLNo(binding.driverdlno)
+        baseclass.validatedriverDLNo(binding.driverPanNo)
+        baseclass.validatedriverDLNo(binding.driverAdharNo)
 
 
         if (binding.upAdharfront.drawable==null){
@@ -379,7 +383,7 @@ class Figgo_Capton : Fragment(){
 
         // binding.aadharfrontTV.setError("Please upload aadhar front image")
 
-        if (!binding.drivername.text.isEmpty()&&!binding.drivermobileno.text.isEmpty()&&!binding.driverdlno.text.isEmpty()&&binding.upAdharfront.drawable!=null&&binding.upAdharback.drawable!=null){
+   /*     if (!binding.drivername.text.isEmpty()&&!binding.drivermobileno.text.isEmpty()&&!binding.driverdlno.text.isEmpty()&&binding.upAdharfront.drawable!=null&&binding.upAdharback.drawable!=null){
 
 
 
@@ -387,6 +391,21 @@ class Figgo_Capton : Fragment(){
             binding.upAdharfront.visibility=View.VISIBLE
             binding.aadharBackIV.visibility=View.GONE
             binding.upAdharback.visibility=View.VISIBLE
+
+
+
+
+            Navigation.findNavController(requireView()).navigate(R.id.action_figgo_Capton_to_driverCabDetailsFragment,args)
+
+        }*/
+        if (!binding.drivername.text.isEmpty()&&!binding.drivermobileno.text.isEmpty()&&!binding.driverdlno.text.isEmpty()&&!binding.driverPanNo.text.isEmpty()&&!binding.driverAdharNo.text.isEmpty()){
+
+
+
+            // binding.aadharfrontIV.visibility=View.GONE
+           /* binding.upAdharfront.visibility=View.VISIBLE
+            binding.aadharBackIV.visibility=View.GONE
+            binding.upAdharback.visibility=View.VISIBLE*/
 
 
 

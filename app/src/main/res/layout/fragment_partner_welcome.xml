@@ -16,6 +16,7 @@
         tools:ignore="MissingConstraints" >
 
         <ImageView
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="160dp"
             android:src="@drawable/wall"
@@ -73,12 +74,7 @@
                 android:layout_height="wrap_content"
                 android:lineHeight="@dimen/_25sdp"
                 android:padding="10dp"
-                android:text="No Commission - Your own price - your own rides
-Settlement on every Ride
-You also can sell your spares booking
-You can request for booking when you require
-Cab Insurance Advanced interest free
-Emergency Business Advance Interest free "
+                android:text="@string/sipahi_parivar_welcome"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_10sdp" />
 

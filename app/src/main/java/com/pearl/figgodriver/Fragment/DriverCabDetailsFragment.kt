@@ -178,6 +178,7 @@ class DriverCabDetailsFragment : Fragment() {
                 // Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
                 fetchCabCategory(position)
 
+
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -605,8 +606,9 @@ class DriverCabDetailsFragment : Fragment() {
         base.validatedriverRegistrationNo(binding.vechleNo)
         base.validateDriverInsuranceDate(binding.insuranceNo)
         base.validateDriverInsuranceDate(binding.taxPermitNo)
-
-        if (!binding.registrationNo.text.toString().isEmpty()&&!binding.insuranceNo.text.toString().isEmpty()&&!binding.taxPermitNo.text.toString().isEmpty()){
+        base.validateDriverInsuranceDate(binding.nationalPermitDate)
+        //!binding.registrationNo.text.toString().isEmpty()&&
+        if (!binding.insuranceNo.text.toString().isEmpty()&&!binding.taxPermitNo.text.toString().isEmpty()){
 
             binding.cabDetailsLayout.visibility=View.GONE
             binding.work.visibility=View.VISIBLE
@@ -614,7 +616,10 @@ class DriverCabDetailsFragment : Fragment() {
             // binding.proceed.visibility = View.VISIBLE
             if (binding.work.visibility==View.VISIBLE){
                 next.setOnClickListener {
-                    submitForm(registration_no,insurance_valid_date,permit_valid_date,car_category,car_model,model_year,v_number)
+                    binding.work.visibility=View.GONE
+                    binding.cabDetailsLayout.visibility=View.GONE
+                    binding.uploadImage.visibility=View.VISIBLE
+                    //submitForm(registration_no,insurance_valid_date,permit_valid_date,car_category,car_model,model_year,v_number)
 
                 }
 
