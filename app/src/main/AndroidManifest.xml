@@ -120,7 +120,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity android:name=".Maps"
+       <!-- <activity android:name=".Maps"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:exported="true"
             >
@@ -129,7 +129,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity>-->
     </application>
 
 </manifest>

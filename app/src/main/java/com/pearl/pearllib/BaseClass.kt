@@ -345,7 +345,7 @@ abstract class BaseClass : AppCompatActivity() {
         val num: String = driverDLNo.getText().toString().trim { it <= ' ' }
         setCustomError(null, driverDLNo)
         return if (num.isEmpty()) {
-            val sMessage = "Please enter driver license no..!!"
+            val sMessage = "Please fill the field..!!"
             setCustomError(sMessage, driverDLNo)
             false
         } /*else if (!isValidNumber(num)) {

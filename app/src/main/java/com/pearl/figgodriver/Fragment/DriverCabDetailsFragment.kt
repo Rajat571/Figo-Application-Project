@@ -18,6 +18,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.pearl.figgodriver.Adapter.SpinnerAdapter
+import com.pearl.figgodriver.DriverDashBoard
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.databinding.FragmentDriverCabDetailsBinding
 import com.pearl.figgodriver.model.SpinnerObj
@@ -36,7 +37,6 @@ import kotlin.collections.HashMap
 class DriverCabDetailsFragment : Fragment() {
     private lateinit var carDP: ImageView
     private var  str: String? = null
-    var  driver_cab_image:String=""
     val statelist: ArrayList<SpinnerObj> = ArrayList()
     val citylist: ArrayList<SpinnerObj> = ArrayList()
     var yearList= listOf<Int>()
@@ -56,6 +56,33 @@ class DriverCabDetailsFragment : Fragment() {
     lateinit  var workingarea      :Spinner
     var selectedcity  = 0
     var selectedState = 0
+
+    //declare images and extentions
+
+    var driver_profile_ext:String=""
+   var driving_license_ext:String=""
+    var cab_insurance_ext:String=""
+    var registration_certificate_ext:String=""
+     var national_permit_ext:String=""
+     var local_permit_ext:String=""
+    var taxi_front_pic_ext:String=""
+    var aadhar_front_ext:String=""
+     var aadhar_back_ext:String=""
+    var police_certification_ext:String=""
+
+   var driver_profile:String=""
+   var driving_license:String=""
+    var cab_insrance:String=""
+    var registration_certificate:String=""
+   var national_permit:String=""
+    var local_permit:String=""
+   var driver_cab_image:String=""
+     var aadhar_front:String=""
+     var aadhar_back:String=""
+   var police_certification:String=""
+
+
+
     var base = object :BaseClass(){
         override fun setLayoutXml() {
             TODO("Not yet implemented")
@@ -156,14 +183,101 @@ class DriverCabDetailsFragment : Fragment() {
 
         back.setOnClickListener {
             if (layout_cab.visibility==View.VISIBLE){
+                binding.uploadImage.visibility=View.GONE
                 // binding.proceed.visibility=View.GONE
                 Navigation.findNavController(view).navigate(R.id.action_driverCabDetailsFragment_to_figgo_Capton)
+            }
+            else if(binding.uploadImage.visibility==View.VISIBLE){
+                layout_cab.visibility=View.GONE
+                next.text="next"
+                layout_work.visibility=View.VISIBLE
+                binding.uploadImage.visibility=View.GONE
+            }
+            else if(binding.work.visibility==View.VISIBLE){
+
+                layout_cab.visibility=View.VISIBLE
+                binding.work.visibility=View.GONE
+               binding.uploadImage.visibility=View.GONE
             }else{
                 //  binding.proceed.visibility=View.GONE
                 layout_cab.visibility= View.VISIBLE
                 layout_work.visibility = View.GONE
             }
         }
+        binding.insuranceNo .setOnClickListener {
+            calendar(binding.insuranceNo)
+        }
+        binding.taxPermitNo.setOnClickListener {
+            calendar(binding.taxPermitNo)
+        }
+        binding.nationalPermitDate.setOnClickListener {
+            calendar(binding.nationalPermitDate)
+        }
+
+        binding.selfiee.setOnClickListener {
+            var intent=Intent()
+            intent.type="image/*"
+            intent.action=Intent.ACTION_GET_CONTENT
+            startActivityForResult(Intent.createChooser(intent,"select Picture"),1)
+        }
+        binding.drivingLicence.setOnClickListener {
+            var intent=Intent()
+            intent.type="image/*"
+            intent.action=Intent.ACTION_GET_CONTENT
+            startActivityForResult(Intent.createChooser(intent,"select Picture"),2)
+        }
+        binding.cabInsurance.setOnClickListener {
+            var intent=Intent()
+            intent.type="image/*"
+            intent.action=Intent.ACTION_GET_CONTENT
+            startActivityForResult(Intent.createChooser(intent,"select Picture"),3)
+        }
+        binding.registrationCertificate.setOnClickListener {
+            var intent=Intent()
+            intent.type="image/*"
+            intent.action=Intent.ACTION_GET_CONTENT
+            startActivityForResult(Intent.createChooser(intent,"select Picture"),4)
+        }
+        binding.nationalPermitImg.setOnClickListener {
+            var intent=Intent()
+            intent.type="image/*"
+            intent.action=Intent.ACTION_GET_CONTENT
+            startActivityForResult(Intent.createChooser(intent,"select Picture"),5)
+        }
+        binding.localPermitImg.setOnClickListener {
+            var intent=Intent()
+            intent.type="image/*"
+            intent.action=Intent.ACTION_GET_CONTENT
+            startActivityForResult(Intent.createChooser(intent,"select Picture"),6)
+        }
+        binding.taxiFrontPicImg.setOnClickListener {
+            var intent=Intent()
+            intent.type="image/*"
+            intent.action=Intent.ACTION_GET_CONTENT
+            startActivityForResult(Intent.createChooser(intent,"select Picture"),7)
+        }
+        binding.aadharFrontImg.setOnClickListener {
+            var intent=Intent()
+            intent.type="image/*"
+            intent.action=Intent.ACTION_GET_CONTENT
+            startActivityForResult(Intent.createChooser(intent,"select Picture"),8)
+        }
+        binding.aadharBackImg.setOnClickListener {
+            var intent=Intent()
+            intent.type="image/*"
+            intent.action=Intent.ACTION_GET_CONTENT
+            startActivityForResult(Intent.createChooser(intent,"select Picture"),9)
+        }
+
+        binding.policeCertificationImg.setOnClickListener {
+            var intent=Intent()
+            intent.type="image/*"
+            intent.action=Intent.ACTION_GET_CONTENT
+            startActivityForResult(Intent.createChooser(intent,"select Picture"),10)
+        }
+
+
+
     }
 
     fun initializeInputs() {
@@ -257,18 +371,6 @@ class DriverCabDetailsFragment : Fragment() {
                 // write code to perform some action
             }
         }
-
-
-        binding.insuranceNo .setOnClickListener {
-            calendar(binding.insuranceNo)
-        }
-        binding.taxPermitNo.setOnClickListener {
-            calendar(binding.taxPermitNo)
-        }
-
-
-
-        // baseprivate.fetchStates(requireContext(),binding.selectStateLocal,2,binding.selectCity)
 
 
     }
@@ -447,9 +549,10 @@ class DriverCabDetailsFragment : Fragment() {
                             spinner_cabcategory.adapter = cabcategoryadapter
                             spinner_cabcategory?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
                                 override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+
                                     fetchModel(hashMap.values.toList()[position])
-                                    /* prefManager.setDriverCabCategory(fetchModel(hashMap.values.toList()[position]).toString())
-                                     Log.d("DriverCabCategory","DriverCabCategory==="+ prefManager.setDriverCabCategory(fetchModel(hashMap.values.toList()[position]).toString()))*/
+                                    prefManager.setDriverCabCategory(hashMap.values.toList()[position].toString())
+                                     Log.d("DriverCabCategory","DriverCabCategory==="+ prefManager.setDriverCabCategory(hashMap.values.toList()[position].toString()))
 
 
                                 }
@@ -535,9 +638,6 @@ class DriverCabDetailsFragment : Fragment() {
     }
 
 
-
-
-
     private fun calendar(edit:EditText) {
         val c = Calendar.getInstance()
         // on below line we are getting
@@ -574,19 +674,117 @@ class DriverCabDetailsFragment : Fragment() {
 
         if (requestCode == 1){
             try {
-                //Getting the Bitmap from Gallery
-                val selectedImageUri = data?.getData()
-                val bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), selectedImageUri)
-                val extension = base.getExtension(selectedImageUri!!,requireContext())
-                prefManager.setDriverCab_ext(extension!!)
-                driver_cab_image = base.BitMapToString(bitmap).toString()
-                prefManager.setDriverCab(driver_cab_image)
-                binding.uploadCar.setImageBitmap(bitmap)
+                var selectedImageUri4=data?.data
+                driver_profile_ext = base.getExtension(selectedImageUri4!!,requireContext())
+                prefManager.setDriverProfile_ext(driver_profile_ext)
+                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
+                 driver_profile = base.BitMapToString(bitmap).toString()
+                binding.selfiee.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+                prefManager.setDriverProfile(driver_profile)
             } catch (e: IOException) {
                 e.printStackTrace()
             }
 
         }
+        else if (requestCode==2){
+            try {
+                var selectedImageUri4=data?.data
+                 driving_license_ext = base.getExtension(selectedImageUri4!!,requireContext())
+                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
+                 driving_license= base.BitMapToString(bitmap).toString()
+                binding.drivingLicence.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        else if (requestCode==3){
+            try {
+                var selectedImageUri4=data?.data
+                 cab_insurance_ext = base.getExtension(selectedImageUri4!!,requireContext())
+                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
+                cab_insrance = base.BitMapToString(bitmap).toString()
+                binding.cabInsurance.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        else if (requestCode==4){
+            try {
+                var selectedImageUri4=data?.data
+                 registration_certificate_ext = base.getExtension(selectedImageUri4!!,requireContext())
+                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
+                 registration_certificate = base.BitMapToString(bitmap).toString()
+                binding.registrationCertificate.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        else if (requestCode==5){
+            try {
+                var selectedImageUri4=data?.data
+                 national_permit_ext = base.getExtension(selectedImageUri4!!,requireContext())
+                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
+                 national_permit = base.BitMapToString(bitmap).toString()
+                binding.nationalPermitImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }else if (requestCode==6){
+            try {
+                var selectedImageUri4=data?.data
+                 local_permit_ext = base.getExtension(selectedImageUri4!!,requireContext())
+                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
+                 local_permit = base.BitMapToString(bitmap).toString()
+                binding.localPermitImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }else if (requestCode==7){
+            try {
+                val selectedImageUri = data?.getData()
+                val bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), selectedImageUri)
+                 taxi_front_pic_ext = base.getExtension(selectedImageUri!!,requireContext())
+                prefManager.setDriverCab_ext(taxi_front_pic_ext!!)
+                driver_cab_image = base.BitMapToString(bitmap).toString()
+                binding.taxiFrontPicImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+                prefManager.setDriverCab(driver_cab_image)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }else if (requestCode==8){
+            try {
+                var selectedImageUri4=data?.data
+                aadhar_front_ext = base.getExtension(selectedImageUri4!!,requireContext())
+                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
+                 aadhar_front = base.BitMapToString(bitmap).toString()
+                binding.aadharFrontImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }else if (requestCode==9){
+            try {
+                var selectedImageUri4=data?.data
+                 aadhar_back_ext = base.getExtension(selectedImageUri4!!,requireContext())
+                prefManager.setAadhar_back_ext(aadhar_back_ext)
+                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
+                 aadhar_back= base.BitMapToString(bitmap).toString()
+                binding.aadharBackImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+                prefManager.setAadhar_verification_back(aadhar_back)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }else if (requestCode==10){
+            try {
+                var selectedImageUri4=data?.data
+                 police_certification_ext = base.getExtension(selectedImageUri4!!,requireContext())
+                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
+                 police_certification = base.BitMapToString(bitmap).toString()
+                binding.policeCertificationImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+
     }
 
     private fun validateForm() {
@@ -599,7 +797,8 @@ class DriverCabDetailsFragment : Fragment() {
         var v_number=binding.vechleNo.text.toString()
         var registration_no=binding.registrationNo.text.toString()
         var insurance_valid_date=binding.insuranceNo.text.toString()
-        var permit_valid_date=binding.taxPermitNo.text.toString()
+        var local_permit_date=binding.taxPermitNo.text.toString()
+        var national_permit_date=binding.nationalPermitDate.text.toString()
 
 
         base.validatedriverRegistrationNo(binding.registrationNo)
@@ -607,43 +806,31 @@ class DriverCabDetailsFragment : Fragment() {
         base.validateDriverInsuranceDate(binding.insuranceNo)
         base.validateDriverInsuranceDate(binding.taxPermitNo)
         base.validateDriverInsuranceDate(binding.nationalPermitDate)
-        //!binding.registrationNo.text.toString().isEmpty()&&
-        if (!binding.insuranceNo.text.toString().isEmpty()&&!binding.taxPermitNo.text.toString().isEmpty()){
+
+        if (!binding.insuranceNo.text.toString().isEmpty()&&!binding.taxPermitNo.text.isEmpty()&&!binding.vechleNo.text.isEmpty()&&!binding.nationalPermitDate.text.isEmpty()){
 
             binding.cabDetailsLayout.visibility=View.GONE
             binding.work.visibility=View.VISIBLE
-            next.text="Proceed"
-            // binding.proceed.visibility = View.VISIBLE
+
             if (binding.work.visibility==View.VISIBLE){
                 next.setOnClickListener {
                     binding.work.visibility=View.GONE
                     binding.cabDetailsLayout.visibility=View.GONE
                     binding.uploadImage.visibility=View.VISIBLE
-                    //submitForm(registration_no,insurance_valid_date,permit_valid_date,car_category,car_model,model_year,v_number)
+                    next.text="Proceed"
+                    if (binding.uploadImage.visibility==View.VISIBLE){
+                        next.setOnClickListener {
+                            submitForm(insurance_valid_date,local_permit_date,national_permit_date,car_category,car_model,model_year,v_number)
+                        }
+                    }
 
                 }
 
             }
-
-
-            //var proceed = binding.proceed
-
-            /*proceed.setOnClickListener {
-                *//*if (binding.firstWorkState.text.toString().isEmpty()){
-                            baseClass.validateWorkState(binding.firstWorkState)
-                        }
-                        else{*//*
-
-
-
-                       // }
-
-                        // context?.startActivity(Intent(requireContext(), DriverDashBoard::class.java))
-                    }*/
         }
     }
 
-    private fun submitForm(registration_no:String,insurance_valid_date:String,permit_valid_date:String,car_category:String,car_model:Int,model_year:Int,v_number:String) {
+    private fun submitForm(insurance_valid_date:String,local_permit_date:String,national_permit_date:String,car_category:String,car_model:Int,model_year:Int,v_number:String) {
 
         Log.d("SendData", "updatedStateList==="+updatedStateList)
 
@@ -655,41 +842,61 @@ class DriverCabDetailsFragment : Fragment() {
         json.put("token",token)
         json.put("name",prefManager.getDriverName())
         // json.put("mobile",prefManager.getMobileNo())      //
+        json.put("second_number",prefManager.getMobileNo())
         json.put("state",prefManager.getDriverState())
         json.put("city",prefManager.getDriverCity())
         json.put("dl_number",prefManager.getDL_No())
-        json.put("aadhar_no",prefManager.getMobileNo())
+        json.put("pan_number",prefManager.getDriverPan_no())
+        json.put("aadhar_number",prefManager.getDriverAadhar_no())
+
+
         // json.put("v_type","type")
-        //   json.put("v_cat","category")
+           json.put("v_category",car_category)
         json.put("v_modal",prefManager.getDriverVechleModel())
         json.put("year",prefManager.getDriverVechleYear())
         json.put("v_number",v_number)
-        json.put("registration_no",registration_no)
+        //json.put("registration_no",registration_no)
         json.put("insurance",insurance_valid_date)
-        json.put("permit",permit_valid_date)
+        json.put("l_permit",local_permit_date)
+        json.put("n_permit",national_permit_date)
         json.put("work_place",prefManager.getDriverVechleType().toInt())
         json.put("work_state", updatedStateList)
         json.put("work_city",selectedcity)
-        //  json.put("selected_state",updatedStateList)
-        json.put("driver_image_ext",prefManager.getDriverProfile_ext())
-        json.put("police_verification_ext",prefManager.getPolice_ext())
-        json.put("aadhar_verification_front_ext",prefManager.getAadhar_front_ext())
-        json.put("aadhar_verification_back_ext",prefManager.getAadhar_back_ext())
-        json.put("cab_image_ext",prefManager.getDriverCab_ext())
+        // json.put("selected_state",updatedStateList)
+
+        //upload image
+        json.put("selfie_ext",driver_profile_ext)
+        json.put("dl_image_ext",driving_license_ext)
+        json.put("cab_insurance_image_ext",cab_insurance_ext)
+        json.put("registration_image_ext",registration_certificate_ext)
+        json.put("n_permit_image_ext",national_permit_ext)
+        json.put("l_permit_image_ext",local_permit_ext)
+        json.put("taxi_front_image_ext",taxi_front_pic_ext)
+        json.put("aadhar_front_ext",aadhar_front_ext)
+        json.put("aadhar_back_ext",aadhar_back_ext)
+        json.put("police_cer_image_ext",police_certification_ext)
+
+
         Log.d("SendData", "json===" + json)
 
+        json.put("selfie",driver_profile)
+        json.put("dl_image",driving_license)
+        json.put("cab_insurance_image",cab_insrance)
+        json.put("registration_image",registration_certificate)
+        json.put("n_permit_image",national_permit)
+        json.put("l_permit_image",local_permit)
+        json.put("taxi_front_image",driver_cab_image)
 
-        json.put("driver_image",prefManager.getDriverProfile())
-        json.put("police_verification",prefManager.getDriverRegistrationNo())
-        json.put("aadhar_verification_front",prefManager.getAadhar_verification_front())
-        json.put("aadhar_verification_back",prefManager.getAadhar_verification_back())
-        json.put("cab_image",prefManager.getDriverCab())
+        json.put("aadhar_front",aadhar_front)
+        json.put("aadhar_back",aadhar_back)
+        json.put("police_cer_image",police_certification)
 
-        Log.d("SendData", "aadharVerificationFront===" + prefManager.getDriverProfile())
-        Log.d("SendData", "aadharVerificationFront===" + prefManager.getDriverRegistrationNo())
-        Log.d("SendData", "aadharVerificationFront===" + prefManager.getAadhar_verification_front())
-        Log.d("SendData", "aadharVerificationFront===" + prefManager.getAadhar_verification_back())
-        Log.d("SendData", "aadharVerificationBack" + prefManager.getDriverCab())
+        Log.d("SendData", "aadharVerificationFront===" + aadhar_front)
+        Log.d("SendData", "aadhar_back===" + aadhar_back)
+        Log.d("SendData", "police_certification===" +police_certification)
+        Log.d("SendData", "driver_profile===" + driver_profile)
+        Log.d("SendData", "driving_license" + driving_license)
+        Log.d("SendData", "police_certification_ext" + police_certification_ext)
 
 
          val jsonOblect=
@@ -698,9 +905,9 @@ class DriverCabDetailsFragment : Fragment() {
                      Log.d("SendData", "response===" + response)
                      Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
                      if (response != null) {
-                         //context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
+                         context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
                          prefManager.setRegistrationToken("Done")
-                         Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration)
+                        // Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration)
 
                        //  prefManager.setCabFormToken("Submitted")
                      }

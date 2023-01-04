@@ -119,10 +119,8 @@
                         android:layout_margin="10dp"
                         android:background="@drawable/input_boder_profile"
                         android:gravity="center"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:orientation="horizontal">
-
-
 
                         <Spinner
                             android:id="@+id/spinner_cabtype"
@@ -164,7 +162,9 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp">
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp">
 
                         <EditText
                             android:background="@drawable/input_boder_profile"
@@ -198,7 +198,9 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp">
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp">
 
                         <EditText
                             android:background="@drawable/input_boder_profile"
@@ -210,7 +212,7 @@
                             android:drawableEnd="@drawable/ic_baseline_calendar_month_24"
                             android:focusable="false"
                             android:textSize="13sp"
-                            android:padding="15dp"
+                            android:padding="10dp"
                             android:focusableInTouchMode="false"
                             android:hint="Insurance valid up to" />
 
@@ -219,7 +221,9 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp">
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp">
 
                         <EditText
                             android:background="@drawable/input_boder_profile"
@@ -231,7 +235,7 @@
                             android:drawableEnd="@drawable/ic_baseline_calendar_month_24"
                             android:focusable="false"
                             android:textSize="13sp"
-                            android:padding="15dp"
+                            android:padding="10dp"
                             android:focusableInTouchMode="false"
                             android:hint="Local Permit valid up to" />
 
@@ -240,7 +244,10 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp">
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="10dp">
 
                         <EditText
                             android:background="@drawable/input_boder_profile"
@@ -252,7 +259,7 @@
                             android:drawableEnd="@drawable/ic_baseline_calendar_month_24"
                             android:focusable="false"
                             android:textSize="13sp"
-                            android:padding="15dp"
+                            android:padding="10dp"
                             android:focusableInTouchMode="false"
                             android:hint="National Permit valid up to" />
 
@@ -497,7 +504,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Upload the Picture"
+                            android:text="Upload the Pictures"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_18sdp"
                             android:textStyle="bold" />
@@ -517,6 +524,7 @@
                             android:padding="10dp">
 
                             <TextView
+                                android:id="@+id/selfiee"
                                 android:drawableEnd="@drawable/upload"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -531,6 +539,7 @@
                             android:padding="10dp">
 
                             <TextView
+                                android:id="@+id/driving_licence"
                                 android:drawableEnd="@drawable/upload"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -546,6 +555,7 @@
 
 
                             <TextView
+                                android:id="@+id/cab_insurance"
                                 android:drawableEnd="@drawable/upload"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -560,6 +570,7 @@
                             android:padding="10dp">
 
                             <TextView
+                                android:id="@+id/registration_certificate"
                                 android:drawableEnd="@drawable/upload"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -575,6 +586,7 @@
 
 
                             <TextView
+                                android:id="@+id/national_permit_img"
                                 android:drawableEnd="@drawable/upload"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -590,6 +602,7 @@
 
 
                             <TextView
+                                android:id="@+id/local_permit_img"
                                 android:drawableEnd="@drawable/upload"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -604,6 +617,7 @@
 
 
                             <TextView
+                                android:id="@+id/taxi_front_pic_img"
                                 android:drawableEnd="@drawable/upload"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -618,6 +632,7 @@
 
 
                             <TextView
+                                android:id="@+id/aadhar_front_img"
                                 android:drawableEnd="@drawable/upload"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -632,6 +647,7 @@
 
 
                             <TextView
+                                android:id="@+id/aadhar_back_img"
                                 android:drawableEnd="@drawable/upload"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -646,6 +662,7 @@
 
 
                             <TextView
+                                android:id="@+id/police_certification_img"
                                 android:drawableEnd="@drawable/upload"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"

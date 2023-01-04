@@ -133,6 +133,8 @@ class Figgo_Capton : Fragment(){
             prefManager.setDL_No(driver_dl_no)
             prefManager.setDriverName(driver_name)
             prefManager.setMobile_No(driver_mobile_no)
+            prefManager.setDriverAadhar_no(driver_aadhar_no)
+            prefManager.setDriverPan_no(driver_pan_no)
 
         }
 
@@ -202,10 +204,6 @@ class Figgo_Capton : Fragment(){
                     }else{
 
                     }
-
-
-
-
 
                 }
                 // Get your json response and convert it to whatever you want.
@@ -296,6 +294,7 @@ class Figgo_Capton : Fragment(){
 
     }
 
+/*
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -352,6 +351,7 @@ class Figgo_Capton : Fragment(){
             prefManager.setDriverProfile(driverdp)
         }
     }
+*/
 
     private fun validateForm() {
 
@@ -399,7 +399,6 @@ class Figgo_Capton : Fragment(){
 
         }*/
         if (!binding.drivername.text.isEmpty()&&!binding.drivermobileno.text.isEmpty()&&!binding.driverdlno.text.isEmpty()&&!binding.driverPanNo.text.isEmpty()&&!binding.driverAdharNo.text.isEmpty()){
-
 
 
             // binding.aadharfrontIV.visibility=View.GONE

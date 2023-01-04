@@ -115,13 +115,21 @@ import android.content.SharedPreferences
          return pref?.getString("police_ext","").toString()
      }
 
-     fun setAadhar_no(aadhar_no:String){
+     fun setDriverAadhar_no(aadhar_no:String){
          editor?.putString("aadhar_no",aadhar_no)
          editor?.commit()
      }
 
-     fun getAadhar_no():String{
+     fun getDriverAadhar_no():String{
          return pref?.getString("aadhar_no","").toString()
+     }
+     fun setDriverPan_no(pan_no:String){
+         editor?.putString("pan_no",pan_no)
+         editor?.commit()
+     }
+
+     fun getDriverPan_no():String{
+         return pref?.getString("pan_no","").toString()
      }
      fun setAadhar_verification_front(aadhar_verification_front:String){
          editor?.putString("aadhar_verification_front",aadhar_verification_front)
