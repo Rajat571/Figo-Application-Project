@@ -73,6 +73,7 @@
                android:layout_weight="1"
                android:background="@color/white"
                android:id="@+id/ar_local"
+               android:gravity="center"
                android:textColor="@color/black"
                android:padding="@dimen/_5sdp"
                android:textSize="@dimen/_10sdp"

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pearl.FiggoPartner.Model.AllRideData
@@ -70,6 +71,9 @@ class ActiveRide : Fragment() {
             outstation.setBackgroundColor(Color.WHITE)
             recyclerView1.adapter = OutstationAdapter(allrideData)
             recyclerView1.layoutManager = LinearLayoutManager(context)
+        }
+        submit.setOnClickListener {
+            Toast.makeText(requireContext(),"Submitted", Toast.LENGTH_SHORT).show()
         }
 
     }

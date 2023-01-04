@@ -3,10 +3,14 @@ package com.pearl.figgodriver
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.app.Service.START_STICKY
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.Geocoder
 import android.location.Location
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -31,6 +35,9 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 
 import androidx.navigation.ui.NavigationUI.setupWithNavController
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -48,9 +55,13 @@ import com.pearl.pearllib.BaseClass
 import com.pearlorganisation.PrefManager
 import kotlinx.android.synthetic.main.bottom_button_layout.view.*
 import kotlinx.android.synthetic.main.top_layout.view.*
+import kotlinx.coroutines.*
+import org.json.JSONObject
+import java.lang.Runnable
+import java.util.*
 import java.util.concurrent.TimeUnit
 
-class DriverDashBoard : AppCompatActivity() {
+class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
 
 
     var doubleBackToExitPressedOnce = false
@@ -58,7 +69,7 @@ class DriverDashBoard : AppCompatActivity() {
     lateinit var prefManager: PrefManager
     lateinit var baseclass: BaseClass
 
-
+    val scope = CoroutineScope(Job() + Dispatchers.Main)
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -157,6 +168,8 @@ class DriverDashBoard : AppCompatActivity() {
                 }
 
             }
+scope.launch(Dispatchers.IO) {  latlong() }
+
 
         whataspp.setOnClickListener {
             val url = "https://api.whatsapp.com/send?phone=7505145405"
@@ -200,11 +213,6 @@ class DriverDashBoard : AppCompatActivity() {
             startMain.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(startMain)
         }
-//        lateinit var navController: NavController
-//        val navHostFragment=supportFragmentManager.findFragmentById(R.id.home_frame) as NavHostFragment
-//        navController=navHostFragment.navController
-//        val bottomNavigationView=findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-//        bottomNavigationView.setupWithNavController(bottomNavigationView, navController)
 
         supportFragmentManager.beginTransaction().replace(R.id.home_frame,HomeDashBoard()).commit()
       var bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
@@ -224,7 +232,110 @@ class DriverDashBoard : AppCompatActivity() {
             }
             true
         }
+        draw_layout.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+
+            true
+        }
+        draw_layout.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+
+                val alertDialog2 = AlertDialog.Builder(
+                    this
+                )
+                alertDialog2.setTitle("Alert...")
+                alertDialog2.setMessage("Are you sure you want to exit ?")
+                alertDialog2.setPositiveButton(
+                    "Yes"
+                ) { dialog: DialogInterface?, which: Int ->
+                    Toast.makeText(this,"Logout Successfully",Toast.LENGTH_SHORT).show()
+                    prefManager.setToken("")
+                    prefManager.setRegistrationToken("")
+                    startActivity(Intent(this,LoginActivity::class.java))
+                }
+                alertDialog2.setNegativeButton(
+                    "Cancel"
+                ) { dialog: DialogInterface, which: Int -> dialog.cancel() }
+                alertDialog2.show()
+                //       finish();
+
+            true
+        }
    }
+
+    private suspend fun latlong() {
+        while(true){
+
+        //Toast.makeText(this, "Cannot get location.", Toast.LENGTH_SHORT).show()
+
+        //Log.d("Suspend$x",""+x.toString())
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        fusedLocationProviderClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, object : CancellationToken() {
+            override fun onCanceledRequested(p0: OnTokenCanceledListener) = CancellationTokenSource().token
+
+            override fun isCancellationRequested() = false
+        })
+            .addOnSuccessListener { location: Location? ->
+                if (location == null)
+                    Toast.makeText(this, "Cannot get location.", Toast.LENGTH_SHORT).show()
+                else {
+                    val lat = location.latitude
+                    var addressName:String=""
+                    prefManager.setlatitude(lat.toFloat())
+                    val lon = location.longitude
+                    var geocoder:Geocoder = Geocoder(this, Locale.getDefault())
+                    var address = geocoder.getFromLocation(lat,lon,1)
+                    if(address!=null){
+                        addressName+=address.get(0).getAddressLine(0)
+
+                    }
+
+                    prefManager.setlongitude(lon.toFloat())
+                    Toast.makeText(this,"Address =  "+addressName,Toast.LENGTH_SHORT).show()
+
+
+                    val URL = "https://test.pearl-developer.com/figo/api/post-location"
+                    val queue = Volley.newRequestQueue(this)
+                    val json = JSONObject()
+                    json.put("token","1308|naMqaz5ThR6Bk9idH5hsxefA9gvz4kFFZ8y6Yqa6")
+                    json.put("lat",""+lat.toString())
+                    json.put("lng",""+lon.toString())
+                    json.put("name",""+addressName)
+                    val jsonObject=  object : JsonObjectRequest(
+                        Method.POST, URL, json,
+                        Response.Listener<JSONObject?> { response ->
+                            Log.d("Response == ",""+response)
+                            if (response != null) {
+
+
+                            }
+                        },{
+                            Log.d("Response == ","Error "+it)
+                            Toast.makeText(this,"Something Went Wrong !!",Toast.LENGTH_SHORT).show()
+                        }){}
+                    queue.add(jsonObject)
+                }
+
+            }
+            delay(1000)
+    }
+    }
+
     override fun onBackPressed() {
         val count = supportFragmentManager.backStackEntryCount
         if (count == 0) {
@@ -247,6 +358,13 @@ class DriverDashBoard : AppCompatActivity() {
             supportFragmentManager.popBackStack()
         }
     }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cancel()
+    }
+
 
 
 }

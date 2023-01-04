@@ -113,7 +113,7 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
             Places.initialize(requireActivity().applicationContext,apiKey)
         }
 
-        val mapFragment = childFragmentManager.findFragmentById(R.id.mapR) as SupportMapFragment
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
 
