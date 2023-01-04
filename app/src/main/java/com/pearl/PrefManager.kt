@@ -310,4 +310,12 @@ import android.content.SharedPreferences
      fun getlongitude():Float{
          return  pref?.getFloat("long",0.0f)!!
      }
+
+     fun setActiveRide(active_ride:Int){
+         editor?.putInt("active_ride",active_ride)
+         editor?.commit()
+     }
+     fun getActiveRide():Int{
+         return  pref?.getInt("active_ride",0)!!
+     }
 }

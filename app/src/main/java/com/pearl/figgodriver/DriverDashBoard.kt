@@ -206,7 +206,14 @@ class DriverDashBoard : AppCompatActivity() {
 //        val bottomNavigationView=findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 //        bottomNavigationView.setupWithNavController(bottomNavigationView, navController)
 
-        supportFragmentManager.beginTransaction().replace(R.id.home_frame,HomeDashBoard()).commit()
+        if (prefManager.getActiveRide()==1){
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,ActiveRide()).commit()
+
+        }
+        else{
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,HomeDashBoard()).commit()
+        }
+
       var bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNav.setOnItemSelectedListener {
             when(it.itemId){
@@ -246,6 +253,11 @@ class DriverDashBoard : AppCompatActivity() {
         } else {
             supportFragmentManager.popBackStack()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        prefManager.setActiveRide(0)
     }
 
 

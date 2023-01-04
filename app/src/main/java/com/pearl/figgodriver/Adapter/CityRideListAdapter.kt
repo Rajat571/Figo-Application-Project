@@ -7,11 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.pearl.figgodriver.CityRideActivity
-import com.pearl.figgodriver.Fragment.ViewRideDialog
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.model.CityRidesList
 
@@ -34,7 +32,11 @@ class CityRideListAdapter(var context:Context,var ridelist:List<CityRidesList>):
         holder.fare_price.text=data.fare_price
         holder.itemView.setOnClickListener {
             holder.rideCardview.setCardBackgroundColor(Color.GREEN)
-            context.startActivity(Intent(context,CityRideActivity::class.java))
+            var intent=Intent(context,CityRideActivity::class.java)
+           // intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            context.startActivity(intent)
+
+
            /* when(holder.adapterPosition){
                 0->{
 

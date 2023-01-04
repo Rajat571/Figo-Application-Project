@@ -2,6 +2,7 @@ package com.pearl.figgodriver
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -28,10 +29,13 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.android.libraries.places.api.Places
 import com.google.gson.Gson
+import com.pearl.figgodriver.Fragment.ActiveRide
 import com.pearl.figgodriver.databinding.ActivityCityRideBinding
+import com.pearl.pearllib.BaseClass
 import com.pearlorganisation.PrefManager
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import java.util.Objects
 
 class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var binding:ActivityCityRideBinding
@@ -43,12 +47,36 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
     private var destinationLatitude: Double =  30.35335500972683
     private var destinationLongitude: Double = 78.02461312748794
     private lateinit var mMap: GoogleMap
-
-
+    lateinit var baseClass: BaseClass
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       binding=DataBindingUtil.setContentView(this,R.layout.activity_city_ride)
+        binding=DataBindingUtil.setContentView(this,R.layout.activity_city_ride)
+
+        baseClass=object :BaseClass(){
+            override fun setLayoutXml() {
+
+            }
+
+            override fun initializeViews() {
+                TODO("Not yet implemented")
+            }
+
+            override fun initializeClickListners() {
+
+
+            }
+
+            override fun initializeInputs() {
+                TODO("Not yet implemented")
+            }
+
+            override fun initializeLabels() {
+                TODO("Not yet implemented")
+            }
+
+        }
+        initializeClickListners()
 
         prefManager=PrefManager(this)
 
@@ -109,6 +137,21 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 14F))
         }
     }
+    private fun initializeClickListners() {
+        binding.rejectCityRideBtn.setOnClickListener {
+            Toast.makeText(this," This Booking is rejected",Toast.LENGTH_SHORT).show()
+         finish()
+        }
+
+        binding.acceptCityRideBtn.setOnClickListener {
+            Toast.makeText(this,"Accepted",Toast.LENGTH_SHORT).show()
+
+            startActivity(Intent(this,DriverDashBoard::class.java))
+            prefManager.setActiveRide(1)
+        }
+    }
+
+
 
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -194,7 +237,9 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
         return poly
     }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+    }
 
 
 }

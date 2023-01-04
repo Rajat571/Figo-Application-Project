@@ -12,11 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pearl.FiggoPartner.Model.AllRideData
 import com.pearl.figgodriver.R
+import com.pearlorganisation.PrefManager
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+lateinit var prefManager: PrefManager
 
 /**
  * A simple [Fragment] subclass.
@@ -47,6 +49,7 @@ class ActiveRide : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val allrideData = ArrayList<AllRideData>();
+        prefManager=PrefManager(requireContext())
         val submit = view.findViewById<Button>(R.id.active_ride_submit)
         var local = view.findViewById<TextView>(R.id.ar_local)
         var outstation = view.findViewById<TextView>(R.id.ar_outstation)
@@ -55,7 +58,7 @@ class ActiveRide : Fragment() {
         allrideData.add(AllRideData("7:30 pm","PGI, Sector 12, Chandigarh","Chandigarh (Google location)"))
         allrideData.add(AllRideData("8:30 pm","PGI, Sector 12, Chandigarh","Chandigarh (Google location)"))
 
-
+        prefManager.setActiveRide(0)
         val recyclerView1 = view.findViewById<RecyclerView>(R.id.activeride_recyclerview)
         recyclerView1.adapter = AllRideAdapter(allrideData)
         recyclerView1.layoutManager = LinearLayoutManager(context)
