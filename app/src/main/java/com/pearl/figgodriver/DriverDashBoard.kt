@@ -48,9 +48,7 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
-import com.pearl.figgodriver.Fragment.ActiveRide
-import com.pearl.figgodriver.Fragment.HomeDashBoard
-import com.pearl.figgodriver.Fragment.allRideRS
+import com.pearl.figgodriver.Fragment.*
 import com.pearl.pearllib.BaseClass
 import com.pearlorganisation.PrefManager
 import kotlinx.android.synthetic.main.bottom_button_layout.view.*
@@ -170,7 +168,7 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
             }
 scope.launch(Dispatchers.IO) {  latlong() }
 
-
+        var x:Int = 1
         whataspp.setOnClickListener {
             val url = "https://api.whatsapp.com/send?phone=7505145405"
             val i = Intent(Intent.ACTION_VIEW)
@@ -207,18 +205,33 @@ scope.launch(Dispatchers.IO) {  latlong() }
             off_toggle.setBackgroundColor(Color.WHITE)
             Toast.makeText(this,"on",Toast.LENGTH_SHORT).show()
         }
+        topLayout.top_back.text="EXIT"
         topLayout.top_back.setOnClickListener {
-            val startMain = Intent(Intent.ACTION_MAIN)
-            startMain.addCategory(Intent.CATEGORY_HOME)
-            startMain.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(startMain)
+            if(x==1) {
+
+                topLayout.top_back.text="EXIT"
+                supportFragmentManager.beginTransaction().replace(R.id.home_frame,HomeDashBoard()).commit()
+                x=2
+            }
+            else{
+                x=1
+                val startMain = Intent(Intent.ACTION_MAIN)
+                startMain.addCategory(Intent.CATEGORY_HOME)
+                startMain.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(startMain)
+//            supportFragmentManager.beginTransaction().replace(R.id.home_frame, ActiveRide())
+//                .commit()
+
+            }
         }
 
         if (prefManager.getActiveRide()==1){
+            x=1
+            topLayout.top_back.text="Back"
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,ActiveRide()).commit()
-
         }
         else{
+            x=2
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,HomeDashBoard()).commit()
         }
 
@@ -226,6 +239,8 @@ scope.launch(Dispatchers.IO) {  latlong() }
         bottomNav.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.home->{
+                    x=2
+                    topLayout.top_back.text="EXIT"
                     supportFragmentManager.beginTransaction().replace(R.id.home_frame,HomeDashBoard()).commit()
                 }
                 R.id.call->{
@@ -234,15 +249,48 @@ scope.launch(Dispatchers.IO) {  latlong() }
                         startActivity(intent_call)
                 }
                 R.id.active_ride->{
+                    x=1
+                    topLayout.top_back.text="Back"
                     supportFragmentManager.beginTransaction().replace(R.id.home_frame,ActiveRide()).commit()
                 }
             }
             true
         }
-        draw_layout.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+        var bundle:Bundle= Bundle()
 
+        draw_layout.menu.findItem(R.id.Support).setOnMenuItemClickListener {
+            bundle.putString("Key","Support")
+            var supportFrag = SupportFragment()
+            supportFrag.arguments=bundle
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
             true
         }
+        draw_layout.menu.findItem(R.id.About_Figgo).setOnMenuItemClickListener {
+            bundle.putString("Key","About")
+            var supportFrag = SupportFragment()
+            supportFrag.arguments=bundle
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
+            true
+        }
+        draw_layout.menu.findItem(R.id.term_condition).setOnMenuItemClickListener {
+            bundle.putString("Key","Terms")
+            var supportFrag = SupportFragment()
+            supportFrag.arguments=bundle
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
+            true
+        }
+        draw_layout.menu.findItem(R.id.wallets).setOnMenuItemClickListener {
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,AccountDetailsFragment()).commit()
+            true
+        }
+        draw_layout.menu.findItem(R.id.cancellation_policy).setOnMenuItemClickListener {
+            bundle.putString("Key","Cancel")
+            var supportFrag = SupportFragment()
+            supportFrag.arguments=bundle
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
+            true
+        }
+
         draw_layout.menu.findItem(R.id.logout).setOnMenuItemClickListener {
 
                 val alertDialog2 = AlertDialog.Builder(
