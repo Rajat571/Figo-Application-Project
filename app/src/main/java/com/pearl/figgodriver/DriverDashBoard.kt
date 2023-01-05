@@ -13,6 +13,7 @@ import android.graphics.Color
 import android.location.Geocoder
 import android.location.Location
 import android.net.Uri
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -51,6 +52,7 @@ import com.google.android.material.navigation.NavigationView
 import com.pearl.figgodriver.Fragment.ActiveRide
 import com.pearl.figgodriver.Fragment.HomeDashBoard
 import com.pearl.figgodriver.Fragment.allRideRS
+import com.pearl.figgodriver.Service.MyService
 import com.pearl.pearllib.BaseClass
 import com.pearlorganisation.PrefManager
 import kotlinx.android.synthetic.main.bottom_button_layout.view.*
@@ -75,7 +77,6 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_driver_dash_board)
 
-
         var window=window
         window.setStatusBarColor(Color.parseColor("#000F3B"))
         prefManager=PrefManager(this)
@@ -83,7 +84,6 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
             override fun setLayoutXml() {
                 TODO("Not yet implemented")
             }
-
             override fun initializeViews() {
                 TODO("Not yet implemented")
             }
@@ -168,8 +168,6 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
                 }
 
             }
-scope.launch(Dispatchers.IO) {  latlong() }
-
 
         whataspp.setOnClickListener {
             val url = "https://api.whatsapp.com/send?phone=7505145405"
@@ -268,79 +266,6 @@ scope.launch(Dispatchers.IO) {  latlong() }
         }
    }
 
-    private suspend fun latlong() {
-        while(true){
-
-        //Toast.makeText(this, "Cannot get location.", Toast.LENGTH_SHORT).show()
-
-        //Log.d("Suspend$x",""+x.toString())
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return
-        }
-        fusedLocationProviderClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, object : CancellationToken() {
-            override fun onCanceledRequested(p0: OnTokenCanceledListener) = CancellationTokenSource().token
-
-            override fun isCancellationRequested() = false
-        })
-            .addOnSuccessListener { location: Location? ->
-                if (location == null)
-                    Toast.makeText(this, "Cannot get location.", Toast.LENGTH_SHORT).show()
-                else {
-                    val lat = location.latitude
-                    var addressName:String=""
-                    prefManager.setlatitude(lat.toFloat())
-                    val lon = location.longitude
-                    var geocoder:Geocoder = Geocoder(this, Locale.getDefault())
-                    var address = geocoder.getFromLocation(lat,lon,1)
-                    if(address!=null){
-                        addressName+=address.get(0).getAddressLine(0)
-
-                    }
-
-                    prefManager.setlongitude(lon.toFloat())
-                    Toast.makeText(this,"Address =  "+addressName,Toast.LENGTH_SHORT).show()
-
-                    val URL = "https://test.pearl-developer.com/figo/api/post-location"
-                    val queue = Volley.newRequestQueue(this)
-                    val json = JSONObject()
-                    json.put("token","1308|naMqaz5ThR6Bk9idH5hsxefA9gvz4kFFZ8y6Yqa6")
-                    json.put("lat",""+lat.toString())
-                    json.put("lng",""+lon.toString())
-                    json.put("name",""+addressName)
-                    val jsonObject=  object : JsonObjectRequest(
-                        Method.POST, URL, json,
-                        Response.Listener<JSONObject?> { response ->
-                            Log.d("Response == ",""+response)
-                            if (response != null) {
-
-
-                            }
-                        },{
-                            Log.d("Response == ","Error "+it)
-                            Toast.makeText(this,"Something Went Wrong !!",Toast.LENGTH_SHORT).show()
-                        }){}
-                    queue.add(jsonObject)
-                }
-
-            }
-            delay(1000)
-    }
-    }
 
     override fun onBackPressed() {
         val count = supportFragmentManager.backStackEntryCount
@@ -372,7 +297,23 @@ scope.launch(Dispatchers.IO) {  latlong() }
 
 
 
+    override fun onResume() {
+        super.onResume()
+        /*  registerBroadcast()
+          getStart()
+          checkDownloadPermission()*/
+        startService(Intent(this, MyService::class.java))
+        Log.i("state", "onResume")
+    }
 
+    override fun onStart() {
+        super.onStart()
+        /*  registerBroadcast()
+          getStart()
+          checkDownloadPermission()*/
+        startService(Intent(this, MyService::class.java))
+        Log.i("state", "onStart")
+    }
 
 
 }

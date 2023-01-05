@@ -74,7 +74,7 @@
                android:background="@color/white"
                android:id="@+id/ar_local"
                android:gravity="center"
-               android:textColor="@color/black"
+               android:textColor="@drawable/bottom_nav_title_color"
                android:padding="@dimen/_5sdp"
                android:textSize="@dimen/_10sdp"
                android:text="Local"/>
@@ -84,7 +84,7 @@
                android:padding="@dimen/_5sdp"
                android:id="@+id/ar_outstation"
                android:layout_height="wrap_content"
-               android:textColor="@color/black"
+               android:textColor="@drawable/bottom_nav_title_color"
                android:textSize="@dimen/_10sdp"
                android:text="Outstation"
                />
