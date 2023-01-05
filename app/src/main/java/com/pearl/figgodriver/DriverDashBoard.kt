@@ -315,7 +315,6 @@ scope.launch(Dispatchers.IO) {  latlong() }
                     prefManager.setlongitude(lon.toFloat())
                     Toast.makeText(this,"Address =  "+addressName,Toast.LENGTH_SHORT).show()
 
-
                     val URL = "https://test.pearl-developer.com/figo/api/post-location"
                     val queue = Volley.newRequestQueue(this)
                     val json = JSONObject()
@@ -372,10 +371,7 @@ scope.launch(Dispatchers.IO) {  latlong() }
     }
 
 
-    override fun onDestroy() {
-        super.onDestroy()
-        cancel()
-    }
+
 
 
 
