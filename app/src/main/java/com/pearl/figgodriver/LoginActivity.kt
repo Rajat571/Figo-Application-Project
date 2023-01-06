@@ -12,6 +12,7 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.FirebaseApp
 import com.pearl.pearllib.BasePublic
 import com.pearl.pearllib.Session
 
@@ -26,6 +27,7 @@ class LoginActivity : BasePublic(), GoogleApiClient.OnConnectionFailedListener,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setBaseApcContextParent(this, this, "ChooseUserActivity", "ChooseUserActivity");
         setLayoutXml();
         session =  Session(this);
