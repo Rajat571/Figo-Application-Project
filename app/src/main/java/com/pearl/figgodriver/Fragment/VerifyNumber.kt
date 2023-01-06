@@ -18,16 +18,14 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.FirebaseApp
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
+import com.google.android.gms.tasks.Task
 import com.pearl.figgodriver.DriverDashBoard
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.databinding.FragmentVerifyNumberBinding
@@ -42,6 +40,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
     var base_url="https://test.pearl-developer.com/figo/api/create-driver"
     lateinit var prefManager: PrefManager
     lateinit var baseClass: BaseClass
+    lateinit var vieW: View
     lateinit var googleApiClient: GoogleApiClient
     private val RC_SIGN_IN = 1
     var googleSignInClient: GoogleSignInClient? = null
@@ -62,7 +61,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
         super.onViewCreated(view, savedInstanceState)
         /*FirebaseApp.initializeApp(requireContext())
         firebaseAuth = FirebaseAuth.getInstance()
-*/
+*/      vieW = view
         prefManager = PrefManager(requireContext())
         baseClass=object :BaseClass(){
             override fun setLayoutXml() {
@@ -88,10 +87,10 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
 
 
 
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("830098883348-8upo0dha04flmjuu9p1ikqp5t4kk8h34.apps.googleusercontent.com").requestEmail().build()
-
-        googleSignInClient= GoogleSignIn.getClient(requireContext(),gso)
+//        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//            .requestIdToken("830098883348-8upo0dha04flmjuu9p1ikqp5t4kk8h34.apps.googleusercontent.com").requestEmail().build()
+//
+//        googleSignInClient= GoogleSignIn.getClient(requireContext(),gso)
 
       /*  googleApiClient = GoogleApiClient.Builder(requireContext())
             .enableAutoManage(requireActivity(),this)
@@ -120,6 +119,36 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
             binding.inputEmail.isVisible=true
             binding.llNumber.isVisible=false
         }*/
+
+
+        // Configure sign-in to request the user's ID, email address, and basic
+// profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        // Configure sign-in to request the user's ID, email address, and basic
+// profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+       var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+
+        // Build a GoogleSignInClient with the options specified by gso.
+        googleSignInClient = GoogleSignIn.getClient(requireContext(), gso);
+        // Check for existing Google Sign In account, if the user is already signed in
+// the GoogleSignInAccount will be non-null.
+        // Check for existing Google Sign In account, if the user is already signed in
+// the GoogleSignInAccount will be non-null.
+        val account = GoogleSignIn.getLastSignedInAccount(requireContext())
+        //updateUI(account)
+
+// Set the dimensions of the sign-in button.
+        // Set the dimensions of the sign-in button.
+        val signInButton: SignInButton = view.findViewById(com.pearl.figgodriver.R.id.sign_in_button)
+        signInButton.setSize(SignInButton.SIZE_STANDARD)
+        signInButton.setOnClickListener {
+            val signInIntent: Intent = googleSignInClient!!.getSignInIntent()
+            startActivityForResult(signInIntent, RC_SIGN_IN)
+        }
+
+
+
         binding.number.setOnClickListener {
             binding.llNumber.isVisible=true
             binding.inputEmail.isVisible=false
@@ -165,7 +194,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
                                         }else{
                                             startActivity(Intent(requireContext(),DriverDashBoard::class.java))
                                         }
-                                         }
+                                    }
                                 } else {
                                     val token = response.getString("token")
                                     val profile_status = response.getString("profile_status").toInt()
@@ -259,4 +288,39 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
     private fun displayToast(s: String) {
         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show()
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            handleSignInResult(task)
+        }
+    }
+
+    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+        try {
+            val account = completedTask.getResult(ApiException::class.java)
+            Log.d("Account ",""+account.account)
+            Toast.makeText(requireContext(),"Signed In :"+account,Toast.LENGTH_LONG).show()
+            if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")) {
+                Navigation.findNavController(vieW).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
+            } else {
+
+                    startActivity(Intent(requireContext(),DriverDashBoard::class.java))
+                }
+
+            // Signed in successfully, show authenticated UI.
+           // updateUI(account)
+        } catch (e: ApiException) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.d("SignIN = ", "signInResult:failed code=" + e.statusCode)
+            //updateUI(null)
+        }
+    }
+
 }
