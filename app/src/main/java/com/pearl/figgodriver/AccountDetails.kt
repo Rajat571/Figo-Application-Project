@@ -25,29 +25,6 @@ class AccountDetails : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_details)
 
-        var frame = findViewById<FrameLayout>(R.id.account_detailsFrame)
-        var topLayout = findViewById<LinearLayout>(R.id.layout)
-        var off_toggle = topLayout.toggle_off
-        var on_toggle = topLayout.toggle_on
-        var menu = topLayout.sidebar
-        var drawer = findViewById<DrawerLayout>(R.id.Account_Drawer_layout)
-        var action_bar_toggle = ActionBarDrawerToggle(this,drawer,R.string.nav_open, R.string.nav_close)
-        drawer.addDrawerListener(action_bar_toggle)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-//        topLayout.setOnTouchListener { , motionEvent ->  }
-        topLayout.toggle_off.setOnClickListener {
-            off_toggle.setBackgroundColor(Color.RED)
-            on_toggle.setBackgroundColor(Color.WHITE)
-            Toast.makeText(this,"ASASAS",Toast.LENGTH_SHORT).show()
-        }
-        topLayout.toggle_on.setOnClickListener {
-            on_toggle.setBackgroundColor(Color.GREEN)
-            off_toggle.setBackgroundColor(Color.WHITE)
-        }
-        menu.setOnClickListener {
-            drawer.openDrawer(Gravity.LEFT)
-        }
         var ad = com.pearl.figgodriver.Fragment.AccountDetails()
         supportFragmentManager.beginTransaction().add(R.id.account_detailsFrame,ad).commit()
     }

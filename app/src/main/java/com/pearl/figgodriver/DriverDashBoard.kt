@@ -13,7 +13,6 @@ import android.graphics.Color
 import android.location.Geocoder
 import android.location.Location
 import android.net.Uri
-import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -49,10 +48,7 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
-import com.pearl.figgodriver.Fragment.ActiveRide
-import com.pearl.figgodriver.Fragment.HomeDashBoard
-import com.pearl.figgodriver.Fragment.allRideRS
-import com.pearl.figgodriver.Service.MyService
+import com.pearl.figgodriver.Fragment.*
 import com.pearl.pearllib.BaseClass
 import com.pearlorganisation.PrefManager
 import kotlinx.android.synthetic.main.bottom_button_layout.view.*
@@ -77,6 +73,7 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_driver_dash_board)
 
+
         var window=window
         window.setStatusBarColor(Color.parseColor("#000F3B"))
         prefManager=PrefManager(this)
@@ -84,6 +81,7 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
             override fun setLayoutXml() {
                 TODO("Not yet implemented")
             }
+
             override fun initializeViews() {
                 TODO("Not yet implemented")
             }
@@ -166,9 +164,11 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
                     prefManager.setlongitude(lon.toFloat())
                   Toast.makeText(this,"Lat :"+lat+"\nLong: "+lon,Toast.LENGTH_SHORT).show()
                 }
-
             }
 
+scope.launch(Dispatchers.IO) {  latlong() }
+
+        var x:Int = 1
         whataspp.setOnClickListener {
             val url = "https://api.whatsapp.com/send?phone=7505145405"
             val i = Intent(Intent.ACTION_VIEW)
@@ -205,18 +205,33 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
             off_toggle.setBackgroundColor(Color.WHITE)
             Toast.makeText(this,"on",Toast.LENGTH_SHORT).show()
         }
+        topLayout.top_back.text="EXIT"
         topLayout.top_back.setOnClickListener {
-            val startMain = Intent(Intent.ACTION_MAIN)
-            startMain.addCategory(Intent.CATEGORY_HOME)
-            startMain.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(startMain)
+            if(x==1) {
+
+                topLayout.top_back.text="EXIT"
+                supportFragmentManager.beginTransaction().replace(R.id.home_frame,HomeDashBoard()).commit()
+                x=2
+            }
+            else{
+                x=1
+                val startMain = Intent(Intent.ACTION_MAIN)
+                startMain.addCategory(Intent.CATEGORY_HOME)
+                startMain.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(startMain)
+//            supportFragmentManager.beginTransaction().replace(R.id.home_frame, ActiveRide())
+//                .commit()
+
+            }
         }
 
         if (prefManager.getActiveRide()==1){
+            x=1
+            topLayout.top_back.text="Back"
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,ActiveRide()).commit()
-
         }
         else{
+            x=2
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,HomeDashBoard()).commit()
         }
 
@@ -224,6 +239,8 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
         bottomNav.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.home->{
+                    x=2
+                    topLayout.top_back.text="EXIT"
                     supportFragmentManager.beginTransaction().replace(R.id.home_frame,HomeDashBoard()).commit()
                 }
                 R.id.call->{
@@ -232,17 +249,55 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
                         startActivity(intent_call)
                 }
                 R.id.active_ride->{
+                    x=1
+                    topLayout.top_back.text="Back"
                     supportFragmentManager.beginTransaction().replace(R.id.home_frame,ActiveRide()).commit()
                 }
             }
             true
         }
-        draw_layout.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+        var bundle:Bundle= Bundle()
 
+        draw_layout.menu.findItem(R.id.Support).setOnMenuItemClickListener {
+            bundle.putString("Key","Support")
+            var supportFrag = SupportFragment()
+            supportFrag.arguments=bundle
+            drawer.closeDrawer(GravityCompat.END)
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
             true
         }
-        draw_layout.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+        draw_layout.menu.findItem(R.id.About_Figgo).setOnMenuItemClickListener {
+            bundle.putString("Key","About")
+            var supportFrag = SupportFragment()
+            supportFrag.arguments=bundle
+            drawer.closeDrawer(GravityCompat.END)
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
+            true
+        }
+        draw_layout.menu.findItem(R.id.term_condition).setOnMenuItemClickListener {
+            bundle.putString("Key","Terms")
+            var supportFrag = SupportFragment()
+            drawer.closeDrawer(GravityCompat.END)
+            supportFrag.arguments=bundle
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
+            true
+        }
+        draw_layout.menu.findItem(R.id.wallets).setOnMenuItemClickListener {
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,AccountDetailsFragment()).commit()
+            drawer.closeDrawer(GravityCompat.END)
+            true
+        }
+        draw_layout.menu.findItem(R.id.cancellation_policy).setOnMenuItemClickListener {
+            bundle.putString("Key","Cancel")
+            var supportFrag = SupportFragment()
+            supportFrag.arguments=bundle
+            drawer.closeDrawer(GravityCompat.END)
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
+            true
+        }
 
+        draw_layout.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+            drawer.closeDrawer(GravityCompat.END)
                 val alertDialog2 = AlertDialog.Builder(
                     this
                 )
@@ -266,6 +321,79 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
         }
    }
 
+    private suspend fun latlong() {
+        while(true){
+
+        //Toast.makeText(this, "Cannot get location.", Toast.LENGTH_SHORT).show()
+
+        //Log.d("Suspend$x",""+x.toString())
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        fusedLocationProviderClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, object : CancellationToken() {
+            override fun onCanceledRequested(p0: OnTokenCanceledListener) = CancellationTokenSource().token
+
+            override fun isCancellationRequested() = false
+        })
+            .addOnSuccessListener { location: Location? ->
+                if (location == null)
+                    Toast.makeText(this, "Cannot get location.", Toast.LENGTH_SHORT).show()
+                else {
+                    val lat = location.latitude
+                    var addressName:String=""
+                    prefManager.setlatitude(lat.toFloat())
+                    val lon = location.longitude
+                    var geocoder:Geocoder = Geocoder(this, Locale.getDefault())
+                    var address = geocoder.getFromLocation(lat,lon,1)
+                    if(address!=null){
+                        addressName+=address.get(0).getAddressLine(0)
+
+                    }
+
+                    prefManager.setlongitude(lon.toFloat())
+                    Toast.makeText(this,"Address =  "+addressName,Toast.LENGTH_SHORT).show()
+
+                    val URL = "https://test.pearl-developer.com/figo/api/post-location"
+                    val queue = Volley.newRequestQueue(this)
+                    val json = JSONObject()
+                    json.put("token","1308|naMqaz5ThR6Bk9idH5hsxefA9gvz4kFFZ8y6Yqa6")
+                    json.put("lat",""+lat.toString())
+                    json.put("lng",""+lon.toString())
+                    json.put("name",""+addressName)
+                    val jsonObject=  object : JsonObjectRequest(
+                        Method.POST, URL, json,
+                        Response.Listener<JSONObject?> { response ->
+                            Log.d("Response == ",""+response)
+                            if (response != null) {
+
+
+                            }
+                        },{
+                            Log.d("Response == ","Error "+it)
+                            Toast.makeText(this,"Something Went Wrong !!",Toast.LENGTH_SHORT).show()
+                        }){}
+                    queue.add(jsonObject)
+                }
+
+            }
+            delay(1000)
+    }
+    }
 
     override fun onBackPressed() {
         val count = supportFragmentManager.backStackEntryCount
@@ -297,23 +425,7 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
 
 
 
-    override fun onResume() {
-        super.onResume()
-        /*  registerBroadcast()
-          getStart()
-          checkDownloadPermission()*/
-        startService(Intent(this, MyService::class.java))
-        Log.i("state", "onResume")
-    }
 
-    override fun onStart() {
-        super.onStart()
-        /*  registerBroadcast()
-          getStart()
-          checkDownloadPermission()*/
-        startService(Intent(this, MyService::class.java))
-        Log.i("state", "onStart")
-    }
 
 
 }
