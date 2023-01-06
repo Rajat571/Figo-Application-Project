@@ -914,6 +914,7 @@ class DriverCabDetailsFragment : Fragment() {
                      // Get your json response and convert it to whatever you want.
                  }, Response.ErrorListener {
                      // Error
+                     context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
                  }){}
          queue.add(jsonOblect)
 

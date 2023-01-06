@@ -143,11 +143,8 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
         val queue = Volley.newRequestQueue(requireContext())
 
         val jsonOblect: JsonObjectRequest =
-            object : JsonObjectRequest(Method.GET, URL,null, object :
-                Response.Listener<JSONObject?>               {
-                @SuppressLint("SuspiciousIndentation")
-                override fun onResponse(response: JSONObject?) {
-
+            object : JsonObjectRequest(Method.GET, URL,null,
+                Response.Listener<JSONObject?> { response ->
                     Log.d("SendData", "response===" + response)
                     if (response != null) {
                         var data=response.getJSONArray("rides").length()
@@ -156,7 +153,7 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
                             var data1=response.getJSONArray("rides").getJSONObject(i)
                             var booking_id=data1.get("booking_id").toString()
 
-                           var to_location=response.getJSONArray("rides").getJSONObject(i).getJSONObject( "to_location")
+                            var to_location=response.getJSONArray("rides").getJSONObject(i).getJSONObject( "to_location")
                             var to_location_lat=to_location.getString("lat")
                             var to_location_long=to_location.getString("lng")
                             var address_name=to_location.getString("name")
@@ -174,11 +171,9 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
                         binding.cityRideRecylerview.adapter=cityRideListAdapter
 
 
-
                     }
                     // Get your json response and convert it to whatever you want.
-                }
-            }, object : Response.ErrorListener {
+                }, object : Response.ErrorListener {
                 override fun onErrorResponse(error: VolleyError?) {
                     Log.d("SendData", "error===" + error)
                     Toast.makeText(requireActivity(), "Something went wrong!", Toast.LENGTH_LONG).show()

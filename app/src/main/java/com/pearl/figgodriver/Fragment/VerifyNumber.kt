@@ -306,7 +306,10 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
         try {
             val account = completedTask.getResult(ApiException::class.java)
             Log.d("Account ",""+account.account)
-            Toast.makeText(requireContext(),"Signed In :"+account,Toast.LENGTH_LONG).show()
+
+            prefManager.setAccountDetails(account.account.toString(),account.displayName.toString(),account.photoUrl.toString())
+
+            Toast.makeText(requireContext(),"Signed In :"+account.account.toString(),Toast.LENGTH_LONG).show()
             if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")) {
                 Navigation.findNavController(vieW).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
             } else {

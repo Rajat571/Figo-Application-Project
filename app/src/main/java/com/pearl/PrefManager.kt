@@ -318,4 +318,19 @@ import android.content.SharedPreferences
      fun getActiveRide():Int{
          return  pref?.getInt("active_ride",0)!!
      }
+     fun setAccountDetails(email:String,name:String,photoURL:String){
+         editor?.putString("EmailID",email)
+         editor?.putString("EmailName",name)
+         editor?.putString("PhotoUrl",photoURL)
+         editor?.commit()
+     }
+     fun getAccountMail():String{
+         return pref?.getString("EmailID","")!!
+     }
+     fun getAccountName():String{
+         return pref?.getString("EmailName","")!!
+     }
+     fun getAccountPhotoURL():String{
+         return pref?.getString("PhotoUrl","")!!
+     }
 }
