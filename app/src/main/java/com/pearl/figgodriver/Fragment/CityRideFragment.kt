@@ -80,17 +80,16 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         
-        submitForm(view)
+       // submitForm(view)
         binding.cityRideRecylerview.layoutManager=LinearLayoutManager(requireContext())
-/*
 
         ridelists.add(CityRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100"))
         ridelists.add(CityRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100"))
         ridelists.add(CityRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100"))
         ridelists.add(CityRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100"))
-        ridelists.add(CityRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100"))*/
-       /* cityRideListAdapter=CityRideListAdapter(requireContext(),ridelists)
-        binding.cityRideRecylerview.adapter=cityRideListAdapter*/
+        ridelists.add(CityRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100"))
+        cityRideListAdapter=CityRideListAdapter(requireContext(),ridelists)
+        binding.cityRideRecylerview.adapter=cityRideListAdapter
 
 
 
