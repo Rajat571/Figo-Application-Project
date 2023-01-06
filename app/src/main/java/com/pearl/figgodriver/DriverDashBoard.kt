@@ -164,8 +164,8 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
                     prefManager.setlongitude(lon.toFloat())
                   Toast.makeText(this,"Lat :"+lat+"\nLong: "+lon,Toast.LENGTH_SHORT).show()
                 }
-
             }
+
 scope.launch(Dispatchers.IO) {  latlong() }
 
         var x:Int = 1
@@ -262,6 +262,7 @@ scope.launch(Dispatchers.IO) {  latlong() }
             bundle.putString("Key","Support")
             var supportFrag = SupportFragment()
             supportFrag.arguments=bundle
+            drawer.closeDrawer(GravityCompat.END)
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
             true
         }
@@ -269,30 +270,34 @@ scope.launch(Dispatchers.IO) {  latlong() }
             bundle.putString("Key","About")
             var supportFrag = SupportFragment()
             supportFrag.arguments=bundle
+            drawer.closeDrawer(GravityCompat.END)
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
             true
         }
         draw_layout.menu.findItem(R.id.term_condition).setOnMenuItemClickListener {
             bundle.putString("Key","Terms")
             var supportFrag = SupportFragment()
+            drawer.closeDrawer(GravityCompat.END)
             supportFrag.arguments=bundle
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
             true
         }
         draw_layout.menu.findItem(R.id.wallets).setOnMenuItemClickListener {
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,AccountDetailsFragment()).commit()
+            drawer.closeDrawer(GravityCompat.END)
             true
         }
         draw_layout.menu.findItem(R.id.cancellation_policy).setOnMenuItemClickListener {
             bundle.putString("Key","Cancel")
             var supportFrag = SupportFragment()
             supportFrag.arguments=bundle
+            drawer.closeDrawer(GravityCompat.END)
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
             true
         }
 
         draw_layout.menu.findItem(R.id.logout).setOnMenuItemClickListener {
-
+            drawer.closeDrawer(GravityCompat.END)
                 val alertDialog2 = AlertDialog.Builder(
                     this
                 )
