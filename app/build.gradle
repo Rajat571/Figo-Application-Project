@@ -46,7 +46,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation 'androidx.navigation:navigation-fragment:2.5.3'
-
     implementation 'androidx.databinding:databinding-runtime:7.3.1'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     implementation 'com.squareup.retrofit2:converter-gson:2.8.0'
@@ -67,6 +66,10 @@ dependencies {
     implementation 'com.github.malikdawar:drawroute:1.5'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
     implementation 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1'
+
+   implementation 'com.google.gms:google-services:4.3.14'
+    implementation 'com.google.firebase:firebase-bom:31.1.1'
+    implementation 'com.google.firebase:firebase-auth:19.4.0'
 
   /*  implementation 'com.razorpay:checkout:1.6.4'
     implementation 'com.google.android.gms:play-services:12.0.1'

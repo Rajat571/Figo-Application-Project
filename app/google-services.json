@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "830098883348",
+    "project_id": "figgo-driver-d6180",
+    "storage_bucket": "figgo-driver-d6180.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:830098883348:android:d36691e9d0e57d83cef801",
+        "android_client_info": {
+          "package_name": "com.pearl.figgodriver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "830098883348-8upo0dha04flmjuu9p1ikqp5t4kk8h34.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pearl.figgodriver",
+            "certificate_hash": "f3058bf9a7f31c47f1ffc1773d92e14cc23851de"
+          }
+        },
+        {
+          "client_id": "830098883348-7su12h5vq5jb2p028kp4foe0jhk2fnkf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRYQxuxbedG0JcRVPNhHkDUlbFINoltHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "830098883348-7su12h5vq5jb2p028kp4foe0jhk2fnkf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
