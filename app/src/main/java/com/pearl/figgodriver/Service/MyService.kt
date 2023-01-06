@@ -29,7 +29,9 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
+import com.pearl.figgodriver.Fragment.prefManager
 import com.pearl.figgodriver.R
+import com.pearlorganisation.PrefManager
 import kotlinx.coroutines.*
 import org.json.JSONObject
 import java.util.*
@@ -43,6 +45,7 @@ class MyService : Service() {
     var addressName:String=""
     var lon=0.0
     lateinit var geocoder: Geocoder
+
     lateinit var address:List<Address>
     var bi = Intent(COUNTDOWN_BR)
     var cdt: CountDownTimer? = null
@@ -136,6 +139,7 @@ class MyService : Service() {
                         json.put("lng",""+lon.toString())
                         json.put("name",""+addressName)
                         Log.d("json == ",""+json)
+                      /*  Log.d("Response == ","TokenData"+ prefManager.getToken())*/
                         val jsonObject=  object : JsonObjectRequest(
                             Method.POST, URL, json,
                             Response.Listener<JSONObject?> { response ->
