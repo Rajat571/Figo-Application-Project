@@ -122,7 +122,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
             Places.initialize(applicationContext.applicationContext,apiKey)
         }
 
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.mapR) as SupportMapFragment
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.RTXmap) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
 

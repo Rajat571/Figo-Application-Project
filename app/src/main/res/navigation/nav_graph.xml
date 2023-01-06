@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_verifyNumber2_to_figgo_FamilyFragment3"
             app:destination="@id/figgo_FamilyFragment" />
+        <action
+            android:id="@+id/action_verifyNumber2_to_waitingRegistration"
+            app:destination="@id/waitingRegistration" />
     </fragment>
     <fragment
         android:id="@+id/MPinGenerate"

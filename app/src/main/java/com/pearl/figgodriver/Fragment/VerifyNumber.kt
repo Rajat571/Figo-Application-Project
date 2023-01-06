@@ -308,13 +308,13 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
             Log.d("Account ",""+account.account)
 
             prefManager.setAccountDetails(account.account.toString(),account.displayName.toString(),account.photoUrl.toString())
-
+           // prefManager.setToken("")
             Toast.makeText(requireContext(),"Signed In :"+account.account.toString(),Toast.LENGTH_LONG).show()
             if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")) {
                 Navigation.findNavController(vieW).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
             } else {
-
-                    startActivity(Intent(requireContext(),DriverDashBoard::class.java))
+Navigation.findNavController(vieW).navigate(R.id.action_verifyNumber2_to_waitingRegistration)
+                    //startActivity(Intent(requireContext(),DriverDashBoard::class.java))
                 }
 
             // Signed in successfully, show authenticated UI.

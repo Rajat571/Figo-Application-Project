@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
@@ -831,6 +832,13 @@ class DriverCabDetailsFragment : Fragment() {
     }
 
     private fun submitForm(insurance_valid_date:String,local_permit_date:String,national_permit_date:String,car_category:String,car_model:Int,model_year:Int,v_number:String) {
+        binding.progress.isVisible = true
+        binding.cabDetailsLayout.isVisible = false
+        binding.work.isVisible = false
+        binding.uploadImage.isVisible = false
+
+
+
 
         Log.d("SendData", "updatedStateList==="+updatedStateList)
 
@@ -905,9 +913,11 @@ class DriverCabDetailsFragment : Fragment() {
                      Log.d("SendData", "response===" + response)
                      Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
                      if (response != null) {
-                         context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
+                        context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
+                         binding.progress.isVisible = false
+
                          prefManager.setRegistrationToken("Done")
-                        // Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration)
+                        //Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration)
 
                        //  prefManager.setCabFormToken("Submitted")
                      }
@@ -916,10 +926,9 @@ class DriverCabDetailsFragment : Fragment() {
                      Log.d("SendData", "response===" +it.message)
                      Toast.makeText(this.requireContext(), " "+it.message,Toast.LENGTH_SHORT).show()
                      // Error
-                     context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
+                //     context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
                  }){}
          queue.add(jsonOblect)
-
 
     }
 

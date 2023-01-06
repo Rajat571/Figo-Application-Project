@@ -54,8 +54,6 @@ class MyService : Service() {
         flags: Int,
         startId: Int
     ): Int {
-
-
         return START_STICKY
     }
 
@@ -127,18 +125,20 @@ class MyService : Service() {
                         address = geocoder.getFromLocation(lat,lon,1)
                         if(address!=null){
                             addressName+=address.get(0).getAddressLine(0)
-                            Toast.makeText(this,"Address =  "+addressName,Toast.LENGTH_SHORT).show()
+                           // Toast.makeText(this,"Address =  "+addressName,Toast.LENGTH_SHORT).show()
                         }
                         // prefManager.setlongitude(lon.toFloat())
 
                         val URL = "https://test.pearl-developer.com/figo/api/post-location"
                         val queue = Volley.newRequestQueue(this)
                         val json = JSONObject()
-                        json.put("token","1357|gaOHPnLsvpWZgcJ1HicpX3qVZLNTnq9R9T4Y24fI")
+                     //   Log.d("Token = "," "+prefManager.getToken())
+                        json.put("token",PrefManager(this).getToken())
+                       // Toast.makeText(this," "+prefManager.getToken(),Toast.LENGTH_SHORT).show()
                         json.put("lat",""+lat.toString())
                         json.put("lng",""+lon.toString())
                         json.put("name",""+addressName)
-                        Log.d("json == ",""+json)
+                       //Toast.makeText(this,""+PrefManager(this).getToken(),Toast.LENGTH_SHORT).show()
                       /*  Log.d("Response == ","TokenData"+ prefManager.getToken())*/
                         val jsonObject=  object : JsonObjectRequest(
                             Method.POST, URL, json,
