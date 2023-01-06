@@ -74,6 +74,9 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
         setContentView(R.layout.activity_driver_dash_board)
 
 
+
+
+
         var window=window
         window.setStatusBarColor(Color.parseColor("#000F3B"))
         prefManager=PrefManager(this)
