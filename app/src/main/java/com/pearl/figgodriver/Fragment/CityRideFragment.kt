@@ -1,13 +1,6 @@
 package com.pearl.figgodriver.Fragment
 
-import android.Manifest
 import android.annotation.SuppressLint
-import android.content.pm.ApplicationInfo
-import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.LinearGradient
-import android.location.Location
-import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,39 +8,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.findFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
-import com.google.android.gms.tasks.CancellationToken
-import com.google.android.gms.tasks.CancellationTokenSource
-import com.google.android.gms.tasks.OnTokenCanceledListener
-import com.google.android.libraries.places.api.Places
-import com.google.gson.Gson
 import com.pearl.figgodriver.Adapter.CityRideListAdapter
-import com.pearl.figgodriver.MapData
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.databinding.FragmentCityRideBinding
 import com.pearl.figgodriver.model.CityRidesList
-import com.pearlorganisation.PrefManager
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import org.json.JSONObject
-import org.w3c.dom.Text
 
 
 class CityRideFragment : Fragment(),OnMapReadyCallback {

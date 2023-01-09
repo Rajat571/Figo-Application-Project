@@ -5,13 +5,11 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
@@ -20,17 +18,17 @@ import androidx.navigation.Navigation
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.pearl.PrefManager
 import com.pearl.figgodriver.Adapter.SpinnerAdapter
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.databinding.FragmentFiggoCaptonBinding
 import com.pearl.figgodriver.model.SpinnerObj
 import com.pearl.pearllib.BaseClass
 import com.pearl.pearllib.BasePrivate
-import com.pearlorganisation.PrefManager
+
 import kotlinx.android.synthetic.main.fragment_driver_cab_details.view.*
 import kotlinx.android.synthetic.main.fragment_figgo__capton.*
 import org.json.JSONObject
-import java.io.IOException
 
 
 class Figgo_Capton : Fragment(){

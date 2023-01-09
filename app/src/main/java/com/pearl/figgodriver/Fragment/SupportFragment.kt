@@ -1,7 +1,6 @@
 package com.pearl.figgodriver.Fragment
 
 import android.content.Intent
-import android.databinding.tool.store.ResourceBundle.IncludedLayout
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,9 +11,9 @@ import android.webkit.WebView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.pearl.PrefManager
 import com.pearl.figgodriver.R
-import com.pearlorganisation.PrefManager
-import android.text.Layout as Layout
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

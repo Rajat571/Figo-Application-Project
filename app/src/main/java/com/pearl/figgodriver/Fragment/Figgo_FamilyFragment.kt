@@ -6,12 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CompoundButton
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
+import com.pearl.PrefManager
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.databinding.FragmentFiggoFamilyBinding
-import com.pearlorganisation.PrefManager
+
 
 class Figgo_FamilyFragment : Fragment() {
   lateinit var binding: FragmentFiggoFamilyBinding

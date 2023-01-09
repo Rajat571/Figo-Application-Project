@@ -29,13 +29,12 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.android.libraries.places.api.Places
 import com.google.gson.Gson
-import com.pearl.figgodriver.Fragment.ActiveRide
+import com.pearl.PrefManager
 import com.pearl.figgodriver.databinding.ActivityCityRideBinding
 import com.pearl.pearllib.BaseClass
-import com.pearlorganisation.PrefManager
+
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import java.util.Objects
 
 class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var binding:ActivityCityRideBinding

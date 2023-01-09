@@ -12,8 +12,9 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pearl.FiggoPartner.Model.AllRideData
+import com.pearl.PrefManager
 import com.pearl.figgodriver.R
-import com.pearlorganisation.PrefManager
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

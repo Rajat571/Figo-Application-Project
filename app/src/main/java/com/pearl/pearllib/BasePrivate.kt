@@ -1,6 +1,5 @@
 package com.pearl.pearllib
 
-import android.R
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -17,10 +16,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.pearl.PrefManager
 import com.pearl.figgodriver.Adapter.SpinnerAdapter
 import com.pearl.figgodriver.LoginActivity
 import com.pearl.figgodriver.model.SpinnerObj
-import com.pearlorganisation.PrefManager
 import org.json.JSONObject
 
 abstract class BasePrivate : BaseClass() {

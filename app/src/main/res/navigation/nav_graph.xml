@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/verifyNumber2"
-        android:name="com.pearlorganisation.figgo.UI.Fragments.VerifyNumber"
+        android:name="com.pearl.figgodriver.Fragment.VerifyNumber"
         android:label="VerifyNumber" >
         <action
             android:id="@+id/action_verifyNumber2_to_MPinGenerate"
@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/MPinGenerate"
-        android:name="com.pearlorganisation.figgo.UI.Fragments.MPinGenerate"
+        android:name="com.pearl.figgodriver.Fragment.MPinGenerate"
         android:label="MPinGenerate" >
         <action
             android:id="@+id/action_MPinGenerate_to_figgo_FamilyFragment"
