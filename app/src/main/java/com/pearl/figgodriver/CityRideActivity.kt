@@ -213,7 +213,6 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
             json.put("customer_booking_id",customer_booking_id)
            json.put("status",1)
 
-
             val jsonOblect: JsonObjectRequest =
                 object : JsonObjectRequest(Method.POST, url,json,
                     com.android.volley.Response.Listener<JSONObject?> { response ->
