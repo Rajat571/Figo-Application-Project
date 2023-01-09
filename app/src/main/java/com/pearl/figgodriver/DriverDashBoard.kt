@@ -294,6 +294,11 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
             true
         }
+        draw_layout.menu.findItem(R.id.profile).setOnMenuItemClickListener {
+            drawer.closeDrawer(GravityCompat.END)
+
+            true
+        }
 
         draw_layout.menu.findItem(R.id.logout).setOnMenuItemClickListener {
             drawer.closeDrawer(GravityCompat.END)
@@ -315,7 +320,6 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
                 ) { dialog: DialogInterface, which: Int -> dialog.cancel() }
                 alertDialog2.show()
                 //       finish();
-
             true
         }
    }
