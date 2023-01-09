@@ -1,6 +1,5 @@
-package com.pearlorganisation.figgo.UI.Fragments
+package com.pearl.figgodriver.Fragment
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,15 +10,12 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.pearl.PrefManager
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.databinding.FragmentMPinGenerateBinding
-import com.google.android.gms.tasks.Task
 import com.pearl.figgodriver.DriverDashBoard
-import com.pearlorganisation.PrefManager
 //import com.pearl.figgodriver.R
 //import com.example.figgodriver.R
-
-import kotlinx.android.synthetic.main.fragment_m_pin_generate.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

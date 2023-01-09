@@ -18,6 +18,7 @@ import androidx.navigation.Navigation
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.pearl.PrefManager
 import com.pearl.figgodriver.Adapter.SpinnerAdapter
 import com.pearl.figgodriver.DriverDashBoard
 import com.pearl.figgodriver.R
@@ -25,7 +26,7 @@ import com.pearl.figgodriver.databinding.FragmentDriverCabDetailsBinding
 import com.pearl.figgodriver.model.SpinnerObj
 import com.pearl.pearllib.BaseClass
 import com.pearl.pearllib.BasePrivate
-import com.pearlorganisation.PrefManager
+
 import kotlinx.android.synthetic.main.cancel_ride_dialog.*
 import kotlinx.android.synthetic.main.fragment_driver_cab_details.*
 import org.json.JSONObject

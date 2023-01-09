@@ -1,6 +1,5 @@
 package com.pearl.figgodriver.Fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.fragment.app.Fragment
@@ -8,9 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
-import com.pearl.figgodriver.DriverDashBoard
+import com.pearl.PrefManager
 import com.pearl.figgodriver.R
-import com.pearlorganisation.PrefManager
+
 
 
 class WelcomeFragment : Fragment() {

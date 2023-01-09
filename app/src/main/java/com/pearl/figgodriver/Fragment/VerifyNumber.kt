@@ -1,4 +1,4 @@
-package com.pearlorganisation.figgo.UI.Fragments
+package com.pearl.figgodriver.Fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -26,11 +26,12 @@ import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.tasks.Task
+import com.pearl.PrefManager
 import com.pearl.figgodriver.DriverDashBoard
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.databinding.FragmentVerifyNumberBinding
 import com.pearl.pearllib.BaseClass
-import com.pearlorganisation.PrefManager
+
 import org.json.JSONObject
 
 

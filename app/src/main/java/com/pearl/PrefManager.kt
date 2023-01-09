@@ -1,10 +1,7 @@
-package com.pearlorganisation
+package com.pearl
 
 import android.content.Context
 import android.content.SharedPreferences
-
-
-
 
  class PrefManager(var context: Context) {
      // Shared preferences file name

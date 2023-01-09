@@ -29,9 +29,9 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
-import com.pearl.figgodriver.Fragment.prefManager
+import com.pearl.PrefManager
 import com.pearl.figgodriver.R
-import com.pearlorganisation.PrefManager
+
 import kotlinx.coroutines.*
 import org.json.JSONObject
 import java.util.*
@@ -133,7 +133,7 @@ class MyService : Service() {
                         val queue = Volley.newRequestQueue(this)
                         val json = JSONObject()
                      //   Log.d("Token = "," "+prefManager.getToken())
-                        json.put("token",PrefManager(this).getToken())
+                        json.put("token", PrefManager(this).getToken())
                        // Toast.makeText(this," "+prefManager.getToken(),Toast.LENGTH_SHORT).show()
                         json.put("lat",""+lat.toString())
                         json.put("lng",""+lon.toString())

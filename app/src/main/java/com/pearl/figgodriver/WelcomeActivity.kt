@@ -1,8 +1,6 @@
 package com.pearl.figgodriver
 
 
-import android.app.FragmentManager
-import android.app.FragmentTransaction
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -11,12 +9,9 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
+import com.pearl.PrefManager
 import com.pearl.figgodriver.Fragment.WaitingRegistration
-import com.pearlorganisation.PrefManager
-import com.pearlorganisation.figgo.UI.Fragments.MPinGenerate
-import kotlinx.android.synthetic.main.active_ride_layout.*
+
 
 
 class WelcomeActivity : AppCompatActivity() {
@@ -41,7 +36,6 @@ class WelcomeActivity : AppCompatActivity() {
             }else if (prefManager.getToken().equals("") || prefManager.getToken().equals("null")||prefManager.getMpin().equals("")){
             startActivity(Intent(this,LoginActivity::class.java))
         }
-
 
         },2000)
       /*  var next_btn=findViewById<TextView>(R.id.next_button)

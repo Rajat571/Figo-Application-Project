@@ -4,13 +4,10 @@ package com.pearl.figgodriver
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.app.Service.START_STICKY
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.location.Geocoder
 import android.location.Location
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -18,47 +15,32 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.Gravity
-import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI
-
-import androidx.navigation.ui.NavigationUI.setupWithNavController
-import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import com.pearl.PrefManager
 import com.pearl.figgodriver.Fragment.*
 import com.pearl.figgodriver.Service.MyService
 import com.pearl.pearllib.BaseClass
-import com.pearlorganisation.PrefManager
 import kotlinx.android.synthetic.main.bottom_button_layout.view.*
 import kotlinx.android.synthetic.main.top_layout.view.*
 import kotlinx.coroutines.*
-import org.json.JSONObject
 import java.lang.Runnable
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
 
