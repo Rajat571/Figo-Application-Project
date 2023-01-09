@@ -85,6 +85,7 @@ class SupportFragment : Fragment() {
 
         var profile = view.findViewById<LinearLayout>(R.id.Profile_Nav)
         var change_mpin_nav = view.findViewById<ConstraintLayout>(R.id.Change_MPIN_Nav)
+        var cab_nav = view.findViewById<ConstraintLayout>(R.id.Cab_Nav)
 
 
 
@@ -97,6 +98,7 @@ class SupportFragment : Fragment() {
             cancel.visibility=View.GONE
             profile.visibility=View.GONE
             change_mpin_nav.visibility = View.GONE
+            cab_nav.visibility=View.GONE
         myWebView.loadUrl("https://figgocabs.com/about/")
     }else if (bundle?.getString("Key").equals("Support")){
             support.visibility=View.VISIBLE
@@ -104,6 +106,7 @@ class SupportFragment : Fragment() {
             terms.visibility=View.GONE
             cancel.visibility=View.GONE
             profile.visibility=View.GONE
+            cab_nav.visibility=View.GONE
             change_mpin_nav.visibility = View.GONE
         }else if (bundle?.getString("Key").equals("Terms")){
             support.visibility=View.GONE
@@ -111,6 +114,7 @@ class SupportFragment : Fragment() {
             terms.visibility=View.VISIBLE
             cancel.visibility=View.GONE
             change_mpin_nav.visibility = View.GONE
+            cab_nav.visibility=View.GONE
             profile.visibility=View.GONE
         }else if (bundle?.getString("Key").equals("Cancel")){
             support.visibility=View.GONE
@@ -118,12 +122,14 @@ class SupportFragment : Fragment() {
             terms.visibility=View.GONE
             change_mpin_nav.visibility = View.GONE
             profile.visibility=View.GONE
+            cab_nav.visibility=View.GONE
             cancel.visibility=View.VISIBLE
         }else if (bundle?.getString("Key").equals("Profile")){
             support.visibility=View.GONE
             about.visibility=View.GONE
             terms.visibility=View.GONE
             change_mpin_nav.visibility = View.GONE
+            cab_nav.visibility=View.GONE
             cancel.visibility=View.GONE
             profile.visibility=View.VISIBLE
         }
@@ -132,6 +138,7 @@ class SupportFragment : Fragment() {
             about.visibility=View.GONE
             terms.visibility=View.GONE
             cancel.visibility=View.GONE
+            cab_nav.visibility=View.GONE
             profile.visibility=View.GONE
             change_mpin_nav.visibility = View.VISIBLE
         }
@@ -141,8 +148,11 @@ class SupportFragment : Fragment() {
             terms.visibility=View.GONE
             cancel.visibility=View.GONE
             profile.visibility=View.GONE
-            change_mpin_nav.visibility = View.VISIBLE
+            change_mpin_nav.visibility = View.GONE
+            cab_nav.visibility=View.VISIBLE
+
         }
+
     pref = PrefManager(requireContext())
 
         profileValidations(view)

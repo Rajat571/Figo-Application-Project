@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -18,28 +17,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/mpin_gradinet"
             android:gravity="center"
-            android:orientation="vertical">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/change_profile_pic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/change_profile_pic_image"
-                    android:layout_width="@dimen/_60sdp"
-
-                    android:layout_height="@dimen/_60sdp"
-                    android:src="@drawable/ic_car_flat"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.5" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
+            android:orientation="horizontal">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,6 +40,18 @@
                     android:textStyle="bold" />
 
             </LinearLayout>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/change_profile_pic_image"
+                android:layout_width="@dimen/_60sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_height="@dimen/_60sdp"
+                android:src="@drawable/ic_car_flat"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
         </LinearLayout>
 
 
@@ -73,20 +63,21 @@
             android:orientation="vertical"
             android:padding="@dimen/_5sdp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="sans-serif-light"
-                android:text="Name"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_12sdp" />
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:fontFamily="sans-serif-light"-->
+<!--                android:text="Name"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="@dimen/_12sdp" />-->
 
             <EditText
                 android:id="@+id/update_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
+                android:hint="Vehicle Type"
                 android:padding="@dimen/_7sdp" />
 
         </LinearLayout>
@@ -99,20 +90,21 @@
             android:orientation="vertical"
             android:padding="@dimen/_5sdp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="sans-serif-light"
-                android:text="State"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_12sdp" />
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:fontFamily="sans-serif-light"-->
+<!--                android:text="State"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="@dimen/_12sdp" />-->
 
             <EditText
                 android:id="@+id/update_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
+                android:hint="Vehicle Category"
                 android:padding="@dimen/_7sdp" />
 
         </LinearLayout>
@@ -125,20 +117,21 @@
             android:orientation="vertical"
             android:padding="@dimen/_5sdp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="sans-serif-light"
-                android:text="City"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_12sdp" />
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:fontFamily="sans-serif-light"-->
+<!--                android:text="City"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="@dimen/_12sdp" />-->
 
             <EditText
                 android:id="@+id/update_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
+                android:hint="Vehicle Model"
                 android:padding="@dimen/_7sdp" />
 
         </LinearLayout>
@@ -151,20 +144,21 @@
             android:orientation="vertical"
             android:padding="@dimen/_5sdp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="sans-serif-light"
-                android:text="Mobile No."
-                android:textColor="@color/black"
-                android:textSize="@dimen/_12sdp" />
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:fontFamily="sans-serif-light"-->
+<!--                android:text="Mobile No."-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="@dimen/_12sdp" />-->
 
             <EditText
                 android:id="@+id/update_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
+                android:hint="Registration No"
                 android:padding="@dimen/_7sdp" />
 
         </LinearLayout>
@@ -177,20 +171,21 @@
             android:orientation="vertical"
             android:padding="@dimen/_5sdp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="sans-serif-light"
-                android:text="Email ID"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_12sdp" />
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:fontFamily="sans-serif-light"-->
+<!--                android:text="Email ID"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="@dimen/_12sdp" />-->
 
             <EditText
                 android:id="@+id/update_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
+                android:hint="Insurance Valid till"
                 android:padding="@dimen/_7sdp" />
 
         </LinearLayout>
