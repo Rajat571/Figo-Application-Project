@@ -66,6 +66,7 @@ class MyService : Service() {
                 AlarmManager.ELAPSED_REALTIME,
                 SystemClock.elapsedRealtime() + 1000,
                 restartPendingIntent);*/
+
         Log.d("logs-- ", "servive_in_bg")
         super.onTaskRemoved(rootIntent)
     }

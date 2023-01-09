@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:padding="6dp"
                     android:id="@+id/city_ride_address"
-                    android:text="Sector 34 A, Chandigarh, India\nRailway station, Chandigarh, India"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textStyle="bold" />

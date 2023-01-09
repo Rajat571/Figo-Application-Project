@@ -3,10 +3,12 @@ package com.pearl.figgodriver.Adapter
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.pearl.figgodriver.CityRideActivity
@@ -23,6 +25,7 @@ class CityRideListAdapter(var context:Context,var ridelist:List<CityRidesList>):
     }
 
     override fun onBindViewHolder(holder: CityRideHolder, position: Int) {
+        var i=position
      var data=ridelist[position]
         holder.customer_date.text=data.date
         holder.customer_time.text=data.time
@@ -32,20 +35,17 @@ class CityRideListAdapter(var context:Context,var ridelist:List<CityRidesList>):
         holder.fare_price.text=data.fare_price
         holder.itemView.setOnClickListener {
             holder.rideCardview.setCardBackgroundColor(Color.GREEN)
-            var intent=Intent(context,CityRideActivity::class.java)
-           // intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            context.startActivity(intent)
 
+                context.startActivity(Intent(context,CityRideActivity::class.java)
+                    .putExtra("location_to",data.to)
+                    .putExtra("customer_date",data.date)
+                    .putExtra("customer_time",data.time)
+                    .putExtra("current_lat",data.current_lat)
+                    .putExtra("current_long",data.current_long)
+                    .putExtra("des_lat",data.des_lat)
+                    .putExtra("des_long",data.des_long)
+                    .putExtra("customer_booking_id",data.cutomer_name))
 
-           /* when(holder.adapterPosition){
-                0->{
-
-                    Toast.makeText(context,"position 1",Toast.LENGTH_SHORT).show()
-                }
-                1->{
-                    context.startActivity(Intent(context,CityRideActivity::class.java))
-                }
-            }*/
         }
     }
 

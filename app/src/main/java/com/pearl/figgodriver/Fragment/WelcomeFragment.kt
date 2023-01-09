@@ -1,5 +1,6 @@
 package com.pearl.figgodriver.Fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import com.pearl.PrefManager
+import com.pearl.figgodriver.DriverDashBoard
 import com.pearl.figgodriver.R
 
 
@@ -35,7 +37,7 @@ class WelcomeFragment : Fragment() {
                 {
                     Navigation.findNavController(view).navigate(R.id.action_welcomeDriverFragment_to_figgo_FamilyFragment)
                 }else{
-                    startActivity(Intent(requireContext(),DriverDashBoard::class.java))
+                    startActivity(Intent(requireContext(), DriverDashBoard::class.java))
                     //Navigation.findNavController(view).navigate(R.id.action_welcomeDriverFragment_to_waitingRegistration)
                 }
 

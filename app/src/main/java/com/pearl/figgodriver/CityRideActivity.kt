@@ -14,6 +14,11 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
+import com.android.volley.AuthFailureError
+import com.android.volley.Request.Method
+import com.android.volley.VolleyError
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
@@ -29,18 +34,28 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.android.libraries.places.api.Places
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.pearl.PrefManager
+import com.pearl.figgodriver.Adapter.CityRideListAdapter
 import com.pearl.figgodriver.databinding.ActivityCityRideBinding
+import com.pearl.figgodriver.model.CityRidesList
 import com.pearl.pearllib.BaseClass
 
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.Response
+import org.json.JSONObject
 
 class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var binding:ActivityCityRideBinding
     lateinit var prefManager: PrefManager
     var lat:Double = 0.0
     var long:Double = 0.0
+    var current_lat:Double=0.0
+    var current_long:Double=0.0
+    var des_lat:Double=0.0
+    var des_long:Double=0.0
+    var customer_booking_id:String=""
     private var originLatitude: Double =30.28401063526107
     private var originLongitude: Double = 77.99210085398012
     private var destinationLatitude: Double =  30.35335500972683
@@ -51,6 +66,23 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=DataBindingUtil.setContentView(this,R.layout.activity_city_ride)
+        window.setStatusBarColor(Color.parseColor("#000F3B"))
+
+
+        var address_to= intent.getStringExtra("location_to")
+        var date=intent.getStringExtra("customer_date")
+        var time=intent.getStringExtra("customer_time")
+         customer_booking_id=intent.getStringExtra("customer_booking_id").toString()
+        current_lat=intent.getStringExtra("current_lat")!!.toDouble()
+        current_long=intent.getStringExtra("current_long")!!.toDouble()
+        des_lat=intent.getStringExtra("des_lat")!!.toDouble()
+        des_long=intent.getStringExtra("des_long")!!.toDouble()
+
+        binding.cityRideAddress.text=address_to
+        binding.cityRideDate.text=date
+        binding.cityRideTime.text=time
+
+        Log.d("SEND DATA","LOCATION_DATA====="+address_to.toString()+"\n"+current_lat.toString()+"\n"+current_long+"\n"+customer_booking_id)
 
         baseClass=object :BaseClass(){
             override fun setLayoutXml() {
@@ -62,8 +94,6 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
             override fun initializeClickListners() {
-
-
             }
 
             override fun initializeInputs() {
@@ -73,7 +103,6 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
             override fun initializeLabels() {
                 TODO("Not yet implemented")
             }
-
         }
         initializeClickListners()
 
@@ -106,10 +135,6 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
                     Toast.makeText(this,"Lat :"+lat+"\nLong: "+long, Toast.LENGTH_SHORT).show()
                 }
             }
-
-
-
-
         // Fetching API_KEY which we wrapped
         val ai: ApplicationInfo = applicationContext.packageManager
             ?.getApplicationInfo(applicationContext.applicationContext!!.packageName, PackageManager.GET_META_DATA)!!
@@ -123,14 +148,12 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.RTXmap) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
-
         mapFragment.getMapAsync {
             mMap = it
-            val originLocation = LatLng(originLatitude, originLongitude)
-            mMap.addMarker(MarkerOptions().position(originLocation))
-            val destinationLocation = LatLng(destinationLatitude, destinationLongitude)
-            mMap.addMarker(MarkerOptions().position(destinationLocation))
+            val originLocation = LatLng(current_lat!!, current_long!!)
+            mMap.addMarker(MarkerOptions().position(originLocation).title("hey"))
+            val destinationLocation = LatLng(des_lat!!, des_long!!)
+            mMap.addMarker(MarkerOptions().position(destinationLocation).title("hi"))
             val urll = getDirectionURL(originLocation, destinationLocation, "AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
             GetDirection(urll).execute()
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 14F))
@@ -138,15 +161,93 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
     }
     private fun initializeClickListners() {
         binding.rejectCityRideBtn.setOnClickListener {
-            Toast.makeText(this," This Booking is rejected",Toast.LENGTH_SHORT).show()
-         finish()
+            var url="https://test.pearl-developer.com/figo/api/test/get-booking-status"
+            var queue=Volley.newRequestQueue(this)
+            var json=JSONObject()
+            json.put("customer_booking_id",customer_booking_id)
+            json.put("status",0)
+
+
+            val jsonOblect: JsonObjectRequest =
+                object : JsonObjectRequest(Method.POST, url,json,
+                    com.android.volley.Response.Listener<JSONObject?> { response ->
+                        Log.d("CityRideActivity", "Reject status response===" + response)
+                        /*  var statuss=response.getString("status")
+                          if (statuss.equals(true)) {*/
+                        var message=response.getString("message")
+                        Toast.makeText(this@CityRideActivity, ""+message, Toast.LENGTH_LONG).show()
+                        finish()
+                        //}
+                        // Get your json response and convert it to whatever you want.
+                    }, object : com.android.volley.Response.ErrorListener {
+                        override fun onErrorResponse(error: VolleyError?) {
+                            Log.d("CityRideActivity", "error===" + error)
+                            Toast.makeText(this@CityRideActivity, "Something went wrong!", Toast.LENGTH_LONG).show()
+                        }
+                    })
+
+                {
+                    @SuppressLint("SuspiciousIndentation")
+                    @Throws(AuthFailureError::class)
+                    override fun getHeaders(): Map<String, String> {
+                        val headers: MutableMap<String, String> = HashMap()
+                        headers.put("Content-Type", "application/json; charset=UTF-8");
+                        headers.put("Authorization", "Bearer " + prefManager.getToken());
+                        return headers
+                    }
+                }
+
+            queue.add(jsonOblect)
+            // Toast.makeText(this,"Accepted",Toast.LENGTH_SHORT).show()
+
+
+            // Toast.makeText(this," This Booking is rejected",Toast.LENGTH_SHORT).show()
+
         }
 
         binding.acceptCityRideBtn.setOnClickListener {
-            Toast.makeText(this,"Accepted",Toast.LENGTH_SHORT).show()
 
-            startActivity(Intent(this,DriverDashBoard::class.java))
-            prefManager.setActiveRide(1)
+            var url="https://test.pearl-developer.com/figo/api/test/get-booking-status"
+            var queue=Volley.newRequestQueue(this)
+            var json=JSONObject()
+            json.put("customer_booking_id",customer_booking_id)
+           json.put("status",1)
+
+
+            val jsonOblect: JsonObjectRequest =
+                object : JsonObjectRequest(Method.POST, url,json,
+                    com.android.volley.Response.Listener<JSONObject?> { response ->
+                        Log.d("CityRideActivity", "Accept status response===" + response)
+                      /*  var statuss=response.getString("status")
+                        if (statuss.equals(true)) {*/
+                            var message=response.getString("message")
+                            Toast.makeText(this@CityRideActivity, ""+message, Toast.LENGTH_LONG).show()
+                            startActivity(Intent(this,DriverDashBoard::class.java))
+                            prefManager.setActiveRide(1)
+                        //}
+                        // Get your json response and convert it to whatever you want.
+                    }, object : com.android.volley.Response.ErrorListener {
+                        override fun onErrorResponse(error: VolleyError?) {
+                            Log.d("CityRideActivity", "error===" + error)
+                            Toast.makeText(this@CityRideActivity, "Something went wrong!", Toast.LENGTH_LONG).show()
+                        }
+                    })
+
+                {
+                    @SuppressLint("SuspiciousIndentation")
+                    @Throws(AuthFailureError::class)
+                    override fun getHeaders(): Map<String, String> {
+                        val headers: MutableMap<String, String> = HashMap()
+                        headers.put("Content-Type", "application/json; charset=UTF-8");
+                        headers.put("Authorization", "Bearer " + prefManager.getToken());
+                        return headers
+                    }
+                }
+
+            queue.add(jsonOblect)
+           // Toast.makeText(this,"Accepted",Toast.LENGTH_SHORT).show()
+
+
         }
     }
 
@@ -155,10 +256,10 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap =googleMap
-        val originLocation = LatLng(originLatitude, originLongitude)
+       /* val originLocation = LatLng(originLatitude, originLongitude)
         mMap.clear()
         mMap.addMarker(MarkerOptions().position(originLocation))
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 18F))
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 18F))*/
     }
 
     private fun getDirectionURL(origin:LatLng, dest:LatLng, secret: String) : String{

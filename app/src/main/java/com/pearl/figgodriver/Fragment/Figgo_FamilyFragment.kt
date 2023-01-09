@@ -15,11 +15,7 @@ import com.pearl.figgodriver.databinding.FragmentFiggoFamilyBinding
 
 class Figgo_FamilyFragment : Fragment() {
   lateinit var binding: FragmentFiggoFamilyBinding
-
-
     lateinit var prefManager: PrefManager
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

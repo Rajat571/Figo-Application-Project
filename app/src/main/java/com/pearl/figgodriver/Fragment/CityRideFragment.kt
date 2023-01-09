@@ -55,10 +55,10 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
-       // submitForm(view)
+        submitForm(view)
         binding.cityRideRecylerview.layoutManager=LinearLayoutManager(requireContext())
 
+/*
         ridelists.add(CityRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100"))
         ridelists.add(CityRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100"))
         ridelists.add(CityRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100"))
@@ -66,6 +66,7 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
         ridelists.add(CityRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100"))
         cityRideListAdapter=CityRideListAdapter(requireContext(),ridelists)
         binding.cityRideRecylerview.adapter=cityRideListAdapter
+*/
 
 
 
@@ -114,7 +115,7 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
     }
 
     private fun submitForm(view: View) {
-        val URL = "https://test.pearl-developer.com/figo/api/ride/get-booking-details"
+        val URL = "https://test.pearl-developer.com/figo/api/test/get-booking-details"
         val queue = Volley.newRequestQueue(requireContext())
 
         val jsonOblect: JsonObjectRequest =
@@ -138,21 +139,21 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
                             var from_location_long=from_location.getString("lng")
                             var from_name=from_location.getString("name")
 
-                            var dateTime=data1.getString("date_time")
-                            ridelists.add(CityRidesList(dateTime,dateTime,booking_id,address_name,from_name,"300"))
+                            var date_only=data1.getString("date_only")
+                            var time_only=data1.getString( "time_only")
 
+                            var fare_price=response.getJSONArray("rides").getJSONObject(i).getJSONObject("price")
+                            var price=fare_price.getString( "upto")
+                            ridelists.add(CityRidesList(date_only,time_only,booking_id,address_name,from_name,price,from_location_lat,from_location_long,to_location_lat,to_location_long))
                         }
                         cityRideListAdapter=CityRideListAdapter(requireContext(),ridelists)
                         binding.cityRideRecylerview.adapter=cityRideListAdapter
-
-
                     }
                     // Get your json response and convert it to whatever you want.
                 }, object : Response.ErrorListener {
                 override fun onErrorResponse(error: VolleyError?) {
                     Log.d("SendData", "error===" + error)
                     Toast.makeText(requireActivity(), "Something went wrong!", Toast.LENGTH_LONG).show()
-
                 }
             }) {
                 @SuppressLint("SuspiciousIndentation")
