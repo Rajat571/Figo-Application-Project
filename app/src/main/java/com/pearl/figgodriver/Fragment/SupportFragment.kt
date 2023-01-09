@@ -8,11 +8,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.pearl.PrefManager
 import com.pearl.figgodriver.R
+import kotlinx.android.synthetic.main.change_mpin.view.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -45,7 +50,15 @@ class SupportFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_support, container, false)
     }
+    private lateinit var profile_pic:ImageView
+    lateinit var imageuri: Uri;
+    lateinit var pref:PrefManager
+    private val contract1 = registerForActivityResult(ActivityResultContracts.GetContent()){
+        imageuri = it!!
+        profile_pic.setImageURI(it)
+        // upload()
 
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var bundle = arguments
@@ -69,28 +82,99 @@ class SupportFragment : Fragment() {
         var about = view.findViewById<ConstraintLayout>(R.id.About_Nav)
         var terms = view.findViewById<ConstraintLayout>(R.id.Terms_Nav)
         var cancel = view.findViewById<ConstraintLayout>(R.id.Cancel_Nav)
+
+        var profile = view.findViewById<LinearLayout>(R.id.Profile_Nav)
+        var change_mpin_nav = view.findViewById<ConstraintLayout>(R.id.Change_MPIN_Nav)
+
+
+
+        profile_pic = view.findViewById<ImageView>(R.id.change_profile_pic_image)
         if(bundle?.getString("Key").equals("About")){
         val myWebView: WebView = view.findViewById(R.id.about_wv)
             support.visibility=View.GONE
             about.visibility=View.VISIBLE
             terms.visibility=View.GONE
             cancel.visibility=View.GONE
+            profile.visibility=View.GONE
+            change_mpin_nav.visibility = View.GONE
         myWebView.loadUrl("https://figgocabs.com/about/")
     }else if (bundle?.getString("Key").equals("Support")){
             support.visibility=View.VISIBLE
             about.visibility=View.GONE
             terms.visibility=View.GONE
             cancel.visibility=View.GONE
+            profile.visibility=View.GONE
+            change_mpin_nav.visibility = View.GONE
         }else if (bundle?.getString("Key").equals("Terms")){
             support.visibility=View.GONE
             about.visibility=View.GONE
             terms.visibility=View.VISIBLE
             cancel.visibility=View.GONE
+            change_mpin_nav.visibility = View.GONE
+            profile.visibility=View.GONE
         }else if (bundle?.getString("Key").equals("Cancel")){
             support.visibility=View.GONE
             about.visibility=View.GONE
             terms.visibility=View.GONE
+            change_mpin_nav.visibility = View.GONE
+            profile.visibility=View.GONE
             cancel.visibility=View.VISIBLE
+        }else if (bundle?.getString("Key").equals("Profile")){
+            support.visibility=View.GONE
+            about.visibility=View.GONE
+            terms.visibility=View.GONE
+            change_mpin_nav.visibility = View.GONE
+            cancel.visibility=View.GONE
+            profile.visibility=View.VISIBLE
+        }
+        else if(bundle?.getString("key").equals("Change_Mpin")){
+            support.visibility=View.GONE
+            about.visibility=View.GONE
+            terms.visibility=View.GONE
+            cancel.visibility=View.GONE
+            profile.visibility=View.GONE
+            change_mpin_nav.visibility = View.VISIBLE
+        }
+        else if(bundle?.getString("key").equals("Cab")){
+            support.visibility=View.GONE
+            about.visibility=View.GONE
+            terms.visibility=View.GONE
+            cancel.visibility=View.GONE
+            profile.visibility=View.GONE
+            change_mpin_nav.visibility = View.VISIBLE
+        }
+    pref = PrefManager(requireContext())
+
+        profileValidations(view)
+        mpinValidations(view)
+
+    }
+
+    private fun mpinValidations(view: View) {
+        var mpin_done = view.findViewById<TextView>(R.id.mpin_done)
+        var mpin_exit = view.findViewById<TextView>(R.id.mpin_exit)
+        var mpin_old = view.findViewById<EditText>(R.id.old_mpin)
+        var mpin_new = view.findViewById<EditText>(R.id.mPin_new)
+        var mpin_confirm = view.findViewById<EditText>(R.id.confirm_mpin)
+
+    }
+
+    private fun profileValidations(view: View) {
+        var change = view.findViewById<ConstraintLayout>(R.id.change_profile_pic)
+        var name = view.findViewById<EditText>(R.id.update_name)
+        var vehicle_no = view.findViewById<EditText>(R.id.update_state)
+        var mobile_number = view.findViewById<EditText>(R.id.update_number)
+        var email = view.findViewById<EditText>(R.id.update_email)
+        var update = view.findViewById<Button>(R.id.update_button)
+
+        update.setOnClickListener {
+            pref.setDriverName(name.text.toString())
+            pref.setMobile_No(mobile_number.text.toString())
+            //pref.setDriveState(1)
+        }
+
+        change.setOnClickListener {
+            contract1.launch("image/*")
         }
 
     }

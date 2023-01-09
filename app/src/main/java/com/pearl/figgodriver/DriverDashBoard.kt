@@ -278,10 +278,35 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
         }
         draw_layout.menu.findItem(R.id.profile).setOnMenuItemClickListener {
             drawer.closeDrawer(GravityCompat.END)
-
+            bundle.putString("Key","Profile")
+            var supportFrag = SupportFragment()
+            supportFrag.arguments=bundle
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
             true
         }
-
+        draw_layout.menu.findItem(R.id.change_mpin).setOnMenuItemClickListener {
+            drawer.closeDrawer(GravityCompat.END)
+            bundle.putString("Key","Change_Mpin")
+            var supportFrag = SupportFragment()
+            supportFrag.arguments=bundle
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
+            true
+        }
+        draw_layout.menu.findItem(R.id.cab_driver_details).setOnMenuItemClickListener {
+            drawer.closeDrawer(GravityCompat.END)
+            bundle.putString("Key","Cab")
+            var supportFrag = SupportFragment()
+            supportFrag.arguments=bundle
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
+            true
+        }
+        vieww.setOnClickListener {
+            drawer.closeDrawer(GravityCompat.END)
+            bundle.putString("Key","Profile")
+            var supportFrag = SupportFragment()
+            supportFrag.arguments=bundle
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
+        }
         draw_layout.menu.findItem(R.id.logout).setOnMenuItemClickListener {
             drawer.closeDrawer(GravityCompat.END)
                 val alertDialog2 = AlertDialog.Builder(
@@ -304,6 +329,7 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
                 //       finish();
             true
         }
+
    }
 
 
