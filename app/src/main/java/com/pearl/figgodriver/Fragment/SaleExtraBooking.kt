@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.ScrollView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.pearl.figgodriver.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -36,6 +39,37 @@ class SaleExtraBooking : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_sale_extra_booking, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        var nav_bar = view.findViewById<BottomNavigationView>(R.id.saleExtra_navBar)
+        var upload = view.findViewById<ScrollView>(R.id.upload_booking_include)
+        var status =view.findViewById<FrameLayout>(R.id.status_include)
+        upload.visibility=View.VISIBLE
+        status.visibility=View.GONE
+        nav_bar.setOnItemSelectedListener {
+            when(it.itemId){
+                R.id.upload_booking->{
+                    upload.visibility=View.VISIBLE
+                    status.visibility=View.GONE
+                    true
+                }
+                R.id.sale_status->{
+                    upload.visibility=View.GONE
+                    status.visibility=View.VISIBLE
+                    childFragmentManager.beginTransaction().replace(R.id.status_include,allRideRS()).commit()
+                    true
+                }
+
+
+                else -> {
+                    true
+                }
+            }
+
+        }
+
     }
 
     companion object {
