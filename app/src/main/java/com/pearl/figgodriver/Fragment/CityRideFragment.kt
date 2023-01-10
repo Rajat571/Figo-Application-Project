@@ -64,7 +64,7 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
         ridelists.add(CityRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","",""))
         ridelists.add(CityRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","",""))
         cityRideListAdapter=CityRideListAdapter(requireContext(),ridelists)
-        binding.cityRideRecylerview.adapter
+        binding.cityRideRecylerview.adapter=cityRideListAdapter
 
 
         //get current location
