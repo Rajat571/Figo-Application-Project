@@ -310,6 +310,8 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
         }
         draw_layout.menu.findItem(R.id.figgo_bussiness).setOnMenuItemClickListener {
             drawer.closeDrawer(GravityCompat.END)
+            var salesFrag = SaleExtraBooking()
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,salesFrag).commit()
             true
         }
         vieww.setOnClickListener {
