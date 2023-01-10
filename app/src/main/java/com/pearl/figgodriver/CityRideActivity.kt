@@ -221,8 +221,9 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
                         if (statuss.equals(true)) {*/
                             var message=response.getString("message")
                             Toast.makeText(this@CityRideActivity, ""+message, Toast.LENGTH_LONG).show()
-                            startActivity(Intent(this,DriverDashBoard::class.java))
                             prefManager.setActiveRide(1)
+                            startActivity(Intent(this,DriverDashBoard::class.java))
+
                         //}
                         // Get your json response and convert it to whatever you want.
                     }, object : com.android.volley.Response.ErrorListener {
@@ -231,7 +232,6 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
                             Toast.makeText(this@CityRideActivity, "Something went wrong!", Toast.LENGTH_LONG).show()
                         }
                     })
-
                 {
                     @SuppressLint("SuspiciousIndentation")
                     @Throws(AuthFailureError::class)
@@ -242,11 +242,8 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
                         return headers
                     }
                 }
-
             queue.add(jsonOblect)
            // Toast.makeText(this,"Accepted",Toast.LENGTH_SHORT).show()
-
-
         }
     }
 

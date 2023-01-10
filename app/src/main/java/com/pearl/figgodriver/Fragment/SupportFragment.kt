@@ -4,25 +4,26 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.pearl.PrefManager
 import com.pearl.figgodriver.Adapter.BuisnessAdapter
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.model.BuisnessAd
 import kotlinx.android.synthetic.main.change_mpin.view.*
+import org.json.JSONObject
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -36,17 +37,14 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class SupportFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    lateinit var prefManager: PrefManager
+    lateinit var cab_type:Spinner
+    lateinit var model_type:Spinner
+    lateinit var year_list:Spinner
+    var hashMap : HashMap<String, Int> = HashMap<String, Int> ()
+    var modelHashMap  : HashMap<String, Int> = HashMap<String, Int> ()
+    var yearList= listOf<Int>()
+    var current_year:Int=0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,6 +65,7 @@ class SupportFragment : Fragment() {
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        prefManager= PrefManager(requireContext())
         var bundle = arguments
         var number = view.findViewById<LinearLayout>(R.id.call_us)
         var email = view.findViewById<LinearLayout>(R.id.email_us)
@@ -88,11 +87,12 @@ class SupportFragment : Fragment() {
         var about = view.findViewById<ConstraintLayout>(R.id.About_Nav)
         var terms = view.findViewById<ConstraintLayout>(R.id.Terms_Nav)
         var cancel = view.findViewById<ConstraintLayout>(R.id.Cancel_Nav)
+
         var profile = view.findViewById<LinearLayout>(R.id.Profile_Nav)
         val change_mpin_nav = view.findViewById<LinearLayout>(R.id.Change_MPIN_Nav)
         val cab_nav = view.findViewById<LinearLayout>(R.id.Cab_Nav)
-        var buisness_recylcer = view.findViewById<RecyclerView>(R.id.Buisness_Nav_Recycler)
         var str = bundle?.getString("Key")
+        var buisness_recylcer = view.findViewById<RecyclerView>(R.id.Buisness_Nav_Recycler)
 
 
         profile_pic = view.findViewById<ImageView>(R.id.change_profile_pic_image)
@@ -132,8 +132,8 @@ class SupportFragment : Fragment() {
             change_mpin_nav.visibility = View.GONE
             profile.visibility=View.GONE
             cab_nav.visibility=View.GONE
-            cancel.visibility=View.VISIBLE
             buisness_recylcer.visibility=View.GONE
+            cancel.visibility=View.VISIBLE
         }else if (str.equals("Profile")){
             support.visibility=View.GONE
             about.visibility=View.GONE
@@ -175,26 +175,18 @@ class SupportFragment : Fragment() {
             buisness_recylcer.visibility=View.VISIBLE
         }
 
-
-        pref = PrefManager(requireContext())
-        profileValidations(view)
-        mpinValidations(view)
+    pref = PrefManager(requireContext())
+       updateProfile(view)
+        updateMpin(view)
+        updateDriverCabDetails(view)
         figgoBuisness(view)
     }
 
-    private fun figgoBuisness(view: View) {
-        var buisness_recylcer = view.findViewById<RecyclerView>(R.id.Buisness_Nav_Recycler)
-        var data = ArrayList<BuisnessAd>()
-        data.add(BuisnessAd("https://www.youtube.com/watch?v=5twT0x6cvcg",R.drawable.figgodriverad))
-        data.add(BuisnessAd("https://www.youtube.com/watch?v=5twT0x6cvcg",R.drawable.figgodriverad))
-        data.add(BuisnessAd("https://www.youtube.com/watch?v=5twT0x6cvcg",R.drawable.figgodriverad))
-        data.add(BuisnessAd("https://www.youtube.com/watch?v=5twT0x6cvcg",R.drawable.figgodriverad))
-        data.add(BuisnessAd("https://www.youtube.com/watch?v=5twT0x6cvcg",R.drawable.figgodriverad))
-        buisness_recylcer.adapter=BuisnessAdapter(data,view)
-        buisness_recylcer.layoutManager = LinearLayoutManager(requireContext())
-    }
 
-    private fun mpinValidations(view: View) {
+
+
+
+    private fun updateMpin(view: View) {
         var mpin_done = view.findViewById<TextView>(R.id.mpin_done)
         var mpin_exit = view.findViewById<TextView>(R.id.mpin_exit)
         var mpin_old = view.findViewById<EditText>(R.id.old_mpin)
@@ -203,7 +195,7 @@ class SupportFragment : Fragment() {
 
     }
 
-    private fun profileValidations(view: View) {
+    private fun updateProfile(view: View) {
         var change = view.findViewById<ConstraintLayout>(R.id.change_profile_pic)
         var name = view.findViewById<EditText>(R.id.update_name)
         var vehicle_no = view.findViewById<EditText>(R.id.update_state)
@@ -223,23 +215,196 @@ class SupportFragment : Fragment() {
 
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SupportFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SupportFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+
+    private fun figgoBuisness(view: View) {
+        var buisness_recylcer = view.findViewById<RecyclerView>(R.id.Buisness_Nav_Recycler)
+        var data = ArrayList<BuisnessAd>()
+        data.add(BuisnessAd("https://www.youtube.com/watch?v=5twT0x6cvcg",R.drawable.figgodriverad))
+        data.add(BuisnessAd("https://www.youtube.com/watch?v=5twT0x6cvcg",R.drawable.figgodriverad))
+        data.add(BuisnessAd("https://www.youtube.com/watch?v=5twT0x6cvcg",R.drawable.figgodriverad))
+        data.add(BuisnessAd("https://www.youtube.com/watch?v=5twT0x6cvcg",R.drawable.figgodriverad))
+        data.add(BuisnessAd("https://www.youtube.com/watch?v=5twT0x6cvcg",R.drawable.figgodriverad))
+        buisness_recylcer.adapter= BuisnessAdapter(data,view)
+        buisness_recylcer.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+
+    private fun updateDriverCabDetails(view: View) {
+        var cab_category=view.findViewById<Spinner>(R.id.cab_category)
+       cab_type=view.findViewById(R.id.cab_type)
+        model_type=view.findViewById(R.id.model_type)
+        year_list=view.findViewById<Spinner>(R.id.year_list)
+
+
+
+
+
+        var adapter = ArrayAdapter.createFromResource(requireContext(),R.array.CabType,android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+        cab_category?.adapter = adapter
+        cab_category?.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                // Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
+                fetchCabCategory(position)
+
+
             }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // write code to perform some action
+            }
+        }
+
+
+        for(i in 2000..current_year)
+        {
+            yearList+=i
+
+            Log.d("Model year","Model year==="+i)
+        }
+
+        val dateadapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,yearList);
+        dateadapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+        year_list.adapter = dateadapter
+        year_list.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                // Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
+
+                val i = yearList[position]
+
+                //prefManager.setDriverVechleYear(i)
+                Log.d("Model year","Model year==="+i)
+                // Log.d("Model year","Model year==="+ prefManager.setDriverVechleType(position.toString()))
+
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // write code to perform some action
+            }
+        }
+
+
+    }
+
+    private fun fetchCabCategory(position: Int) {
+        hashMap.clear()
+        val URL = " https://test.pearl-developer.com/figo/api/f_category"
+        val queue = Volley.newRequestQueue(requireContext())
+        val json = JSONObject()
+        var token= prefManager.getToken()
+
+        json.put("type_id",position)
+
+        Log.d("SendData", "json===" + json)
+
+        val jsonOblect=
+            object : JsonObjectRequest(Method.POST, URL, json,
+                Response.Listener<JSONObject?> { response ->
+                    Log.d("SendData", "response===" + response)
+                    // Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
+                    if (response != null) {
+                        val status = response.getString("status")
+                        if(status.equals("1")){
+                            val jsonArray = response.getJSONArray("categories")
+                            for (i in 0..jsonArray.length()-1){
+                                val rec: JSONObject = jsonArray.getJSONObject(i)
+                                var name = rec.getString("name")
+                                var id = rec.getString("id")
+                                hashMap.put(name,id.toInt())
+                            }
+
+                            val cabcategoryadapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,hashMap.keys.toList());
+                            cabcategoryadapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+                            cab_type.adapter = cabcategoryadapter
+                            cab_type?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+
+                                    fetchModel(hashMap.values.toList()[position])
+                                   // prefManager.setDriverCabCategory(hashMap.values.toList()[position].toString())
+                                    Log.d("DriverCabCategory","DriverCabCategory==="+ prefManager.setDriverCabCategory(hashMap.values.toList()[position].toString()))
+
+
+                                }
+
+                                override fun onNothingSelected(parent: AdapterView<*>) {
+                                    hashMap.clear()
+                                }
+                            }
+                        }else{
+                        }
+
+
+                        Log.d("SendData", "json===" + json)
+
+
+                    }
+                    // Get your json response and convert it to whatever you want.
+                }, Response.ErrorListener {
+                    // Error
+                }){}
+        queue.add(jsonOblect)
+
+    }
+
+    private fun fetchModel(position: Int) {
+        modelHashMap.clear()
+        val URL = "https://test.pearl-developer.com/figo/api/f_model"
+        val queue = Volley.newRequestQueue(requireContext())
+        val json = JSONObject()
+        var token= prefManager.getToken()
+
+        json.put("category_id",position)
+
+        Log.d("SendData", "json===" + json)
+
+        val jsonOblect=
+            object : JsonObjectRequest(Method.POST, URL, json,
+                Response.Listener<JSONObject?> { response ->
+                    Log.d("SendData", "response===" + response)
+                    // Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
+                    if (response != null) {
+                        val status = response.getString("status")
+                        if(status.equals("1")){
+                            val jsonArray = response.getJSONArray("models")
+                            for (i in 0..jsonArray.length()-1){
+                                val rec: JSONObject = jsonArray.getJSONObject(i)
+                                var name = rec.getString("name")
+                                var id = rec.getString("id")
+                                modelHashMap.put(name,id.toInt())
+                            }
+
+                            val cabModeladapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,modelHashMap.keys.toList());
+                            cabModeladapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+                            model_type.adapter = cabModeladapter
+                            model_type?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                                    //  fetchModel(hashMap.values.toList()[position])
+                                    Log.d("SendData", "modelHashMap.values.toList()[position]===" + modelHashMap.values.toList()[position])
+                                   // prefManager.setDriverVechleModel(modelHashMap.values.toList()[position])
+                                    Log.d("DriverVechleModel","DriverVechleModel==="+  prefManager.setDriverVechleModel(modelHashMap.values.toList()[position]))
+                                }
+
+                                override fun onNothingSelected(parent: AdapterView<*>) {
+                                    modelHashMap.clear()
+                                }
+                            }
+                        }else{
+
+                        }
+
+
+                        Log.d("SendData", "json===" + json)
+
+
+                    }
+                    // Get your json response and convert it to whatever you want.
+                }, Response.ErrorListener {
+                    // Error
+                }){}
+        queue.add(jsonOblect)
+
     }
 }

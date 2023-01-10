@@ -56,7 +56,7 @@
         </LinearLayout>
 
 
-        <LinearLayout
+    <!--    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_15sdp"
@@ -64,14 +64,14 @@
             android:orientation="vertical"
             android:padding="@dimen/_5sdp">
 
-<!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:fontFamily="sans-serif-light"-->
-<!--                android:text="Name"-->
-<!--                android:textColor="@color/black"-->
-<!--                android:textSize="@dimen/_12sdp" />-->
+&lt;!&ndash;            <TextView&ndash;&gt;
+&lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;
+&lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;
+&lt;!&ndash;                android:layout_weight="1"&ndash;&gt;
+&lt;!&ndash;                android:fontFamily="sans-serif-light"&ndash;&gt;
+&lt;!&ndash;                android:text="Name"&ndash;&gt;
+&lt;!&ndash;                android:textColor="@color/black"&ndash;&gt;
+&lt;!&ndash;                android:textSize="@dimen/_12sdp" />&ndash;&gt;
 
             <EditText
                 android:id="@+id/update_name"
@@ -91,14 +91,14 @@
             android:orientation="vertical"
             android:padding="@dimen/_5sdp">
 
-<!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:fontFamily="sans-serif-light"-->
-<!--                android:text="State"-->
-<!--                android:textColor="@color/black"-->
-<!--                android:textSize="@dimen/_12sdp" />-->
+&lt;!&ndash;            <TextView&ndash;&gt;
+&lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;
+&lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;
+&lt;!&ndash;                android:layout_weight="1"&ndash;&gt;
+&lt;!&ndash;                android:fontFamily="sans-serif-light"&ndash;&gt;
+&lt;!&ndash;                android:text="State"&ndash;&gt;
+&lt;!&ndash;                android:textColor="@color/black"&ndash;&gt;
+&lt;!&ndash;                android:textSize="@dimen/_12sdp" />&ndash;&gt;
 
             <EditText
                 android:id="@+id/update_state"
@@ -118,14 +118,14 @@
             android:orientation="vertical"
             android:padding="@dimen/_5sdp">
 
-<!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:fontFamily="sans-serif-light"-->
-<!--                android:text="City"-->
-<!--                android:textColor="@color/black"-->
-<!--                android:textSize="@dimen/_12sdp" />-->
+&lt;!&ndash;            <TextView&ndash;&gt;
+&lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;
+&lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;
+&lt;!&ndash;                android:layout_weight="1"&ndash;&gt;
+&lt;!&ndash;                android:fontFamily="sans-serif-light"&ndash;&gt;
+&lt;!&ndash;                android:text="City"&ndash;&gt;
+&lt;!&ndash;                android:textColor="@color/black"&ndash;&gt;
+&lt;!&ndash;                android:textSize="@dimen/_12sdp" />&ndash;&gt;
 
             <EditText
                 android:id="@+id/update_city"
@@ -145,14 +145,14 @@
             android:orientation="vertical"
             android:padding="@dimen/_5sdp">
 
-<!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:fontFamily="sans-serif-light"-->
-<!--                android:text="Mobile No."-->
-<!--                android:textColor="@color/black"-->
-<!--                android:textSize="@dimen/_12sdp" />-->
+&lt;!&ndash;            <TextView&ndash;&gt;
+&lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;
+&lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;
+&lt;!&ndash;                android:layout_weight="1"&ndash;&gt;
+&lt;!&ndash;                android:fontFamily="sans-serif-light"&ndash;&gt;
+&lt;!&ndash;                android:text="Mobile No."&ndash;&gt;
+&lt;!&ndash;                android:textColor="@color/black"&ndash;&gt;
+&lt;!&ndash;                android:textSize="@dimen/_12sdp" />&ndash;&gt;
 
             <EditText
                 android:id="@+id/update_number"
@@ -172,14 +172,14 @@
             android:orientation="vertical"
             android:padding="@dimen/_5sdp">
 
-<!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:fontFamily="sans-serif-light"-->
-<!--                android:text="Email ID"-->
-<!--                android:textColor="@color/black"-->
-<!--                android:textSize="@dimen/_12sdp" />-->
+&lt;!&ndash;            <TextView&ndash;&gt;
+&lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;
+&lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;
+&lt;!&ndash;                android:layout_weight="1"&ndash;&gt;
+&lt;!&ndash;                android:fontFamily="sans-serif-light"&ndash;&gt;
+&lt;!&ndash;                android:text="Email ID"&ndash;&gt;
+&lt;!&ndash;                android:textColor="@color/black"&ndash;&gt;
+&lt;!&ndash;                android:textSize="@dimen/_12sdp" />&ndash;&gt;
 
             <EditText
                 android:id="@+id/update_email"
@@ -189,21 +189,231 @@
                 android:hint="Insurance Valid till"
                 android:padding="@dimen/_7sdp" />
 
-        </LinearLayout>
-
-
-        <Button
-            android:id="@+id/update_button"
+        </LinearLayout>-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cab_details_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_25sdp"
-            android:backgroundTint="#062635"
+            android:layout_margin="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/background_layout"
+            android:visibility="visible"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.745">
 
-            android:padding="@dimen/_10sdp"
-            android:text="Update"
-            android:textColor="@color/white" />
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/input_boder_profile"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <!-- <EditText
+                        android:id="@+id/vechle_type"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="Vehicle Type"
+                        android:padding="3dp"/>-->
+
+                        <Spinner
+                            android:id="@+id/cab_category"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/input_boder_profile"
+                        android:gravity="center"
+                        android:visibility="visible"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/cab_type"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/input_boder_profile"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+
+                        <Spinner
+                            android:id="@+id/model_type"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/input_boder_profile"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+
+
+                        <Spinner
+                            android:layout_width="match_parent"
+                            android:id="@+id/year_list"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp">
+
+                        <EditText
+                            android:background="@drawable/input_boder_profile"
+                            android:id="@+id/vechle_no"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="13sp"
+                            android:padding="15dp"
+                            android:hint="Vechle No." />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:visibility="gone"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp">
+
+                        <EditText
+                            android:background="@drawable/input_boder_profile"
+                            android:id="@+id/registration_no"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="13sp"
+                            android:padding="15dp"
+                            android:hint="Registration No." />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp">
+
+                        <EditText
+                            android:background="@drawable/input_boder_profile"
+                            android:id="@+id/insurance_no"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:cursorVisible="false"
+                            android:drawableEnd="@drawable/ic_baseline_calendar_month_24"
+                            android:focusable="false"
+                            android:textSize="13sp"
+                            android:padding="10dp"
+                            android:focusableInTouchMode="false"
+                            android:hint="Insurance valid up to" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp">
+
+                        <EditText
+                            android:background="@drawable/input_boder_profile"
+                            android:id="@+id/tax_permit_no"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:cursorVisible="false"
+                            android:drawableEnd="@drawable/ic_baseline_calendar_month_24"
+                            android:focusable="false"
+                            android:textSize="13sp"
+                            android:padding="10dp"
+                            android:focusableInTouchMode="false"
+                            android:hint="Local Permit valid up to" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="10dp">
+
+                        <EditText
+                            android:background="@drawable/input_boder_profile"
+                            android:id="@+id/national_permit_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:cursorVisible="false"
+                            android:drawableEnd="@drawable/ic_baseline_calendar_month_24"
+                            android:focusable="false"
+                            android:textSize="13sp"
+                            android:padding="10dp"
+                            android:focusableInTouchMode="false"
+                            android:hint="National Permit valid up to" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/update_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="@dimen/_7sdp"
+                        android:backgroundTint="#062635"
+                        android:padding="@dimen/_10sdp"
+                        android:text="Update"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+            </ScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -139,6 +139,7 @@ class MyService : Service() {
                         json.put("lat",""+lat.toString())
                         json.put("lng",""+lon.toString())
                         json.put("name",""+addressName)
+                        Log.d("MY_SERVICE == ","json "+json)
                        //Toast.makeText(this,""+PrefManager(this).getToken(),Toast.LENGTH_SHORT).show()
                       /*  Log.d("Response == ","TokenData"+ prefManager.getToken())*/
                         val jsonObject=  object : JsonObjectRequest(
