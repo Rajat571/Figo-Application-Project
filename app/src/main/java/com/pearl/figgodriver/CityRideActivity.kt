@@ -148,7 +148,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
             Places.initialize(applicationContext.applicationContext,apiKey)
         }
 
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.RTXmap) as SupportMapFragment
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.RTXAmap) as SupportMapFragment
         mapFragment.getMapAsync(this)
         mapFragment.getMapAsync {
             mMap = it
@@ -220,8 +220,8 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
                             var message=response.getString( "message")
                             Toast.makeText(this@CityRideActivity, ""+message, Toast.LENGTH_LONG).show()
 
-                            //prefManager.setActiveRide(1)
-                           // startActivity(Intent(this,DriverDashBoard::class.java))
+                            prefManager.setActiveRide(1)
+                            startActivity(Intent(this,DriverDashBoard::class.java))
 
 
                     }, object : com.android.volley.Response.ErrorListener {

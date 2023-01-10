@@ -161,11 +161,11 @@
 
     </androidx.cardview.widget.CardView>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="3dp"
-        android:background="@color/orange"
-        android:orientation="horizontal"
-        android:padding="3dp" />
+<!--    <View-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="2dp"-->
+<!--        android:layout_marginTop="3dp"-->
+<!--        android:background="@color/orange"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:padding="3dp" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -209,7 +209,7 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
         if (prefManager.getActiveRide()==1){
             x=1
             topLayout.top_back.text="Back"
-            supportFragmentManager.beginTransaction().replace(R.id.home_frame,ActiveRide()).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,CustomerCityRideDetails()).commit()
         }
         else{
             x=2
