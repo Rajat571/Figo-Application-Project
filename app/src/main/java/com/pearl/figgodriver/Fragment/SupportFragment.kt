@@ -1,5 +1,6 @@
 package com.pearl.figgodriver.Fragment
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -59,6 +60,7 @@ class SupportFragment : Fragment() {
         // upload()
 
     }
+    @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var bundle = arguments
@@ -84,13 +86,13 @@ class SupportFragment : Fragment() {
         var cancel = view.findViewById<ConstraintLayout>(R.id.Cancel_Nav)
 
         var profile = view.findViewById<LinearLayout>(R.id.Profile_Nav)
-        var change_mpin_nav = view.findViewById<ConstraintLayout>(R.id.Change_MPIN_Nav)
-        var cab_nav = view.findViewById<ConstraintLayout>(R.id.Cab_Nav)
-
+        val change_mpin_nav = view.findViewById<LinearLayout>(R.id.Change_MPIN_Nav)
+        val cab_nav = view.findViewById<LinearLayout>(R.id.Cab_Nav)
+        var str = bundle?.getString("Key")
 
 
         profile_pic = view.findViewById<ImageView>(R.id.change_profile_pic_image)
-        if(bundle?.getString("Key").equals("About")){
+        if(str.equals("About")){
         val myWebView: WebView = view.findViewById(R.id.about_wv)
             support.visibility=View.GONE
             about.visibility=View.VISIBLE
@@ -100,7 +102,7 @@ class SupportFragment : Fragment() {
             change_mpin_nav.visibility = View.GONE
             cab_nav.visibility=View.GONE
         myWebView.loadUrl("https://figgocabs.com/about/")
-    }else if (bundle?.getString("Key").equals("Support")){
+    }else if (str.equals("Support")){
             support.visibility=View.VISIBLE
             about.visibility=View.GONE
             terms.visibility=View.GONE
@@ -108,7 +110,7 @@ class SupportFragment : Fragment() {
             profile.visibility=View.GONE
             cab_nav.visibility=View.GONE
             change_mpin_nav.visibility = View.GONE
-        }else if (bundle?.getString("Key").equals("Terms")){
+        }else if (str.equals("Terms")){
             support.visibility=View.GONE
             about.visibility=View.GONE
             terms.visibility=View.VISIBLE
@@ -116,7 +118,7 @@ class SupportFragment : Fragment() {
             change_mpin_nav.visibility = View.GONE
             cab_nav.visibility=View.GONE
             profile.visibility=View.GONE
-        }else if (bundle?.getString("Key").equals("Cancel")){
+        }else if (str.equals("Cancel")){
             support.visibility=View.GONE
             about.visibility=View.GONE
             terms.visibility=View.GONE
@@ -124,7 +126,7 @@ class SupportFragment : Fragment() {
             profile.visibility=View.GONE
             cab_nav.visibility=View.GONE
             cancel.visibility=View.VISIBLE
-        }else if (bundle?.getString("Key").equals("Profile")){
+        }else if (str.equals("Profile")){
             support.visibility=View.GONE
             about.visibility=View.GONE
             terms.visibility=View.GONE
@@ -133,7 +135,7 @@ class SupportFragment : Fragment() {
             cancel.visibility=View.GONE
             profile.visibility=View.VISIBLE
         }
-        else if(bundle?.getString("key").equals("Change_Mpin")){
+        else if(str.equals("Change_Mpin")){
             support.visibility=View.GONE
             about.visibility=View.GONE
             terms.visibility=View.GONE
@@ -142,7 +144,7 @@ class SupportFragment : Fragment() {
             profile.visibility=View.GONE
             change_mpin_nav.visibility = View.VISIBLE
         }
-        else if(bundle?.getString("key").equals("Cab")){
+        else if(str.equals("Cab")){
             support.visibility=View.GONE
             about.visibility=View.GONE
             terms.visibility=View.GONE
@@ -150,14 +152,11 @@ class SupportFragment : Fragment() {
             profile.visibility=View.GONE
             change_mpin_nav.visibility = View.GONE
             cab_nav.visibility=View.VISIBLE
-
         }
 
     pref = PrefManager(requireContext())
-
         profileValidations(view)
         mpinValidations(view)
-
     }
 
     private fun mpinValidations(view: View) {

@@ -284,7 +284,7 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
             true
         }
-        draw_layout.menu.findItem(R.id.change_mpin).setOnMenuItemClickListener {
+        draw_layout.menu.findItem(R.id.change_mpin_navigation).setOnMenuItemClickListener {
             drawer.closeDrawer(GravityCompat.END)
             bundle.putString("Key","Change_Mpin")
             var supportFrag = SupportFragment()
@@ -292,7 +292,7 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
             true
         }
-        draw_layout.menu.findItem(R.id.cab_driver_details).setOnMenuItemClickListener {
+        draw_layout.menu.findItem(R.id.cab_driver_details_navigation).setOnMenuItemClickListener {
             drawer.closeDrawer(GravityCompat.END)
             bundle.putString("Key","Cab")
             var supportFrag = SupportFragment()

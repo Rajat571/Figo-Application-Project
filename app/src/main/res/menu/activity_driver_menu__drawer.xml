@@ -9,14 +9,12 @@
                 android:id="@+id/profile"
                 android:title="Profile" />
     <item
-        android:id="@+id/change_mpin"
+        android:id="@+id/change_mpin_navigation"
         android:title="Change Mpin" />
             <item
-                android:id="@+id/cab_driver_details"
+                android:id="@+id/cab_driver_details_navigation"
                 android:title="Driver cab" />
-            <item
-                android:id="@+id/offer_plan"
-                android:title="Driver details" />
+
             <item
                 android:id="@+id/figgo_bussiness"
                 android:title="Figgo_business"/>
