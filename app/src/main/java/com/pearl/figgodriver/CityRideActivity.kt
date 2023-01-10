@@ -56,6 +56,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
     var des_lat:Double=0.0
     var des_long:Double=0.0
     var ride_id:Int=0
+    var ride_request_id:Int=0
     var customer_booking_id:String=""
     private var originLatitude: Double =30.28401063526107
     private var originLongitude: Double = 77.99210085398012
@@ -79,12 +80,13 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
         des_lat=intent.getStringExtra("des_lat")!!.toDouble()
         des_long=intent.getStringExtra("des_long")!!.toDouble()
          ride_id=intent.getStringExtra("ride_id")!!.toInt()
-        Log.d("CityRideActivity","ride_id====="+ride_id)
+        ride_request_id=intent.getStringExtra("ride_request_id")!!.toInt()
+        Log.d("CityRideActivity","ride_id====="+ride_request_id)
         binding.cityRideAddress.text=address_to
         binding.cityRideDate.text=date
         binding.cityRideTime.text=time
 
-        Log.d("SEND DATA","LOCATION_DATA====="+address_to.toString()+"\n"+current_lat.toString()+"\n"+current_long+"\n"+customer_booking_id+"\n"+ride_id)
+        Log.d("SEND DATA","LOCATION_DATA====="+address_to.toString()+"\n"+current_lat.toString()+"\n"+current_long+"\n"+customer_booking_id+"\n"+ride_id+"\n"+ride_request_id)
 
         baseClass=object :BaseClass(){
             override fun setLayoutXml() {
@@ -163,10 +165,10 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
     }
     private fun initializeClickListners() {
         binding.rejectCityRideBtn.setOnClickListener {
-            var url="https://test.pearl-developer.com/figo/api/driver-ride/accept-city-ride-request"
+            var url="https://test.pearl-developer.com/figo/api/driver-ride/reject-city-ride-request"
             var queue=Volley.newRequestQueue(this)
             var json=JSONObject()
-            json.put("ride_id",ride_id)
+            json.put("ride_request_id",ride_request_id)
 
             val jsonOblect: JsonObjectRequest =
                 object : JsonObjectRequest(Method.POST, url,json,
@@ -175,7 +177,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
                         /*  var statuss=response.getString("status")
                           if (statuss.equals(true)) {*/
                         var message=response.getString("message")
-                        Toast.makeText(this@CityRideActivity, ""+message, Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@CityRideActivity, "rejected"+message, Toast.LENGTH_LONG).show()
                         finish()
                         //}
                         // Get your json response and convert it to whatever you want.
@@ -220,8 +222,34 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
                             var message=response.getString( "message")
                             Toast.makeText(this@CityRideActivity, ""+message, Toast.LENGTH_LONG).show()
 
-                            prefManager.setActiveRide(1)
-                            startActivity(Intent(this,DriverDashBoard::class.java))
+                        var data=response.getJSONObject( "data")
+                        var ride=response.getJSONObject("data").getJSONObject("ride")
+                        var id=ride.getString("id")
+                        Log.d("CityRideActivity", "id===" + id)
+
+                        var to_location=response.getJSONObject("data").getJSONObject( "ride").getJSONObject( "to_location")
+                        var to_location_lat=to_location.getString("lat")
+                        var to_location_long=to_location.getString("lng")
+                        var address_name=to_location.getString("name")
+                        Log.d("SendData", "to_location" + to_location_lat+"\n"+to_location_long+"\n"+address_name)
+
+                        var from_location=response.getJSONObject("data").getJSONObject( "ride").getJSONObject( "from_location")
+                        var from_location_lat=from_location.getString("lat")
+                        var from_location_long=from_location.getString("lng")
+                        var from_name=from_location.getString("name")
+                        Log.d("SendData", "to_location" + from_location_lat+"\n"+from_location_long+"\n"+from_name)
+
+                        var date_only=ride.getString("date_only")
+                        var time_only=ride.getString( "time_only")
+                        var customer=response.getJSONObject("data").getJSONObject("customer")
+                        var customer_id=customer.getString("id")
+                        var customer_name=customer.getString( "name")
+                        var customer_contact=customer.getString( "contact_no")
+
+
+
+                            //prefManager.setActiveRide(1)
+                           // startActivity(Intent(this,DriverDashBoard::class.java))
 
 
                     }, object : com.android.volley.Response.ErrorListener {

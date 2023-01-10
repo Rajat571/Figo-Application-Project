@@ -55,26 +55,19 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        submitForm(view)
+       // submitForm(view)
         binding.cityRideRecylerview.layoutManager=LinearLayoutManager(requireContext())
 
-/*
-        ridelists.add(CityRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100"))
-        ridelists.add(CityRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100"))
-        ridelists.add(CityRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100"))
-        ridelists.add(CityRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100"))
-        ridelists.add(CityRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100"))
+        ridelists.add(CityRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","",""))
+        ridelists.add(CityRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","",""))
+        ridelists.add(CityRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","",""))
+        ridelists.add(CityRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","",""))
+        ridelists.add(CityRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","",""))
         cityRideListAdapter=CityRideListAdapter(requireContext(),ridelists)
-        binding.cityRideRecylerview.adapter=cityRideListAdapter
-*/
-
+        binding.cityRideRecylerview.adapter
 
 
         //get current location
-
-
-
-
 
 
  /*       var accept_city_ride_btn=view.findViewById<TextView>(R.id.accept_city_ride_btn)
@@ -128,12 +121,13 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
                             Log.d("SendData", "data===" + data)
                             var data1=response.getJSONArray("ride_requests").getJSONObject(i)
                             var ride_id=data1.getString( "ride_id")
-                            Log.d("SendData", "ride_request" + ride_id)
+                            var ride_request_id=data1.getString( "id")
+                            Log.d("SendData", "ride_request" + ride_request_id)
 
-
+/*
                             var ride_detail=response.getJSONArray("ride_requests").getJSONObject(i).getJSONObject( "ride_detail")
                             var booking_id=ride_detail.getString( "booking_id")
-                            Log.d("SendData", "booking_id" + booking_id)
+                            Log.d("SendData", "booking_id" + booking_id)*/
 
                             var to_location=response.getJSONArray("ride_requests").getJSONObject(i).getJSONObject( "ride_detail").getJSONObject( "to_location")
 
@@ -151,14 +145,14 @@ class CityRideFragment : Fragment(),OnMapReadyCallback {
                             var from_name=from_location.getString("name")
                             Log.d("SendData", "to_location" + from_location_lat+"\n"+from_location_long+"\n"+from_name)
 
-                            var date_only=ride_detail.getString("date_only")
+                         /*   var date_only=ride_detail.getString("date_only")
                             var time_only=ride_detail.getString( "time_only")
-                            Log.d("SendData", "date_only" + time_only)
+                            Log.d("SendData", "date_only" + time_only)*/
 
                            // var fare_price=response.getJSONArray("rides").getJSONObject(i).getJSONObject("price")
                             var price=data1.getString( "price")
                             Log.d("SendData", "price" + price)
-                            ridelists.add(CityRidesList(date_only,time_only,booking_id,address_name,from_name,price,from_location_lat,from_location_long,to_location_lat,to_location_long,ride_id))
+                          //  ridelists.add(CityRidesList(date_only,time_only,booking_id,address_name,from_name,price,from_location_lat,from_location_long,to_location_lat,to_location_long,ride_id,ride_request_id))
                         }
                         cityRideListAdapter=CityRideListAdapter(requireContext(),ridelists)
                         binding.cityRideRecylerview.adapter=cityRideListAdapter

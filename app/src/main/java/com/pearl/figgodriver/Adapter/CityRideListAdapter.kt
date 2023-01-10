@@ -45,7 +45,8 @@ class CityRideListAdapter(var context:Context,var ridelist:List<CityRidesList>):
                     .putExtra("des_lat",data.des_lat)
                     .putExtra("des_long",data.des_long)
                     .putExtra("customer_booking_id",data.cutomer_name)
-                    .putExtra("ride_id",data.ride_id))
+                    .putExtra("ride_id",data.ride_id)
+                    .putExtra("ride_request_id",data.ride_request_id))
 
         }
     }
