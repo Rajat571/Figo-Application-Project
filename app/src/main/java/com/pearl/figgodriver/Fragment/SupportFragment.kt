@@ -16,8 +16,12 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.pearl.PrefManager
+import com.pearl.figgodriver.Adapter.BuisnessAdapter
 import com.pearl.figgodriver.R
+import com.pearl.figgodriver.model.BuisnessAd
 import kotlinx.android.synthetic.main.change_mpin.view.*
 
 
@@ -84,10 +88,10 @@ class SupportFragment : Fragment() {
         var about = view.findViewById<ConstraintLayout>(R.id.About_Nav)
         var terms = view.findViewById<ConstraintLayout>(R.id.Terms_Nav)
         var cancel = view.findViewById<ConstraintLayout>(R.id.Cancel_Nav)
-
         var profile = view.findViewById<LinearLayout>(R.id.Profile_Nav)
         val change_mpin_nav = view.findViewById<LinearLayout>(R.id.Change_MPIN_Nav)
         val cab_nav = view.findViewById<LinearLayout>(R.id.Cab_Nav)
+        var buisness_recylcer = view.findViewById<RecyclerView>(R.id.Buisness_Nav_Recycler)
         var str = bundle?.getString("Key")
 
 
@@ -101,6 +105,7 @@ class SupportFragment : Fragment() {
             profile.visibility=View.GONE
             change_mpin_nav.visibility = View.GONE
             cab_nav.visibility=View.GONE
+            buisness_recylcer.visibility=View.GONE
         myWebView.loadUrl("https://figgocabs.com/about/")
     }else if (str.equals("Support")){
             support.visibility=View.VISIBLE
@@ -109,6 +114,7 @@ class SupportFragment : Fragment() {
             cancel.visibility=View.GONE
             profile.visibility=View.GONE
             cab_nav.visibility=View.GONE
+            buisness_recylcer.visibility=View.GONE
             change_mpin_nav.visibility = View.GONE
         }else if (str.equals("Terms")){
             support.visibility=View.GONE
@@ -118,6 +124,7 @@ class SupportFragment : Fragment() {
             change_mpin_nav.visibility = View.GONE
             cab_nav.visibility=View.GONE
             profile.visibility=View.GONE
+            buisness_recylcer.visibility=View.GONE
         }else if (str.equals("Cancel")){
             support.visibility=View.GONE
             about.visibility=View.GONE
@@ -126,6 +133,7 @@ class SupportFragment : Fragment() {
             profile.visibility=View.GONE
             cab_nav.visibility=View.GONE
             cancel.visibility=View.VISIBLE
+            buisness_recylcer.visibility=View.GONE
         }else if (str.equals("Profile")){
             support.visibility=View.GONE
             about.visibility=View.GONE
@@ -134,6 +142,7 @@ class SupportFragment : Fragment() {
             cab_nav.visibility=View.GONE
             cancel.visibility=View.GONE
             profile.visibility=View.VISIBLE
+            buisness_recylcer.visibility=View.GONE
         }
         else if(str.equals("Change_Mpin")){
             support.visibility=View.GONE
@@ -143,6 +152,7 @@ class SupportFragment : Fragment() {
             cab_nav.visibility=View.GONE
             profile.visibility=View.GONE
             change_mpin_nav.visibility = View.VISIBLE
+            buisness_recylcer.visibility=View.GONE
         }
         else if(str.equals("Cab")){
             support.visibility=View.GONE
@@ -152,11 +162,36 @@ class SupportFragment : Fragment() {
             profile.visibility=View.GONE
             change_mpin_nav.visibility = View.GONE
             cab_nav.visibility=View.VISIBLE
+            buisness_recylcer.visibility=View.GONE
+        }
+        else if(str.equals("Buisness")){
+            support.visibility=View.GONE
+            about.visibility=View.GONE
+            terms.visibility=View.GONE
+            cancel.visibility=View.GONE
+            profile.visibility=View.GONE
+            change_mpin_nav.visibility = View.GONE
+            cab_nav.visibility=View.GONE
+            buisness_recylcer.visibility=View.VISIBLE
         }
 
-    pref = PrefManager(requireContext())
+
+        pref = PrefManager(requireContext())
         profileValidations(view)
         mpinValidations(view)
+        figgoBuisness(view)
+    }
+
+    private fun figgoBuisness(view: View) {
+        var buisness_recylcer = view.findViewById<RecyclerView>(R.id.Buisness_Nav_Recycler)
+        var data = ArrayList<BuisnessAd>()
+        data.add(BuisnessAd("https://www.youtube.com/watch?v=5twT0x6cvcg",R.drawable.figgodriverad))
+        data.add(BuisnessAd("https://www.youtube.com/watch?v=5twT0x6cvcg",R.drawable.figgodriverad))
+        data.add(BuisnessAd("https://www.youtube.com/watch?v=5twT0x6cvcg",R.drawable.figgodriverad))
+        data.add(BuisnessAd("https://www.youtube.com/watch?v=5twT0x6cvcg",R.drawable.figgodriverad))
+        data.add(BuisnessAd("https://www.youtube.com/watch?v=5twT0x6cvcg",R.drawable.figgodriverad))
+        buisness_recylcer.adapter=BuisnessAdapter(data,view)
+        buisness_recylcer.layoutManager = LinearLayoutManager(requireContext())
     }
 
     private fun mpinValidations(view: View) {

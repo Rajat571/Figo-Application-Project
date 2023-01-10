@@ -300,6 +300,18 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
             true
         }
+        draw_layout.menu.findItem(R.id.figgo_bussiness).setOnMenuItemClickListener {
+            drawer.closeDrawer(GravityCompat.END)
+            bundle.putString("Key","Buisness")
+            var supportFrag = SupportFragment()
+            supportFrag.arguments=bundle
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
+            true
+        }
+        draw_layout.menu.findItem(R.id.figgo_bussiness).setOnMenuItemClickListener {
+            drawer.closeDrawer(GravityCompat.END)
+            true
+        }
         vieww.setOnClickListener {
             drawer.closeDrawer(GravityCompat.END)
             bundle.putString("Key","Profile")

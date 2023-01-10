@@ -17,10 +17,10 @@
 
             <item
                 android:id="@+id/figgo_bussiness"
-                android:title="Figgo_business"/>
+                android:title="Figgo Business"/>
             <item
-                android:id="@+id/investment"
-                android:title="Invetment"/>
+                android:id="@+id/saleRideExtra"
+                android:title="Sale Extra Ride"/>
             <item
                 android:id="@+id/wallets"
                 android:title="Wallets"/>
