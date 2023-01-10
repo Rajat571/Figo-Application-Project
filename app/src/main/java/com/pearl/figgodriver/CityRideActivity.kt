@@ -55,6 +55,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
     var current_long:Double=0.0
     var des_lat:Double=0.0
     var des_long:Double=0.0
+    var ride_id:Int=0
     var customer_booking_id:String=""
     private var originLatitude: Double =30.28401063526107
     private var originLongitude: Double = 77.99210085398012
@@ -77,12 +78,13 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
         current_long=intent.getStringExtra("current_long")!!.toDouble()
         des_lat=intent.getStringExtra("des_lat")!!.toDouble()
         des_long=intent.getStringExtra("des_long")!!.toDouble()
-
+         ride_id=intent.getStringExtra("ride_id")!!.toInt()
+        Log.d("CityRideActivity","ride_id====="+ride_id)
         binding.cityRideAddress.text=address_to
         binding.cityRideDate.text=date
         binding.cityRideTime.text=time
 
-        Log.d("SEND DATA","LOCATION_DATA====="+address_to.toString()+"\n"+current_lat.toString()+"\n"+current_long+"\n"+customer_booking_id)
+        Log.d("SEND DATA","LOCATION_DATA====="+address_to.toString()+"\n"+current_lat.toString()+"\n"+current_long+"\n"+customer_booking_id+"\n"+ride_id)
 
         baseClass=object :BaseClass(){
             override fun setLayoutXml() {
@@ -161,12 +163,10 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
     }
     private fun initializeClickListners() {
         binding.rejectCityRideBtn.setOnClickListener {
-            var url="https://test.pearl-developer.com/figo/api/test/get-booking-status"
+            var url="https://test.pearl-developer.com/figo/api/driver-ride/accept-city-ride-request"
             var queue=Volley.newRequestQueue(this)
             var json=JSONObject()
-            json.put("customer_booking_id",customer_booking_id)
-            json.put("status",0)
-
+            json.put("ride_id",ride_id)
 
             val jsonOblect: JsonObjectRequest =
                 object : JsonObjectRequest(Method.POST, url,json,
@@ -207,25 +207,23 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
 
         binding.acceptCityRideBtn.setOnClickListener {
 
-            var url="https://test.pearl-developer.com/figo/api/test/get-booking-status"
+            var url="https://test.pearl-developer.com/figo/api/driver-ride/accept-city-ride-request"
             var queue=Volley.newRequestQueue(this)
             var json=JSONObject()
-            json.put("customer_booking_id",customer_booking_id)
-           json.put("status",1)
+            json.put("ride_id",ride_id)
 
             val jsonOblect: JsonObjectRequest =
                 object : JsonObjectRequest(Method.POST, url,json,
                     com.android.volley.Response.Listener<JSONObject?> { response ->
                         Log.d("CityRideActivity", "Accept status response===" + response)
-                      /*  var statuss=response.getString("status")
-                        if (statuss.equals(true)) {*/
-                            var message=response.getString("message")
-                            Toast.makeText(this@CityRideActivity, ""+message, Toast.LENGTH_LONG).show()
-                            prefManager.setActiveRide(1)
-                            startActivity(Intent(this,DriverDashBoard::class.java))
 
-                        //}
-                        // Get your json response and convert it to whatever you want.
+                            var message=response.getString( "message")
+                            Toast.makeText(this@CityRideActivity, ""+message, Toast.LENGTH_LONG).show()
+
+                            //prefManager.setActiveRide(1)
+                           // startActivity(Intent(this,DriverDashBoard::class.java))
+
+
                     }, object : com.android.volley.Response.ErrorListener {
                         override fun onErrorResponse(error: VolleyError?) {
                             Log.d("CityRideActivity", "error===" + error)

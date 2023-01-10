@@ -10,5 +10,6 @@ data class CityRidesList(
     var current_lat:String,
     var current_long:String,
     var des_lat:String,
-    var des_long:String
+    var des_long:String,
+    var ride_id:String
 )
