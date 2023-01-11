@@ -1,16 +1,27 @@
 package com.pearl.figgodriver.Fragment
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.StrictMode
+import android.os.StrictMode.VmPolicy
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -26,14 +37,12 @@ import com.pearl.figgodriver.databinding.FragmentDriverCabDetailsBinding
 import com.pearl.figgodriver.model.SpinnerObj
 import com.pearl.pearllib.BaseClass
 import com.pearl.pearllib.BasePrivate
-
 import kotlinx.android.synthetic.main.cancel_ride_dialog.*
 import kotlinx.android.synthetic.main.fragment_driver_cab_details.*
 import org.json.JSONObject
+import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 
 class DriverCabDetailsFragment : Fragment() {
@@ -71,6 +80,7 @@ class DriverCabDetailsFragment : Fragment() {
     var aadhar_front_ext:String=""
      var aadhar_back_ext:String=""
     var police_certification_ext:String=""
+    var gps_certification_ext:String=""
 
    var driver_profile:String=""
    var driving_license:String=""
@@ -82,6 +92,7 @@ class DriverCabDetailsFragment : Fragment() {
      var aadhar_front:String=""
      var aadhar_back:String=""
    var police_certification:String=""
+   var gps_certification:String=""
 
 
 
@@ -143,7 +154,8 @@ class DriverCabDetailsFragment : Fragment() {
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val builder = VmPolicy.Builder()
+        StrictMode.setVmPolicy(builder.build())
         prefManager = PrefManager(requireContext())
         initializeViews(view)
         initializeClickListners(view)
@@ -215,72 +227,330 @@ class DriverCabDetailsFragment : Fragment() {
         binding.nationalPermitDate.setOnClickListener {
             calendar(binding.nationalPermitDate)
         }
+        val optionsMenu = arrayOf<CharSequence>(
+            "Take Photo",
+            "Choose from Gallery",
+            "Exit"
+        )
+        val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+
 
         binding.selfiee.setOnClickListener {
-            var intent=Intent()
-            intent.type="image/*"
-            intent.action=Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent,"select Picture"),1)
+
+         //   base.checkAndRequestPermissions(requireActivity())
+
+
+                // set the items in builder
+                builder.setItems(optionsMenu,
+                    DialogInterface.OnClickListener { dialogInterface, i ->
+                        if (optionsMenu[i] == "Take Photo") {
+                            // Create the camera_intent ACTION_IMAGE_CAPTURE it will open the camera for capture the image
+                            val camera_intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+                                Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                            } else {
+                                TODO("VERSION.SDK_INT < CUPCAKE")
+                            }
+                            // Start the activity with camera_intent, and request pic id
+                            startActivityForResult(camera_intent, 1)
+
+
+
+                        } else if (optionsMenu[i] == "Choose from Gallery") {
+                            // choose from  external storage
+                            var intent=Intent()
+                            intent.type="image/*"
+                            intent.action=Intent.ACTION_GET_CONTENT
+                            startActivityForResult(Intent.createChooser(intent,"select Picture"),2)
+                        } else if (optionsMenu[i] == "Exit") {
+                            dialogInterface.dismiss()
+                        }
+                    })
+                builder.show()
+
         }
         binding.drivingLicence.setOnClickListener {
-            var intent=Intent()
-            intent.type="image/*"
-            intent.action=Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent,"select Picture"),2)
+
+            // set the items in builder
+            builder.setItems(optionsMenu,
+                DialogInterface.OnClickListener { dialogInterface, i ->
+                    if (optionsMenu[i] == "Take Photo") {
+                        // Create the camera_intent ACTION_IMAGE_CAPTURE it will open the camera for capture the image
+                        val camera_intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+                            Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        } else {
+                            TODO("VERSION.SDK_INT < CUPCAKE")
+                        }
+                        // Start the activity with camera_intent, and request pic id
+                        startActivityForResult(camera_intent, 3)
+
+
+
+                    } else if (optionsMenu[i] == "Choose from Gallery") {
+                        // choose from  external storage
+                        var intent=Intent()
+                        intent.type="image/*"
+                        intent.action=Intent.ACTION_GET_CONTENT
+                        startActivityForResult(Intent.createChooser(intent,"select Picture"),4)
+                    } else if (optionsMenu[i] == "Exit") {
+                        dialogInterface.dismiss()
+                    }
+                })
+            builder.show()
+
         }
         binding.cabInsurance.setOnClickListener {
-            var intent=Intent()
-            intent.type="image/*"
-            intent.action=Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent,"select Picture"),3)
+
+            // set the items in builder
+            builder.setItems(optionsMenu,
+                DialogInterface.OnClickListener { dialogInterface, i ->
+                    if (optionsMenu[i] == "Take Photo") {
+                        // Create the camera_intent ACTION_IMAGE_CAPTURE it will open the camera for capture the image
+                        val camera_intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+                            Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        } else {
+                            TODO("VERSION.SDK_INT < CUPCAKE")
+                        }
+                        // Start the activity with camera_intent, and request pic id
+                        startActivityForResult(camera_intent, 5)
+
+
+
+                    } else if (optionsMenu[i] == "Choose from Gallery") {
+                        // choose from  external storage
+                        var intent=Intent()
+                        intent.type="image/*"
+                        intent.action=Intent.ACTION_GET_CONTENT
+                        startActivityForResult(Intent.createChooser(intent,"select Picture"),6)
+                    } else if (optionsMenu[i] == "Exit") {
+                        dialogInterface.dismiss()
+                    }
+                })
+            builder.show()
+
         }
         binding.registrationCertificate.setOnClickListener {
-            var intent=Intent()
-            intent.type="image/*"
-            intent.action=Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent,"select Picture"),4)
+            builder.setItems(optionsMenu,
+                DialogInterface.OnClickListener { dialogInterface, i ->
+                    if (optionsMenu[i] == "Take Photo") {
+                        // Create the camera_intent ACTION_IMAGE_CAPTURE it will open the camera for capture the image
+                        val camera_intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+                            Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        } else {
+                            TODO("VERSION.SDK_INT < CUPCAKE")
+                        }
+                        // Start the activity with camera_intent, and request pic id
+                        startActivityForResult(camera_intent, 7)
+
+
+
+                    } else if (optionsMenu[i] == "Choose from Gallery") {
+                        // choose from  external storage
+                        var intent=Intent()
+                        intent.type="image/*"
+                        intent.action=Intent.ACTION_GET_CONTENT
+                        startActivityForResult(Intent.createChooser(intent,"select Picture"),8)
+                    } else if (optionsMenu[i] == "Exit") {
+                        dialogInterface.dismiss()
+                    }
+                })
+            builder.show()
         }
         binding.nationalPermitImg.setOnClickListener {
-            var intent=Intent()
-            intent.type="image/*"
-            intent.action=Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent,"select Picture"),5)
+            builder.setItems(optionsMenu,
+                DialogInterface.OnClickListener { dialogInterface, i ->
+                    if (optionsMenu[i] == "Take Photo") {
+                        // Create the camera_intent ACTION_IMAGE_CAPTURE it will open the camera for capture the image
+                        val camera_intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+                            Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        } else {
+                            TODO("VERSION.SDK_INT < CUPCAKE")
+                        }
+                        // Start the activity with camera_intent, and request pic id
+                        startActivityForResult(camera_intent, 9)
+
+
+
+                    } else if (optionsMenu[i] == "Choose from Gallery") {
+                        // choose from  external storage
+                        var intent=Intent()
+                        intent.type="image/*"
+                        intent.action=Intent.ACTION_GET_CONTENT
+                        startActivityForResult(Intent.createChooser(intent,"select Picture"),10)
+                    } else if (optionsMenu[i] == "Exit") {
+                        dialogInterface.dismiss()
+                    }
+                })
+            builder.show()
         }
         binding.localPermitImg.setOnClickListener {
-            var intent=Intent()
-            intent.type="image/*"
-            intent.action=Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent,"select Picture"),6)
+            builder.setItems(optionsMenu,
+                DialogInterface.OnClickListener { dialogInterface, i ->
+                    if (optionsMenu[i] == "Take Photo") {
+                        // Create the camera_intent ACTION_IMAGE_CAPTURE it will open the camera for capture the image
+                        val camera_intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+                            Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        } else {
+                            TODO("VERSION.SDK_INT < CUPCAKE")
+                        }
+                        // Start the activity with camera_intent, and request pic id
+                        startActivityForResult(camera_intent, 11)
+
+
+
+                    } else if (optionsMenu[i] == "Choose from Gallery") {
+                        // choose from  external storage
+                        var intent=Intent()
+                        intent.type="image/*"
+                        intent.action=Intent.ACTION_GET_CONTENT
+                        startActivityForResult(Intent.createChooser(intent,"select Picture"),12)
+                    } else if (optionsMenu[i] == "Exit") {
+                        dialogInterface.dismiss()
+                    }
+                })
+            builder.show()
         }
         binding.taxiFrontPicImg.setOnClickListener {
-            var intent=Intent()
-            intent.type="image/*"
-            intent.action=Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent,"select Picture"),7)
+            builder.setItems(optionsMenu,
+                DialogInterface.OnClickListener { dialogInterface, i ->
+                    if (optionsMenu[i] == "Take Photo") {
+                        // Create the camera_intent ACTION_IMAGE_CAPTURE it will open the camera for capture the image
+                        val camera_intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+                            Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        } else {
+                            TODO("VERSION.SDK_INT < CUPCAKE")
+                        }
+                        // Start the activity with camera_intent, and request pic id
+                        startActivityForResult(camera_intent, 13)
+
+
+
+                    } else if (optionsMenu[i] == "Choose from Gallery") {
+                        // choose from  external storage
+                        var intent=Intent()
+                        intent.type="image/*"
+                        intent.action=Intent.ACTION_GET_CONTENT
+                        startActivityForResult(Intent.createChooser(intent,"select Picture"),14)
+                    } else if (optionsMenu[i] == "Exit") {
+                        dialogInterface.dismiss()
+                    }
+                })
+            builder.show()
         }
         binding.aadharFrontImg.setOnClickListener {
-            var intent=Intent()
-            intent.type="image/*"
-            intent.action=Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent,"select Picture"),8)
+            builder.setItems(optionsMenu,
+                DialogInterface.OnClickListener { dialogInterface, i ->
+                    if (optionsMenu[i] == "Take Photo") {
+                        // Create the camera_intent ACTION_IMAGE_CAPTURE it will open the camera for capture the image
+                        val camera_intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+                            Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        } else {
+                            TODO("VERSION.SDK_INT < CUPCAKE")
+                        }
+                        // Start the activity with camera_intent, and request pic id
+                        startActivityForResult(camera_intent, 15)
+
+
+
+                    } else if (optionsMenu[i] == "Choose from Gallery") {
+                        // choose from  external storage
+                        var intent=Intent()
+                        intent.type="image/*"
+                        intent.action=Intent.ACTION_GET_CONTENT
+                        startActivityForResult(Intent.createChooser(intent,"select Picture"),16)
+                    } else if (optionsMenu[i] == "Exit") {
+                        dialogInterface.dismiss()
+                    }
+                })
+            builder.show()
         }
         binding.aadharBackImg.setOnClickListener {
-            var intent=Intent()
-            intent.type="image/*"
-            intent.action=Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent,"select Picture"),9)
+            builder.setItems(optionsMenu,
+                DialogInterface.OnClickListener { dialogInterface, i ->
+                    if (optionsMenu[i] == "Take Photo") {
+                        // Create the camera_intent ACTION_IMAGE_CAPTURE it will open the camera for capture the image
+                        val camera_intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+                            Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        } else {
+                            TODO("VERSION.SDK_INT < CUPCAKE")
+                        }
+                        // Start the activity with camera_intent, and request pic id
+                        startActivityForResult(camera_intent, 17)
+
+
+
+                    } else if (optionsMenu[i] == "Choose from Gallery") {
+                        // choose from  external storage
+                        var intent=Intent()
+                        intent.type="image/*"
+                        intent.action=Intent.ACTION_GET_CONTENT
+                        startActivityForResult(Intent.createChooser(intent,"select Picture"),18)
+                    } else if (optionsMenu[i] == "Exit") {
+                        dialogInterface.dismiss()
+                    }
+                })
+            builder.show()
         }
 
         binding.policeCertificationImg.setOnClickListener {
-            var intent=Intent()
-            intent.type="image/*"
-            intent.action=Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent,"select Picture"),10)
+            builder.setItems(optionsMenu,
+                DialogInterface.OnClickListener { dialogInterface, i ->
+                    if (optionsMenu[i] == "Take Photo") {
+                        // Create the camera_intent ACTION_IMAGE_CAPTURE it will open the camera for capture the image
+                        val camera_intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+                            Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        } else {
+                            TODO("VERSION.SDK_INT < CUPCAKE")
+                        }
+                        // Start the activity with camera_intent, and request pic id
+                        startActivityForResult(camera_intent, 19)
+
+
+
+                    } else if (optionsMenu[i] == "Choose from Gallery") {
+                        // choose from  external storage
+                        var intent=Intent()
+                        intent.type="image/*"
+                        intent.action=Intent.ACTION_GET_CONTENT
+                        startActivityForResult(Intent.createChooser(intent,"select Picture"),20)
+                    } else if (optionsMenu[i] == "Exit") {
+                        dialogInterface.dismiss()
+                    }
+                })
+            builder.show()
+        }
+        binding.gpscertificte.setOnClickListener {
+            builder.setItems(optionsMenu,
+                DialogInterface.OnClickListener { dialogInterface, i ->
+                    if (optionsMenu[i] == "Take Photo") {
+                        // Create the camera_intent ACTION_IMAGE_CAPTURE it will open the camera for capture the image
+                        val camera_intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+                            Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        } else {
+                            TODO("VERSION.SDK_INT < CUPCAKE")
+                        }
+                        // Start the activity with camera_intent, and request pic id
+                        startActivityForResult(camera_intent, 21)
+
+
+
+                    } else if (optionsMenu[i] == "Choose from Gallery") {
+                        // choose from  external storage
+                        var intent=Intent()
+                        intent.type="image/*"
+                        intent.action=Intent.ACTION_GET_CONTENT
+                        startActivityForResult(Intent.createChooser(intent,"select Picture"),22)
+                    } else if (optionsMenu[i] == "Exit") {
+                        dialogInterface.dismiss()
+                    }
+                })
+            builder.show()
         }
 
 
 
     }
+
+
 
     fun initializeInputs() {
         stateList.clear()
@@ -676,21 +946,53 @@ class DriverCabDetailsFragment : Fragment() {
 
         if (requestCode == 1){
             try {
-                var selectedImageUri4=data?.data
+
+                val photo = data!!.extras!!["data"] as Bitmap?
+                var selectedImageUri4=  getImageUri(requireContext(),photo!!)
+                Log.d("onActivityResult","response"+photo)
+                Log.d("onActivityResult",""+selectedImageUri4.toString())
                 driver_profile_ext = base.getExtension(selectedImageUri4!!,requireContext())
-                prefManager.setDriverProfile_ext(driver_profile_ext)
                 var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
-                 driver_profile = base.BitMapToString(bitmap).toString()
+                driver_profile= base.BitMapToString(bitmap).toString()
                 binding.selfiee.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
                 prefManager.setDriverProfile(driver_profile)
             } catch (e: IOException) {
                 e.printStackTrace()
+                }
             }
-
-        }
         else if (requestCode==2){
             try {
                 var selectedImageUri4=data?.data
+                Log.d("URI = ",selectedImageUri4.toString())
+                driver_profile_ext = base.getExtension(selectedImageUri4!!,requireContext())
+                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
+                driver_profile= base.BitMapToString(bitmap).toString()
+                binding.selfiee.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        else if (requestCode == 3){
+            try {
+
+                val photo = data!!.extras!!["data"] as Bitmap?
+                var selectedImageUri4=  getImageUri(requireContext(),photo!!)
+                Log.d("onActivityResult","response"+photo)
+                Log.d("onActivityResult",""+selectedImageUri4.toString())
+                driving_license_ext = base.getExtension(selectedImageUri4!!,requireContext())
+                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
+                driving_license= base.BitMapToString(bitmap).toString()
+                binding.drivingLicence.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+               // prefManager.setDriverProfile(driver_profile)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+
+        else if (requestCode==4){
+            try {
+                var selectedImageUri4=data?.data
+                Log.d("URI = ",selectedImageUri4.toString())
                  driving_license_ext = base.getExtension(selectedImageUri4!!,requireContext())
                 var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
                  driving_license= base.BitMapToString(bitmap).toString()
@@ -699,7 +1001,23 @@ class DriverCabDetailsFragment : Fragment() {
                 e.printStackTrace()
             }
         }
-        else if (requestCode==3){
+      else if (requestCode == 5){
+            try {
+
+                val photo = data!!.extras!!["data"] as Bitmap?
+                var selectedImageUri4=  getImageUri(requireContext(),photo!!)
+                Log.d("onActivityResult","response"+photo)
+                Log.d("onActivityResult",""+selectedImageUri4.toString())
+                cab_insurance_ext = base.getExtension(selectedImageUri4!!,requireContext())
+                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
+                cab_insrance= base.BitMapToString(bitmap).toString()
+                binding.cabInsurance.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+                //prefManager.setDriverProfile(driver_profile)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        else if (requestCode==6){
             try {
                 var selectedImageUri4=data?.data
                  cab_insurance_ext = base.getExtension(selectedImageUri4!!,requireContext())
@@ -707,10 +1025,22 @@ class DriverCabDetailsFragment : Fragment() {
                 cab_insrance = base.BitMapToString(bitmap).toString()
                 binding.cabInsurance.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
             } catch (e: IOException) {
+              }
+        }
+        else if (requestCode == 7){
+            try {
+
+                val photo = data!!.extras!!["data"] as Bitmap?
+                var selectedImageUri4=  getImageUri(requireContext(),photo!!)
+                registration_certificate_ext = base.getExtension(selectedImageUri4!!,requireContext())
+                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
+                registration_certificate= base.BitMapToString(bitmap).toString()
+                binding.registrationCertificate.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+            } catch (e: IOException) {
                 e.printStackTrace()
             }
         }
-        else if (requestCode==4){
+        else if (requestCode==8){
             try {
                 var selectedImageUri4=data?.data
                  registration_certificate_ext = base.getExtension(selectedImageUri4!!,requireContext())
@@ -721,7 +1051,20 @@ class DriverCabDetailsFragment : Fragment() {
                 e.printStackTrace()
             }
         }
-        else if (requestCode==5){
+        else if (requestCode ==9){
+            try {
+
+                val photo = data!!.extras!!["data"] as Bitmap?
+                var selectedImageUri4=  getImageUri(requireContext(),photo!!)
+                national_permit_ext = base.getExtension(selectedImageUri4!!,requireContext())
+                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
+                national_permit= base.BitMapToString(bitmap).toString()
+                binding.nationalPermitImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        else if (requestCode==10){
             try {
                 var selectedImageUri4=data?.data
                  national_permit_ext = base.getExtension(selectedImageUri4!!,requireContext())
@@ -731,7 +1074,21 @@ class DriverCabDetailsFragment : Fragment() {
             } catch (e: IOException) {
                 e.printStackTrace()
             }
-        }else if (requestCode==6){
+        }
+        else if (requestCode ==11){
+            try {
+
+                val photo = data!!.extras!!["data"] as Bitmap?
+                var selectedImageUri4=  getImageUri(requireContext(),photo!!)
+                local_permit_ext = base.getExtension(selectedImageUri4!!,requireContext())
+                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
+                local_permit= base.BitMapToString(bitmap).toString()
+                binding.localPermitImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        else if (requestCode==12){
             try {
                 var selectedImageUri4=data?.data
                  local_permit_ext = base.getExtension(selectedImageUri4!!,requireContext())
@@ -741,7 +1098,21 @@ class DriverCabDetailsFragment : Fragment() {
             } catch (e: IOException) {
                 e.printStackTrace()
             }
-        }else if (requestCode==7){
+        }
+        else if (requestCode ==13){
+            try {
+                val photo = data!!.extras!!["data"] as Bitmap?
+                var selectedImageUri4=  getImageUri(requireContext(),photo!!)
+                taxi_front_pic_ext = base.getExtension(selectedImageUri4!!,requireContext())
+                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
+                driver_cab_image= base.BitMapToString(bitmap).toString()
+                binding.taxiFrontPicImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+                prefManager.setDriverCab(driver_cab_image)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        else if (requestCode==14){
             try {
                 val selectedImageUri = data?.getData()
                 val bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), selectedImageUri)
@@ -753,7 +1124,21 @@ class DriverCabDetailsFragment : Fragment() {
             } catch (e: IOException) {
                 e.printStackTrace()
             }
-        }else if (requestCode==8){
+        }
+        else if (requestCode ==15){
+            try {
+
+                val photo = data!!.extras!!["data"] as Bitmap?
+                var selectedImageUri4=  getImageUri(requireContext(),photo!!)
+                aadhar_front_ext = base.getExtension(selectedImageUri4!!,requireContext())
+                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
+                aadhar_front= base.BitMapToString(bitmap).toString()
+                binding.aadharFrontImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        else if (requestCode==16){
             try {
                 var selectedImageUri4=data?.data
                 aadhar_front_ext = base.getExtension(selectedImageUri4!!,requireContext())
@@ -763,7 +1148,21 @@ class DriverCabDetailsFragment : Fragment() {
             } catch (e: IOException) {
                 e.printStackTrace()
             }
-        }else if (requestCode==9){
+        }
+        else if (requestCode ==17){
+            try {
+
+                val photo = data!!.extras!!["data"] as Bitmap?
+                var selectedImageUri4=  getImageUri(requireContext(),photo!!)
+                aadhar_back_ext = base.getExtension(selectedImageUri4!!,requireContext())
+                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
+                aadhar_back= base.BitMapToString(bitmap).toString()
+                binding.aadharBackImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+                prefManager.setAadhar_verification_back(aadhar_back)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }else if (requestCode==18){
             try {
                 var selectedImageUri4=data?.data
                  aadhar_back_ext = base.getExtension(selectedImageUri4!!,requireContext())
@@ -775,7 +1174,21 @@ class DriverCabDetailsFragment : Fragment() {
             } catch (e: IOException) {
                 e.printStackTrace()
             }
-        }else if (requestCode==10){
+        }
+        else if (requestCode ==19){
+            try {
+
+                val photo = data!!.extras!!["data"] as Bitmap?
+                var selectedImageUri4=  getImageUri(requireContext(),photo!!)
+                police_certification_ext = base.getExtension(selectedImageUri4!!,requireContext())
+                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
+                police_certification= base.BitMapToString(bitmap).toString()
+                binding.policeCertificationImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        else if (requestCode==20){
             try {
                 var selectedImageUri4=data?.data
                  police_certification_ext = base.getExtension(selectedImageUri4!!,requireContext())
@@ -786,7 +1199,37 @@ class DriverCabDetailsFragment : Fragment() {
                 e.printStackTrace()
             }
         }
+        else if (requestCode ==21){
+            try {
 
+                val photo = data!!.extras!!["data"] as Bitmap?
+                var selectedImageUri4=  getImageUri(requireContext(),photo!!)
+                gps_certification_ext = base.getExtension(selectedImageUri4!!,requireContext())
+                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
+                gps_certification= base.BitMapToString(bitmap).toString()
+                binding.gpscertificte.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        else if (requestCode==22){
+            try {
+                var selectedImageUri4=data?.data
+                gps_certification_ext = base.getExtension(selectedImageUri4!!,requireContext())
+                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
+                gps_certification = base.BitMapToString(bitmap).toString()
+                binding.gpscertificte.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+
+    }
+    fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
+        val bytes = ByteArrayOutputStream()
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path =   MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
+        return Uri.parse(path)
     }
 
     private fun validateForm() {
@@ -816,6 +1259,9 @@ class DriverCabDetailsFragment : Fragment() {
 
             if (binding.work.visibility==View.VISIBLE){
                 next.setOnClickListener {
+                    if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
+                        == PackageManager.PERMISSION_DENIED)
+                        ActivityCompat.requestPermissions(requireActivity(),  arrayOf(Manifest.permission.CAMERA), 200);
                     binding.work.visibility=View.GONE
                     binding.cabDetailsLayout.visibility=View.GONE
                     binding.uploadImage.visibility=View.VISIBLE
@@ -932,5 +1378,4 @@ class DriverCabDetailsFragment : Fragment() {
          queue.add(jsonOblect)
 
     }
-
 }

@@ -712,6 +712,21 @@
                                 android:layout_height="wrap_content"
                                 android:text="Police Certification"/>
                         </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/_5sdp"
+                            android:background="@color/light_grey"
+                            android:padding="10dp">
+
+
+                            <TextView
+                                android:id="@+id/gpscertificte"
+                                android:drawableEnd="@drawable/upload"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="GPS Certificate"/>
+                        </LinearLayout>
                     </LinearLayout>
 
 

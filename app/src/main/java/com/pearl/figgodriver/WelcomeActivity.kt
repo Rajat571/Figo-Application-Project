@@ -31,8 +31,8 @@ class WelcomeActivity : AppCompatActivity() {
             if(prefManager.getRegistrationToken().equals("Done")){
                 welcome.visibility = View.GONE
                waiting.visibility = View.VISIBLE
-              // supportFragmentManager.beginTransaction().replace(R.id.waiting_welcome,WaitingRegistration()).commit()
-            startActivity(Intent(this,DriverDashBoard::class.java))
+               supportFragmentManager.beginTransaction().replace(R.id.waiting_welcome,WaitingRegistration()).commit()
+            //startActivity(Intent(this,DriverDashBoard::class.java))
             }else if (prefManager.getToken().equals("") || prefManager.getToken().equals("null")||prefManager.getMpin().equals("")){
             startActivity(Intent(this,LoginActivity::class.java))
         }

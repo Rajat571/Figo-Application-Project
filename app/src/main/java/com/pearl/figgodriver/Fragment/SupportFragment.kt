@@ -1,9 +1,12 @@
 package com.pearl.figgodriver.Fragment
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -22,6 +25,7 @@ import com.pearl.PrefManager
 import com.pearl.figgodriver.Adapter.BuisnessAdapter
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.model.BuisnessAd
+import com.pearl.pearllib.BaseClass
 import kotlinx.android.synthetic.main.change_mpin.view.*
 import org.json.JSONObject
 
@@ -69,6 +73,7 @@ class SupportFragment : Fragment() {
         var bundle = arguments
         var number = view.findViewById<LinearLayout>(R.id.call_us)
         var email = view.findViewById<LinearLayout>(R.id.email_us)
+        var baseClass = BaseClass
         //var exit = view.findViewById<Button>(R.id.exit)
         var intent_call = Intent(Intent.ACTION_DIAL)
         var pref = PrefManager(requireContext())
@@ -194,6 +199,28 @@ class SupportFragment : Fragment() {
         var mpin_confirm = view.findViewById<EditText>(R.id.confirm_mpin)
 
     }
+    var base = object :BaseClass(){
+        override fun setLayoutXml() {
+            TODO("Not yet implemented")
+        }
+
+        override fun initializeViews() {
+            TODO("Not yet implemented")
+        }
+
+        override fun initializeClickListners() {
+            TODO("Not yet implemented")
+        }
+
+        override fun initializeInputs() {
+            TODO("Not yet implemented")
+        }
+
+        override fun initializeLabels() {
+            TODO("Not yet implemented")
+        }
+
+    }
 
     private fun updateProfile(view: View) {
         var change = view.findViewById<ConstraintLayout>(R.id.change_profile_pic)
@@ -203,16 +230,38 @@ class SupportFragment : Fragment() {
         var email = view.findViewById<EditText>(R.id.update_email)
         var update = view.findViewById<Button>(R.id.update_button)
 
-        update.setOnClickListener {
-            pref.setDriverName(name.text.toString())
-            pref.setMobile_No(mobile_number.text.toString())
-            //pref.setDriveState(1)
+      update.setOnClickListener {
+//            pref.setDriverName(name.text.toString())
+//            pref.setMobile_No(mobile_number.text.toString())
+//            //pref.setDriveState(1)
         }
 
         change.setOnClickListener {
-            contract1.launch("image/*")
+           // contract1.launch("image/*")
+            val optionsMenu = arrayOf<CharSequence>(
+                "Take Photo",
+                "Choose from Gallery",
+                "Exit"
+            )
+            val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+            // set the items in builder
+            builder.setItems(optionsMenu,
+                DialogInterface.OnClickListener { dialogInterface, i ->
+                    if (optionsMenu[i] == "Take Photo") {
+                        // Open the camera and get the photo
+                        val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        startActivityForResult(takePicture, 0)
+                    } else if (optionsMenu[i] == "Choose from Gallery") {
+                        // choose from  external storage
+                        val pickPhoto =
+                            Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                        startActivityForResult(pickPhoto, 1)
+                    } else if (optionsMenu[i] == "Exit") {
+                        dialogInterface.dismiss()
+                    }
+                })
+            builder.show()
         }
-
     }
 
 
