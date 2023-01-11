@@ -3,7 +3,6 @@ package com.pearl.figgodriver.Adapter
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,19 +12,19 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.pearl.figgodriver.CityRideActivity
 import com.pearl.figgodriver.R
-import com.pearl.figgodriver.model.CityRidesList
+import com.pearl.figgodriver.model.CityCurrentRidesList
 
-class CityRideListAdapter(var context:Context,var ridelist:List<CityRidesList>):
-    Adapter<CityRideListAdapter.CityRideHolder>() {
+class CityRideCurrentListAdapter(var context:Context, var ridelist:List<CityCurrentRidesList>):
+    Adapter<CityRideCurrentListAdapter.CityRideHolder>() {
 
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityRideHolder {
-        return CityRideHolder(LayoutInflater.from(context).inflate(R.layout.city_ride_list_layout,parent,false))
+        return CityRideHolder(LayoutInflater.from(context).inflate(R.layout.city_current_ride_list_layout,parent,false))
     }
 
     override fun onBindViewHolder(holder: CityRideHolder, position: Int) {
-        var i=position
+
      var data=ridelist[position]
         holder.customer_date.text=data.date
         holder.customer_time.text=data.time

@@ -13,117 +13,67 @@
     app:cardElevation="8dp"
     android:orientation="vertical"
     tools:context=".Fragment.CityRideFragment">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_margin="5dp"
         android:padding="@dimen/_3sdp"
         android:layout_height="match_parent">
 
-    <!--    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout7"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="8dp"
-                    android:id="@+id/city_ride_date"
-                    android:text="25.10.2022"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="06.30 pm"
-                    android:id="@+id/city_ride_time"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="6dp"
-                android:id="@+id/city_ride_address"
-                android:text="Sector 34 A, Chandigarh, India\nRailway station, Chandigarh, India"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <fragment
-                android:id="@+id/map_fragment"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout7"
+       <!-- <LinearLayout
+            android:id="@+id/layout_current"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent">
-
+            app:layout_constraintBottom_toTopOf="@+id/city_ride_recylerview"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="InvalidId">
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="13dp"
                 android:layout_weight="1"
-                android:background="#F58345"
-                android:padding="8dp"
-                android:id="@+id/reject_city_ride_btn"
-                android:text="REJECT"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
-            <ImageView
-                android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/royal_cab" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="13dp"
-                android:layout_weight="1"
-                android:background="#00A54F"
-                android:padding="8dp"
-                android:id="@+id/accept_city_ride_btn"
-                android:text="ACCEPT"
+                android:text="Current"
+                android:id="@+id/current"
+                android:gravity="center"
+                android:background="@drawable/change_background"
+                android:textSize="16sp"
                 android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-        </LinearLayout>
--->
+                android:layout_marginRight="5dp"
+                android:textColor="@color/black"
+                />
+            <TextView
+                android:layout_marginLeft="5dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:id="@+id/advance"
+                android:layout_height="40dp"
+                android:text="Advance"
+                android:gravity="center"
+                android:background="@drawable/background_card"
+                android:textSize="16sp"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                />
+
+        </LinearLayout>-->
+
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/city_ride_current_recylerview"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:layout_height="wrap_content"
-            android:id="@+id/city_ride_recylerview"/>
+            tools:ignore="MissingConstraints" />
+       <!-- <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/city_ride_advance_recylerview"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_current"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="wrap_content"
+            />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -2,7 +2,6 @@ package com.pearl.figgodriver
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -15,7 +14,6 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import com.android.volley.AuthFailureError
-import com.android.volley.Request.Method
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
@@ -34,16 +32,12 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.android.libraries.places.api.Places
 import com.google.gson.Gson
-import com.google.gson.JsonObject
 import com.pearl.PrefManager
-import com.pearl.figgodriver.Adapter.CityRideListAdapter
 import com.pearl.figgodriver.databinding.ActivityCityRideBinding
-import com.pearl.figgodriver.model.CityRidesList
 import com.pearl.pearllib.BaseClass
 
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.Response
 import org.json.JSONObject
 
 class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -69,8 +63,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         binding=DataBindingUtil.setContentView(this,R.layout.activity_city_ride)
         window.setStatusBarColor(Color.parseColor("#000F3B"))
-
-
+/*
         var address_to= intent.getStringExtra("location_to")
         var date=intent.getStringExtra("customer_date")
         var time=intent.getStringExtra("customer_time")
@@ -84,9 +77,9 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
         Log.d("CityRideActivity","ride_id====="+ride_request_id)
         binding.cityRideAddress.text=address_to
         binding.cityRideDate.text=date
-        binding.cityRideTime.text=time
+        binding.cityRideTime.text=time*/
 
-        Log.d("SEND DATA","LOCATION_DATA====="+address_to.toString()+"\n"+current_lat.toString()+"\n"+current_long+"\n"+customer_booking_id+"\n"+ride_id+"\n"+ride_request_id)
+       // Log.d("SEND DATA","LOCATION_DATA====="+address_to.toString()+"\n"+current_lat.toString()+"\n"+current_long+"\n"+customer_booking_id+"\n"+ride_id+"\n"+ride_request_id)
 
         baseClass=object :BaseClass(){
             override fun setLayoutXml() {
@@ -154,9 +147,11 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
         mapFragment.getMapAsync {
             mMap = it
-            val originLocation = LatLng(current_lat!!, current_long!!)
+           // val originLocation = LatLng(current_lat!!, current_long!!)
+            val originLocation = LatLng( originLatitude, originLongitude)
             mMap.addMarker(MarkerOptions().position(originLocation).title("hey"))
-            val destinationLocation = LatLng(des_lat!!, des_long!!)
+           // val destinationLocation = LatLng(des_lat!!, des_long!!)
+            val destinationLocation = LatLng(destinationLatitude, destinationLongitude)
             mMap.addMarker(MarkerOptions().position(destinationLocation).title("hi"))
             val urll = getDirectionURL(originLocation, destinationLocation, "AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
             GetDirection(urll).execute()

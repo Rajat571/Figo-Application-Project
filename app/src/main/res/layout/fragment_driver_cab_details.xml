@@ -54,6 +54,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:layout_marginBottom="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -73,8 +74,6 @@
                             android:text="Cab Details"
                             android:textColor="#325DCB"
                             android:textSize="20sp" />
-
-
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:layout_width="60dp"
@@ -263,7 +262,52 @@
                             android:focusableInTouchMode="false"
                             android:hint="National Permit valid up to" />
 
+
+
                     </com.google.android.material.textfield.TextInputLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/input_boder_profile"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+                      <LinearLayout
+                          android:layout_width="0dp"
+                          android:layout_weight="5"
+                          android:padding="10dp"
+                          android:layout_height="wrap_content"
+                          android:orientation="vertical">
+                          <TextView
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="Inbuilt GPS enabling tracking in real-time"/>
+                          <RadioGroup
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="horizontal">
+
+                              <RadioButton
+                                  android:layout_weight="1"
+                                  android:layout_width="0dp"
+                                  android:layout_height="wrap_content"
+                                  android:text="yes"/>
+
+                              <RadioButton
+                                  android:layout_marginLeft="10dp"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:text="No"/>
+                          </RadioGroup>
+                      </LinearLayout>
+                      <ImageView
+                          android:layout_width="0dp"
+                          android:layout_weight="3"
+                          android:layout_height="100dp"
+                          android:src="@drawable/tracker"/>
+                          </LinearLayout>
+
+
                 </LinearLayout>
             </ScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>

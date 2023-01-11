@@ -1,6 +1,6 @@
 package com.pearl.figgodriver.model
 
-data class CityRidesList(
+data class CityCurrentRidesList(
     var date:String,
     var time:String,
     var cutomer_name:String,
