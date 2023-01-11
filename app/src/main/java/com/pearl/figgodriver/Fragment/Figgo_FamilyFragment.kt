@@ -33,6 +33,7 @@ class Figgo_FamilyFragment : Fragment() {
          if (isChecked){
              var args = Bundle()
              args.putString("Parent","TaxiPartner");
+
              Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_comingSoonFragment,args)
          }
      }
