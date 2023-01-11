@@ -2,6 +2,7 @@ package com.pearl.figgodriver
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -160,7 +161,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
     }
     private fun initializeClickListners() {
         binding.rejectCityRideBtn.setOnClickListener {
-            var url="https://test.pearl-developer.com/figo/api/driver-ride/reject-city-ride-request"
+          /*  var url="https://test.pearl-developer.com/figo/api/driver-ride/reject-city-ride-request"
             var queue=Volley.newRequestQueue(this)
             var json=JSONObject()
             json.put("ride_request_id",ride_request_id)
@@ -169,8 +170,8 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
                 object : JsonObjectRequest(Method.POST, url,json,
                     com.android.volley.Response.Listener<JSONObject?> { response ->
                         Log.d("CityRideActivity", "Reject status response===" + response)
-                        /*  var statuss=response.getString("status")
-                          if (statuss.equals(true)) {*/
+                        *//*  var statuss=response.getString("status")
+                          if (statuss.equals(true)) {*//*
                         var message=response.getString("message")
                         Toast.makeText(this@CityRideActivity, "rejected"+message, Toast.LENGTH_LONG).show()
                         finish()
@@ -194,16 +195,18 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                 }
 
-            queue.add(jsonOblect)
+            queue.add(jsonOblect)*/
             // Toast.makeText(this,"Accepted",Toast.LENGTH_SHORT).show()
 
 
             // Toast.makeText(this," This Booking is rejected",Toast.LENGTH_SHORT).show()
-
+            finish()
         }
 
         binding.acceptCityRideBtn.setOnClickListener {
-
+            prefManager.setActiveRide(1)
+             startActivity(Intent(this,DriverDashBoard::class.java))
+/*
             var url="https://test.pearl-developer.com/figo/api/driver-ride/accept-city-ride-request"
             var queue=Volley.newRequestQueue(this)
             var json=JSONObject()
@@ -263,8 +266,8 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
                         return headers
                     }
                 }
-            queue.add(jsonOblect)
-           // Toast.makeText(this,"Accepted",Toast.LENGTH_SHORT).show()
+            queue.add(jsonOblect)*/
+           // Toast.makeText(this,"Accepted",Toast.LENGTH_SHORT).show()l
         }
     }
 
