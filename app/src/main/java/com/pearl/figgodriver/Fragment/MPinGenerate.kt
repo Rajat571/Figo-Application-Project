@@ -47,6 +47,7 @@ class MPinGenerate : Fragment() {
                     Navigation.findNavController(view).navigate(R.id.action_MPinGenerate_to_figgo_FamilyFragment)
                 }else{
                     startActivity(Intent(requireContext(), DriverDashBoard::class.java))
+                    //Navigation.findNavController(view).navigate(R.id.action_welcomeDriverFragment_to_waitingRegistration)
                      }
             } else {
                 Toast.makeText(this.context, "MPin not match", Toast.LENGTH_SHORT).show()

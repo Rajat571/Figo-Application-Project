@@ -103,7 +103,6 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
         drivername.text=prefManager.getDriverName()
         driver_num.text=prefManager.getMobileNo()
 
-
        // var back = topLayout.back_button
 
         var drawer = findViewById<DrawerLayout>(R.id.Dashboard_Drawer_layout)
