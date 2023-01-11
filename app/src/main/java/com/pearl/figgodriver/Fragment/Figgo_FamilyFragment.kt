@@ -33,7 +33,7 @@ class Figgo_FamilyFragment : Fragment() {
          if (isChecked){
              var args = Bundle()
              args.putString("Parent","TaxiPartner");
-             Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_partnerWelcomeFragment,args)
+             Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_comingSoonFragment,args)
          }
      }
         binding.figgoDriver.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -53,7 +53,7 @@ class Figgo_FamilyFragment : Fragment() {
 //                hotelPartner.arguments = args;
                 //childFragmentManager.beginTransaction().add(R.id.nav_controller,hotelPartner).commit()
 
-                Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_partnerWelcomeFragment,args)
+                Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_comingSoonFragment,args)
 
             }
         }

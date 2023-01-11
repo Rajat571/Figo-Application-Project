@@ -968,6 +968,7 @@ class DriverCabDetailsFragment : Fragment() {
                 var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
                 driver_profile= base.BitMapToString(bitmap).toString()
                 binding.selfiee.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+                prefManager.setDriverProfile(driver_profile)
             } catch (e: IOException) {
                 e.printStackTrace()
             }
