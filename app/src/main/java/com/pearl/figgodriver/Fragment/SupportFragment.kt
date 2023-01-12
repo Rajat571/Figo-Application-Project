@@ -23,8 +23,10 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.pearl.PrefManager
 import com.pearl.figgodriver.Adapter.BuisnessAdapter
+import com.pearl.figgodriver.Adapter.PayHistoryAdapter
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.model.BuisnessAd
+import com.pearl.figgodriver.model.PaymentHistoryModel
 import com.pearl.pearllib.BaseClass
 import kotlinx.android.synthetic.main.change_mpin.view.*
 import org.json.JSONObject
@@ -98,6 +100,7 @@ class SupportFragment : Fragment() {
         val cab_nav = view.findViewById<LinearLayout>(R.id.Cab_Nav)
         var str = bundle?.getString("Key")
         var buisness_recylcer = view.findViewById<RecyclerView>(R.id.Buisness_Nav_Recycler)
+        var history = view.findViewById<LinearLayout>(R.id.historyofrecharge)
 
 
         profile_pic = view.findViewById<ImageView>(R.id.change_profile_pic_image)
@@ -111,6 +114,7 @@ class SupportFragment : Fragment() {
             change_mpin_nav.visibility = View.GONE
             cab_nav.visibility=View.GONE
             buisness_recylcer.visibility=View.GONE
+            history.visibility=View.GONE
         myWebView.loadUrl("https://figgocabs.com/about/")
     }else if (str.equals("Support")){
             support.visibility=View.VISIBLE
@@ -119,6 +123,7 @@ class SupportFragment : Fragment() {
             cancel.visibility=View.GONE
             profile.visibility=View.GONE
             cab_nav.visibility=View.GONE
+            history.visibility=View.GONE
             buisness_recylcer.visibility=View.GONE
             change_mpin_nav.visibility = View.GONE
         }else if (str.equals("Terms")){
@@ -129,6 +134,7 @@ class SupportFragment : Fragment() {
             change_mpin_nav.visibility = View.GONE
             cab_nav.visibility=View.GONE
             profile.visibility=View.GONE
+            history.visibility=View.GONE
             buisness_recylcer.visibility=View.GONE
         }else if (str.equals("Cancel")){
             support.visibility=View.GONE
@@ -137,6 +143,7 @@ class SupportFragment : Fragment() {
             change_mpin_nav.visibility = View.GONE
             profile.visibility=View.GONE
             cab_nav.visibility=View.GONE
+            history.visibility=View.GONE
             buisness_recylcer.visibility=View.GONE
             cancel.visibility=View.VISIBLE
         }else if (str.equals("Profile")){
@@ -147,6 +154,7 @@ class SupportFragment : Fragment() {
             cab_nav.visibility=View.GONE
             cancel.visibility=View.GONE
             profile.visibility=View.VISIBLE
+            history.visibility=View.GONE
             buisness_recylcer.visibility=View.GONE
         }
         else if(str.equals("Change_Mpin")){
@@ -156,6 +164,7 @@ class SupportFragment : Fragment() {
             cancel.visibility=View.GONE
             cab_nav.visibility=View.GONE
             profile.visibility=View.GONE
+            history.visibility=View.GONE
             change_mpin_nav.visibility = View.VISIBLE
             buisness_recylcer.visibility=View.GONE
         }
@@ -165,6 +174,7 @@ class SupportFragment : Fragment() {
             terms.visibility=View.GONE
             cancel.visibility=View.GONE
             profile.visibility=View.GONE
+            history.visibility=View.GONE
             change_mpin_nav.visibility = View.GONE
             cab_nav.visibility=View.VISIBLE
             buisness_recylcer.visibility=View.GONE
@@ -175,9 +185,21 @@ class SupportFragment : Fragment() {
             terms.visibility=View.GONE
             cancel.visibility=View.GONE
             profile.visibility=View.GONE
+            history.visibility=View.GONE
             change_mpin_nav.visibility = View.GONE
             cab_nav.visibility=View.GONE
             buisness_recylcer.visibility=View.VISIBLE
+        }
+        else if(str.equals("History")){
+            support.visibility=View.GONE
+            about.visibility=View.GONE
+            terms.visibility=View.GONE
+            cancel.visibility=View.GONE
+            profile.visibility=View.GONE
+            history.visibility=View.VISIBLE
+            change_mpin_nav.visibility = View.GONE
+            cab_nav.visibility=View.GONE
+            buisness_recylcer.visibility=View.GONE
         }
 
     pref = PrefManager(requireContext())
@@ -185,10 +207,20 @@ class SupportFragment : Fragment() {
         updateMpin(view)
         updateDriverCabDetails(view)
         figgoBuisness(view)
+        paymentHistoryAdapter(view)
     }
 
-
-
+    private fun paymentHistoryAdapter(view: View) {
+        var history = view.findViewById<RecyclerView>(R.id.RechargeHistoryRecycler)
+        var data = ArrayList<PaymentHistoryModel>()
+        data.add(PaymentHistoryModel("2.10.2022","300","Credit - 500 - Add payment getaway","Credit - 1500 - Ride Income","Credit - 450 - Ride Incentive",1))
+        data.add(PaymentHistoryModel("2.10.2022","1000","Credit - 500 - Add payment getaway","Credit - 1500 - Ride Income","Credit - 450 - Ride Incentive",0))
+        data.add(PaymentHistoryModel("2.10.2022","1500","Credit - 500 - Add payment getaway","Credit - 1500 - Ride Income","Credit - 450 - Ride Incentive",0))
+        data.add(PaymentHistoryModel("2.10.2022","23","Credit - 500 - Add payment getaway","Credit - 1500 - Ride Income","Credit - 450 - Ride Incentive",1))
+        data.add(PaymentHistoryModel("2.10.2022","2300","Credit - 500 - Add payment getaway","Credit - 1500 - Ride Income","Credit - 450 - Ride Incentive",1))
+        history.adapter=PayHistoryAdapter(data)
+        history.layoutManager=LinearLayoutManager(requireContext())
+    }
 
 
     private fun updateMpin(view: View) {

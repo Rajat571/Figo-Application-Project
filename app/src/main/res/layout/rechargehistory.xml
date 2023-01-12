@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/profile_gradient"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_10sdp"
+        android:background="#10100F"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:text="Wallet"
+            android:paddingHorizontal="@dimen/_12sdp"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_weight="1"
+            android:fontFamily="@font/potta_one"
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/_12sdp"
+            android:text="Rs.18540"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_20sdp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Payment History"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:textColor="#828282"
+            android:textStyle="bold"
+            android:textSize="@dimen/_12sdp"
+            android:layout_marginHorizontal="@dimen/_12sdp"
+            />
+    </LinearLayout>
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/RechargeHistoryRecycler"
+        />
+
+</LinearLayout>

@@ -380,6 +380,26 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
 
             true
         }
+        draw_layout.menu.findItem(R.id.Payment_History).setOnMenuItemClickListener {
+            drawer.closeDrawer(GravityCompat.END)
+            bundle.putString("Key","History")
+            var supportFrag = SupportFragment()
+            supportFrag.arguments=bundle
+            offlineLayout.visibility=View.GONE
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
+            homeFrame.visibility=View.VISIBLE
+            true
+        }
+        draw_layout.menu.findItem(R.id.share_ride_Nav).setOnMenuItemClickListener {
+            drawer.closeDrawer(GravityCompat.END)
+            var shareFrag = ShareRideFragment()
+            offlineLayout.visibility=View.GONE
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,shareFrag).commit()
+            homeFrame.visibility=View.VISIBLE
+
+            true
+        }
+
         vieww.setOnClickListener {
             drawer.closeDrawer(GravityCompat.END)
             bundle.putString("Key","Profile")
