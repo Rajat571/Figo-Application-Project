@@ -36,6 +36,9 @@
         <action
             android:id="@+id/action_MPinGenerate_to_figgo_FamilyFragment"
             app:destination="@id/figgo_FamilyFragment" />
+        <action
+            android:id="@+id/action_MPinGenerate_to_waitingRegistration"
+            app:destination="@id/waitingRegistration" />
     </fragment>
     <fragment
         android:id="@+id/figgo_FamilyFragment"
@@ -50,6 +53,9 @@
         <action
             android:id="@+id/action_figgo_FamilyFragment_to_driverWelcomeFragment"
             app:destination="@id/driverWelcomeFragment" />
+        <action
+            android:id="@+id/action_figgo_FamilyFragment_to_comingSoonFragment"
+            app:destination="@id/comingSoonFragment" />
     </fragment>
     <fragment
         android:id="@+id/partnerWelcomeFragment"
@@ -176,6 +182,15 @@
         android:name="com.pearl.figgodriver.Fragment.WaitingRegistration"
         android:label="fragment_waiting_registration"
         tools:layout="@layout/fragment_waiting_registration" />
+    <fragment
+        android:id="@+id/comingSoonFragment"
+        android:name="com.pearl.figgodriver.ComingSoonFragment"
+        android:label="fragment_coming_soon"
+        tools:layout="@layout/fragment_coming_soon" >
+        <action
+            android:id="@+id/action_comingSoonFragment_to_figgo_FamilyFragment"
+            app:destination="@id/figgo_FamilyFragment" />
+    </fragment>
 
 
     <!--    <fragment-->
