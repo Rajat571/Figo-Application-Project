@@ -194,6 +194,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
                                             Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
                                         }else{
                                             startActivity(Intent(requireContext(),DriverDashBoard::class.java))
+                                            //Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_waitingRegistration)
                                            //Navigation.findNavController(view).navigate(R.id.action_welcomeDriverFragment_to_waitingRegistration)
                                         }
                                     }
@@ -211,6 +212,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
                                         }else{
                                             startActivity(Intent(requireContext(),DriverDashBoard::class.java))
                                            // Navigation.findNavController(view).navigate(R.id.action_welcomeDriverFragment_to_waitingRegistration)
+                                            //Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_waitingRegistration)
                                         }
                                     }
                                 }

@@ -36,6 +36,9 @@
         <action
             android:id="@+id/action_MPinGenerate_to_figgo_FamilyFragment"
             app:destination="@id/figgo_FamilyFragment" />
+        <action
+            android:id="@+id/action_MPinGenerate_to_waitingRegistration"
+            app:destination="@id/waitingRegistration" />
     </fragment>
     <fragment
         android:id="@+id/figgo_FamilyFragment"
