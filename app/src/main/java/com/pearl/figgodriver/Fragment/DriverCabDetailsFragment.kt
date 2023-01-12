@@ -1353,7 +1353,6 @@ class DriverCabDetailsFragment : Fragment() {
         Log.d("SendData", "driving_license" + driving_license)
         Log.d("SendData", "police_certification_ext" + police_certification_ext)
 
-
          val jsonOblect=
              object : JsonObjectRequest(Method.POST, URL, json,
                  Response.Listener<JSONObject?> { response ->

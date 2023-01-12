@@ -261,6 +261,12 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
                     @Throws(AuthFailureError::class)
                     override fun getHeaders(): Map<String, String> {
                         val headers: MutableMap<String, String> = HashMap()
+
+
+
+
+
+                        
                         headers.put("Content-Type", "application/json; charset=UTF-8");
                         headers.put("Authorization", "Bearer " + prefManager.getToken());
                         return headers
