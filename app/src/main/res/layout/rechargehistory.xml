@@ -13,29 +13,45 @@
         android:background="#10100F"
         android:orientation="vertical"
         >
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/_7ssp"
+            android:layout_gravity="center"
+            >
+            <ImageView
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:padding="@dimen/_2sdp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:src="@drawable/wallet"
+                android:id="@+id/sendpayment"
+                android:text="Send to "
+                />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="@dimen/_12sdp"
-            android:layout_marginTop="@dimen/_12sdp"
             android:text="Wallet"
+            android:textStyle="bold"
             android:paddingHorizontal="@dimen/_12sdp"
-            android:gravity="center"
             />
 
+        </LinearLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_12sdp"
-            android:layout_weight="1"
             android:fontFamily="@font/potta_one"
             android:gravity="center"
-            android:paddingHorizontal="@dimen/_12sdp"
             android:text="Rs.18540"
             android:textColor="@color/white"
             android:textSize="@dimen/_20sdp" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
