@@ -15,11 +15,14 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.View
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -111,6 +114,7 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         menu.setOnClickListener {
             drawer.openDrawer(GravityCompat.END)
+
         }
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         if (ActivityCompat.checkSelfPermission(
@@ -143,7 +147,7 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
                     prefManager.setlatitude(lat.toFloat())
                     val lon = location.longitude
                     prefManager.setlongitude(lon.toFloat())
-                  Toast.makeText(this,"Lat :"+lat+"\nLong: "+lon,Toast.LENGTH_SHORT).show()
+                  //Toast.makeText(this,"Lat :"+lat+"\nLong: "+lon,Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -175,22 +179,39 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
             drawer.openDrawer(GravityCompat.END)
 
         }
+        var homeFrame = findViewById<FrameLayout>(R.id.home_frame)
+        var toggleState:Boolean=false
+        var offlineLayout = findViewById<LinearLayout>(R.id.offline_layout)
         topLayout.toggle_off.setOnClickListener {
             off_toggle.setBackgroundColor(Color.RED)
             on_toggle.setBackgroundColor(Color.WHITE)
+            toggleState=true
             Toast.makeText(this,"off",Toast.LENGTH_SHORT).show()
+            offlineLayout.visibility=View.VISIBLE
+            homeFrame.visibility=View.GONE
+           // supportFragmentManager.beginTransaction().replace(R.id.home_frame,OfflineFragment()).commit()
+            stopService(Intent(this, MyService::class.java))
         }
         topLayout.toggle_on.setOnClickListener {
             on_toggle.setBackgroundColor(Color.GREEN)
             off_toggle.setBackgroundColor(Color.WHITE)
+            toggleState=false
             Toast.makeText(this,"on",Toast.LENGTH_SHORT).show()
+            offlineLayout.visibility=View.GONE
+            homeFrame.visibility=View.VISIBLE
+            startService(Intent(this, MyService::class.java))
         }
         topLayout.top_back.text="EXIT"
         topLayout.top_back.setOnClickListener {
             if(x==1) {
 
                 topLayout.top_back.text="EXIT"
+                if (toggleState==false)
                 supportFragmentManager.beginTransaction().replace(R.id.home_frame,HomeDashBoard()).commit()
+                else{
+                    offlineLayout.visibility=View.VISIBLE
+                    homeFrame.visibility=View.GONE
+                }
                 x=2
             }
             else{
@@ -208,12 +229,21 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
         if (prefManager.getActiveRide()==1){
             x=1
             topLayout.top_back.text="Back"
+            if (toggleState==false)
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,CustomerCityRideDetails()).commit()
-           // prefManager.setActiveRide(0)
+            else{
+                offlineLayout.visibility=View.VISIBLE
+                homeFrame.visibility=View.GONE
+            }
         }
         else{
             x=2
+            if (toggleState==false)
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,HomeDashBoard()).commit()
+            else{
+                offlineLayout.visibility=View.VISIBLE
+                homeFrame.visibility=View.GONE
+            }
         }
 
       var bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
@@ -222,7 +252,12 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
                 R.id.home->{
                     x=2
                     topLayout.top_back.text="EXIT"
+                    if (toggleState==false)
                     supportFragmentManager.beginTransaction().replace(R.id.home_frame,HomeDashBoard()).commit()
+                    else{
+                        offlineLayout.visibility=View.VISIBLE
+                        homeFrame.visibility=View.GONE
+                    }
                 }
                 R.id.call->{
                     var intent_call = Intent(Intent.ACTION_DIAL)
@@ -232,7 +267,12 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
                 R.id.active_ride->{
                     x=1
                     topLayout.top_back.text="Back"
+                    if (toggleState==false)
                     supportFragmentManager.beginTransaction().replace(R.id.home_frame,ActiveRide()).commit()
+                    else{
+                        offlineLayout.visibility=View.VISIBLE
+                        homeFrame.visibility=View.GONE
+                    }
                 }
             }
             true
@@ -244,7 +284,10 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
             var supportFrag = SupportFragment()
             supportFrag.arguments=bundle
             drawer.closeDrawer(GravityCompat.END)
+            offlineLayout.visibility=View.GONE
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
+            homeFrame.visibility=View.VISIBLE
+
             true
         }
         draw_layout.menu.findItem(R.id.About_Figgo).setOnMenuItemClickListener {
@@ -252,7 +295,9 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
             var supportFrag = SupportFragment()
             supportFrag.arguments=bundle
             drawer.closeDrawer(GravityCompat.END)
+            offlineLayout.visibility=View.GONE
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
+            homeFrame.visibility=View.VISIBLE
             true
         }
         draw_layout.menu.findItem(R.id.term_condition).setOnMenuItemClickListener {
@@ -260,12 +305,16 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
             var supportFrag = SupportFragment()
             drawer.closeDrawer(GravityCompat.END)
             supportFrag.arguments=bundle
+            offlineLayout.visibility=View.GONE
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
+            homeFrame.visibility=View.VISIBLE
             true
         }
         draw_layout.menu.findItem(R.id.wallets).setOnMenuItemClickListener {
-            supportFragmentManager.beginTransaction().replace(R.id.home_frame,AccountDetailsFragment()).commit()
             drawer.closeDrawer(GravityCompat.END)
+            offlineLayout.visibility=View.GONE
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,AccountDetailsFragment()).commit()
+            homeFrame.visibility=View.VISIBLE
             true
         }
         draw_layout.menu.findItem(R.id.cancellation_policy).setOnMenuItemClickListener {
@@ -273,7 +322,9 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
             var supportFrag = SupportFragment()
             supportFrag.arguments=bundle
             drawer.closeDrawer(GravityCompat.END)
+            offlineLayout.visibility=View.GONE
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
+            homeFrame.visibility=View.VISIBLE
             true
         }
         draw_layout.menu.findItem(R.id.profile).setOnMenuItemClickListener {
@@ -281,7 +332,10 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
             bundle.putString("Key","Profile")
             var supportFrag = SupportFragment()
             supportFrag.arguments=bundle
+            offlineLayout.visibility=View.GONE
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
+            homeFrame.visibility=View.VISIBLE
+
             true
         }
         draw_layout.menu.findItem(R.id.change_mpin_navigation).setOnMenuItemClickListener {
@@ -289,7 +343,10 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
             bundle.putString("Key","Change_Mpin")
             var supportFrag = SupportFragment()
             supportFrag.arguments=bundle
+            offlineLayout.visibility=View.GONE
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
+            homeFrame.visibility=View.VISIBLE
+
             true
         }
         draw_layout.menu.findItem(R.id.cab_driver_details_navigation).setOnMenuItemClickListener {
@@ -297,7 +354,10 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
             bundle.putString("Key","Cab")
             var supportFrag = SupportFragment()
             supportFrag.arguments=bundle
+            offlineLayout.visibility=View.GONE
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
+            homeFrame.visibility=View.VISIBLE
+
             true
         }
         draw_layout.menu.findItem(R.id.figgo_bussiness).setOnMenuItemClickListener {
@@ -305,21 +365,50 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
             bundle.putString("Key","Buisness")
             var supportFrag = SupportFragment()
             supportFrag.arguments=bundle
+            offlineLayout.visibility=View.GONE
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
+            homeFrame.visibility=View.VISIBLE
+
             true
         }
         draw_layout.menu.findItem(R.id.saleRideExtra).setOnMenuItemClickListener {
             drawer.closeDrawer(GravityCompat.END)
             var salesFrag = SaleExtraBooking()
+            offlineLayout.visibility=View.GONE
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,salesFrag).commit()
+            homeFrame.visibility=View.VISIBLE
+
             true
         }
+        draw_layout.menu.findItem(R.id.Payment_History).setOnMenuItemClickListener {
+            drawer.closeDrawer(GravityCompat.END)
+            bundle.putString("Key","History")
+            var supportFrag = SupportFragment()
+            supportFrag.arguments=bundle
+            offlineLayout.visibility=View.GONE
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
+            homeFrame.visibility=View.VISIBLE
+            true
+        }
+        draw_layout.menu.findItem(R.id.share_ride_Nav).setOnMenuItemClickListener {
+            drawer.closeDrawer(GravityCompat.END)
+            var shareFrag = ShareRideFragment()
+            offlineLayout.visibility=View.GONE
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,shareFrag).commit()
+            homeFrame.visibility=View.VISIBLE
+
+            true
+        }
+
         vieww.setOnClickListener {
             drawer.closeDrawer(GravityCompat.END)
             bundle.putString("Key","Profile")
             var supportFrag = SupportFragment()
             supportFrag.arguments=bundle
+            offlineLayout.visibility=View.GONE
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
+            homeFrame.visibility=View.VISIBLE
+
         }
         draw_layout.menu.findItem(R.id.logout).setOnMenuItemClickListener {
             drawer.closeDrawer(GravityCompat.END)

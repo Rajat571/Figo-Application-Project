@@ -14,16 +14,22 @@
             <item
                 android:id="@+id/cab_driver_details_navigation"
                 android:title="Driver cab" />
+    <item
+        android:id="@+id/share_ride_Nav"
+        android:title="Share Ride" />
+    <item
+        android:id="@+id/saleRideExtra"
+        android:title="Sale Extra Ride"/>
+    <item
+        android:id="@+id/wallets"
+        android:title="Recharge"/>
+    <item
+        android:id="@+id/Payment_History"
+        android:title="Payment History"/>
 
             <item
                 android:id="@+id/figgo_bussiness"
                 android:title="Figgo Business"/>
-            <item
-                android:id="@+id/saleRideExtra"
-                android:title="Sale Extra Ride"/>
-            <item
-                android:id="@+id/wallets"
-                android:title="Wallets"/>
 
             <item
                 android:id="@+id/term_condition"

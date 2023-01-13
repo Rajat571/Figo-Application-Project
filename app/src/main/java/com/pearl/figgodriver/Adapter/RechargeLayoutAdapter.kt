@@ -26,7 +26,7 @@ class RechargeLayoutAdapter(var data:List<Recharge>): RecyclerView.Adapter<ViewH
     }
 
 }
-class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
+open class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
     var book_limit = itemView.findViewById<TextView>(R.id.bookingLimit)
     var ride_request = itemView.findViewById<TextView>(R.id.riderequest)
     var recharge_amount =  itemView.findViewById<TextView>(R.id.rechargeamount)

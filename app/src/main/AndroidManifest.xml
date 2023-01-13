@@ -68,6 +68,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <activity
             android:name="com.pearl.hotelPartner.HotelPartnerDashboard"
