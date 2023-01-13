@@ -136,6 +136,7 @@ var y=0
 
                         }
 
+
                         cityRideCurrentListAdapter=CityRideCurrentListAdapter(requireContext(),ridelists)
                         binding.cityRideCurrentRecylerview.adapter=cityRideCurrentListAdapter
                     }
