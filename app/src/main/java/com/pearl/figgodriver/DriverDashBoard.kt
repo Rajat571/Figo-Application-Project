@@ -7,6 +7,7 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.location.Location
 import android.net.Uri
@@ -16,6 +17,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import android.view.Window
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -44,24 +46,76 @@ import kotlinx.android.synthetic.main.top_layout.view.*
 import kotlinx.coroutines.*
 import java.lang.Runnable
 import java.util.*
+import kotlin.properties.Delegates
 
-class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
+class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
 
 
     var doubleBackToExitPressedOnce = false
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     lateinit var prefManager: PrefManager
     lateinit var baseclass: BaseClass
+    lateinit var wndow:Window
+    lateinit var whataspp:ImageView
+    lateinit var call:ImageView
+    lateinit var share:ImageView
+    lateinit var sidebar:ImageView
+    lateinit var topLayout:LinearLayout
+    lateinit var menu:ImageView
+    lateinit var off_toggle:TextView
+    lateinit var on_toggle:TextView
+    lateinit var draw_layout:NavigationView
+    lateinit var vieww:View
+    lateinit var driverImage:ImageView
+    lateinit var drivername:TextView
+    lateinit var driver_num:TextView
+    var image: Bitmap? = null
+    lateinit var drawer:DrawerLayout
+    lateinit var action_bar_toggle:ActionBarDrawerToggle
+    var lat by Delegates.notNull<Double>()
+    var lon:Double = 0.0
+    var x:Int = 1
+    lateinit var url:String
+    lateinit var homeFrame:FrameLayout
+    var toggleState by Delegates.notNull<Boolean>()
+    lateinit var offlineLayout:LinearLayout
+    lateinit var bottomNav:BottomNavigationView
+
 
     val scope = CoroutineScope(Job() + Dispatchers.Main)
-    @SuppressLint("SuspiciousIndentation")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_driver_dash_board)
 
-        var window=window
-        window.setStatusBarColor(Color.parseColor("#000F3B"))
+
+
+    override fun setLayoutXml() {
+        setContentView(R.layout.activity_driver_dash_board)
+    }
+
+    override fun initializeViews() {
+        wndow=window
         prefManager=PrefManager(this)
+         whataspp=findViewById<ImageView>(R.id.whatsapp)
+         call=findViewById<ImageView>(R.id.call)
+         share=findViewById<ImageView>(R.id.share)
+         sidebar=findViewById<ImageView>(R.id.sidebar)
+         topLayout = findViewById<LinearLayout>(R.id.layout)
+         menu = topLayout.sidebar
+         off_toggle = topLayout.toggle_off
+         on_toggle = topLayout.toggle_on
+         draw_layout=findViewById<NavigationView>(R.id.draw_layout)
+         vieww= draw_layout.getHeaderView(0);
+         driverImage=vieww.findViewById<ImageView>(R.id.driverIV)
+         drivername=vieww.findViewById<TextView>(R.id.drivernamee)
+         driver_num=vieww.findViewById<TextView>(R.id.driver_numberr)
+        driverImage.setImageBitmap(image)
+        drivername.text=prefManager.getDriverName()
+        driver_num.text=prefManager.getMobileNo()
+        drawer = findViewById<DrawerLayout>(R.id.Dashboard_Drawer_layout)
+        action_bar_toggle = ActionBarDrawerToggle(this,drawer,R.string.nav_open, R.string.nav_close)
+        url = "https://api.whatsapp.com/send?phone=7505145405"
+        homeFrame = findViewById<FrameLayout>(R.id.home_frame)
+        toggleState=false
+        offlineLayout = findViewById<LinearLayout>(R.id.offline_layout)
+        bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         baseclass=object : BaseClass(){
             override fun setLayoutXml() {
                 TODO("Not yet implemented")
@@ -84,77 +138,17 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
             }
 
         }
+    }
 
-        var whataspp=findViewById<ImageView>(R.id.whatsapp)
-        var call=findViewById<ImageView>(R.id.call)
-        var share=findViewById<ImageView>(R.id.share)
-        var sidebar=findViewById<ImageView>(R.id.sidebar)
-        var topLayout = findViewById<LinearLayout>(R.id.layout)
-        var menu = topLayout.sidebar
-        var off_toggle = topLayout.toggle_off
-        var on_toggle = topLayout.toggle_on
-
-
-      var draw_layout=findViewById<NavigationView>(R.id.draw_layout)
-
-        var vieww= draw_layout.getHeaderView(0);
-       var driverImage=vieww.findViewById<ImageView>(R.id.driverIV)
-        var drivername=vieww.findViewById<TextView>(R.id.drivernamee)
-        var driver_num=vieww.findViewById<TextView>(R.id.driver_numberr)
-        var image =baseclass.StringToBitMap(prefManager.getDriverProfile())
-        driverImage.setImageBitmap(image)
-        drivername.text=prefManager.getDriverName()
-        driver_num.text=prefManager.getMobileNo()
-
-       // var back = topLayout.back_button
-
-        var drawer = findViewById<DrawerLayout>(R.id.Dashboard_Drawer_layout)
-        var action_bar_toggle = ActionBarDrawerToggle(this,drawer,R.string.nav_open, R.string.nav_close)
+    override fun initializeClickListners() {
         drawer.addDrawerListener(action_bar_toggle)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        image =baseclass.StringToBitMap(prefManager.getDriverProfile())
         menu.setOnClickListener {
             drawer.openDrawer(GravityCompat.END)
-
         }
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return
-        }
-        fusedLocationProviderClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, object : CancellationToken() {
-            override fun onCanceledRequested(p0: OnTokenCanceledListener) = CancellationTokenSource().token
-
-            override fun isCancellationRequested() = false
-        })
-            .addOnSuccessListener { location: Location? ->
-                if (location == null)
-                    Toast.makeText(this, "Cannot get location.", Toast.LENGTH_SHORT).show()
-                else {
-                    val lat = location.latitude
-                    prefManager.setlatitude(lat.toFloat())
-                    val lon = location.longitude
-                    prefManager.setlongitude(lon.toFloat())
-                  //Toast.makeText(this,"Lat :"+lat+"\nLong: "+lon,Toast.LENGTH_SHORT).show()
-                }
-            }
-
-
-        var x:Int = 1
         whataspp.setOnClickListener {
-            val url = "https://api.whatsapp.com/send?phone=7505145405"
+
             val i = Intent(Intent.ACTION_VIEW)
             i.data = Uri.parse(url)
             startActivity(i)
@@ -179,9 +173,6 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
             drawer.openDrawer(GravityCompat.END)
 
         }
-        var homeFrame = findViewById<FrameLayout>(R.id.home_frame)
-        var toggleState:Boolean=false
-        var offlineLayout = findViewById<LinearLayout>(R.id.offline_layout)
         topLayout.toggle_off.setOnClickListener {
             off_toggle.setBackgroundColor(Color.RED)
             on_toggle.setBackgroundColor(Color.WHITE)
@@ -189,7 +180,6 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
             Toast.makeText(this,"off",Toast.LENGTH_SHORT).show()
             offlineLayout.visibility=View.VISIBLE
             homeFrame.visibility=View.GONE
-           // supportFragmentManager.beginTransaction().replace(R.id.home_frame,OfflineFragment()).commit()
             stopService(Intent(this, MyService::class.java))
         }
         topLayout.toggle_on.setOnClickListener {
@@ -207,7 +197,7 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
 
                 topLayout.top_back.text="EXIT"
                 if (toggleState==false)
-                supportFragmentManager.beginTransaction().replace(R.id.home_frame,HomeDashBoard()).commit()
+                    supportFragmentManager.beginTransaction().replace(R.id.home_frame,HomeDashBoard()).commit()
                 else{
                     offlineLayout.visibility=View.VISIBLE
                     homeFrame.visibility=View.GONE
@@ -220,9 +210,6 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
                 startMain.addCategory(Intent.CATEGORY_HOME)
                 startMain.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(startMain)
-//            supportFragmentManager.beginTransaction().replace(R.id.home_frame, ActiveRide())
-//                .commit()
-
             }
         }
 
@@ -230,7 +217,7 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
             x=1
             topLayout.top_back.text="Back"
             if (toggleState==false)
-            supportFragmentManager.beginTransaction().replace(R.id.home_frame,CustomerCityRideDetails()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.home_frame,CustomerCityRideDetails()).commit()
             else{
                 offlineLayout.visibility=View.VISIBLE
                 homeFrame.visibility=View.GONE
@@ -239,21 +226,19 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
         else{
             x=2
             if (toggleState==false)
-            supportFragmentManager.beginTransaction().replace(R.id.home_frame,HomeDashBoard()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.home_frame,HomeDashBoard()).commit()
             else{
                 offlineLayout.visibility=View.VISIBLE
                 homeFrame.visibility=View.GONE
             }
         }
-
-      var bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNav.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.home->{
                     x=2
                     topLayout.top_back.text="EXIT"
                     if (toggleState==false)
-                    supportFragmentManager.beginTransaction().replace(R.id.home_frame,HomeDashBoard()).commit()
+                        supportFragmentManager.beginTransaction().replace(R.id.home_frame,HomeDashBoard()).commit()
                     else{
                         offlineLayout.visibility=View.VISIBLE
                         homeFrame.visibility=View.GONE
@@ -262,13 +247,13 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
                 R.id.call->{
                     var intent_call = Intent(Intent.ACTION_DIAL)
                     intent_call.data = Uri.parse("tel:"+"+919715597855")
-                        startActivity(intent_call)
+                    startActivity(intent_call)
                 }
                 R.id.active_ride->{
                     x=1
                     topLayout.top_back.text="Back"
                     if (toggleState==false)
-                    supportFragmentManager.beginTransaction().replace(R.id.home_frame,ActiveRide()).commit()
+                        supportFragmentManager.beginTransaction().replace(R.id.home_frame,ActiveRide()).commit()
                     else{
                         offlineLayout.visibility=View.VISIBLE
                         homeFrame.visibility=View.GONE
@@ -412,29 +397,91 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
         }
         draw_layout.menu.findItem(R.id.logout).setOnMenuItemClickListener {
             drawer.closeDrawer(GravityCompat.END)
-                val alertDialog2 = AlertDialog.Builder(
-                    this
-                )
-                alertDialog2.setTitle("Alert...")
-                alertDialog2.setMessage("Are you sure you want to exit ?")
-                alertDialog2.setPositiveButton(
-                    "Yes"
-                ) { dialog: DialogInterface?, which: Int ->
-                    Toast.makeText(this,"Logout Successfully",Toast.LENGTH_SHORT).show()
-                    prefManager.setToken("")
-                    prefManager.setRegistrationToken("")
-                    startActivity(Intent(this,LoginActivity::class.java))
-                }
-                alertDialog2.setNegativeButton(
-                    "Cancel"
-                ) { dialog: DialogInterface, which: Int -> dialog.cancel() }
-                alertDialog2.show()
-                //       finish();
+            val alertDialog2 = AlertDialog.Builder(
+                this
+            )
+            alertDialog2.setTitle("Alert...")
+            alertDialog2.setMessage("Are you sure you want to exit ?")
+            alertDialog2.setPositiveButton(
+                "Yes"
+            ) { dialog: DialogInterface?, which: Int ->
+                Toast.makeText(this,"Logout Successfully",Toast.LENGTH_SHORT).show()
+                prefManager.setToken("")
+                prefManager.setRegistrationToken("")
+                startActivity(Intent(this,LoginActivity::class.java))
+            }
+            alertDialog2.setNegativeButton(
+                "Cancel"
+            ) { dialog: DialogInterface, which: Int -> dialog.cancel() }
+            alertDialog2.show()
+            //       finish();
             true
         }
 
+
+    }
+
+    override fun initializeInputs() {
+
+    }
+
+    override fun initializeLabels() {
+
+    }
+
+    @SuppressLint("SuspiciousIndentation")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        window.setStatusBarColor(Color.parseColor("#000F3B"))
+        setLayoutXml()
+        initializeViews()
+        initializeClickListners()
+        initializeInputs()
+        initializeLabels()
+
+
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        fusedLocationProviderClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, object : CancellationToken() {
+            override fun onCanceledRequested(p0: OnTokenCanceledListener) = CancellationTokenSource().token
+
+            override fun isCancellationRequested() = false
+        })
+            .addOnSuccessListener { location: Location? ->
+                if (location == null)
+                    Toast.makeText(this, "Cannot get location.", Toast.LENGTH_SHORT).show()
+                else {
+                    lat = location.latitude
+                    prefManager.setlatitude(lat.toFloat())
+                    lon = location.longitude
+                    prefManager.setlongitude(lon.toFloat())
+                  //Toast.makeText(this,"Lat :"+lat+"\nLong: "+lon,Toast.LENGTH_SHORT).show()
+                }
+            }
+
    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        prefManager.setActiveRide(0)
+    }
 
     override fun onBackPressed() {
         val count = supportFragmentManager.backStackEntryCount
@@ -458,12 +505,6 @@ class DriverDashBoard : AppCompatActivity(),CoroutineScope by MainScope() {
             supportFragmentManager.popBackStack()
         }
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        prefManager.setActiveRide(0)
-    }
-
 
     override fun onResume() {
         super.onResume()
