@@ -32,7 +32,8 @@ class CityRideCurrentListAdapter(var context:Context, var ridelist:List<CityCurr
         holder.location_from.text=data.from
         holder.location_to.text=data.to
         holder.fare_price.text=data.fare_price
-        holder.itemView.setOnClickListener {
+
+    /*    holder.itemView.setOnClickListener {
             holder.rideCardview.setCardBackgroundColor(Color.GREEN)
 
                 context.startActivity(Intent(context,CityRideActivity::class.java)
@@ -47,7 +48,7 @@ class CityRideCurrentListAdapter(var context:Context, var ridelist:List<CityCurr
                     .putExtra("ride_id",data.ride_id)
                     .putExtra("ride_request_id",data.ride_request_id))
 
-        }
+        }*/
     }
 
     override fun getItemCount()=ridelist.size
