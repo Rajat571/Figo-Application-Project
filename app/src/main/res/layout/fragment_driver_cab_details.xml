@@ -716,6 +716,7 @@
                                 android:text="Police Certification"/>
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/trackerGPS"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="@dimen/_5sdp"
@@ -728,7 +729,7 @@
                                 android:drawableEnd="@drawable/upload"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="GPS Certificate"/>
+                                android:text="Inbuilt GPS Certificate"/>
                         </LinearLayout>
                     </LinearLayout>
 

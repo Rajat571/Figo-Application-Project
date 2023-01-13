@@ -1,7 +1,6 @@
 package com.pearl.figgodriver.Fragment
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -34,6 +33,11 @@ class CityRideFragment : Fragment() {
     var ridelists=ArrayList<CityCurrentRidesList>()
     var advanceRidelists=ArrayList<CityAdvanceRideList>()
     lateinit var prefManager: PrefManager
+     lateinit var currentdata:CityCurrentRidesList
+
+
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,13 +51,16 @@ class CityRideFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prefManager=PrefManager(requireContext())
-        submitCurrentRideForm(view,"current")
+        //ridelists.add()
         //submitCurrentRideForm(view,"advance")
-       // submitAdvanceRideForm(view)
-
-
+        submitAdvanceRideForm(view)
+        submitCurrentRideForm(view)
+        binding.cityRideAdvanceRecylerview.layoutManager=LinearLayoutManager(requireContext())
         binding.cityRideCurrentRecylerview.layoutManager=LinearLayoutManager(requireContext())
-/*        //binding.cityRideAdvanceRecylerview.layoutManager=LinearLayoutManager(requireContext())
+
+
+        
+/*
         ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","",""))
         ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","",""))
         ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","",""))
@@ -83,38 +90,38 @@ class CityRideFragment : Fragment() {
 
     }
 
-    private fun submitCurrentRideForm(view: View,x:String) {
+    private fun submitCurrentRideForm(view: View){
         val URL = "https://test.pearl-developer.com/figo/api/driver-ride/get-city-ride-request"
         val queue = Volley.newRequestQueue(requireContext())
-var y=0
+
         val jsonOblect: JsonObjectRequest =
             object : JsonObjectRequest(Method.POST, URL,null,
                 Response.Listener<JSONObject?> { response ->
-                    Log.d("CITY_RIDE_FRAGMENT", "response===" + response)
+                    Log.d("CITY_RIDE_FRAGMENT Current", "response===" + response)
                     if (response != null) {
 
                         ////Current
-
-                        var current=response.getJSONObject(x)
+                        var y=0
+                        var current=response.getJSONObject("current")
                         var ride_requests=current.getJSONArray("ride_requests").length()
                         for (i in 0..ride_requests-1){
 
-                            var data1=response.getJSONObject(x).getJSONArray("ride_requests").getJSONObject(i)
+                            var data1=response.getJSONObject("current").getJSONArray("ride_requests").getJSONObject(i)
                             var ride_id=data1.getString( "ride_id")
                             var ride_request_id=data1.getString( "id")
                             Log.d("SendData", "ride_request" + ride_request_id+","+ride_id)
 
-                            var ride_detail=response.getJSONObject(x).getJSONArray("ride_requests").getJSONObject(i).getJSONObject( "ride_detail")
+                            var ride_detail=response.getJSONObject("current").getJSONArray("ride_requests").getJSONObject(i).getJSONObject( "ride_detail")
                             var booking_id=ride_detail.getString( "booking_id")
                             Log.d("SendData", "booking_id" + booking_id)
 
-                            var to_location=response.getJSONObject(x).getJSONArray("ride_requests").getJSONObject(i).getJSONObject( "ride_detail").getJSONObject( "to_location")
+                            var to_location=response.getJSONObject("current").getJSONArray("ride_requests").getJSONObject(i).getJSONObject( "ride_detail").getJSONObject( "to_location")
                             var to_location_lat=to_location.getString("lat")
                             var to_location_long=to_location.getString("lng")
                             var address_name=to_location.getString("name")
                             Log.d("SendData", "to_location" + to_location_lat+"\n"+to_location_long+"\n"+address_name)
 
-                            var from_location=response.getJSONObject(x).getJSONArray("ride_requests").getJSONObject(i).getJSONObject("ride_detail").getJSONObject( "from_location")
+                            var from_location=response.getJSONObject("current").getJSONArray("ride_requests").getJSONObject(i).getJSONObject("ride_detail").getJSONObject( "from_location")
                             var from_location_lat=from_location.getString("lat")
                             var from_location_long=from_location.getString("lng")
                             var from_name=from_location.getString("name")
@@ -124,21 +131,18 @@ var y=0
                             var time_only=ride_detail.getString( "time_only")
                             Log.d("SendData", "date_only" + time_only)
 
-
                             var price=data1.getString( "price")
                             Log.d("SendData", "price" + price)
 
 
                             /////Advance
-                            //advanceData(response)
 
                             ridelists.add(CityCurrentRidesList(date_only,time_only,booking_id,address_name,from_name,price,to_location_lat,to_location_long,from_location_lat,from_location_long,ride_id,ride_request_id,y))
-
                         }
-
-
+                        //advanceData(response)
                         cityRideCurrentListAdapter=CityRideCurrentListAdapter(requireContext(),ridelists)
                         binding.cityRideCurrentRecylerview.adapter=cityRideCurrentListAdapter
+
                     }
                     // Get your json response and convert it to whatever you want.
                 }, object : Response.ErrorListener {
@@ -158,27 +162,25 @@ var y=0
             }
 
         queue.add(jsonOblect)
-
+        //return currentdata
     }
 
 
 
-/*
     private fun submitAdvanceRideForm(view: View) {
-
-
-        val URL = "https://test.pearl-developer.com/figo/api/driver-ride/get-city-ride-request"
+        val URL = " https://test.pearl-developer.com/figo/api/driver-ride/get-city-ride-request"
         val queue = Volley.newRequestQueue(requireContext())
 
         val jsonOblect: JsonObjectRequest =
             object : JsonObjectRequest(Method.POST, URL,null,
                 Response.Listener<JSONObject?> { response ->
-                    Log.d("CITY_RIDE_FRAGMENT", "response===" + response)
+                    Log.d("CITY_RIDE_FRAGMENT Advance", "response===" + response)
                     if (response != null) {
                         var data=response.getJSONArray( "advance").length()
                         for (i in 0 until data){
                             var data1=response.getJSONArray("advance").getJSONObject(i)
                             var advance_booking_id=data1.getString( "booking_id")
+                            var ride_id=data1.getString( "id")
                             Log.d("SendData", "advance_booking_id" + advance_booking_id)
 
                             var to_location=response.getJSONArray("advance").getJSONObject(i).getJSONObject("to_location")
@@ -195,10 +197,10 @@ var y=0
                             Log.d("SendData", "to_location" + from_location_lat+"\n"+from_location_long+"\n"+from_name)
                             var date_only=data1.getString("date_only")
                             var time_only=data1.getString( "time_only")
-                            advanceRidelists.add(CityAdvanceRideList(date_only,time_only,advance_booking_id,address_name,from_name,"",from_location_lat,from_location_long,to_location_lat,to_location_long))
+                            advanceRidelists.add(CityAdvanceRideList(date_only,time_only,advance_booking_id,address_name,from_name,"",from_location_lat,from_location_long,to_location_lat,to_location_long,ride_id))
                         }
                         cityRideAdvanceListAdapter= CityRideAdvanceListAdapter(requireContext(),advanceRidelists)
-                        //binding.cityRideAdvanceRecylerview.adapter= cityRideAdvanceListAdapter
+                        binding.cityRideAdvanceRecylerview.adapter= cityRideAdvanceListAdapter
                     }
                     // Get your json response and convert it to whatever you want.
                 }, object : Response.ErrorListener {
@@ -219,18 +221,19 @@ var y=0
 
         queue.add(jsonOblect)
 
-    }*/
+    }
 
-
-}
+/*
 
     private fun advanceData(response: JSONObject) {
+        var y=1
 
-        var data=response.getJSONArray( "advance").length()
-        for (i in 0 until data){
+        var advance=response.getJSONArray( "advance").length()
+        for (i in 0 until advance){
             var data1=response.getJSONArray("advance").getJSONObject(i)
-            var advance_booking_id=data1.getString( "booking_id")
-            Log.d("SendData", "advance_booking_id" + advance_booking_id)
+            var booking_id=data1.getString( "booking_id")
+            var ride_id=data1.getString( "ride_id")
+            Log.d("SendData", "advance_booking_id" + booking_id+ride_id)
 
             var to_location=response.getJSONArray("advance").getJSONObject(i).getJSONObject("to_location")
             var to_location_lat=to_location.getString("lat")
@@ -246,8 +249,13 @@ var y=0
             Log.d("SendData", "to_location" + from_location_lat+"\n"+from_location_long+"\n"+from_name)
             var date_only=data1.getString("date_only")
             var time_only=data1.getString( "time_only")
+            ridelists.add(CityCurrentRidesList(date_only,time_only,booking_id,address_name,from_name,"200",to_location_lat,to_location_long,from_location_lat,from_location_long,ride_id,"3",y))
 
+        }
+        //return currentdata
     }
-    }
+*/
+
+}
 
 

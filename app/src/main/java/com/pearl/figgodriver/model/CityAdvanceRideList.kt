@@ -11,4 +11,5 @@ data class CityAdvanceRideList(
     var current_long:String,
     var des_lat:String,
     var des_long:String,
+    var ride_id:String
 )
