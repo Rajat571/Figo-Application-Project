@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
@@ -32,7 +33,14 @@ class CityRideCurrentListAdapter(var context:Context, var ridelist:List<CityCurr
         holder.location_from.text=data.from
         holder.location_to.text=data.to
         holder.fare_price.text=data.fare_price
-        holder.itemView.setOnClickListener {
+        if (data.y==1){
+            holder.stopwatch.visibility=View.VISIBLE
+        }
+        else{
+            holder.stopwatch.visibility=View.GONE
+        }
+
+    /*    holder.itemView.setOnClickListener {
             holder.rideCardview.setCardBackgroundColor(Color.GREEN)
 
                 context.startActivity(Intent(context,CityRideActivity::class.java)
@@ -47,7 +55,7 @@ class CityRideCurrentListAdapter(var context:Context, var ridelist:List<CityCurr
                     .putExtra("ride_id",data.ride_id)
                     .putExtra("ride_request_id",data.ride_request_id))
 
-        }
+        }*/
     }
 
     override fun getItemCount()=ridelist.size
@@ -61,5 +69,6 @@ class CityRideCurrentListAdapter(var context:Context, var ridelist:List<CityCurr
         var location_from=itemView.findViewById<TextView>(R.id.location_from)
         var fare_price=itemView.findViewById<TextView>(R.id.fare_price)
         var rideCardview=itemView.findViewById<CardView>(R.id.ride_cardview)
+        var stopwatch=itemView.findViewById<ImageView>(R.id.stopwatchIV)
     }
 }

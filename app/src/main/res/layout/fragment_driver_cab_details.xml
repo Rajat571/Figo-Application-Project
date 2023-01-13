@@ -283,17 +283,20 @@
                               android:layout_height="wrap_content"
                               android:text="Inbuilt GPS enabling tracking in real-time"/>
                           <RadioGroup
+                              android:id="@+id/radiogrp"
                               android:layout_width="match_parent"
                               android:layout_height="wrap_content"
                               android:orientation="horizontal">
 
                               <RadioButton
+                                  android:id="@+id/radioBTN_yes"
                                   android:layout_weight="1"
                                   android:layout_width="0dp"
                                   android:layout_height="wrap_content"
                                   android:text="yes"/>
 
                               <RadioButton
+                                  android:id="@+id/radioBTN_no"
                                   android:layout_marginLeft="10dp"
                                   android:layout_width="wrap_content"
                                   android:layout_height="wrap_content"

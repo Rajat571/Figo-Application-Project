@@ -47,19 +47,20 @@ class CityRideFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prefManager=PrefManager(requireContext())
-       // submitCurrentRideForm(view)
+        submitCurrentRideForm(view,"current")
+        //submitCurrentRideForm(view,"advance")
        // submitAdvanceRideForm(view)
 
 
         binding.cityRideCurrentRecylerview.layoutManager=LinearLayoutManager(requireContext())
-        //binding.cityRideAdvanceRecylerview.layoutManager=LinearLayoutManager(requireContext())
+/*        //binding.cityRideAdvanceRecylerview.layoutManager=LinearLayoutManager(requireContext())
         ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","",""))
         ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","",""))
         ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","",""))
         ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","",""))
         ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","",""))
         cityRideCurrentListAdapter=CityRideCurrentListAdapter(requireContext(),ridelists)
-        binding.cityRideCurrentRecylerview.adapter=cityRideCurrentListAdapter
+        binding.cityRideCurrentRecylerview.adapter=cityRideCurrentListAdapter*/
 
 
        /* binding.current.setOnClickListener {
@@ -82,55 +83,59 @@ class CityRideFragment : Fragment() {
 
     }
 
-
-
-    private fun submitCurrentRideForm(view: View) {
+    private fun submitCurrentRideForm(view: View,x:String) {
         val URL = "https://test.pearl-developer.com/figo/api/driver-ride/get-city-ride-request"
         val queue = Volley.newRequestQueue(requireContext())
-
+var y=0
         val jsonOblect: JsonObjectRequest =
             object : JsonObjectRequest(Method.POST, URL,null,
                 Response.Listener<JSONObject?> { response ->
                     Log.d("CITY_RIDE_FRAGMENT", "response===" + response)
                     if (response != null) {
-                        var data=response.getJSONArray("ride_requests").length()
-                        for (i in 0 until data){
-                            Log.d("SendData", "data===" + data)
-                            var data1=response.getJSONArray("ride_requests").getJSONObject(i)
+
+                        ////Current
+
+                        var current=response.getJSONObject(x)
+                        var ride_requests=current.getJSONArray("ride_requests").length()
+                        for (i in 0..ride_requests-1){
+
+                            var data1=response.getJSONObject(x).getJSONArray("ride_requests").getJSONObject(i)
                             var ride_id=data1.getString( "ride_id")
                             var ride_request_id=data1.getString( "id")
-                            Log.d("SendData", "ride_request" + ride_request_id)
+                            Log.d("SendData", "ride_request" + ride_request_id+","+ride_id)
 
-/*
-                            var ride_detail=response.getJSONArray("ride_requests").getJSONObject(i).getJSONObject( "ride_detail")
+                            var ride_detail=response.getJSONObject(x).getJSONArray("ride_requests").getJSONObject(i).getJSONObject( "ride_detail")
                             var booking_id=ride_detail.getString( "booking_id")
-                            Log.d("SendData", "booking_id" + booking_id)*/
+                            Log.d("SendData", "booking_id" + booking_id)
 
-                            var to_location=response.getJSONArray("ride_requests").getJSONObject(i).getJSONObject( "ride_detail").getJSONObject( "to_location")
-
-
-                           // var to_location=response.getJSONArray("rides").getJSONObject(i).getJSONObject( "to_location")
+                            var to_location=response.getJSONObject(x).getJSONArray("ride_requests").getJSONObject(i).getJSONObject( "ride_detail").getJSONObject( "to_location")
                             var to_location_lat=to_location.getString("lat")
                             var to_location_long=to_location.getString("lng")
                             var address_name=to_location.getString("name")
                             Log.d("SendData", "to_location" + to_location_lat+"\n"+to_location_long+"\n"+address_name)
 
-                            var from_location=response.getJSONArray("ride_requests").getJSONObject(i).getJSONObject( "ride_detail").getJSONObject( "from_location")
-                           // var from_location=response.getJSONArray("rides").getJSONObject(i).getJSONObject(  "from_location")
+                            var from_location=response.getJSONObject(x).getJSONArray("ride_requests").getJSONObject(i).getJSONObject("ride_detail").getJSONObject( "from_location")
                             var from_location_lat=from_location.getString("lat")
                             var from_location_long=from_location.getString("lng")
                             var from_name=from_location.getString("name")
                             Log.d("SendData", "to_location" + from_location_lat+"\n"+from_location_long+"\n"+from_name)
 
-                         /*   var date_only=ride_detail.getString("date_only")
+                            var date_only=ride_detail.getString("date_only")
                             var time_only=ride_detail.getString( "time_only")
-                            Log.d("SendData", "date_only" + time_only)*/
+                            Log.d("SendData", "date_only" + time_only)
 
-                           // var fare_price=response.getJSONArray("rides").getJSONObject(i).getJSONObject("price")
+
                             var price=data1.getString( "price")
                             Log.d("SendData", "price" + price)
-                          //  ridelists.add(CityRidesList(date_only,time_only,booking_id,address_name,from_name,price,from_location_lat,from_location_long,to_location_lat,to_location_long,ride_id,ride_request_id))
+
+
+                            /////Advance
+                            //advanceData(response)
+
+                            ridelists.add(CityCurrentRidesList(date_only,time_only,booking_id,address_name,from_name,price,to_location_lat,to_location_long,from_location_lat,from_location_long,ride_id,ride_request_id,y))
+
                         }
+
                         cityRideCurrentListAdapter=CityRideCurrentListAdapter(requireContext(),ridelists)
                         binding.cityRideCurrentRecylerview.adapter=cityRideCurrentListAdapter
                     }
@@ -157,7 +162,7 @@ class CityRideFragment : Fragment() {
 
 
 
-
+/*
     private fun submitAdvanceRideForm(view: View) {
 
 
@@ -213,7 +218,35 @@ class CityRideFragment : Fragment() {
 
         queue.add(jsonOblect)
 
-    }
+    }*/
 
 
 }
+
+    private fun advanceData(response: JSONObject) {
+
+        var data=response.getJSONArray( "advance").length()
+        for (i in 0 until data){
+            var data1=response.getJSONArray("advance").getJSONObject(i)
+            var advance_booking_id=data1.getString( "booking_id")
+            Log.d("SendData", "advance_booking_id" + advance_booking_id)
+
+            var to_location=response.getJSONArray("advance").getJSONObject(i).getJSONObject("to_location")
+            var to_location_lat=to_location.getString("lat")
+            var to_location_long=to_location.getString("lng")
+            var address_name=to_location.getString("name")
+            Log.d("SendData", "to_location" + to_location_lat+"\n"+to_location_long+"\n"+address_name)
+
+            var from_location=response.getJSONArray("advance").getJSONObject(i).getJSONObject("from_location")
+            var from_location_lat=from_location.getString("lat")
+            var from_location_long=from_location.getString("lng")
+            var from_name=from_location.getString("name")
+
+            Log.d("SendData", "to_location" + from_location_lat+"\n"+from_location_long+"\n"+from_name)
+            var date_only=data1.getString("date_only")
+            var time_only=data1.getString( "time_only")
+
+    }
+    }
+
+

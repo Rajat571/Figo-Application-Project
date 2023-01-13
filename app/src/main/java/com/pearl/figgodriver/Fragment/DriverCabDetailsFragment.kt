@@ -26,6 +26,7 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
@@ -183,6 +184,13 @@ class DriverCabDetailsFragment : Fragment() {
         layout_cab.visibility= View.VISIBLE
         layout_work.visibility = View.GONE
 
+     /*   if (binding.radioBTNYes.isChecked)
+        {
+
+        }
+        else if (binding.radioBTNNo.isChecked){
+
+        }*/
 
         carDP.setOnClickListener {
             val intent = Intent()
@@ -190,9 +198,9 @@ class DriverCabDetailsFragment : Fragment() {
             intent.action = Intent.ACTION_GET_CONTENT
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1)
         }
+
         next.setOnClickListener {
             validateForm()
-
         }
 
         back.setOnClickListener {
@@ -1272,7 +1280,6 @@ class DriverCabDetailsFragment : Fragment() {
                             submitForm(insurance_valid_date,local_permit_date,national_permit_date,car_category,car_model,model_year,v_number)
                         }
                     }
-
                 }
 
             }
