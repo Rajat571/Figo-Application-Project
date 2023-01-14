@@ -1390,16 +1390,13 @@ class DriverCabDetailsFragment : Fragment() {
                      Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
                      if (response != null) {
 
-
-
-                         //context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
+                         context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
                          binding.progress.isVisible = false
 
                          prefManager.setRegistrationToken("Done")
 
 
-
-                        Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration)
+                      //  Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration)
 
                        //  prefManager.setCabFormToken("Submitted")
                      }

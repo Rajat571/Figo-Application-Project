@@ -320,6 +320,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
             // The Task returned from this call is always completed, no need to attach
             // a listener.
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            Log.d("Account ","tasktask"+task)
             handleSignInResult(task)
         }
     }
@@ -329,16 +330,21 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
         try {
             val account = completedTask.getResult(ApiException::class.java)
             Log.d("Account ",""+account.account)
+            if (completedTask.isSuccessful){
 
-            prefManager.setAccountDetails(account.account.toString(),account.displayName.toString(),account.photoUrl.toString())
-           // prefManager.setToken("")
-            Toast.makeText(requireContext(),"Signed In :"+account.account.toString(),Toast.LENGTH_LONG).show()
-            if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")) {
-                Navigation.findNavController(vieW).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
-            } else {
-         Navigation.findNavController(vieW).navigate(R.id.action_verifyNumber2_to_waitingRegistration)
+                prefManager.setAccountDetails(account.account.toString(),account.displayName.toString(),account.photoUrl.toString())
+                // prefManager.setToken("")
+                Toast.makeText(requireContext(),"Signed In :"+account.account.toString(),Toast.LENGTH_LONG).show()
+                if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")) {
+                    Navigation.findNavController(vieW).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
+                } else {
+                    Navigation.findNavController(vieW).navigate(R.id.action_verifyNumber2_to_waitingRegistration)
                     //startActivity(Intent(requireContext(),DriverDashBoard::class.java))
                 }
+            }
+            else{
+                Toast.makeText(requireContext(),"failed",Toast.LENGTH_SHORT).show()
+            }
 
             // Signed in successfully, show authenticated UI.
            // updateUI(account)
