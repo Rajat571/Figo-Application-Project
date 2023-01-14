@@ -1,7 +1,7 @@
 package com.pearl.figgodriver.model
 
 data class CityCurrentRidesList(
-    var date:String,
+    var date: String,
     var time:String,
     var cutomer_name:String,
     var to:String,

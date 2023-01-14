@@ -64,7 +64,6 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         binding=DataBindingUtil.setContentView(this,R.layout.activity_city_ride)
         window.setStatusBarColor(Color.parseColor("#000F3B"))
-/*
         var address_to= intent.getStringExtra("location_to")
         var date=intent.getStringExtra("customer_date")
         var time=intent.getStringExtra("customer_time")
@@ -78,7 +77,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
         Log.d("CityRideActivity","ride_id====="+ride_request_id)
         binding.cityRideAddress.text=address_to
         binding.cityRideDate.text=date
-        binding.cityRideTime.text=time*/
+        binding.cityRideTime.text=time
 
        // Log.d("SEND DATA","LOCATION_DATA====="+address_to.toString()+"\n"+current_lat.toString()+"\n"+current_long+"\n"+customer_booking_id+"\n"+ride_id+"\n"+ride_request_id)
 
@@ -148,20 +147,23 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
         mapFragment.getMapAsync {
             mMap = it
-           // val originLocation = LatLng(current_lat!!, current_long!!)
-            val originLocation = LatLng( originLatitude, originLongitude)
+            val originLocation = LatLng(current_lat!!, current_long!!)
+           // val originLocation = LatLng( originLatitude, originLongitude)
             mMap.addMarker(MarkerOptions().position(originLocation).title("hey"))
-           // val destinationLocation = LatLng(des_lat!!, des_long!!)
-            val destinationLocation = LatLng(destinationLatitude, destinationLongitude)
+            val destinationLocation = LatLng(des_lat!!, des_long!!)
+            //val destinationLocation = LatLng(destinationLatitude, destinationLongitude)
             mMap.addMarker(MarkerOptions().position(destinationLocation).title("hi"))
             val urll = getDirectionURL(originLocation, destinationLocation, "AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
             GetDirection(urll).execute()
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 14F))
         }
     }
+
+
     private fun initializeClickListners() {
+
         binding.rejectCityRideBtn.setOnClickListener {
-          /*  var url="https://test.pearl-developer.com/figo/api/driver-ride/reject-city-ride-request"
+            var url="https://test.pearl-developer.com/figo/api/driver-ride/reject-city-ride-request"
             var queue=Volley.newRequestQueue(this)
             var json=JSONObject()
             json.put("ride_request_id",ride_request_id)
@@ -170,12 +172,12 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
                 object : JsonObjectRequest(Method.POST, url,json,
                     com.android.volley.Response.Listener<JSONObject?> { response ->
                         Log.d("CityRideActivity", "Reject status response===" + response)
-                        *//*  var statuss=response.getString("status")
-                          if (statuss.equals(true)) {*//*
+                          var statuss=response.getString("status")
+                          if (statuss.equals(true)) {
                         var message=response.getString("message")
                         Toast.makeText(this@CityRideActivity, "rejected"+message, Toast.LENGTH_LONG).show()
                         finish()
-                        //}
+                        }
                         // Get your json response and convert it to whatever you want.
                     }, object : com.android.volley.Response.ErrorListener {
                         override fun onErrorResponse(error: VolleyError?) {
@@ -195,18 +197,17 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                 }
 
-            queue.add(jsonOblect)*/
+            queue.add(jsonOblect)
             // Toast.makeText(this,"Accepted",Toast.LENGTH_SHORT).show()
 
 
             // Toast.makeText(this," This Booking is rejected",Toast.LENGTH_SHORT).show()
-            finish()
+           // finish()
         }
 
         binding.acceptCityRideBtn.setOnClickListener {
-            prefManager.setActiveRide(1)
-             startActivity(Intent(this,DriverDashBoard::class.java))
-/*
+
+
             var url="https://test.pearl-developer.com/figo/api/driver-ride/accept-city-ride-request"
             var queue=Volley.newRequestQueue(this)
             var json=JSONObject()
@@ -220,6 +221,11 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
                             var message=response.getString( "message")
                             Toast.makeText(this@CityRideActivity, ""+message, Toast.LENGTH_LONG).show()
 
+                        prefManager.setActiveRide(1)
+                        startActivity(Intent(this,DriverDashBoard::class.java))
+                        if (response!=null){
+
+                        }
                         var data=response.getJSONObject( "data")
                         var ride=response.getJSONObject("data").getJSONObject("ride")
                         var id=ride.getString("id")
@@ -263,16 +269,12 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
                         val headers: MutableMap<String, String> = HashMap()
 
 
-
-
-
-                        
                         headers.put("Content-Type", "application/json; charset=UTF-8");
                         headers.put("Authorization", "Bearer " + prefManager.getToken());
                         return headers
                     }
                 }
-            queue.add(jsonOblect)*/
+            queue.add(jsonOblect)
            // Toast.makeText(this,"Accepted",Toast.LENGTH_SHORT).show()l
         }
     }

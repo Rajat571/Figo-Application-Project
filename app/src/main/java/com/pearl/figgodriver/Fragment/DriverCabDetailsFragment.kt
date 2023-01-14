@@ -94,7 +94,7 @@ class DriverCabDetailsFragment : Fragment() {
      var aadhar_back:String=""
    var police_certification:String=""
    var gps_certification:String=""
-
+   var checked=0
 
 
     var base = object :BaseClass(){
@@ -184,13 +184,7 @@ class DriverCabDetailsFragment : Fragment() {
         layout_cab.visibility= View.VISIBLE
         layout_work.visibility = View.GONE
 
-     /*   if (binding.radioBTNYes.isChecked)
-        {
 
-        }
-        else if (binding.radioBTNNo.isChecked){
-
-        }*/
 
         carDP.setOnClickListener {
             val intent = Intent()
@@ -200,6 +194,7 @@ class DriverCabDetailsFragment : Fragment() {
         }
 
         next.setOnClickListener {
+
             validateForm()
         }
 
@@ -1211,23 +1206,31 @@ class DriverCabDetailsFragment : Fragment() {
         else if (requestCode ==21){
             try {
 
-                val photo = data!!.extras!!["data"] as Bitmap?
-                var selectedImageUri4=  getImageUri(requireContext(),photo!!)
-                gps_certification_ext = base.getExtension(selectedImageUri4!!,requireContext())
-                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
-                gps_certification= base.BitMapToString(bitmap).toString()
-                binding.gpscertificte.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+                    val photo = data!!.extras!!["data"] as Bitmap?
+                    var selectedImageUri4=  getImageUri(requireContext(),photo!!)
+                    gps_certification_ext = base.getExtension(selectedImageUri4!!,requireContext())
+                    Log.d("DriverActiveRideFragment","gps_certification_ext"+gps_certification_ext)
+                    var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
+                    gps_certification= base.BitMapToString(bitmap).toString()
+                    Log.d("DriverActiveRideFragment","gps_certification_ext"+gps_certification)
+                    binding.gpscertificte.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+
             } catch (e: IOException) {
                 e.printStackTrace()
             }
         }
         else if (requestCode==22){
             try {
+
                 var selectedImageUri4=data?.data
                 gps_certification_ext = base.getExtension(selectedImageUri4!!,requireContext())
+                Log.d("DriverActiveRideFragment1","gps_certification_ext"+gps_certification_ext)
                 var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
                 gps_certification = base.BitMapToString(bitmap).toString()
+                Log.d("DriverActiveRideFragment1","gps_certification_ext"+gps_certification)
                 binding.gpscertificte.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+
+
             } catch (e: IOException) {
                 e.printStackTrace()
             }
@@ -1261,6 +1264,17 @@ class DriverCabDetailsFragment : Fragment() {
         base.validateDriverInsuranceDate(binding.taxPermitNo)
         base.validateDriverInsuranceDate(binding.nationalPermitDate)
 
+        Log.d("Image","Image"+gps_certification)
+
+        if (binding.radioBTNYes.isChecked)
+        {
+            checked=1
+
+        }
+        else if (binding.radioBTNNo.isChecked){
+            checked=0
+
+        }
         if (!binding.insuranceNo.text.toString().isEmpty()&&!binding.taxPermitNo.text.isEmpty()&&!binding.vechleNo.text.isEmpty()&&!binding.nationalPermitDate.text.isEmpty()){
 
             binding.cabDetailsLayout.visibility=View.GONE
@@ -1277,11 +1291,19 @@ class DriverCabDetailsFragment : Fragment() {
                     next.text="Proceed"
                     if (binding.uploadImage.visibility==View.VISIBLE){
                         next.setOnClickListener {
-                            submitForm(insurance_valid_date,local_permit_date,national_permit_date,car_category,car_model,model_year,v_number)
+                            if (checked==1){
+                                if (gps_certification.isEmpty()){
+                                    binding.gpscertificte.setError("Upload picture")
+                                    binding.trackerGPS.setBackgroundResource(R.drawable.input_error_profile)
+                                }
+                                else{
+                                    submitForm(insurance_valid_date,local_permit_date,national_permit_date,car_category,car_model,model_year,v_number)
+
+                                }
+                            }
                         }
                     }
                 }
-
             }
         }
     }
@@ -1291,8 +1313,6 @@ class DriverCabDetailsFragment : Fragment() {
         binding.cabDetailsLayout.isVisible = false
         binding.work.isVisible = false
         binding.uploadImage.isVisible = false
-
-
 
 
         Log.d("SendData", "updatedStateList==="+updatedStateList)
@@ -1338,6 +1358,8 @@ class DriverCabDetailsFragment : Fragment() {
         json.put("aadhar_front_ext",aadhar_front_ext)
         json.put("aadhar_back_ext",aadhar_back_ext)
         json.put("police_cer_image_ext",police_certification_ext)
+        json.put("gps_tracking_ext",gps_certification_ext)
+        json.put("gps_tracking",gps_certification)
 
 
         Log.d("SendData", "json===" + json)
@@ -1367,10 +1389,16 @@ class DriverCabDetailsFragment : Fragment() {
                      Log.d("SendData", "response===" + response)
                      Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
                      if (response != null) {
-                        context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
+
+
+
+                         context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
                          binding.progress.isVisible = false
 
                          prefManager.setRegistrationToken("Done")
+
+
+
                         //Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration)
 
                        //  prefManager.setCabFormToken("Submitted")

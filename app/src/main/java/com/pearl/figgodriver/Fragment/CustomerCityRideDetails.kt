@@ -30,7 +30,7 @@ class CustomerCityRideDetails : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var recycler = view.findViewById<RecyclerView>(R.id.customer_drop_recycler)
+       // var recycler = view.findViewById<RecyclerView>(R.id.customer_drop_recycler)
         var start = view.findViewById<TextView>(R.id.customer_startbtn)
         var loc= ArrayList<String>()
         loc.add("Zirakpur (Google location)")
@@ -38,8 +38,8 @@ class CustomerCityRideDetails : Fragment() {
         loc.add("Hallomajra Light")
         loc.add("Sanvg, Ambala")
         loc.add("Haryana, India")
-        recycler.adapter = CustomerCityAdapter(loc)
-        recycler.layoutManager=LinearLayoutManager(requireContext())
+//        recycler.adapter = CustomerCityAdapter(loc)
+//        recycler.layoutManager=LinearLayoutManager(requireContext())
         start.setOnClickListener {
             val dialog = Dialog(view.context)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)

@@ -39,7 +39,7 @@ class CityRideAdvanceListAdapter(var context:Context, var advanceridelist:List<C
             holder.rideCardview.setCardBackgroundColor(Color.GREEN)
 
             context.startActivity(
-                Intent(context, AdvanceCityRideActivity::class.java)
+                Intent(context, CityRideActivity::class.java)
                 .putExtra("location_to",data.to)
                 .putExtra("customer_date",data.date)
                 .putExtra("customer_time",data.time)
@@ -47,9 +47,9 @@ class CityRideAdvanceListAdapter(var context:Context, var advanceridelist:List<C
                 .putExtra("current_long",data.current_long)
                 .putExtra("des_lat",data.des_lat)
                 .putExtra("des_long",data.des_long)
-               /* .putExtra("customer_booking_id",data.cutomer_name)
+                .putExtra("customer_booking_id",data.booking_id)
                 .putExtra("ride_id",data.ride_id)
-                .putExtra("ride_request_id",data.ride_request_id)*/)
+                .putExtra("ride_request_id","3"))
 
         }
     }

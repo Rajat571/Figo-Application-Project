@@ -13,14 +13,17 @@
     app:cardElevation="8dp"
     android:orientation="vertical"
     tools:context=".Fragment.CityRideFragment">
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_margin="5dp"
-        android:padding="@dimen/_3sdp"
-        android:layout_height="match_parent">
+        android:padding="@dimen/_3sdp">
 
-       <!-- <LinearLayout
+        <!-- <LinearLayout
             android:id="@+id/layout_current"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -58,25 +61,28 @@
 
         </LinearLayout>-->
 
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/city_ride_advance_recylerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="UnknownId"
+            tools:layout_editor_absoluteX="4dp" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/city_ride_current_recylerview"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/city_ride_advance_recylerview"
             tools:ignore="MissingConstraints" />
-       <!-- <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/city_ride_advance_recylerview"
-            android:layout_marginTop="10dp"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_current"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_height="wrap_content"
-            />-->
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
+</ScrollView>
 
 </androidx.cardview.widget.CardView>
 </layout>

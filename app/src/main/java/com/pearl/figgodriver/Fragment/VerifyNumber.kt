@@ -386,7 +386,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
             if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")) {
                 Navigation.findNavController(vieW).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
             } else {
-Navigation.findNavController(vieW).navigate(R.id.action_verifyNumber2_to_waitingRegistration)
+         Navigation.findNavController(vieW).navigate(R.id.action_verifyNumber2_to_waitingRegistration)
                     //startActivity(Intent(requireContext(),DriverDashBoard::class.java))
                 }
 
