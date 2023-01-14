@@ -11,7 +11,6 @@ import android.graphics.BitmapFactory
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
-import android.os.Environment
 import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
@@ -26,12 +25,11 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
+import com.pearl.figgodriver.LoginActivity
 import com.pearl.figgodriver.R
 import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.IOException
+import java.util.Objects
 import java.util.regex.Pattern
 
 
@@ -78,6 +76,9 @@ abstract class BaseClass : AppCompatActivity() {
                 window.statusBarColor = getResources().getColor(R.color.app_color)
             }
         }
+
+
+
 /*
     @SuppressLint("ObsoleteSdkInt")
     fun getgreenTheme() {
@@ -510,6 +511,8 @@ abstract class BaseClass : AppCompatActivity() {
         return true
     }
 
+
+
     // Handled permission Result
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -570,6 +573,13 @@ abstract class BaseClass : AppCompatActivity() {
 //        }
 //    }
 //
+
+    fun onBackpress(to:Context, from:AppCompatActivity){
+
+        val intent = Intent(to, from::class.java)
+        startActivity(intent)
+        finish()
+    }
 
     protected override fun onPause() {
         super.onPause()

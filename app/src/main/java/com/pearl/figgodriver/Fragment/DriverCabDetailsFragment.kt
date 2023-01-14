@@ -1275,7 +1275,7 @@ class DriverCabDetailsFragment : Fragment() {
             checked=0
 
         }
-        if (!binding.insuranceNo.text.toString().isEmpty()&&!binding.taxPermitNo.text.isEmpty()&&!binding.vechleNo.text.isEmpty()&&!binding.nationalPermitDate.text.isEmpty()){
+        if (!binding.insuranceNo.text.toString().isEmpty()&&!binding.taxPermitNo.text.isEmpty()&&base.validatedriverRegistrationNo(binding.vechleNo)&&!binding.nationalPermitDate.text.isEmpty()){
 
             binding.cabDetailsLayout.visibility=View.GONE
             binding.work.visibility=View.VISIBLE
@@ -1392,14 +1392,14 @@ class DriverCabDetailsFragment : Fragment() {
 
 
 
-                         context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
+                         //context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
                          binding.progress.isVisible = false
 
                          prefManager.setRegistrationToken("Done")
 
 
 
-                        //Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration)
+                        Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration)
 
                        //  prefManager.setCabFormToken("Submitted")
                      }

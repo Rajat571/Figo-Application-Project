@@ -1,16 +1,21 @@
 package com.pearl.figgodriver.Fragment
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.os.SystemClock
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Chronometer
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
@@ -51,7 +56,11 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
     private val RC_SIGN_IN = 1
 
     var driver_id:String=""
-
+    var profile_status=0
+    var token:String=""
+    var mobile_num=""
+   lateinit var view_timer:TextView
+    lateinit var cTimer:CountDownTimer
     var googleSignInClient: GoogleSignInClient? = null
     //var firebaseAuth: FirebaseAuth? = null
     override fun onCreateView(
@@ -66,12 +75,13 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
         return view
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        /*FirebaseApp.initializeApp(requireContext())
-        firebaseAuth = FirebaseAuth.getInstance()
 
-*/      vieW = view
+        startTimer()
+
+      vieW = view
         var otp_screen = view.findViewById<CardView>(R.id.otp_screen)
         prefManager = PrefManager(requireContext())
         binding.chooseUser.isVisible = true
@@ -99,78 +109,35 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
         }
 
 
-
-//        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//            .requestIdToken("830098883348-8upo0dha04flmjuu9p1ikqp5t4kk8h34.apps.googleusercontent.com").requestEmail().build()
-//
-//        googleSignInClient= GoogleSignIn.getClient(requireContext(),gso)
-
-      /*  googleApiClient = GoogleApiClient.Builder(requireContext())
-            .enableAutoManage(requireActivity(),this)
-            .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-            .build()*/
-  /*      binding.signInButton.setOnClickListener {
-            val intent = googleSignInClient!!.signInIntent
-            //val intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient)
-            startActivityForResult(intent,100);
-           // startActivityForResult(intent, RC_SIGN_IN)
-        }
-*/
-
-        // Initialize firebase user
-        // Initialize firebase user
-       /* val firebaseUser = firebaseAuth!!.currentUser
-        // Check condition
-        // Check condition
-        if (firebaseUser != null) {
-            // When user already sign in
-            // redirect to profile activity
-            Toast.makeText(requireContext(),"successfully login",Toast.LENGTH_SHORT).show()
-        }
-*/
-        /*  binding.email.setOnClickListener{
-            binding.inputEmail.isVisible=true
-            binding.llNumber.isVisible=false
-        }*/
-
-
-        // Configure sign-in to request the user's ID, email address, and basic
-// profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        // Configure sign-in to request the user's ID, email address, and basic
-// profile. ID and basic profile are included in DEFAULT_SIGN_IN.
        var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .build()
 
-        // Build a GoogleSignInClient with the options specified by gso.
-        googleSignInClient = GoogleSignIn.getClient(requireContext(), gso);
-        // Check for existing Google Sign In account, if the user is already signed in
-// the GoogleSignInAccount will be non-null.
-        // Check for existing Google Sign In account, if the user is already signed in
-// the GoogleSignInAccount will be non-null.
-        val account = GoogleSignIn.getLastSignedInAccount(requireContext())
-        //updateUI(account)
 
-// Set the dimensions of the sign-in button.
-        // Set the dimensions of the sign-in button.
+        googleSignInClient = GoogleSignIn.getClient(requireContext(), gso);
+
+        val account = GoogleSignIn.getLastSignedInAccount(requireContext())
+
         val signInButton: SignInButton = view.findViewById(com.pearl.figgodriver.R.id.sign_in_button)
         signInButton.setSize(SignInButton.SIZE_STANDARD)
         signInButton.setOnClickListener {
             val signInIntent: Intent = googleSignInClient!!.getSignInIntent()
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
-
-
-
         binding.number.setOnClickListener {
             binding.llNumber.isVisible=true
             binding.inputEmail.isVisible=false
         }
-
-
         var verify_btn=view.findViewById<Button>(R.id.otp_Verify_button)
+         view_timer=view.findViewById<TextView>(R.id.view_timer)
+        var resentOTP=view.findViewById<Button>(R.id.resent_otp)
 
-        verify_btn.setOnClickListener {
+
+
+         verify_btn.setOnClickListener {
+
+
+
             var otp_check_url="https://test.pearl-developer.com/figo/api/otp/check-otp"
             var input_otp=view.findViewById<TextView>(R.id.enteredOTP).text.toString()
             Log.d("VerifyNumber","input_otp"+input_otp)
@@ -181,8 +148,48 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
             json2.put("otp", input_otp.toInt())
             var jsonObjectRequest=object :JsonObjectRequest(Method.POST,otp_check_url,json2,Response.Listener<JSONObject>
             {response ->
+
                 Log.d("VerifyNumber","OTP Check RESPONSE"+response)
-                Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+
+                if (response!=null){
+
+
+                    Toast.makeText(requireContext(), "Login Successfully", Toast.LENGTH_SHORT).show()
+                    if (prefManager.getToken().equals("") || prefManager.getToken().equals("null")) {
+
+
+
+                        prefManager.setToken(token)
+                        prefManager.setisValidLogin(true)
+                    if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")) {
+                        Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
+                    } else {
+                        if(profile_status == 0||prefManager.getRegistrationToken().equals("")){
+                            Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                        }
+                    else{
+                        startActivity(Intent(requireContext(),DriverDashBoard::class.java))
+
+                    }}}
+                    else{
+                        if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")) {
+                            Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
+                        } else {
+                            if(profile_status == 0||prefManager.getRegistrationToken().equals("")){
+                                Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                            }
+                            else{
+                                startActivity(Intent(requireContext(),DriverDashBoard::class.java))
+
+                            }
+                    }}
+
+
+
+                   // Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                }
+
+
 
             },object :Response.ErrorListener{
                 override fun onErrorResponse(error: VolleyError?) {
@@ -192,6 +199,33 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
             }){}
 
                     queue.add(jsonObjectRequest)
+
+        }
+
+        resentOTP.setOnClickListener {
+            val otp1 = "https://test.pearl-developer.com/figo/api/otp/send-otp"
+
+            val queue2 = Volley.newRequestQueue(requireContext())
+            val json2 = JSONObject()
+            json2.put("type", "driver")
+            json2.put("type_id", driver_id.toInt())
+            json2.put("contact_no", mobile_num)
+
+            Log.d("OTP", "json2===" + json2)
+
+            var jsonObjectRequest=object :JsonObjectRequest(Method.POST,otp1,json2,Response.Listener<JSONObject>
+            {response ->
+
+                Log.d("VerifyNumber","OTPresponse"+response)
+            },object :Response.ErrorListener{
+                override fun onErrorResponse(error: VolleyError?) {
+                    Log.d("VerifyNumber","ERROR"+error)
+                    Toast.makeText(requireContext(),"Something went wrong",Toast.LENGTH_SHORT).show()
+                }
+            }){
+
+            }
+            queue2.add(jsonObjectRequest)
 
         }
 
@@ -205,7 +239,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
                 binding.chooseUser.isVisible = false
                 otp_screen.visibility=View.VISIBLE
 
-                var mobile_num = binding.inputNumber.text.toString()
+                 mobile_num = binding.inputNumber.text.toString()
                 val URL = "https://test.pearl-developer.com/figo/api/create-driver"
                 val otp1 = "https://test.pearl-developer.com/figo/api/otp/send-otp"
                 val queue = Volley.newRequestQueue(requireContext())
@@ -219,50 +253,10 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
 
                             Log.d("SendData", "response===" + response)
                             if (response != null) {
-               /*                 if (prefManager.getToken().equals("") || prefManager.getToken().equals("null")) {
-                                    val token = response.getString("token")
-                                    val profile_status = response.getString("profile_status").toInt()
-                                    val driver_id = response.getJSONObject("user").getString("id")
-                                    prefManager.setToken(token)
-                                    prefManager.setisValidLogin(true)
-                                   // prefManager.setFirstTimeLaunch(true)
+                                token = response.getString("token")
+                                Log.d("SendData", "token===" + token)
 
-                                    Toast.makeText(requireContext(), "Login Successfully", Toast.LENGTH_SHORT).show()
-                                    Log.d("SendData", "token===" + token)
-
-                                    if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")) {
-                                             Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
-                                    } else {
-                                        if(profile_status == 0||prefManager.getRegistrationToken().equals("")){
-                                            Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
-                                        }else{
-                                            startActivity(Intent(requireContext(),DriverDashBoard::class.java))
-                                            //Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_waitingRegistration)
-                                           //Navigation.findNavController(view).navigate(R.id.action_welcomeDriverFragment_to_waitingRegistration)
-                                        }
-                                    }
-                                } else {
-                                    val token = response.getString("token")
-                                    val profile_status = response.getString("profile_status").toInt()
-                                    prefManager.setToken(token)
-                                    prefManager.setisValidLogin(true)
-                                    Toast.makeText( requireContext(), "Login Successfully", Toast.LENGTH_SHORT).show()
-                                    if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")) {
-                                        Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
-                                    } else {
-                                        if(profile_status == 0){
-                                            Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
-                                        }else{
-                                            startActivity(Intent(requireContext(),DriverDashBoard::class.java))
-                                           // Navigation.findNavController(view).navigate(R.id.action_welcomeDriverFragment_to_waitingRegistration)
-                                            //Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_waitingRegistration)
-                                        }
-                                    }
-                                }
-                                binding.progress.isVisible = false
-                                binding.chooseUser.isVisible = true*/
-
-
+                                profile_status = response.getString("profile_status").toInt()
 
                                  driver_id = response.getJSONObject("user").getString("id")
                                 Toast.makeText(requireContext(),"driver_id = "+driver_id,Toast.LENGTH_SHORT).show()
@@ -276,6 +270,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
 
                            var jsonObjectRequest=object :JsonObjectRequest(Method.POST,otp1,json2,Response.Listener<JSONObject>
                            {response ->
+
                                Log.d("VerifyNumber","OTPresponse"+response)
                            },object :Response.ErrorListener{
                                override fun onErrorResponse(error: VolleyError?) {
@@ -312,51 +307,6 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
         TODO("Not yet implemented")
     }
 
-/* override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-     if (requestCode === 100) {
-         // When request code is equal to 100
-         // Initialize task
-         val signInAccountTask = GoogleSignIn
-             .getSignedInAccountFromIntent(data)
-
-         // check condition
-         if (signInAccountTask.isSuccessful) {
-             // When google sign in successful
-             // Initialize string
-             val s = "Google sign in successful"
-             // Display Toast
-             displayToast(s)
-             // Initialize sign in account
-             try {
-                 // Initialize sign in account
-                 val googleSignInAccount = signInAccountTask
-                     .getResult(ApiException::class.java)
-                 // Check condition
-                 if (googleSignInAccount != null) {
-                     // When sign in account is not equal to null
-                     // Initialize auth credential
-                     val authCredential = GoogleAuthProvider
-                         .getCredential(
-                             googleSignInAccount.idToken, null
-                         )
-                     // Check credential
-                     firebaseAuth!!.signInWithCredential(authCredential)
-                         .addOnCompleteListener(OnCompleteListener {
-                             if (it.isSuccessful){
-                                 displayToast("Firebase authentication successful")
-                             }
-                             else{
-                                 displayToast("Authentication Failed :"+it.getException()?.message)
-                             }
-                         })
-                 }
-             } catch (e: ApiException) {
-                 e.printStackTrace()
-             }
-         }
-     }
-    }*/
 
     private fun displayToast(s: String) {
         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show()
@@ -398,6 +348,20 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
             Log.d("SignIN = ", "signInResult:failed code=" + e.statusCode)
             //updateUI(null)
         }
+    }
+    fun startTimer() {
+
+        cTimer = object : CountDownTimer(60000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                view_timer.setText("seconds remaining: " + (millisUntilFinished / 1000).toString())
+            }
+
+            override fun onFinish() {
+                view_timer.setText("Re send OTP!")
+
+            }
+        }
+        cTimer.start()
     }
 
 }

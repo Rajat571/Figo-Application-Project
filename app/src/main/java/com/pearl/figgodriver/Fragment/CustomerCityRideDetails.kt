@@ -12,20 +12,25 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pearl.figgodriver.Adapter.CustomerCityAdapter
 import com.pearl.figgodriver.R
 import com.pearl.figgodriver.StartRideActivity
+import com.pearl.figgodriver.databinding.FragmentCustomerCityRideDetailsBinding
 
 class CustomerCityRideDetails : Fragment() {
+    lateinit var binding:FragmentCustomerCityRideDetailsBinding
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_customer_city_ride_details, container, false)
+    binding=DataBindingUtil.inflate(inflater,R.layout.fragment_customer_city_ride_details, container, false)
+        return binding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,6 +43,7 @@ class CustomerCityRideDetails : Fragment() {
         loc.add("Hallomajra Light")
         loc.add("Sanvg, Ambala")
         loc.add("Haryana, India")
+
 //        recycler.adapter = CustomerCityAdapter(loc)
 //        recycler.layoutManager=LinearLayoutManager(requireContext())
         start.setOnClickListener {

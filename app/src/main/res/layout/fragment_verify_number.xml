@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="visible"
-            android:background="@color/light_grey"
+            android:background="#8DD7f7"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -30,6 +30,7 @@
                 tools:ignore="MissingConstraints">
 
                 <ImageView
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="160dp"
                     android:scaleType="centerCrop"
@@ -156,6 +157,7 @@
                         android:textColor="@color/white" />
 
                     <TextView
+                        android:visibility="gone"
                         android:id="@+id/forgot_account"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -241,6 +243,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/otp_screen"
+                android:layout_margin="10dp"
                 app:cardCornerRadius="@dimen/_10sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -251,7 +254,6 @@
 
                 <include
                     layout="@layout/otp_verifyscreen"
-
                     android:visibility="visible" />
             </androidx.cardview.widget.CardView>
 

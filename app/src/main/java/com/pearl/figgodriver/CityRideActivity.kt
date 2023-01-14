@@ -225,30 +225,33 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
                         startActivity(Intent(this,DriverDashBoard::class.java))
                         if (response!=null){
 
+                            var data=response.getJSONObject( "data")
+                            var ride=data.getJSONObject("ride")
+                            var id=ride.getString("id")
+
+                            Log.d("CityRideActivity", "id===" + id)
+
+                            var to_location=response.getJSONObject("data").getJSONObject( "ride").getJSONObject( "to_location")
+                            var to_location_lat=to_location.getString("lat")
+                            var to_location_long=to_location.getString("lng")
+                            var address_name=to_location.getString("name")
+                            Log.d("SendData", "to_location" + to_location_lat+"\n"+to_location_long+"\n"+address_name)
+
+                            var from_location=response.getJSONObject("data").getJSONObject( "ride").getJSONObject( "from_location")
+                            var from_location_lat=from_location.getString("lat")
+                            var from_location_long=from_location.getString("lng")
+                            var from_name=from_location.getString("name")
+                            Log.d("SendData", "to_location" + from_location_lat+"\n"+from_location_long+"\n"+from_name)
+
+                            var date_only=ride.getString("date_only")
+                            var time_only=ride.getString( "time_only")
+                            var customer=response.getJSONObject("data").getJSONObject("customer")
+                            var customer_id=customer.getString("id")
+                            var customer_name=customer.getString( "name")
+                            var customer_contact=customer.getString( "contact_no")
+
                         }
-                        var data=response.getJSONObject( "data")
-                        var ride=response.getJSONObject("data").getJSONObject("ride")
-                        var id=ride.getString("id")
-                        Log.d("CityRideActivity", "id===" + id)
 
-                        var to_location=response.getJSONObject("data").getJSONObject( "ride").getJSONObject( "to_location")
-                        var to_location_lat=to_location.getString("lat")
-                        var to_location_long=to_location.getString("lng")
-                        var address_name=to_location.getString("name")
-                        Log.d("SendData", "to_location" + to_location_lat+"\n"+to_location_long+"\n"+address_name)
-
-                        var from_location=response.getJSONObject("data").getJSONObject( "ride").getJSONObject( "from_location")
-                        var from_location_lat=from_location.getString("lat")
-                        var from_location_long=from_location.getString("lng")
-                        var from_name=from_location.getString("name")
-                        Log.d("SendData", "to_location" + from_location_lat+"\n"+from_location_long+"\n"+from_name)
-
-                        var date_only=ride.getString("date_only")
-                        var time_only=ride.getString( "time_only")
-                        var customer=response.getJSONObject("data").getJSONObject("customer")
-                        var customer_id=customer.getString("id")
-                        var customer_name=customer.getString( "name")
-                        var customer_contact=customer.getString( "contact_no")
 
 
 

@@ -396,7 +396,7 @@ class Figgo_Capton : Fragment(){
             Navigation.findNavController(requireView()).navigate(R.id.action_figgo_Capton_to_driverCabDetailsFragment,args)
 
         }*/
-        if (!binding.drivername.text.isEmpty()&&!binding.drivermobileno.text.isEmpty()&&!binding.driverdlno.text.isEmpty()&&!binding.driverPanNo.text.isEmpty()&&!binding.driverAdharNo.text.isEmpty()){
+        if (!binding.drivername.text.isEmpty()&&baseclass.validateNumber(binding.drivermobileno)&&!binding.driverdlno.text.isEmpty()&&!binding.driverPanNo.text.isEmpty()&&!binding.driverAdharNo.text.isEmpty()){
 
 
             // binding.aadharfrontIV.visibility=View.GONE
