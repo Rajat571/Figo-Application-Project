@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_marginTop="@dimen/_7ssp"
+            android:layout_marginVertical="@dimen/_10sdp"
             android:layout_gravity="center"
             >
             <ImageView
@@ -31,26 +31,17 @@
                 android:id="@+id/sendpayment"
                 android:text="Send to "
                 />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_12sdp"
-            android:text="Wallet"
-            android:textStyle="bold"
-            android:paddingHorizontal="@dimen/_12sdp"
-            />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_3sdp"
+                android:fontFamily="@font/potta_one"
+                android:gravity="center"
+                android:text="Rs.18540"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_20sdp" />
         </LinearLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_12sdp"
-            android:fontFamily="@font/potta_one"
-            android:gravity="center"
-            android:text="Rs.18540"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_20sdp" />
 
         <TextView
             android:layout_width="match_parent"

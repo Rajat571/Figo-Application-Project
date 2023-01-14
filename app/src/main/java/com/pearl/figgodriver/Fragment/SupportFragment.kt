@@ -213,11 +213,11 @@ class SupportFragment : Fragment() {
     private fun paymentHistoryAdapter(view: View) {
         var history = view.findViewById<RecyclerView>(R.id.RechargeHistoryRecycler)
         var data = ArrayList<PaymentHistoryModel>()
-        data.add(PaymentHistoryModel("2.10.2022","300","Credit - 500 - Add payment getaway","Credit - 1500 - Ride Income","Credit - 450 - Ride Incentive",1))
-        data.add(PaymentHistoryModel("2.10.2022","1000","Credit - 500 - Add payment getaway","Credit - 1500 - Ride Income","Credit - 450 - Ride Incentive",0))
-        data.add(PaymentHistoryModel("2.10.2022","1500","Credit - 500 - Add payment getaway","Credit - 1500 - Ride Income","Credit - 450 - Ride Incentive",0))
-        data.add(PaymentHistoryModel("2.10.2022","23","Credit - 500 - Add payment getaway","Credit - 1500 - Ride Income","Credit - 450 - Ride Incentive",1))
-        data.add(PaymentHistoryModel("2.10.2022","2300","Credit - 500 - Add payment getaway","Credit - 1500 - Ride Income","Credit - 450 - Ride Incentive",1))
+        data.add(PaymentHistoryModel("2.10.2022","300","Mr. XYZ XYZ","15minute 6:25pm","10 KM",1))
+        data.add(PaymentHistoryModel("2.10.2022","1000","Mr. XYZ XYZ","15minute 6:25pm","10 KM",0))
+        data.add(PaymentHistoryModel("2.10.2022","1500","Mr. XYZ XYZ","15minute 6:25pm","10 KM",0))
+        data.add(PaymentHistoryModel("2.10.2022","23","Mr. XYZ XYZ","15minute 6:25pm","10 KM",1))
+        data.add(PaymentHistoryModel("2.10.2022","2300","Mr. XYZ XYZ","15minute 6:25pm","10 KM",1))
         history.adapter=PayHistoryAdapter(data)
         history.layoutManager=LinearLayoutManager(requireContext())
     }

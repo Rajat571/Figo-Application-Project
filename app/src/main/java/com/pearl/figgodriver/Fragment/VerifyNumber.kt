@@ -6,7 +6,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -44,6 +49,9 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
     lateinit var vieW: View
     lateinit var googleApiClient: GoogleApiClient
     private val RC_SIGN_IN = 1
+
+    var driver_id:String=""
+
     var googleSignInClient: GoogleSignInClient? = null
     //var firebaseAuth: FirebaseAuth? = null
     override fun onCreateView(
@@ -62,8 +70,12 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
         super.onViewCreated(view, savedInstanceState)
         /*FirebaseApp.initializeApp(requireContext())
         firebaseAuth = FirebaseAuth.getInstance()
+
 */      vieW = view
+        var otp_screen = view.findViewById<CardView>(R.id.otp_screen)
         prefManager = PrefManager(requireContext())
+        binding.chooseUser.isVisible = true
+        otp_screen.visibility=View.GONE
         baseClass=object :BaseClass(){
             override fun setLayoutXml() {
                 TODO("Not yet implemented")
@@ -155,17 +167,47 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
             binding.inputEmail.isVisible=false
         }
 
+
+        var verify_btn=view.findViewById<Button>(R.id.otp_Verify_button)
+
+        verify_btn.setOnClickListener {
+            var otp_check_url="https://test.pearl-developer.com/figo/api/otp/check-otp"
+            var input_otp=view.findViewById<TextView>(R.id.enteredOTP).text.toString()
+            Log.d("VerifyNumber","input_otp"+input_otp)
+            var queue=Volley.newRequestQueue(requireContext())
+            var json2=JSONObject()
+            json2.put("type", "driver")
+            json2.put("type_id", driver_id.toInt())
+            json2.put("otp", input_otp.toInt())
+            var jsonObjectRequest=object :JsonObjectRequest(Method.POST,otp_check_url,json2,Response.Listener<JSONObject>
+            {response ->
+                Log.d("VerifyNumber","OTP Check RESPONSE"+response)
+                Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+
+            },object :Response.ErrorListener{
+                override fun onErrorResponse(error: VolleyError?) {
+                    Log.d("VerifyNumber","ERROR"+error)
+                    Toast.makeText(requireContext(),"Something went wrong",Toast.LENGTH_SHORT).show()
+                }
+            }){}
+
+                    queue.add(jsonObjectRequest)
+
+        }
+
+
         binding.continuetv.setOnClickListener {
 
             if ( baseClass.validateNumber(binding.inputNumber)){
 
 
-                binding.progress.isVisible = true
+                //binding.progress.isVisible = true
                 binding.chooseUser.isVisible = false
+                otp_screen.visibility=View.VISIBLE
 
                 var mobile_num = binding.inputNumber.text.toString()
-
                 val URL = "https://test.pearl-developer.com/figo/api/create-driver"
+                val otp1 = "https://test.pearl-developer.com/figo/api/otp/send-otp"
                 val queue = Volley.newRequestQueue(requireContext())
                 val json = JSONObject()
                 json.put("mobile", mobile_num)
@@ -177,9 +219,10 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
 
                             Log.d("SendData", "response===" + response)
                             if (response != null) {
-                                if (prefManager.getToken().equals("") || prefManager.getToken().equals("null")) {
+               /*                 if (prefManager.getToken().equals("") || prefManager.getToken().equals("null")) {
                                     val token = response.getString("token")
                                     val profile_status = response.getString("profile_status").toInt()
+                                    val driver_id = response.getJSONObject("user").getString("id")
                                     prefManager.setToken(token)
                                     prefManager.setisValidLogin(true)
                                    // prefManager.setFirstTimeLaunch(true)
@@ -217,7 +260,32 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
                                     }
                                 }
                                 binding.progress.isVisible = false
-                                binding.chooseUser.isVisible = true
+                                binding.chooseUser.isVisible = true*/
+
+
+
+                                 driver_id = response.getJSONObject("user").getString("id")
+                                Toast.makeText(requireContext(),"driver_id = "+driver_id,Toast.LENGTH_SHORT).show()
+                                val queue2 = Volley.newRequestQueue(requireContext())
+                                val json2 = JSONObject()
+                                json2.put("type", "driver")
+                                json2.put("type_id", driver_id.toInt())
+                                json2.put("contact_no", mobile_num)
+
+                                Log.d("OTP", "json2===" + json2)
+
+                           var jsonObjectRequest=object :JsonObjectRequest(Method.POST,otp1,json2,Response.Listener<JSONObject>
+                           {response ->
+                               Log.d("VerifyNumber","OTPresponse"+response)
+                           },object :Response.ErrorListener{
+                               override fun onErrorResponse(error: VolleyError?) {
+                                   Log.d("VerifyNumber","ERROR"+error)
+                                   Toast.makeText(requireContext(),"Something went wrong",Toast.LENGTH_SHORT).show()
+                               }
+                           }){
+
+                           }
+                                queue2.add(jsonObjectRequest)
 
                             }
                             // Get your json response and convert it to whatever you want.
