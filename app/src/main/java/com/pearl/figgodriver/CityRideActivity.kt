@@ -223,6 +223,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
 
                         prefManager.setActiveRide(1)
                         startActivity(Intent(this,DriverDashBoard::class.java))
+
                         if (response!=null){
 
                             var data=response.getJSONObject( "data")

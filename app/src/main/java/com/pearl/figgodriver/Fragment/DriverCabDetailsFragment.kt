@@ -27,6 +27,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
+import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
@@ -1291,6 +1292,8 @@ class DriverCabDetailsFragment : Fragment() {
                     next.text="Proceed"
                     if (binding.uploadImage.visibility==View.VISIBLE){
                         next.setOnClickListener {
+                           // submitForm(insurance_valid_date,local_permit_date,national_permit_date,car_category,car_model,model_year,v_number)
+
                             if (checked==1){
                                 if (gps_certification.isEmpty()){
                                     binding.gpscertificte.setError("Upload picture")
@@ -1300,6 +1303,10 @@ class DriverCabDetailsFragment : Fragment() {
                                     submitForm(insurance_valid_date,local_permit_date,national_permit_date,car_category,car_model,model_year,v_number)
 
                                 }
+                            }
+                            else{
+                                submitForm(insurance_valid_date,local_permit_date,national_permit_date,car_category,car_model,model_year,v_number)
+
                             }
                         }
                     }
@@ -1315,9 +1322,11 @@ class DriverCabDetailsFragment : Fragment() {
         binding.uploadImage.isVisible = false
 
 
+
         Log.d("SendData", "updatedStateList==="+updatedStateList)
 
         val URL = "https://test.pearl-developer.com/figo/api/regitser-driver"
+        Log.d("SendData", "URL===" + URL)
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
         var token= prefManager.getToken()
@@ -1332,9 +1341,8 @@ class DriverCabDetailsFragment : Fragment() {
         json.put("pan_number",prefManager.getDriverPan_no())
         json.put("aadhar_number",prefManager.getDriverAadhar_no())
 
-
         // json.put("v_type","type")
-           json.put("v_category",car_category)
+        json.put("v_category",car_category)
         json.put("v_modal",prefManager.getDriverVechleModel())
         json.put("year",prefManager.getDriverVechleYear())
         json.put("v_number",v_number)
@@ -1390,13 +1398,12 @@ class DriverCabDetailsFragment : Fragment() {
                      Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
                      if (response != null) {
 
-                         context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
+                         startActivity(Intent( requireContext(), DriverDashBoard::class.java))
                          binding.progress.isVisible = false
 
                          prefManager.setRegistrationToken("Done")
 
-
-                      //  Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration)
+                       // Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration)
 
                        //  prefManager.setCabFormToken("Submitted")
                      }
@@ -1406,8 +1413,18 @@ class DriverCabDetailsFragment : Fragment() {
                      Toast.makeText(this.requireContext(), " "+it.message,Toast.LENGTH_SHORT).show()
                      // Error
                 //     context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
-                 }){}
-         queue.add(jsonOblect)
+                 }){
 
+                 @SuppressLint("SuspiciousIndentation")
+                 @Throws(AuthFailureError::class)
+                 override fun getHeaders(): Map<String, String> {
+                     val headers: MutableMap<String, String> = HashMap()
+                     headers.put("Content-Type", "application/json; charset=UTF-8");
+                     headers.put("Authorization", "Bearer " + prefManager.getToken());
+                     headers.put("Accept","application/vnd.api+json");
+                     return headers
+                 }
+             }
+         queue.add(jsonOblect)
     }
 }

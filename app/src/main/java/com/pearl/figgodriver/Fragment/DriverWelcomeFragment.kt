@@ -1,5 +1,6 @@
 package com.pearl.figgodriver.Fragment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +11,8 @@ import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.Navigation
+import com.pearl.figgodriver.CityRideActivity
+import com.pearl.figgodriver.DriverDashBoard
 import com.pearl.figgodriver.R
 
 // TODO: Rename parameter arguments, choose names that match

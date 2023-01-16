@@ -60,14 +60,13 @@ class CityRideFragment : Fragment() {
 
 
         
-/*
-        ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","",""))
-        ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","",""))
-        ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","",""))
-        ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","",""))
-        ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","",""))
+        ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","","",0))
+        ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","","",0))
+        ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","","",0))
+        ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","","",0))
+        ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","","",0))
         cityRideCurrentListAdapter=CityRideCurrentListAdapter(requireContext(),ridelists)
-        binding.cityRideCurrentRecylerview.adapter=cityRideCurrentListAdapter*/
+        binding.cityRideCurrentRecylerview.adapter=cityRideCurrentListAdapter
 
 
        /* binding.current.setOnClickListener {
@@ -155,8 +154,8 @@ class CityRideFragment : Fragment() {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): Map<String, String> {
                     val headers: MutableMap<String, String> = HashMap()
-                    headers.put("Content-Type", "application/json; charset=UTF-8");
-                    headers.put("Authorization", "Bearer " + "1379|yVFExCRmDPYlgSHoPx56EtpSbzBdAqIUqTgYJP6D");
+                    headers.put("Content-Type", "application/json; charset=UTF-8")
+                    headers.put("Authorization", "Bearer " + "1815|DwIR9Cf2IAI7fYU222c2MYGsgxNHwTBVDdoQ8MMI")
                     return headers
                 }
             }

@@ -1,5 +1,6 @@
 package com.pearl.figgodriver.Fragment
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -22,6 +23,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
+import com.android.volley.AuthFailureError
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.VolleyError
@@ -59,6 +61,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
     var profile_status=0
     var token:String=""
     var mobile_num=""
+    var getotp=0
    lateinit var view_timer:TextView
     lateinit var cTimer:CountDownTimer
     var googleSignInClient: GoogleSignInClient? = null
@@ -136,8 +139,6 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
 
          verify_btn.setOnClickListener {
 
-
-
             var otp_check_url="https://test.pearl-developer.com/figo/api/otp/check-otp"
             var input_otp=view.findViewById<TextView>(R.id.enteredOTP).text.toString()
             Log.d("VerifyNumber","input_otp"+input_otp)
@@ -151,46 +152,70 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
 
                 Log.d("VerifyNumber","OTP Check RESPONSE"+response)
 
-                if (response!=null){
-
-
-                    Toast.makeText(requireContext(), "Login Successfully", Toast.LENGTH_SHORT).show()
-                    if (prefManager.getToken().equals("") || prefManager.getToken().equals("null")) {
-
-
-
-                        prefManager.setToken(token)
-                        prefManager.setisValidLogin(true)
-                    if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")) {
-                        Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
+                if (response!=null) {
+                    if (input_otp.toInt() != getotp) {
+                        Toast.makeText(requireContext(), "incorrect otp", Toast.LENGTH_SHORT).show()
                     } else {
-                        if(profile_status == 0||prefManager.getRegistrationToken().equals("")){
-                            Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
-                        }
-                    else{
-                        startActivity(Intent(requireContext(),DriverDashBoard::class.java))
+                        Toast.makeText(requireContext(), "Login Successfully", Toast.LENGTH_SHORT)
+                            .show()
+                        if (prefManager.getToken().equals("") || prefManager.getToken()
+                                .equals("null")
+                        ) {
 
-                    }}}
-                    else{
-                        if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")) {
-                            Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
+
+                            prefManager.setToken(token)
+                            prefManager.setisValidLogin(true)
+                            if (prefManager.getMpin().equals("") || prefManager.getMpin()
+                                    .equals("null")
+                            ) {
+                                Navigation.findNavController(view)
+                                    .navigate(R.id.action_verifyNumber2_to_MPinGenerate)
+                            } else {
+                                if (profile_status == 0 || prefManager.getRegistrationToken()
+                                        .equals("")
+                                ) {
+                                    Navigation.findNavController(view)
+                                        .navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                                } else {
+                                    startActivity(
+                                        Intent(
+                                            requireContext(),
+                                            DriverDashBoard::class.java
+                                        )
+                                    )
+
+                                }
+                            }
                         } else {
-                            if(profile_status == 0||prefManager.getRegistrationToken().equals("")){
-                                Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                            if (prefManager.getMpin().equals("") || prefManager.getMpin()
+                                    .equals("null")
+                            ) {
+                                Navigation.findNavController(view)
+                                    .navigate(R.id.action_verifyNumber2_to_MPinGenerate)
+                            } else {
+                                if (profile_status == 0 || prefManager.getRegistrationToken()
+                                        .equals("")
+                                ) {
+                                    Navigation.findNavController(view)
+                                        .navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                                } else {
+                                    startActivity(
+                                        Intent(
+                                            requireContext(),
+                                            DriverDashBoard::class.java
+                                        )
+                                    )
+
+                                }
                             }
-                            else{
-                                startActivity(Intent(requireContext(),DriverDashBoard::class.java))
-
-                            }
-                    }}
+                        }
 
 
+                        // Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                    }
 
-                   // Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+
                 }
-
-
-
             },object :Response.ErrorListener{
                 override fun onErrorResponse(error: VolleyError?) {
                     Log.d("VerifyNumber","ERROR"+error)
@@ -228,8 +253,6 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
             queue2.add(jsonObjectRequest)
 
         }
-
-
         binding.continuetv.setOnClickListener {
 
             if ( baseClass.validateNumber(binding.inputNumber)){
@@ -270,6 +293,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
 
                            var jsonObjectRequest=object :JsonObjectRequest(Method.POST,otp1,json2,Response.Listener<JSONObject>
                            {response ->
+                                getotp=response.getString("otp").toInt()
 
                                Log.d("VerifyNumber","OTPresponse"+response)
                            },object :Response.ErrorListener{
@@ -290,12 +314,14 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
                             // Error
                         }
                     }) {
-                        /*     @Throws(AuthFailureError::class)
+                             @SuppressLint("SuspiciousIndentation")
+                             @Throws(AuthFailureError::class)
                          override fun getHeaders(): Map<String, String> {
                              val headers: MutableMap<String, String> = HashMap()
-                             headers["Authorization"] = "TOKEN" //put your token here
+                                 headers.put("Content-Type", "application/json; charset=UTF-8");
+                                 headers.put("Accept","application/vnd.api+json");
                              return headers
-                         }*/
+                         }
                     }
 
                 queue.add(jsonOblect)
