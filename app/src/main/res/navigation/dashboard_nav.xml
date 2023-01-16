@@ -6,7 +6,7 @@
     app:startDestination="@id/homedash">
     <fragment
         android:id="@+id/homedash"
-        android:name="com.pearl.figgodriver.Fragment.HomeDashBoard"
+        android:name="com.figgo.cabs.figgodriver.Fragment.HomeDashBoard"
         android:label="fragment_driver_home"
 
         tools:layout="@layout/fragment_driver_home" >
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/active_ride"
-        android:name="com.pearl.figgodriver.Fragment.ActiveRide"
+        android:name="com.figgo.cabs.figgodriver.Fragment.ActiveRide"
         android:label="fragment_driver_home"
 
         tools:layout="@layout/fragment_driver_home" >
