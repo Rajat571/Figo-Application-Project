@@ -50,7 +50,6 @@ import kotlin.properties.Delegates
 
 class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
 
-
     var doubleBackToExitPressedOnce = false
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     lateinit var prefManager: PrefManager
@@ -141,6 +140,8 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
     }
 
     override fun initializeClickListners() {
+        var id=intent.getStringExtra("booking_id")
+        Log.d("DriverDashBoard","DriverDashBoard"+id)
         drawer.addDrawerListener(action_bar_toggle)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         image =baseclass.StringToBitMap(prefManager.getDriverProfile())
@@ -215,7 +216,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             }
         }
 
-        if (prefManager.getActiveRide()==1){
+       /* if (prefManager.getActiveRide()==1){
             x=1
             topLayout.top_back.text="Back"
             if (toggleState==false)
@@ -235,7 +236,8 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
                 offlineLayout.visibility=View.VISIBLE
                 homeFrame.visibility=View.GONE
             }
-        }
+        }*/
+        supportFragmentManager.beginTransaction().replace(R.id.home_frame, HomeDashBoard()).commit()
         bottomNav.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.home->{

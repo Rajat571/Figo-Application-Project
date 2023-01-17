@@ -171,6 +171,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textSize="13sp"
+                            android:inputType="text"
+                            android:imeOptions="actionNext"
                             android:padding="15dp"
                             android:hint="Vechle No." />
 
@@ -211,6 +213,7 @@
                             android:drawableEnd="@drawable/ic_baseline_calendar_month_24"
                             android:focusable="false"
                             android:textSize="13sp"
+                            android:imeOptions="actionNext"
                             android:padding="10dp"
                             android:focusableInTouchMode="false"
                             android:hint="Insurance valid up to" />
@@ -234,6 +237,7 @@
                             android:drawableEnd="@drawable/ic_baseline_calendar_month_24"
                             android:focusable="false"
                             android:textSize="13sp"
+                            android:imeOptions="actionNext"
                             android:padding="10dp"
                             android:focusableInTouchMode="false"
                             android:hint="Local Permit valid up to" />
@@ -258,6 +262,7 @@
                             android:drawableEnd="@drawable/ic_baseline_calendar_month_24"
                             android:focusable="false"
                             android:textSize="13sp"
+                            android:imeOptions="actionNext"
                             android:padding="10dp"
                             android:focusableInTouchMode="false"
                             android:hint="National Permit valid up to" />

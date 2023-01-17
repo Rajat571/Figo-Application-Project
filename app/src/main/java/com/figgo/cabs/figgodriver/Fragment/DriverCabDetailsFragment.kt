@@ -97,7 +97,9 @@ class DriverCabDetailsFragment : Fragment() {
    var gps_certification:String=""
    var checked=0
     var date=""
-var num=0
+    var s=""
+    var t=""
+    var n=""
     var base = object : BaseClass(){
         override fun setLayoutXml() {
             TODO("Not yet implemented")
@@ -223,14 +225,25 @@ var num=0
                 layout_work.visibility = View.GONE
             }
         }
-        binding.insuranceNo .setOnClickListener {
-            calendar(binding.insuranceNo)
+      /*for (i in 0..3){
+          if (i==0){
+              binding.insuranceNo .setOnClickListener {
+                  calendar(binding.insuranceNo,date)
+              }
+          }
+      }*/
+        binding.insuranceNo.setOnClickListener {
+            calendar(binding.insuranceNo,date)
+            s=date
+            Log.d("s","Insrance date"+s)
         }
         binding.taxPermitNo.setOnClickListener {
-            calendar(binding.taxPermitNo)
+            calendar(binding.taxPermitNo,date)
+             t=date
         }
         binding.nationalPermitDate.setOnClickListener {
-            calendar(binding.nationalPermitDate)
+            calendar(binding.nationalPermitDate,date)
+             n=date
         }
         val optionsMenu = arrayOf<CharSequence>(
             "Take Photo",
@@ -557,6 +570,7 @@ var num=0
 
 
 
+
     fun initializeInputs() {
         stateList.clear()
         /*Cab Year Spinner*/
@@ -576,8 +590,6 @@ var num=0
                 // write code to perform some action
             }
         }
-
-
 
 
         for(i in 2000..current_year)
@@ -915,7 +927,7 @@ var num=0
     }
 
 
-    private fun calendar(edit: EditText) {
+    private fun calendar(edit: EditText, date: String, ) {
         val c = Calendar.getInstance()
         // on below line we are getting
         // our day, month and year.
@@ -931,10 +943,9 @@ var num=0
             { view, year, monthOfYear, dayOfMonth ->
                 // on below line we are setting
                 // date to our edit text.
-                 date = (year.toString() + "-" + (monthOfYear + 1) + "-" +dayOfMonth.toString())
+
+                this.date = (year.toString() + "-" + (monthOfYear + 1) + "-" +dayOfMonth.toString())
                 val dat1 = (dayOfMonth.toString()+"-" + (monthOfYear + 1) + "-" +year.toString())
-
-
                 edit.setText(dat1)
             },
             // on below line we are passing year, month
@@ -1251,16 +1262,16 @@ var num=0
 
     private fun validateForm() {
 
-
         var vechle_type=prefManager.getDriverVechleType()
         var  car_category=prefManager.getDriverCabCategory()
         var car_model=prefManager.getDriverVechleModel()
         var model_year=prefManager.getDriverVechleYear()
         var v_number=binding.vechleNo.text.toString()
         var registration_no=binding.registrationNo.text.toString()
-        var insurance_valid_date=date
-        var local_permit_date=date
-        var national_permit_date=date
+        var insurance_valid_date=s
+        Log.d("insurance_valid_date","insurance_valid_date"+insurance_valid_date)
+        var local_permit_date=t
+        var national_permit_date=n
 
 
         base.validatedriverRegistrationNo(binding.registrationNo)

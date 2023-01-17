@@ -165,8 +165,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
                             if (prefManager.getMpin().equals("") || prefManager.getMpin()
                                     .equals("null")
                             ) {
-                                Navigation.findNavController(view)
-                                    .navigate(R.id.action_verifyNumber2_to_MPinGenerate)
+                                Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
                             } else {
                                 if (profile_status == 0 || prefManager.getRegistrationToken()
                                         .equals("")

@@ -80,6 +80,8 @@
                     android:layout_height="wrap_content"
                     >
                     <EditText
+                        android:inputType="text"
+                        android:imeOptions="actionNext"
                         android:background="@drawable/input_boder_profile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -96,6 +98,8 @@
                     android:layout_height="wrap_content"
                     >
                     <EditText
+                        android:inputType="text"
+                        android:imeOptions="actionNext"
                         android:background="@drawable/input_boder_profile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -148,13 +152,14 @@
                     android:layout_height="wrap_content"
                     >
                     <EditText
-
                         android:background="@drawable/input_boder_profile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/driverdlno"
                         android:textSize="13sp"
                         android:padding="15dp"
+                        android:inputType="text"
+                        android:imeOptions="actionNext"
                         android:hint="Driving License Number"/>
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
@@ -164,11 +169,12 @@
                     android:layout_height="wrap_content"
                     >
                     <EditText
-
                         android:background="@drawable/input_boder_profile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/driverPanNo"
+                        android:inputType="text"
+                        android:imeOptions="actionNext"
                         android:textSize="13sp"
                         android:padding="15dp"
                         android:hint="PAN Number"/>
@@ -181,12 +187,13 @@
                     android:layout_height="wrap_content"
                     >
                     <EditText
-
                         android:background="@drawable/input_boder_profile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/driverAdharNo"
+                        android:imeOptions="actionNext"
                         android:textSize="13sp"
+                        android:inputType="text"
                         android:padding="15dp"
                         android:hint="Aadhar Number"/>
                 </com.google.android.material.textfield.TextInputLayout>

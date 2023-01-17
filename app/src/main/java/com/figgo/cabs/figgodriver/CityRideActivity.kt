@@ -75,7 +75,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
         des_long=intent.getStringExtra("des_long")!!.toDouble()
          ride_id=intent.getStringExtra("ride_id")!!.toInt()
         ride_request_id=intent.getStringExtra("ride_request_id")!!.toInt()
-        Log.d("CityRideActivity","ride_id====="+ride_request_id)
+        Log.d("CityRideActivity","ride_id====="+ride_request_id+ride_id)
         binding.cityRideAddress.text=address_to
         binding.cityRideDate.text=date
         binding.cityRideTime.text=time
@@ -156,7 +156,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
             mMap.addMarker(MarkerOptions().position(destinationLocation).title("hi"))
             val urll = getDirectionURL(originLocation, destinationLocation, "AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
             GetDirection(urll).execute()
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 14F))
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 10F))
         }
     }
 
@@ -222,16 +222,17 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
                             var message=response.getString( "message")
                             Toast.makeText(this@CityRideActivity, ""+message, Toast.LENGTH_LONG).show()
 
-                        prefManager.setActiveRide(1)
-                        startActivity(Intent(this, DriverDashBoard::class.java))
+
 
                         if (response!=null){
 
                             var data=response.getJSONObject( "data")
                             var ride=data.getJSONObject("ride")
                             var id=ride.getString("id")
+                            var booking_id=ride.getString("booking_id")
+                            var type=ride.getString("type")
 
-                            Log.d("CityRideActivity", "id===" + id)
+                            Log.d("CityRideActivity", "id===" + booking_id)
 
                             var to_location=response.getJSONObject("data").getJSONObject( "ride").getJSONObject( "to_location")
                             var to_location_lat=to_location.getString("lat")
@@ -251,7 +252,20 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
                             var customer_id=customer.getString("id")
                             var customer_name=customer.getString( "name")
                             var customer_contact=customer.getString( "contact_no")
-
+                            prefManager.setActiveRide(1)
+                            startActivity(Intent(this, CustomerCityRideDetailActivity::class.java)
+                                .putExtra("booking_id",booking_id.toString())
+                                .putExtra("type",type)
+                                .putExtra("to_location_lat",to_location_lat)
+                                .putExtra("to_location_long",to_location_long)
+                                .putExtra("address_name",address_name)
+                                .putExtra("from_location_lat",from_location_lat)
+                                .putExtra("from_location_long",from_location_long)
+                                .putExtra("from_name",from_name)
+                                .putExtra("date_only",date_only)
+                                .putExtra("time_only",time_only)
+                                .putExtra("customer_name",customer_name)
+                                .putExtra("customer_contact",customer_contact))
                         }
 
 
