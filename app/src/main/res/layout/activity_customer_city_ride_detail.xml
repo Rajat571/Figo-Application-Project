@@ -12,7 +12,7 @@ xmlns:tools="http://schemas.android.com/tools">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-
+        android:id="@+id/details_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -195,6 +195,7 @@ xmlns:tools="http://schemas.android.com/tools">
 
         <LinearLayout
             android:padding="10dp"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -250,41 +251,60 @@ xmlns:tools="http://schemas.android.com/tools">
                 android:weightSum="10">
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="2.9"
+                    android:layout_weight="3.19"
+                    android:layout_gravity="center"
                     android:layout_height="wrap_content"
                     android:text="Pick-up location"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/pickup_location"
                     android:layout_width="0dp"
-                    android:layout_weight="7.2"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="6.9"
                     android:text=""
                     android:textSize="14sp"
                     android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:padding="2dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/pickup_location"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_marginTop="6dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
+
                 android:weightSum="10">
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="2.9"
+                    android:layout_weight="3.19"
                     android:layout_height="wrap_content"
                     android:text="Drop Location"
+                    android:layout_gravity="center"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
                 <TextView
                     android:id="@+id/drop_location"
                     android:layout_width="0dp"
-                    android:layout_weight="7.2"
+                    android:layout_gravity="center"
+                    android:layout_weight="6.9"
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textSize="14sp"
                     android:textStyle="bold" />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:padding="2dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/pickup_location"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_marginTop="6dp"
@@ -306,10 +326,14 @@ xmlns:tools="http://schemas.android.com/tools">
                     android:layout_width="0dp"
                     android:layout_weight="7.2"
                     android:layout_height="wrap_content"
-                    android:text=""
+                    android:text="  200rs"
                     android:textStyle="bold"/>
 
             </LinearLayout>
+
+
+
+
 
         </LinearLayout>
         <!--   <androidx.recyclerview.widget.RecyclerView
@@ -318,5 +342,22 @@ xmlns:tools="http://schemas.android.com/tools">
                android:layout_height="wrap_content"
                android:layout_margin="@dimen/_5sdp" />-->
     </LinearLayout>
+    <androidx.cardview.widget.CardView
+        app:layout_constraintTop_toBottomOf="@+id/details_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="8dp">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@drawable/background_card"
+        />
+
+    </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

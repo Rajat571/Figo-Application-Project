@@ -564,12 +564,7 @@ class DriverCabDetailsFragment : Fragment() {
             builder.show()
         }
 
-
-
     }
-
-
-
 
     fun initializeInputs() {
         stateList.clear()

@@ -156,10 +156,9 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
             mMap.addMarker(MarkerOptions().position(destinationLocation).title("hi"))
             val urll = getDirectionURL(originLocation, destinationLocation, "AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
             GetDirection(urll).execute()
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 10F))
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(destinationLocation, 8F))
         }
     }
-
 
     private fun initializeClickListners() {
 
@@ -221,8 +220,6 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
 
                             var message=response.getString( "message")
                             Toast.makeText(this@CityRideActivity, ""+message, Toast.LENGTH_LONG).show()
-
-
 
                         if (response!=null){
 

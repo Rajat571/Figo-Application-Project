@@ -16,8 +16,6 @@ import com.figgo.cabs.figgodriver.model.CityCurrentRidesList
 class CityRideCurrentListAdapter(var context:Context, var ridelist:List<CityCurrentRidesList>):
     Adapter<CityRideCurrentListAdapter.CityRideHolder>() {
 
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityRideHolder {
         return CityRideHolder(LayoutInflater.from(context).inflate(R.layout.city_current_ride_list_layout,parent,false))
     }
@@ -33,6 +31,7 @@ class CityRideCurrentListAdapter(var context:Context, var ridelist:List<CityCurr
         holder.fare_price.text=data.fare_price
 
         holder.itemView.setOnClickListener {
+
             holder.rideCardview.setCardBackgroundColor(Color.GREEN)
 
                 context.startActivity(Intent(context, CityRideActivity::class.java)
@@ -46,12 +45,10 @@ class CityRideCurrentListAdapter(var context:Context, var ridelist:List<CityCurr
                     .putExtra("customer_booking_id",data.cutomer_name)
                     .putExtra("ride_id",data.ride_id)
                     .putExtra("ride_request_id",data.ride_request_id))
-
         }
     }
 
     override fun getItemCount()=ridelist.size
-
 
     class CityRideHolder(itemView: View):androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView){
         var customer_date=itemView.findViewById<TextView>(R.id.customer_date)
@@ -61,6 +58,5 @@ class CityRideCurrentListAdapter(var context:Context, var ridelist:List<CityCurr
         var location_from=itemView.findViewById<TextView>(R.id.location_from)
         var fare_price=itemView.findViewById<TextView>(R.id.fare_price)
         var rideCardview=itemView.findViewById<CardView>(R.id.ride_cardview)
-
     }
 }

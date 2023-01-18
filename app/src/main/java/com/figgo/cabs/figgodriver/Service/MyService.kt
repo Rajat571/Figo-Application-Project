@@ -46,6 +46,7 @@ class MyService : Service() {
     var addressName:String=""
     var lon=0.0
     lateinit var geocoder: Geocoder
+    lateinit var prefManager:PrefManager
 
     lateinit var address:List<Address>
     var bi = Intent(COUNTDOWN_BR)
@@ -76,7 +77,7 @@ class MyService : Service() {
         super.onCreate()
 
 
-
+prefManager= PrefManager(applicationContext)
         scope.launch(Dispatchers.IO) {  latlong() }
 
         Toast.makeText(applicationContext,"sucess",Toast.LENGTH_SHORT).show()
@@ -120,8 +121,9 @@ class MyService : Service() {
                         Toast.makeText(this, "Cannot get location.", Toast.LENGTH_SHORT).show()
                     else {
                         lat = location.latitude
-                        //  prefManager.setlatitude(lat.toFloat())
+                          prefManager.setlatitude(lat.toFloat())
                         lon = location.longitude
+                        prefManager.setlongitude(lon.toFloat())
                         geocoder = Geocoder(this, Locale.getDefault())
 
                         address = geocoder.getFromLocation(lat,lon,1)
@@ -141,6 +143,7 @@ class MyService : Service() {
                         json.put("lng",""+lon.toString())
                         json.put("name",""+addressName)
                         Log.d("MY_SERVICE == ","json "+json)
+                        Log.d("location == ","LATLONG "+prefManager.getlatitude()+","+prefManager.getlongitude())
                        //Toast.makeText(this,""+PrefManager(this).getToken(),Toast.LENGTH_SHORT).show()
                       /*  Log.d("Response == ","TokenData"+ prefManager.getToken())*/
                         val jsonObject=  object : JsonObjectRequest(

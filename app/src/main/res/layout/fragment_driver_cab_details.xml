@@ -174,7 +174,7 @@
                             android:inputType="text"
                             android:imeOptions="actionNext"
                             android:padding="15dp"
-                            android:hint="Vechle No." />
+                            android:hint="Vehicle No."/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
