@@ -398,6 +398,57 @@ abstract class BaseClass : AppCompatActivity() {
             true
         }
     }
+    fun validateAadharNo(aadharno: EditText): Boolean {
+        val num = aadharno.getText().toString().trim { it <= ' ' }
+        setCustomError(null,aadharno)
+        return if (num.isEmpty()) {
+            val sMessage = "Please enter valid aadhar no ..!!"
+            setCustomError(sMessage, aadharno)
+            false
+        } else if (!isValidAdharNo(num)) {
+            val sMessage = "Number must be 12 digits..!!"
+            setCustomError(sMessage, aadharno)
+            false
+        } else {
+            setCustomErrorDisabled(aadharno)
+            true
+        }
+    }
+
+    fun validatePanNo(panNo: EditText): Boolean {
+        val num = panNo.getText().toString().trim { it <= ' ' }
+        setCustomError(null,panNo)
+        return if (num.isEmpty()) {
+            val sMessage = "Please enter valid pan no ..!!"
+            setCustomError(sMessage, panNo)
+            false
+        } else if (!isValidPanNo(num)) {
+            val sMessage = "Number must be 10  digits or letter..!!"
+            setCustomError(sMessage, panNo)
+            false
+        } else {
+            setCustomErrorDisabled(panNo)
+            true
+        }
+    }
+
+
+    fun validateDLNo(DLNo: EditText): Boolean {
+        val num = DLNo.getText().toString().trim { it <= ' ' }
+        setCustomError(null,DLNo)
+        return if (num.isEmpty()) {
+            val sMessage = "Please enter valid DL no ..!!"
+            setCustomError(sMessage, DLNo)
+            false
+        } else if (!isValidDLNo(num)) {
+            val sMessage = "Number must be 15 letters or digits..!!"
+            setCustomError(sMessage, DLNo)
+            false
+        } else {
+            setCustomErrorDisabled(DLNo)
+            true
+        }
+    }
 
     fun validateDriverInsuranceDate(insurance: EditText): Boolean {
         val dob_id: String = insurance.getText().toString().trim { it <= ' ' }
@@ -642,12 +693,38 @@ abstract class BaseClass : AppCompatActivity() {
             if (number.length==3) {
                 result = false
             }
-         /*   if (number.length>4) {
+
+            return result
+        }
+
+        fun isValidAdharNo(number: String): Boolean {
+            var result: Boolean
+            result = true
+
+            if (number.length==11) {
                 result = false
             }
-            if (number.length==4) {
+
+            return result
+        }
+        fun isValidPanNo(number: String): Boolean {
+            var result: Boolean
+            result = true
+
+            if (number.length==9) {
                 result = false
-            }*/
+            }
+
+            return result
+        }
+        fun isValidDLNo(number: String): Boolean {
+            var result: Boolean
+            result = true
+
+            if (number.length==14) {
+                result = false
+            }
+
             return result
         }
 
@@ -680,6 +757,7 @@ abstract class BaseClass : AppCompatActivity() {
             }
             return result
         }
+
     }
 }
 

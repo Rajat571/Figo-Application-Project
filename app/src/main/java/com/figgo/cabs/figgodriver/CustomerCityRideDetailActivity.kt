@@ -11,10 +11,15 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Window
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.android.volley.Response
+import com.android.volley.VolleyError
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.databinding.ActivityCustomerCityRideDetailBinding
@@ -32,6 +37,7 @@ import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.json.JSONObject
 
 class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private var originLatitude: Double =0.0
@@ -92,8 +98,37 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             dialog.setContentView(R.layout.otp_start_layout)
             var submit = dialog.findViewById<Button>(R.id.dialog_submit)
             var cancel = dialog.findViewById<ImageView>(R.id.cancel_icon)
+            var name=dialog.findViewById<TextView>(R.id.name)
+            var number=dialog.findViewById<TextView>(R.id.mobilenum)
+            var pickup=dialog.findViewById<TextView>(R.id.pickup)
+            var drop=dialog.findViewById<TextView>(R.id.drop)
+            var ridestartotp=dialog.findViewById<EditText>(R.id.ridestartotp)
+            name.text=intent.getStringExtra("customer_name")
+            number.text=intent.getStringExtra("customer_contact")
+            pickup.text=intent.getStringExtra("address_name")
+            drop.text=intent.getStringExtra("from_name")
+
+
             submit.setOnClickListener {
-                startActivity(Intent(this, StartRideActivity::class.java))
+
+                var url=" https://test.pearl-developer.com/figo/api/driver-ride/check-otp"
+                var queue=Volley.newRequestQueue(this)
+                var json=JSONObject()
+                json.put("otp",ridestartotp.text)
+                var jsonObjectRequest=object :JsonObjectRequest(Method.POST,url,json,Response.Listener<JSONObject>{
+                    response ->
+                    Log.d("CustomerCityRideDetailActivity","response=="+response)
+                    if (response!=null){
+
+                        startActivity(Intent(this, StartRideActivity::class.java))
+                    }
+                },object :Response.ErrorListener{
+                    override fun onErrorResponse(error: VolleyError?) {
+                        Log.d("CustomerCityRideDetailActivity","ERROR"+error)
+                    }
+                }){}
+                queue.add(jsonObjectRequest)
+
 
                 Toast.makeText(this,"OTP SENT SUCCESSFULLY", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()

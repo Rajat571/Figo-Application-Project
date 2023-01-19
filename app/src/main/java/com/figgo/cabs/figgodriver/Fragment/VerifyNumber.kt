@@ -1,6 +1,7 @@
 package com.figgo.cabs.figgodriver.Fragment
 
 import android.annotation.SuppressLint
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -62,6 +63,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
    lateinit var view_timer:TextView
     lateinit var cTimer:CountDownTimer
     var googleSignInClient: GoogleSignInClient? = null
+    lateinit var dialog:ProgressDialog
     //var firebaseAuth: FirebaseAuth? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -79,6 +81,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        dialog= ProgressDialog(requireContext())
         startTimer()
 
       vieW = view
@@ -112,8 +115,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
        var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .build()
-
-
+        
         googleSignInClient = GoogleSignIn.getClient(requireContext(), gso);
 
         val account = GoogleSignIn.getLastSignedInAccount(requireContext())
@@ -135,96 +137,12 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
 
 
          verify_btn.setOnClickListener {
-
-            var otp_check_url="https://test.pearl-developer.com/figo/api/otp/check-otp"
-            var input_otp=view.findViewById<TextView>(R.id.enteredOTP).text.toString()
-            Log.d("VerifyNumber","input_otp"+input_otp)
-            var queue=Volley.newRequestQueue(requireContext())
-            var json2=JSONObject()
-            json2.put("type", "driver")
-            json2.put("type_id", driver_id.toInt())
-            json2.put("otp", input_otp.toInt())
-            var jsonObjectRequest=object :JsonObjectRequest(Method.POST,otp_check_url,json2,Response.Listener<JSONObject>
-            {response ->
-
-                Log.d("VerifyNumber","OTP Check RESPONSE"+response)
-
-                if (response!=null) {
-                    if (input_otp.toInt() != getotp) {
-                        Toast.makeText(requireContext(), "incorrect otp", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(requireContext(), "Login Successfully", Toast.LENGTH_SHORT)
-                            .show()
-                        if (prefManager.getToken().equals("") || prefManager.getToken()
-                                .equals("null")
-                        ) {
-
-
-                            prefManager.setToken(token)
-                            prefManager.setisValidLogin(true)
-                            if (prefManager.getMpin().equals("") || prefManager.getMpin()
-                                    .equals("null")
-                            ) {
-                                Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
-                            } else {
-                                if (profile_status == 0 || prefManager.getRegistrationToken()
-                                        .equals("")
-                                ) {
-                                    Navigation.findNavController(view)
-                                        .navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
-                                } else {
-                                    startActivity(
-                                        Intent(
-                                            requireContext(),
-                                            DriverDashBoard::class.java
-                                        )
-                                    )
-
-                                }
-                            }
-                        } else {
-                            if (prefManager.getMpin().equals("") || prefManager.getMpin()
-                                    .equals("null")
-                            ) {
-                                Navigation.findNavController(view)
-                                    .navigate(R.id.action_verifyNumber2_to_MPinGenerate)
-                            } else {
-                                if (profile_status == 0 || prefManager.getRegistrationToken()
-                                        .equals("")
-                                ) {
-                                    Navigation.findNavController(view)
-                                        .navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
-                                } else {
-                                    startActivity(
-                                        Intent(
-                                            requireContext(),
-                                            DriverDashBoard::class.java
-                                        )
-                                    )
-
-                                }
-                            }
-                        }
-
-
-                        // Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
-                    }
-
-
-                }
-            },object :Response.ErrorListener{
-                override fun onErrorResponse(error: VolleyError?) {
-                    Log.d("VerifyNumber","ERROR"+error)
-                    Toast.makeText(requireContext(),"Something went wrong",Toast.LENGTH_SHORT).show()
-                }
-            }){}
-
-                    queue.add(jsonObjectRequest)
-
+             verifyOTP(view)
         }
 
         resentOTP.setOnClickListener {
-            val otp1 = "https://test.pearl-developer.com/figo/api/otp/send-otp"
+            verifyOTP(view)
+         /*   val otp1 = "https://test.pearl-developer.com/figo/api/otp/send-otp"
 
             val queue2 = Volley.newRequestQueue(requireContext())
             val json2 = JSONObject()
@@ -246,13 +164,12 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
             }){
 
             }
-            queue2.add(jsonObjectRequest)
+            queue2.add(jsonObjectRequest)*/
 
         }
         binding.continuetv.setOnClickListener {
-
+            dialog.show()
             if ( baseClass.validateNumber(binding.inputNumber)){
-
 
                 //binding.progress.isVisible = true
                 binding.chooseUser.isVisible = false
@@ -276,9 +193,10 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
                                 Log.d("SendData", "token===" + token)
 
                                 profile_status = response.getString("profile_status").toInt()
-
                                  driver_id = response.getJSONObject("user").getString("id")
-                                Toast.makeText(requireContext(),"driver_id = "+driver_id,Toast.LENGTH_SHORT).show()
+                                var user=response.getJSONObject("user")
+                                var status=user.getString("status")
+                                Log.d("VerifyNumber","STATUS"+status)
                                 val queue2 = Volley.newRequestQueue(requireContext())
                                 val json2 = JSONObject()
                                 json2.put("type", "driver")
@@ -287,20 +205,23 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
 
                                 Log.d("OTP", "json2===" + json2)
 
-                           var jsonObjectRequest=object :JsonObjectRequest(Method.POST,otp1,json2,Response.Listener<JSONObject>
-                           {response ->
-                                getotp=response.getString("otp").toInt()
+                                var jsonObjectRequest=object :JsonObjectRequest(Method.POST,otp1,json2,Response.Listener<JSONObject>
+                                {response ->
+                                    getotp=response.getString("otp").toInt()
+                                    dialog.hide()
 
-                               Log.d("VerifyNumber","OTPresponse"+response)
-                           },object :Response.ErrorListener{
-                               override fun onErrorResponse(error: VolleyError?) {
-                                   Log.d("VerifyNumber","ERROR"+error)
-                                   Toast.makeText(requireContext(),"Something went wrong",Toast.LENGTH_SHORT).show()
-                               }
-                           }){
+                                    Log.d("VerifyNumber","OTPresponse"+response)
+                                },object :Response.ErrorListener{
+                                    override fun onErrorResponse(error: VolleyError?) {
+                                        dialog.hide()
+                                        Log.d("VerifyNumber","ERROR"+error)
+                                        Toast.makeText(requireContext(),"Something went wrong",Toast.LENGTH_SHORT).show()
+                                    }
+                                }){
 
-                           }
+                                }
                                 queue2.add(jsonObjectRequest)
+
 
                             }
                             // Get your json response and convert it to whatever you want.
@@ -324,6 +245,98 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
             }
         }
         }
+
+    private fun verifyOTP(view: View) {
+        var dialog=ProgressDialog(requireContext())
+        dialog.show()
+        var otp_check_url="https://test.pearl-developer.com/figo/api/otp/check-otp"
+        var input_otp=view.findViewById<TextView>(R.id.enteredOTP).text.toString()
+        Log.d("VerifyNumber","input_otp"+input_otp)
+        var queue=Volley.newRequestQueue(requireContext())
+        var json2=JSONObject()
+        json2.put("type", "driver")
+        json2.put("type_id", driver_id.toInt())
+        json2.put("otp", input_otp.toInt())
+        var jsonObjectRequest=object :JsonObjectRequest(Method.POST,otp_check_url,json2,Response.Listener<JSONObject>
+        {response ->
+
+            Log.d("VerifyNumber","OTP Check RESPONSE"+response)
+
+            if (response!=null) {
+                if (input_otp.toInt() != getotp) {
+                    Toast.makeText(requireContext(), "incorrect otp", Toast.LENGTH_SHORT).show()
+                    dialog.hide()
+                } else {
+                    dialog.hide()
+                   // Toast.makeText(requireContext(), "Login Successfully", Toast.LENGTH_SHORT).show()
+                    if (prefManager.getToken().equals("") || prefManager.getToken()
+                            .equals("null")
+                    ) {
+
+                        prefManager.setToken(token)
+                        prefManager.setisValidLogin(true)
+                        if (prefManager.getMpin().equals("") || prefManager.getMpin()
+                                .equals("null")
+                        ) {
+                            Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
+                        } else {
+                            if (profile_status == 0 || prefManager.getRegistrationToken()
+                                    .equals("")
+                            ) {
+                                Navigation.findNavController(view)
+                                    .navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                            } else {
+                                startActivity(
+                                    Intent(
+                                        requireContext(),
+                                        DriverDashBoard::class.java
+                                    )
+                                )
+
+                            }
+                        }
+                    } else {
+                        if (prefManager.getMpin().equals("") || prefManager.getMpin()
+                                .equals("null")
+                        ) {
+                            Navigation.findNavController(view)
+                                .navigate(R.id.action_verifyNumber2_to_MPinGenerate)
+                        } else {
+                            if (profile_status == 0 || prefManager.getRegistrationToken()
+                                    .equals("")
+                            ) {
+                                Navigation.findNavController(view)
+                                    .navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                            } else {
+                                startActivity(
+                                    Intent(
+                                        requireContext(),
+                                        DriverDashBoard::class.java
+                                    )
+                                )
+
+                            }
+                        }
+                    }
+
+
+                    // Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                }
+
+
+            }
+        },object :Response.ErrorListener{
+            override fun onErrorResponse(error: VolleyError?) {
+                dialog.hide()
+                Log.d("VerifyNumber","ERROR"+error)
+                Toast.makeText(requireContext(),"Something went wrong",Toast.LENGTH_SHORT).show()
+            }
+        }){}
+
+        queue.add(jsonObjectRequest)
+
+    }
+
 
     override fun onConnectionFailed(p0: ConnectionResult) {
         TODO("Not yet implemented")
@@ -377,6 +390,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
             //updateUI(null)
         }
     }
+
     fun startTimer() {
 
         cTimer = object : CountDownTimer(60000, 1000) {
@@ -391,5 +405,4 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
         }
         cTimer.start()
     }
-
 }

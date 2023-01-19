@@ -30,6 +30,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="#585D5D"
+        android:id="@+id/otpstring"
         android:text="@string/otp_text"
         android:layout_marginBottom="30dp"
         />

@@ -60,7 +60,6 @@ class DriverCabDetailsFragment : Fragment() {
     var hashMap : HashMap<String, Int> = HashMap<String, Int> ()
     var stateList = kotlin.collections.ArrayList<String>()
     var updatedStateList = ArrayList<String>()
-    var outstationStateHashMap : HashMap<String, Int> = HashMap<String, Int> ()
     var modelHashMap  : HashMap<String, Int> = HashMap<String, Int> ()
     lateinit  var next  :TextView
     lateinit  var back  :TextView
@@ -70,7 +69,7 @@ class DriverCabDetailsFragment : Fragment() {
     var selectedcity  = 0
     var selectedState = 0
 
-    //declare images and extentions
+    /******* declaration of  images and extentions   *********/
 
     var driver_profile_ext:String=""
    var driving_license_ext:String=""
@@ -86,7 +85,7 @@ class DriverCabDetailsFragment : Fragment() {
 
    var driver_profile:String=""
    var driving_license:String=""
-    var cab_insrance:String=""
+    var cab_insrance:String  =""
     var registration_certificate:String=""
    var national_permit:String=""
     var local_permit:String=""
@@ -96,10 +95,12 @@ class DriverCabDetailsFragment : Fragment() {
    var police_certification:String=""
    var gps_certification:String=""
    var checked=0
-    var date=""
+    var date:String=""
     var s=""
     var t=""
     var n=""
+    var temp=""
+   lateinit var calender:Calendar
     var base = object : BaseClass(){
         override fun setLayoutXml() {
             TODO("Not yet implemented")
@@ -152,8 +153,7 @@ class DriverCabDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding=DataBindingUtil.inflate(inflater,
-            R.layout.fragment_driver_cab_details, container, false)
+        binding=DataBindingUtil.inflate(inflater,R.layout.fragment_driver_cab_details, container, false)
         return binding.root
     }
     @SuppressLint("SuspiciousIndentation")
@@ -165,8 +165,6 @@ class DriverCabDetailsFragment : Fragment() {
         initializeViews(view)
         initializeClickListners(view)
         initializeInputs()
-
-
     }
 
     fun initializeViews(view: View) {
@@ -178,7 +176,7 @@ class DriverCabDetailsFragment : Fragment() {
         workingarea        = view.findViewById<Spinner>(R.id.working_area_spinner)
         carDP                  = view.findViewById(R.id.upload_car)
         carModel               = view.findViewById<Spinner>(R.id.vechle_model)
-        // binding.proceed.visibility=View.GONE
+
     }
 
     fun initializeClickListners(view: View) {
@@ -187,8 +185,6 @@ class DriverCabDetailsFragment : Fragment() {
 
         layout_cab.visibility= View.VISIBLE
         layout_work.visibility = View.GONE
-
-
 
         carDP.setOnClickListener {
             val intent = Intent()
@@ -205,19 +201,25 @@ class DriverCabDetailsFragment : Fragment() {
         back.setOnClickListener {
             if (layout_cab.visibility==View.VISIBLE){
                 binding.uploadImage.visibility=View.GONE
-                // binding.proceed.visibility=View.GONE
                 Navigation.findNavController(view).navigate(R.id.action_driverCabDetailsFragment_to_figgo_Capton)
             }
             else if(binding.uploadImage.visibility==View.VISIBLE){
                 layout_cab.visibility=View.GONE
-                next.text="next"
+                next.text="NEXT"
                 layout_work.visibility=View.VISIBLE
+                gps_certification=""
+                next.setOnClickListener {
+                    validateForm()
+                }
                 binding.uploadImage.visibility=View.GONE
             }
             else if(binding.work.visibility==View.VISIBLE){
 
                 layout_cab.visibility=View.VISIBLE
                 binding.work.visibility=View.GONE
+                next.setOnClickListener {
+                    validateForm()
+                }
                binding.uploadImage.visibility=View.GONE
             }else{
                 //  binding.proceed.visibility=View.GONE
@@ -225,25 +227,72 @@ class DriverCabDetailsFragment : Fragment() {
                 layout_work.visibility = View.GONE
             }
         }
-      /*for (i in 0..3){
-          if (i==0){
-              binding.insuranceNo .setOnClickListener {
-                  calendar(binding.insuranceNo,date)
-              }
-          }
-      }*/
+
         binding.insuranceNo.setOnClickListener {
-            calendar(binding.insuranceNo,date)
-            s=date
-            Log.d("s","Insrance date"+s)
+            calender= Calendar.getInstance()
+            val year = calender.get(Calendar.YEAR)
+            val month = calender.get(Calendar.MONTH)
+            val day = calender.get(Calendar.DAY_OF_MONTH)
+            val datePickerDialog = DatePickerDialog(
+                this.requireContext(),
+                { view, year, monthOfYear, dayOfMonth ->
+
+                    date = (year.toString() + "-" + (monthOfYear + 1) + "-" +dayOfMonth.toString())
+                    s=date
+                    Log.d("DATETIME","DATE"+date)
+                    val dat1 = (dayOfMonth.toString()+"-" + (monthOfYear + 1) + "-" +year.toString())
+                    binding.insuranceNo.setText(dat1)
+                    binding.insuranceNo.setBackgroundResource(R.drawable.input_boder_profile)
+                },
+                year,
+                month,
+                day
+            )
+            datePickerDialog.show()
         }
         binding.taxPermitNo.setOnClickListener {
-            calendar(binding.taxPermitNo,date)
-             t=date
+            calender= Calendar.getInstance()
+            val year = calender.get(Calendar.YEAR)
+            val month = calender.get(Calendar.MONTH)
+            val day = calender.get(Calendar.DAY_OF_MONTH)
+            val datePickerDialog = DatePickerDialog(
+                this.requireContext(),
+                { view, year, monthOfYear, dayOfMonth ->
+
+                    date = (year.toString() + "-" + (monthOfYear + 1) + "-" +dayOfMonth.toString())
+                    t=date
+                    Log.d("DATETIME","DATE"+date)
+                    val dat1 = (dayOfMonth.toString()+"-" + (monthOfYear + 1) + "-" +year.toString())
+                   binding.taxPermitNo.setText(dat1)
+                    binding.insuranceNo.setBackgroundResource(R.drawable.input_boder_profile)
+                },
+                year,
+                month,
+                day
+            )
+            datePickerDialog.show()
         }
         binding.nationalPermitDate.setOnClickListener {
-            calendar(binding.nationalPermitDate,date)
-             n=date
+            calender= Calendar.getInstance()
+            val year = calender.get(Calendar.YEAR)
+            val month = calender.get(Calendar.MONTH)
+            val day = calender.get(Calendar.DAY_OF_MONTH)
+            val datePickerDialog = DatePickerDialog(
+                this.requireContext(),
+                { view, year, monthOfYear, dayOfMonth ->
+
+                    date = (year.toString() + "-" + (monthOfYear + 1) + "-" +dayOfMonth.toString())
+                    n=date
+                    Log.d("DATETIME","DATE"+date)
+                    val dat1 = (dayOfMonth.toString()+"-" + (monthOfYear + 1) + "-" +year.toString())
+                    binding.nationalPermitDate.setText(dat1)
+                    binding.insuranceNo.setBackgroundResource(R.drawable.input_boder_profile)
+                },
+                year,
+                month,
+                day
+            )
+            datePickerDialog.show()
         }
         val optionsMenu = arrayOf<CharSequence>(
             "Take Photo",
@@ -251,7 +300,6 @@ class DriverCabDetailsFragment : Fragment() {
             "Exit"
         )
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
-
 
         binding.selfiee.setOnClickListener {
 
@@ -922,37 +970,33 @@ class DriverCabDetailsFragment : Fragment() {
     }
 
 
-    private fun calendar(edit: EditText, date: String, ) {
+  /*  private fun calendar(edit: EditText): String {
         val c = Calendar.getInstance()
-        // on below line we are getting
-        // our day, month and year.
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
-
-        // on below line we are creating a
-        // variable for date picker dialog.
         val datePickerDialog = DatePickerDialog(
-            // on below line we are passing context.
             this.requireContext(),
             { view, year, monthOfYear, dayOfMonth ->
-                // on below line we are setting
-                // date to our edit text.
 
-                this.date = (year.toString() + "-" + (monthOfYear + 1) + "-" +dayOfMonth.toString())
+                date = (year.toString() + "-" + (monthOfYear + 1) + "-" +dayOfMonth.toString())
+
+
+                Log.d("DATETIME","DATE"+date)
+
+
                 val dat1 = (dayOfMonth.toString()+"-" + (monthOfYear + 1) + "-" +year.toString())
                 edit.setText(dat1)
+                binding.insuranceNo.setBackgroundResource(R.drawable.input_boder_profile)
             },
-            // on below line we are passing year, month
-            // and day for the selected date in our date picker.
             year,
             month,
             day
         )
-        // at last we are calling show
-        // to display our date picker dialog.
         datePickerDialog.show()
-    }
+
+        return temp
+    }*/
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -1225,6 +1269,7 @@ class DriverCabDetailsFragment : Fragment() {
                     gps_certification= base.BitMapToString(bitmap).toString()
                     Log.d("DriverActiveRideFragment","gps_certification_ext"+gps_certification)
                     binding.gpscertificte.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+                    binding.trackerGPS.setBackgroundResource(R.drawable.input_boder_profile)
 
             } catch (e: IOException) {
                 e.printStackTrace()
@@ -1240,6 +1285,7 @@ class DriverCabDetailsFragment : Fragment() {
                 gps_certification = base.BitMapToString(bitmap).toString()
                 Log.d("DriverActiveRideFragment1","gps_certification_ext"+gps_certification)
                 binding.gpscertificte.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+                binding.trackerGPS.setBackgroundResource(R.drawable.input_boder_profile)
 
 
             } catch (e: IOException) {
@@ -1306,12 +1352,12 @@ class DriverCabDetailsFragment : Fragment() {
 
                             if (checked==1){
                                 if (gps_certification.isEmpty()){
-                                    binding.gpscertificte.setError("Upload picture")
+
                                     binding.trackerGPS.setBackgroundResource(R.drawable.input_error_profile)
                                 }
                                 else{
+                                    binding.trackerGPS.setBackgroundResource(R.drawable.input_boder_profile)
                                     submitForm(insurance_valid_date,local_permit_date,national_permit_date,car_category,car_model,model_year,v_number)
-
                                 }
                             }
                             else{
@@ -1330,8 +1376,6 @@ class DriverCabDetailsFragment : Fragment() {
         binding.cabDetailsLayout.isVisible = false
         binding.work.isVisible = false
         binding.uploadImage.isVisible = false
-
-
 
         Log.d("SendData", "updatedStateList==="+updatedStateList)
 
@@ -1409,13 +1453,13 @@ class DriverCabDetailsFragment : Fragment() {
                      Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
                      if (response != null) {
 
-                         startActivity(Intent( requireContext(), DriverDashBoard::class.java))
+                        // startActivity(Intent( requireContext(), DriverDashBoard::class.java))
                          binding.progress.isVisible = false
 
 
                          prefManager.setRegistrationToken("Done")
 
-                       // Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration)
+                        Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration)
 
                        //  prefManager.setCabFormToken("Submitted")
                      }

@@ -1,5 +1,6 @@
 package com.figgo.cabs.figgodriver.Fragment
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -27,6 +28,7 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 class MPinGenerate : Fragment() {
+    lateinit var dialog: ProgressDialog
     lateinit var binding: FragmentMPinGenerateBinding
 
     var baseClass=object :BaseClass(){
@@ -68,11 +70,14 @@ class MPinGenerate : Fragment() {
 
         val confirm_mpin = view.findViewById<EditText>(R.id.confirm_mpin)
 
+        dialog= ProgressDialog(requireContext())
         binding.continuetv.setOnClickListener {
+            dialog.show()
             baseClass.validateMpin(mpin)
             baseClass.validateMpin(confirm_mpin)
             if (baseClass.validateMpin(mpin)&&baseClass.validateMpin(confirm_mpin)){
             if (mpin.text.toString().equals(confirm_mpin.text.toString())) {
+                dialog.hide()
                 pref.setMpin(mpin.text.toString())
                 if(pref.getRegistrationToken().equals("") || pref.getRegistrationToken().equals("null")){
                     Navigation.findNavController(view).navigate(R.id.action_MPinGenerate_to_figgo_FamilyFragment)
@@ -81,9 +86,14 @@ class MPinGenerate : Fragment() {
                     //Navigation.findNavController(view).navigate(R.id.action_welcomeDriverFragment_to_waitingRegistration)
                      }
             } else {
+                dialog.hide()
                 Toast.makeText(this.context, "MPin not match", Toast.LENGTH_SHORT).show()
             }
+        }
+        else{
+            dialog.hide()
         }}
+
         binding.exit.setOnClickListener {
             val startMain = Intent(Intent.ACTION_MAIN)
             startMain.addCategory(Intent.CATEGORY_HOME)

@@ -33,20 +33,13 @@ import org.json.JSONObject
 
 class Figgo_Capton : Fragment(){
 
-    lateinit var imageuri: Uri
+
     lateinit var binding: FragmentFiggoCaptonBinding
-    var  aadhar_verification_front:String=""
-    var aadhar_verification_back :String=""
-    var driverdp :String=""
-    var police_verification:String=""
+    lateinit var baseclass: BaseClass
+    lateinit var prefManager: PrefManager
+    var args = Bundle()
     val statelist: ArrayList<SpinnerObj> = ArrayList()
     val citylist: ArrayList<SpinnerObj> = ArrayList()
-    lateinit var baseclass: BaseClass
-    lateinit var basePrivate: BasePrivate
-    lateinit var spinner_state: Spinner
-    // lateinit  var  backstr: String
-    var args = Bundle()
-    lateinit var prefManager: PrefManager
     var statehashMap : HashMap<String, Int> = HashMap<String, Int> ()
     var cityhashMap : HashMap<String, Int> = HashMap<String, Int> ()
     override fun onCreateView(
@@ -60,7 +53,11 @@ class Figgo_Capton : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        /*****************************    PrefManager initialization  *******************************************/
+
         prefManager = PrefManager(requireContext())
+
+        /*****************************    BaseClass initialization  *******************************************/
         baseclass=object : BaseClass(){
             override fun setLayoutXml() {
                 TODO("Not yet implemented")
@@ -85,7 +82,6 @@ class Figgo_Capton : Fragment(){
         }
 
         fetchState()
-        // basePrivate=BasePrivate()
 
 
         binding.llAadharFront.setOnClickListener {
@@ -93,34 +89,32 @@ class Figgo_Capton : Fragment(){
             intent.type = "image/*"
             intent.action = Intent.ACTION_GET_CONTENT
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1)
-
-
-            //   contract1.launch("image/*")
         }
+
         binding.llAadharBack.setOnClickListener {
             var intent=Intent()
             intent.type="image/*"
             intent.action=Intent.ACTION_GET_CONTENT
             startActivityForResult(Intent.createChooser(intent,"select Picture"),2)
-            // contract2.launch("image/*")
         }
         binding.selfiee.setOnClickListener {
             var intent=Intent()
             intent.type="image/*"
             intent.action=Intent.ACTION_GET_CONTENT
             startActivityForResult(Intent.createChooser(intent,"select Picture"),4)
-            //contract3.launch("image/*")
+
         }
         binding.policeVerification.setOnClickListener {
             var intent=Intent()
             intent.type="image/*"
             intent.action=Intent.ACTION_GET_CONTENT
             startActivityForResult(Intent.createChooser(intent,"select Picture"),3)
-            //contract4.launch("image/*")
         }
+
         var next=view.findViewById<TextView>(R.id.next_button)
+
         next.setOnClickListener {
-            //  sharedPref(view)
+
             validateForm()
 
             var driver_name=binding.drivername.text.toString()
@@ -137,6 +131,7 @@ class Figgo_Capton : Fragment(){
         }
 
         var back=view.findViewById<TextView>(R.id.back_button)
+
         back.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_figgo_Capton_to_driverWelcomeFragment)
         }
@@ -150,8 +145,6 @@ class Figgo_Capton : Fragment(){
 
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
-        var token= prefManager.getToken()
-
         json.put("country_id","101")
 
         Log.d("SendData", "json===" + json)
@@ -204,9 +197,9 @@ class Figgo_Capton : Fragment(){
                     }
 
                 }
-                // Get your json response and convert it to whatever you want.
+
             }, Response.ErrorListener {
-                // Error
+
             }){}
         queue.add(jsonOblect)
 
@@ -239,17 +232,11 @@ class Figgo_Capton : Fragment(){
                             citylist.add(SpinnerObj(name,id))
                             cityhashMap.put(name,id.toInt())
 
-
-
                         }
-                        //spinner
-                        //  val stateadapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,cityhashMap.keys.toList());
+
                         val stateadapter = SpinnerAdapter(requireContext(),citylist)
-                        //   stateadapter.setDropDownViewResource(R.layout.spinneritemlayout)
+
                         binding.spinnerCity.setAdapter(stateadapter)
-
-
-
 
 
                         binding.spinnerCity.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
@@ -258,29 +245,18 @@ class Figgo_Capton : Fragment(){
                                 val id1 = stateadapter.getItem(position)?.id
                                 prefManager.setDriveCity(id1!!.toInt())
                                 Log.d("SendData", "cityid===" + id1)
-                                //  fetchCity(id)
 
                             }
-
                             @SuppressLint("SetTextI18n")
                             override fun onNothingSelected(adapter: AdapterView<*>?) {
-                                //  (binding.spinnerState.getChildAt(0) as TextView).text = "Select Category"
                             }
                         })
-
-
-
-
                     }else{
 
                     }
-
-
                     Log.d("SendData", "json===" + json)
-
-
                 }
-                // Get your json response and convert it to whatever you want.
+
             }, Response.ErrorListener {
                 // Error
             }){}
@@ -292,125 +268,19 @@ class Figgo_Capton : Fragment(){
 
     }
 
-/*
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == 1){
-            try {
-                //Getting the Bitmap from Gallery
-                val selectedImageUri = data?.getData()
-                val bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), selectedImageUri)
-
-
-                aadhar_verification_front = baseclass.BitMapToString(bitmap).toString()
-
-                prefManager.setAadhar_verification_front(aadhar_verification_front)
-                binding.upAdharfront.setImageBitmap(bitmap)
-                val extension = baseclass.getExtension(selectedImageUri!!,requireContext())
-                prefManager.setAadhar_front_ext(extension)
-                binding.upAdharfront.visibility=View.VISIBLE
-                binding.aadharfrontIV.visibility=View.GONE
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-
-        }  else if (requestCode==2){
-            var selectedImageUri2=data?.data
-            var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri2)
-            val extension2 = baseclass.getExtension(selectedImageUri2!!,requireContext())
-            prefManager.setAadhar_back_ext(extension2)
-            aadhar_verification_back = baseclass.BitMapToString(bitmap).toString()
-            prefManager.setAadhar_verification_back(aadhar_verification_back)
-            binding.upAdharback.setImageBitmap(bitmap)
-            binding.upAdharback.visibility=View.VISIBLE
-            binding.aadharBackIV.visibility=View.GONE
-        }
-
-        else if(requestCode==3){
-            var selectedImageUri3=data?.data
-            var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri3)
-            val extension3 = baseclass.getExtension(selectedImageUri3!!,requireContext())
-            prefManager.setPolice_ext(extension3)
-            police_verification= baseclass.BitMapToString(bitmap).toString()
-            prefManager.setPolice_verification(police_verification)
-            binding.ivPoliceVerification.setImageBitmap(bitmap)
-            binding.policeVerification.setBackgroundResource(R.drawable.input_boder_profile)
-        }
-
-        else if(requestCode==4){
-            var selectedImageUri4=data?.data
-            val extension3 = baseclass.getExtension(selectedImageUri4!!,requireContext())
-            prefManager.setDriverProfile_ext(extension3)
-            var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
-            driverdp = baseclass.BitMapToString(bitmap).toString()
-            binding.selfiee.setImageBitmap(bitmap)
-            prefManager.setDriverProfile(driverdp)
-        }
-    }
-*/
-
     private fun validateForm() {
-
 
         baseclass.validateName(binding.drivername)
         baseclass.validateNumber(binding.drivermobileno)
-        //baseclass.validateState(binding.driverstate)
-        //baseclass.validateCity(binding.drivercity)
-        baseclass.validatedriverDLNo(binding.driverdlno)
-        baseclass.validatedriverDLNo(binding.driverPanNo)
-        baseclass.validatedriverDLNo(binding.driverAdharNo)
+        baseclass.validateAadharNo(binding.driverAdharNo)
+        baseclass.validatePanNo(binding.driverPanNo)
+        baseclass.validateDLNo(binding.driverdlno)
 
-
-        if (binding.upAdharfront.drawable==null){
-            ll_aadhar_front.setBackgroundResource(R.drawable.input_error_profile)
-        }
-        else{
-            ll_aadhar_front.setBackgroundResource(R.drawable.input_boder_profile)
-        }
-        if (binding.upAdharback.drawable==null){
-            ll_aadhar_back.setBackgroundResource(R.drawable.input_error_profile)
-        }
-        else{
-
-            ll_aadhar_back.setBackgroundResource(R.drawable.input_boder_profile)
-        }
-
-
-
-        // binding.aadharfrontTV.setError("Please upload aadhar front image")
-
-   /*     if (!binding.drivername.text.isEmpty()&&!binding.drivermobileno.text.isEmpty()&&!binding.driverdlno.text.isEmpty()&&binding.upAdharfront.drawable!=null&&binding.upAdharback.drawable!=null){
-
-
-
-            // binding.aadharfrontIV.visibility=View.GONE
-            binding.upAdharfront.visibility=View.VISIBLE
-            binding.aadharBackIV.visibility=View.GONE
-            binding.upAdharback.visibility=View.VISIBLE
-
-
-
-
-            Navigation.findNavController(requireView()).navigate(R.id.action_figgo_Capton_to_driverCabDetailsFragment,args)
-
-        }*/
-        if (!binding.drivername.text.isEmpty()&&baseclass.validateNumber(binding.drivermobileno)&&!binding.driverdlno.text.isEmpty()&&!binding.driverPanNo.text.isEmpty()&&!binding.driverAdharNo.text.isEmpty()){
-
-
-            // binding.aadharfrontIV.visibility=View.GONE
-           /* binding.upAdharfront.visibility=View.VISIBLE
-            binding.aadharBackIV.visibility=View.GONE
-            binding.upAdharback.visibility=View.VISIBLE*/
-
-
-
+        if (baseclass.validateName(binding.drivername)&&baseclass.validateNumber(binding.drivermobileno)&&baseclass.validateDLNo(binding.driverdlno)&&baseclass.validatePanNo(binding.driverPanNo)&&baseclass.validateAadharNo(binding.driverAdharNo)){
 
             Navigation.findNavController(requireView()).navigate(R.id.action_figgo_Capton_to_driverCabDetailsFragment,args)
 
         }
-
     }
 
 }
