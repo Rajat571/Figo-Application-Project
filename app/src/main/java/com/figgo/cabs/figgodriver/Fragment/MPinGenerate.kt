@@ -79,12 +79,12 @@ class MPinGenerate : Fragment() {
             if (mpin.text.toString().equals(confirm_mpin.text.toString())) {
                 dialog.hide()
                 pref.setMpin(mpin.text.toString())
-                if(pref.getRegistrationToken().equals("") || pref.getRegistrationToken().equals("null")){
+               /* if(pref.getRegistrationToken().equals("") || pref.getRegistrationToken().equals("null")){
                     Navigation.findNavController(view).navigate(R.id.action_MPinGenerate_to_figgo_FamilyFragment)
-                }else{
+                }else{*/
                     startActivity(Intent(requireContext(), DriverDashBoard::class.java))
                     //Navigation.findNavController(view).navigate(R.id.action_welcomeDriverFragment_to_waitingRegistration)
-                     }
+                    // }
             } else {
                 dialog.hide()
                 Toast.makeText(this.context, "MPin not match", Toast.LENGTH_SHORT).show()

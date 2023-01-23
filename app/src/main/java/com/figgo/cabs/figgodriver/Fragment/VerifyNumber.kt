@@ -41,6 +41,7 @@ import com.figgo.cabs.databinding.FragmentVerifyNumberBinding
 import com.figgo.cabs.figgodriver.DriverDashBoard
 
 import com.figgo.cabs.pearllib.BaseClass
+import kotlinx.android.synthetic.main.fragment_m_pin_generate.*
 
 import org.json.JSONObject
 
@@ -60,6 +61,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
     var token:String=""
     var mobile_num=""
     var getotp=0
+    var status=0
    lateinit var view_timer:TextView
     lateinit var cTimer:CountDownTimer
     var googleSignInClient: GoogleSignInClient? = null
@@ -120,12 +122,12 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
 
         val account = GoogleSignIn.getLastSignedInAccount(requireContext())
 
-        val signInButton: SignInButton = view.findViewById(R.id.sign_in_button)
+     /*   val signInButton: SignInButton = view.findViewById(R.id.sign_in_button)
         signInButton.setSize(SignInButton.SIZE_STANDARD)
         signInButton.setOnClickListener {
             val signInIntent: Intent = googleSignInClient!!.getSignInIntent()
             startActivityForResult(signInIntent, RC_SIGN_IN)
-        }
+        }*/
         binding.number.setOnClickListener {
             binding.llNumber.isVisible=true
             binding.inputEmail.isVisible=false
@@ -181,7 +183,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
                 val queue = Volley.newRequestQueue(requireContext())
                 val json = JSONObject()
                 json.put("mobile", mobile_num)
-
+                Log.d("VerifyNumber", "response===" + URL)
                 val jsonOblect: JsonObjectRequest =
                     object : JsonObjectRequest(Method.POST, URL, json, object :
                         Response.Listener<JSONObject?>               {
@@ -194,9 +196,10 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
 
                                 profile_status = response.getString("profile_status").toInt()
                                  driver_id = response.getJSONObject("user").getString("id")
-                                var user=response.getJSONObject("user")
-                                var status=user.getString("status")
-                                Log.d("VerifyNumber","STATUS"+status)
+                               // var user=response.getJSONObject("user")
+                              //   status=user.getString("status").toInt()
+                               // Log.d("VerifyNumber","STATUS"+status)
+
                                 val queue2 = Volley.newRequestQueue(requireContext())
                                 val json2 = JSONObject()
                                 json2.put("type", "driver")
@@ -208,6 +211,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
                                 var jsonObjectRequest=object :JsonObjectRequest(Method.POST,otp1,json2,Response.Listener<JSONObject>
                                 {response ->
                                     getotp=response.getString("otp").toInt()
+                                    Log.d("VerifyNumber","getotp"+getotp)
                                     dialog.hide()
 
                                     Log.d("VerifyNumber","OTPresponse"+response)
@@ -250,81 +254,74 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
         var dialog=ProgressDialog(requireContext())
         dialog.show()
         var otp_check_url="https://test.pearl-developer.com/figo/api/otp/check-otp"
+
         var input_otp=view.findViewById<TextView>(R.id.enteredOTP).text.toString()
         Log.d("VerifyNumber","input_otp"+input_otp)
+
         var queue=Volley.newRequestQueue(requireContext())
         var json2=JSONObject()
         json2.put("type", "driver")
         json2.put("type_id", driver_id.toInt())
         json2.put("otp", input_otp.toInt())
-        var jsonObjectRequest=object :JsonObjectRequest(Method.POST,otp_check_url,json2,Response.Listener<JSONObject>
+        var jsonObjectRequest= @SuppressLint("SuspiciousIndentation")
+        object :JsonObjectRequest(Method.POST,otp_check_url,json2,Response.Listener<JSONObject>
         {response ->
 
             Log.d("VerifyNumber","OTP Check RESPONSE"+response)
 
-            if (response!=null) {
-                if (input_otp.toInt() != getotp) {
-                    Toast.makeText(requireContext(), "incorrect otp", Toast.LENGTH_SHORT).show()
+                if (input_otp.toInt()!=getotp) {
                     dialog.hide()
-                } else {
+                    Toast.makeText(requireContext(), "incorrect otp"+response.getString("message"), Toast.LENGTH_SHORT).show()
+                } else{
                     dialog.hide()
-                   // Toast.makeText(requireContext(), "Login Successfully", Toast.LENGTH_SHORT).show()
-                    if (prefManager.getToken().equals("") || prefManager.getToken()
-                            .equals("null")
-                    ) {
+                    prefManager.setToken(token)
+                    prefManager.setisValidLogin(true)
+                    var user=response.getJSONObject("user")
+                    var  statuss=user.getString("status").toInt()
 
-                        prefManager.setToken(token)
-                        prefManager.setisValidLogin(true)
-                        if (prefManager.getMpin().equals("") || prefManager.getMpin()
-                                .equals("null")
+                    if (statuss.equals(0)) {
+                    dialog.hide()
+                /*    if (prefManager.getToken().equals("") || prefManager.getToken().equals("null")) {*/
+                     /*   if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")) {
+                            Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
+                        } else {*/
+                            if (profile_status==0 || prefManager.getRegistrationToken().equals("")) {
+                                Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                            }
+                           /* else if (status.equals(0)||status==0){
+                                Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                            }*/
+                            else {
+                                startActivity(Intent(requireContext(),DriverDashBoard::class.java))
+                            }
+                        //}
+                 //   }
+               /*     else {
+                      *//*  if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")
                         ) {
                             Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
-                        } else {
-                            if (profile_status == 0 || prefManager.getRegistrationToken()
-                                    .equals("")
+                        } else {*//*
+                            if (profile_status == 0 || prefManager.getRegistrationToken().equals("")
                             ) {
-                                Navigation.findNavController(view)
-                                    .navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                                Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
                             } else {
-                                startActivity(
-                                    Intent(
-                                        requireContext(),
-                                        DriverDashBoard::class.java
-                                    )
-                                )
-
-                            }
-                        }
-                    } else {
-                        if (prefManager.getMpin().equals("") || prefManager.getMpin()
-                                .equals("null")
-                        ) {
-                            Navigation.findNavController(view)
-                                .navigate(R.id.action_verifyNumber2_to_MPinGenerate)
-                        } else {
-                            if (profile_status == 0 || prefManager.getRegistrationToken()
-                                    .equals("")
-                            ) {
-                                Navigation.findNavController(view)
-                                    .navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
-                            } else {
-                                startActivity(
-                                    Intent(
-                                        requireContext(),
-                                        DriverDashBoard::class.java
-                                    )
-                                )
-
-                            }
-                        }
-                    }
-
-
+                                startActivity(Intent(requireContext(),DriverDashBoard::class.java)) }
+                      //  }
+                    }*/
                     // Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                }
+                    else{
+                        /*   dialog.hide()
+                         if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")) {
+                               Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
+                           }
+                          else{*/
+                        dialog.hide()
+                        startActivity(Intent(requireContext(),DriverDashBoard::class.java))
+                    }
                 }
 
 
-            }
         },object :Response.ErrorListener{
             override fun onErrorResponse(error: VolleyError?) {
                 dialog.hide()

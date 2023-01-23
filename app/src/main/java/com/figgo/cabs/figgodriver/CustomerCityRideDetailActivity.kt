@@ -16,6 +16,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
@@ -50,6 +51,7 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setStatusBarColor(Color.parseColor("#ffffff"))
        binding=DataBindingUtil.setContentView(this,R.layout.activity_customer_city_ride_detail)
         binding.bookingCustomer.text=intent.getStringExtra("booking_id")
         binding.bookingType.text=intent.getStringExtra("type")
@@ -112,9 +114,11 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             submit.setOnClickListener {
 
                 var url=" https://test.pearl-developer.com/figo/api/driver-ride/check-otp"
+
                 var queue=Volley.newRequestQueue(this)
                 var json=JSONObject()
                 json.put("otp",ridestartotp.text)
+                Log.d("CustomerCityRideDetailActivity","url=="+url)
                 var jsonObjectRequest=object :JsonObjectRequest(Method.POST,url,json,Response.Listener<JSONObject>{
                     response ->
                     Log.d("CustomerCityRideDetailActivity","response=="+response)
@@ -126,11 +130,20 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     override fun onErrorResponse(error: VolleyError?) {
                         Log.d("CustomerCityRideDetailActivity","ERROR"+error)
                     }
-                }){}
+                }){
+                    @SuppressLint("SuspiciousIndentation")
+                    @Throws(AuthFailureError::class)
+                    override fun getHeaders(): Map<String, String> {
+                        val headers: MutableMap<String, String> = HashMap()
+                        headers.put("Content-Type", "application/json; charset=UTF-8")
+                        headers.put("Authorization", "Bearer " + prefManager.getToken())
+                        return headers
+                    }
+                }
                 queue.add(jsonObjectRequest)
 
 
-                Toast.makeText(this,"OTP SENT SUCCESSFULLY", Toast.LENGTH_SHORT).show()
+               /* Toast.makeText(this,"OTP SENT SUCCESSFULLY", Toast.LENGTH_SHORT).show()*/
                 dialog.dismiss()
             }
             cancel.setOnClickListener {

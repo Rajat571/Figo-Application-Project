@@ -132,7 +132,6 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:layout_gravity="center"
-        android:enabled="false"
         android:hint="Booking OTP"
         android:background="@drawable/edittext"
         android:autofillHints="" />

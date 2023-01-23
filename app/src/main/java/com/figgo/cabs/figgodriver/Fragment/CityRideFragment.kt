@@ -148,7 +148,7 @@ class CityRideFragment : Fragment() {
                 override fun getHeaders(): Map<String, String> {
                     val headers: MutableMap<String, String> = HashMap()
                     headers.put("Content-Type", "application/json; charset=UTF-8")
-                    headers.put("Authorization", "Bearer " + "1815|DwIR9Cf2IAI7fYU222c2MYGsgxNHwTBVDdoQ8MMI")
+                    headers.put("Authorization", "Bearer " + prefManager.getToken())
                     return headers
                 }
             }

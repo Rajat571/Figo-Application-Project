@@ -347,6 +347,8 @@ xmlns:tools="http://schemas.android.com/tools">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_margin="5dp"
         app:cardElevation="8dp">
 
     <fragment
@@ -354,7 +356,6 @@ xmlns:tools="http://schemas.android.com/tools">
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:background="@drawable/background_card"
         />
 
     </androidx.cardview.widget.CardView>
