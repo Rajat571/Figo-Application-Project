@@ -67,8 +67,6 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         prefManager=PrefManager(this)
 
-
-
         var mapFragmentt=supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragmentt.getMapAsync(this)
 
@@ -112,19 +110,23 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
             submit.setOnClickListener {
-
-                var url=" https://test.pearl-developer.com/figo/api/driver-ride/check-otp"
+              /*  var url=" https://test.pearl-developer.com/figo/api/driver-ride/check-ride-otp"
 
                 var queue=Volley.newRequestQueue(this)
+                var otp=ridestartotp.text.toString()
                 var json=JSONObject()
-                json.put("otp",ridestartotp.text)
+                json.put("otp",otp)
                 Log.d("CustomerCityRideDetailActivity","url=="+url)
                 var jsonObjectRequest=object :JsonObjectRequest(Method.POST,url,json,Response.Listener<JSONObject>{
                     response ->
                     Log.d("CustomerCityRideDetailActivity","response=="+response)
                     if (response!=null){
-
-                        startActivity(Intent(this, StartRideActivity::class.java))
+                        if (response.getString("status").equals(true)) {
+                            startActivity(Intent(this, StartRideActivity::class.java))
+                        }
+                        else{
+                            Toast.makeText(this,""+response.getString("message"),Toast.LENGTH_LONG).show()
+                        }
                     }
                 },object :Response.ErrorListener{
                     override fun onErrorResponse(error: VolleyError?) {
@@ -136,12 +138,50 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     override fun getHeaders(): Map<String, String> {
                         val headers: MutableMap<String, String> = HashMap()
                         headers.put("Content-Type", "application/json; charset=UTF-8")
-                        headers.put("Authorization", "Bearer " + prefManager.getToken())
+                        headers.put("Authorization", "Bearer" + prefManager.getToken())
                         return headers
                     }
                 }
                 queue.add(jsonObjectRequest)
+*/
+                val otp1 = "https://test.pearl-developer.com/figo/api/driver-ride/check-ride-otp"
+               val queue2 = Volley.newRequestQueue(this@CustomerCityRideDetailActivity)
+                val json2 = JSONObject()
+                var otp=ridestartotp.text.toString()
+               json2.put("otp", otp.toInt())
+                Log.d("OTP", "json2===" + json2)
 
+      var jsonObjectRequest=object :JsonObjectRequest(Method.POST,otp1,json2,Response.Listener<JSONObject>
+      {response ->
+
+
+          Log.d("VerifyNumber","OTPresponse"+response)
+          if (response!=null){
+              if (response.getString("status").equals(true)) {
+                  startActivity(Intent(this, StartRideActivity::class.java))
+              }
+              else{
+                  Toast.makeText(this,""+response.getString("message"),Toast.LENGTH_LONG).show()
+              }
+          }
+      },object :Response.ErrorListener{
+          override fun onErrorResponse(error: VolleyError?) {
+              Log.d("VerifyNumber","ERROR"+error)
+              Toast.makeText(this@CustomerCityRideDetailActivity,"Something went wrong",Toast.LENGTH_SHORT).show()
+          }
+      }){
+
+          @SuppressLint("SuspiciousIndentation")
+          @Throws(AuthFailureError::class)
+          override fun getHeaders(): Map<String, String> {
+              val headers: MutableMap<String, String> = HashMap()
+              headers.put("Content-Type", "application/json; charset=UTF-8");
+              headers.put("Authorization", "Bearer " + prefManager.getToken())
+              return headers
+          }
+
+      }
+      queue2.add(jsonObjectRequest)
 
                /* Toast.makeText(this,"OTP SENT SUCCESSFULLY", Toast.LENGTH_SHORT).show()*/
                 dialog.dismiss()

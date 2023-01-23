@@ -88,7 +88,6 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
                 "&key=$secret"
     }
 
-
     @SuppressLint("StaticFieldLeak")
     private inner class GetDirection(val url : String) : AsyncTask<Void, Void, List<List<LatLng>>>(){
         override fun doInBackground(vararg params: Void?): List<List<LatLng>> {
@@ -119,6 +118,10 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
                 lineoption.width(10f)
                 lineoption.color(Color.GREEN)
                 lineoption.geodesic(true)
+               /* lineoption.startCap()
+                if (result.lastIndex.equals(LatLng(destinationLatitude, destinationLongitude))){
+
+                }*/
             }
             mMap.addPolyline(lineoption)
         }
