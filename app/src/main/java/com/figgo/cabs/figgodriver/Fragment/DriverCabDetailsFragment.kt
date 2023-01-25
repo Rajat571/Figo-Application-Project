@@ -1341,7 +1341,7 @@ class DriverCabDetailsFragment : Fragment() {
                 next.setOnClickListener {
                     if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
                         == PackageManager.PERMISSION_DENIED)
-                        ActivityCompat.requestPermissions(requireActivity(),  arrayOf(Manifest.permission.CAMERA), 200);
+                        ActivityCompat.requestPermissions(requireActivity(),arrayOf(Manifest.permission.CAMERA), 200);
                     binding.work.visibility=View.GONE
                     binding.cabDetailsLayout.visibility=View.GONE
                     binding.uploadImage.visibility=View.VISIBLE
@@ -1453,7 +1453,7 @@ class DriverCabDetailsFragment : Fragment() {
                      Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
                      if (response != null) {
 
-                        // startActivity(Intent( requireContext(), DriverDashBoard::class.java))
+                       //  startActivity(Intent( requireContext(), DriverDashBoard::class.java))
                          binding.progress.isVisible = false
 
 

@@ -157,8 +157,6 @@ class CityRideFragment : Fragment() {
         //return currentdata
     }
 
-
-
     private fun submitAdvanceRideForm(view: View) {
         val URL = " https://test.pearl-developer.com/figo/api/driver-ride/get-city-ride-request"
         val queue = Volley.newRequestQueue(requireContext())
@@ -216,7 +214,6 @@ class CityRideFragment : Fragment() {
     }
 
 /*
-
     private fun advanceData(response: JSONObject) {
         var y=1
 
@@ -248,6 +245,9 @@ class CityRideFragment : Fragment() {
     }
 */
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+       advanceRidelists.clear()
+
+    }
 }
-
-

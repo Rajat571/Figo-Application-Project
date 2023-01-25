@@ -34,17 +34,18 @@ class WelcomeFragment : Fragment() {
             if(prefManager.getToken().equals("") || prefManager.getToken().equals("null")){
                 Navigation.findNavController(view).navigate(R.id.action_welcomeDriverFragment_to_verifyNumber2)
             }else{
-              /*  if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")) {
+                /*if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")) {
                     Navigation.findNavController(view).navigate(R.id.action_welcomeDriverFragment_to_MPinGenerate)
-                } else*/
-               /* if (prefManager.getRegistrationToken().equals("") || prefManager.getRegistrationToken().equals("null"))
+                } else
+                if (prefManager.getRegistrationToken().equals("") || prefManager.getRegistrationToken().equals("null"))
                 {
                     Navigation.findNavController(view).navigate(R.id.action_welcomeDriverFragment_to_figgo_FamilyFragment)
                 }else{*/
-                 //startActivity(Intent(requireContext(), DriverDashBoard::class.java))
+                // startActivity(Intent(requireContext(), DriverDashBoard::class.java))
                   Navigation.findNavController(view).navigate(R.id.action_welcomeDriverFragment_to_waitingRegistration)
                 }
 
+       // }
         },2000)
     }
 }

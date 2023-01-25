@@ -120,8 +120,9 @@ prefManager= PrefManager(applicationContext)
                     if (location == null)
                         Toast.makeText(this, "Cannot get location.", Toast.LENGTH_SHORT).show()
                     else {
+
                         lat = location.latitude
-                          prefManager.setlatitude(lat.toFloat())
+                        prefManager.setlatitude(lat.toFloat())
                         lon = location.longitude
                         prefManager.setlongitude(lon.toFloat())
                         geocoder = Geocoder(this, Locale.getDefault())
@@ -136,25 +137,23 @@ prefManager= PrefManager(applicationContext)
                         val URL = "https://test.pearl-developer.com/figo/api/post-location"
                         val queue = Volley.newRequestQueue(this)
                         val json = JSONObject()
-                     //   Log.d("Token = "," "+prefManager.getToken())
                         json.put("token", PrefManager(this).getToken())
-                       // Toast.makeText(this," "+prefManager.getToken(),Toast.LENGTH_SHORT).show()
                         json.put("lat",""+lat.toString())
                         json.put("lng",""+lon.toString())
-                        json.put("name",""+addressName)
+                        json.put("location_name",""+addressName)
                         Log.d("MY_SERVICE == ","json "+json)
                         Log.d("location == ","LATLONG "+prefManager.getlatitude()+","+prefManager.getlongitude())
-                       //Toast.makeText(this,""+PrefManager(this).getToken(),Toast.LENGTH_SHORT).show()
-                      /*  Log.d("Response == ","TokenData"+ prefManager.getToken())*/
+                        Log.d("Token == ","Token "+PrefManager(this).getToken())
                         val jsonObject=  object : JsonObjectRequest(
                             Method.POST, URL, json,
                             Response.Listener<JSONObject?> { response ->
                                 Log.d("Response == ",""+response)
                                 if (response != null) {
+                                    Toast.makeText(this," "+response,Toast.LENGTH_SHORT).show()
                                 }
                             },{
                                 Log.d("Response == ","Error "+it)
-                                Toast.makeText(this,"Something Went Wrong !!",Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this,"SomethingXX Went Wrong !!",Toast.LENGTH_SHORT).show()
                             }){}
                         queue.add(jsonObject)
 
