@@ -153,15 +153,13 @@ prefManager= PrefManager(applicationContext)
                                 }
                             },{
                                 Log.d("Response == ","Error "+it)
-                                Toast.makeText(this,"SomethingXX Went Wrong !!",Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this,"Something Went Wrong !!",Toast.LENGTH_SHORT).show()
                             }){}
                         queue.add(jsonObject)
-
                     }
-
                 }
 
-            delay(1000)
+            delay(20000)
         }
     }
 

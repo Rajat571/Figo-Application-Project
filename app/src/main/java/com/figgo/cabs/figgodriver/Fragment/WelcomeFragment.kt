@@ -44,7 +44,6 @@ class WelcomeFragment : Fragment() {
                 // startActivity(Intent(requireContext(), DriverDashBoard::class.java))
                   Navigation.findNavController(view).navigate(R.id.action_welcomeDriverFragment_to_waitingRegistration)
                 }
-
        // }
         },2000)
     }
