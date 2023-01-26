@@ -30,7 +30,6 @@ import com.google.android.libraries.places.api.Places
 import com.google.gson.Gson
 import com.pearl.PrefManager
 import com.pearl.figgodriver.databinding.ActivityAdvanceCityRideBinding
-import com.pearl.figgodriver.databinding.ActivityCityRideBinding
 import com.pearl.pearllib.BaseClass
 import okhttp3.OkHttpClient
 import okhttp3.Request
