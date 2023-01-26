@@ -80,6 +80,7 @@
                     android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
+                    android:maxLength="4"
                     android:layout_marginTop="10dp"
                     android:hint="MPIN"
                     android:inputType="numberPassword" />
@@ -90,6 +91,7 @@
                     android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
+                    android:maxLength="4"
                     android:layout_marginTop="10dp"
                     android:hint="CONFIRM MPIN"
                     android:inputType="numberPassword" />

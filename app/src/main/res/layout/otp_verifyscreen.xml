@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:gravity="center"
     android:paddingVertical="@dimen/_30sdp"
@@ -29,14 +30,25 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="#585D5D"
+        android:id="@+id/otpstring"
         android:text="@string/otp_text"
         android:layout_marginBottom="30dp"
         />
+
+
+
+    <TextView
+        android:textAlignment="textEnd"
+        android:id="@+id/view_timer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/_5sdp"
         android:hint="Enter OTP"
+        android:imeOptions="actionDone"
+        android:inputType="phone"
         android:id="@+id/enteredOTP"
         android:layout_marginVertical="@dimen/_10sdp"
         android:background="@drawable/edittext"
@@ -49,5 +61,13 @@
         android:textColor="@color/white"
         android:backgroundTint="#236A8B"
         />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Resent OTP"
+        android:textColor="@color/white"
+        android:backgroundTint="#236A8B"
+        android:id="@+id/resent_otp"
+        android:textSize="15sp"/>
 
 </LinearLayout>

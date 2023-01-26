@@ -38,14 +38,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.745">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+               >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -80,6 +84,8 @@
                     android:layout_height="wrap_content"
                     >
                     <EditText
+                        android:inputType="text"
+                        android:imeOptions="actionNext"
                         android:background="@drawable/input_boder_profile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -96,6 +102,8 @@
                     android:layout_height="wrap_content"
                     >
                     <EditText
+                        android:inputType="text"
+                        android:imeOptions="actionNext"
                         android:background="@drawable/input_boder_profile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -148,13 +156,15 @@
                     android:layout_height="wrap_content"
                     >
                     <EditText
-
                         android:background="@drawable/input_boder_profile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/driverdlno"
                         android:textSize="13sp"
                         android:padding="15dp"
+                        android:maxLength="15"
+                        android:inputType="text"
+                        android:imeOptions="actionNext"
                         android:hint="Driving License Number"/>
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
@@ -164,11 +174,13 @@
                     android:layout_height="wrap_content"
                     >
                     <EditText
-
                         android:background="@drawable/input_boder_profile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/driverPanNo"
+                        android:inputType="text"
+                        android:maxLength="10"
+                        android:imeOptions="actionNext"
                         android:textSize="13sp"
                         android:padding="15dp"
                         android:hint="PAN Number"/>
@@ -181,12 +193,14 @@
                     android:layout_height="wrap_content"
                     >
                     <EditText
-
                         android:background="@drawable/input_boder_profile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/driverAdharNo"
+                        android:imeOptions="actionNext"
                         android:textSize="13sp"
+                        android:inputType="number"
+                        android:maxLength="12"
                         android:padding="15dp"
                         android:hint="Aadhar Number"/>
                 </com.google.android.material.textfield.TextInputLayout>
@@ -314,6 +328,7 @@
 
 
             </LinearLayout>
+            </ScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include

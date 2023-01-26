@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="visible"
-            android:background="@color/light_grey"
+            android:background="#8DD7f7"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -30,6 +30,7 @@
                 tools:ignore="MissingConstraints">
 
                 <ImageView
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="160dp"
                     android:scaleType="centerCrop"
@@ -119,12 +120,12 @@
                             android:layout_gravity="center"
                             android:layout_margin="5dp"
                             android:layout_weight=".2"
+                            android:imeOptions="actionDone"
                             android:background="@drawable/out_line_box"
                             android:hint="Enter Your Mobile number"
                             android:inputType="number"
                             android:textAlignment="center"
                             android:visibility="visible" />
-
 
                     </LinearLayout>
 
@@ -148,7 +149,7 @@
                         android:layout_width="300dp"
                         android:layout_height="50dp"
                         android:layout_gravity="center"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="20dp"
                         android:background="@drawable/continue_background"
                         android:padding="14dp"
                         android:text="Continue"
@@ -156,6 +157,7 @@
                         android:textColor="@color/white" />
 
                     <TextView
+                        android:visibility="gone"
                         android:id="@+id/forgot_account"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -216,6 +218,7 @@
 
                     <com.google.android.gms.common.SignInButton
                         android:id="@+id/sign_in_button"
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
@@ -241,6 +244,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/otp_screen"
+                android:layout_margin="10dp"
                 app:cardCornerRadius="@dimen/_10sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -251,7 +255,6 @@
 
                 <include
                     layout="@layout/otp_verifyscreen"
-
                     android:visibility="visible" />
             </androidx.cardview.widget.CardView>
 

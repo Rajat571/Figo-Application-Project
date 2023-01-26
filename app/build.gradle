@@ -5,14 +5,14 @@ plugins {
 }
 
 android {
-    namespace 'com.pearl.figgodriver'
+    namespace 'com.figgo.cabs'
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.pearl.figgodriver"
+        applicationId "com.figgo.cabs"
         minSdk 23
         targetSdk 32
-        versionCode 1
+        versionCode 5
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

@@ -49,8 +49,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:textColor="#0380E3"
+        android:id="@+id/name"
         android:textSize="@dimen/_15sdp"
-        android:text="Ravindra Sharma"
+        android:text=""
         />
     <TextView
         android:layout_width="wrap_content"
@@ -67,8 +68,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:textColor="#0380E3"
+        android:id="@+id/mobilenum"
         android:textSize="@dimen/_15sdp"
-        android:text="95215544664"
+        android:text=""
         />
     <TextView
         android:layout_width="wrap_content"
@@ -86,7 +88,8 @@
         android:layout_gravity="start"
         android:textColor="#0380E3"
         android:textSize="@dimen/_12sdp"
-        android:text="Sector 4824928\nChangigarh"
+        android:id="@+id/pickup"
+        android:text=""
         />
     <LinearLayout
         android:layout_width="match_parent"
@@ -106,8 +109,9 @@
         android:layout_gravity="center"
         android:textColor="#0380E3"
         android:layout_margin="@dimen/_5sdp"
+        android:id="@+id/drop"
         android:textSize="@dimen/_15sdp"
-        android:text="Sanvg, ambala, haryana\nIndia"/>
+        android:text=""/>
 
 
     </LinearLayout>
@@ -118,27 +122,24 @@
         android:padding="@dimen/_10sdp"
         android:orientation="horizontal"
         >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_margin="@dimen/_5sdp"
-        android:layout_marginTop="@dimen/_3sdp"
-        android:background="@color/white"
-        >
+
     <EditText
-        android:layout_width="match_parent"
-        android:padding="@dimen/_5sdp"
+        android:layout_width="0dp"
+        android:layout_marginRight="5dp"
+        android:layout_weight="1"
+        android:padding="6dp"
+        android:id="@+id/ridestartotp"
         android:layout_height="wrap_content"
         android:inputType="number"
+        android:layout_gravity="center"
         android:hint="Booking OTP"
         android:background="@drawable/edittext"
         android:autofillHints="" />
-    </LinearLayout>
         <Button
-            android:layout_margin="@dimen/_5sdp"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_weight="1"
+            android:padding="4dp"
+            android:layout_gravity="center"
             android:layout_height="wrap_content"
             android:text="Submit"
             android:id="@+id/dialog_submit"

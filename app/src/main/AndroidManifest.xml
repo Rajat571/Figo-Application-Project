@@ -44,21 +44,28 @@
         android:theme="@style/Theme.FiggoDriver"
         tools:targetApi="31">
         <activity
-            android:name=".StartRideActivity"
+            android:name=".figgodriver.CustomerCityRideDetailActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".AdvanceCityRideActivity"
+            android:name=".figgodriver.StartRideActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".CityRideActivity"
+            android:name=".figgodriver.AdvanceCityRideActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".figgodriver.CityRideActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -73,7 +80,7 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name="com.pearl.hotelPartner.HotelPartnerDashboard"
+            android:name="com.figgo.cabs.hotelPartner.HotelPartnerDashboard"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <meta-data
@@ -81,7 +88,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ShareRide"
+            android:name=".figgodriver.ShareRide"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <meta-data
@@ -89,7 +96,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".RequestAllRide"
+            android:name=".figgodriver.RequestAllRide"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <meta-data
@@ -97,7 +104,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".DriverDashBoard"
+            android:name=".figgodriver.DriverDashBoard"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <meta-data
@@ -105,7 +112,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".PriceDetailsActivity"
+            android:name=".figgodriver.PriceDetailsActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <meta-data
@@ -113,7 +120,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name="com.pearl.FiggoPartner.UI.Partner_Dashboard"
+            android:name="com.figgo.cabs.FiggoPartner.UI.Partner_Dashboard"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <meta-data
@@ -121,7 +128,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".figgodriver.LoginActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <meta-data
@@ -129,7 +136,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".figgodriver.WelcomeActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <meta-data
@@ -137,7 +144,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".SplashActivity"
+            android:name=".figgodriver.SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>
@@ -151,7 +158,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".AccountDetails"
+            android:name=".figgodriver.AccountDetails"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
 
@@ -167,7 +174,7 @@
         </activity>
 
         <service
-            android:name=".Service.MyService"
+            android:name=".figgodriver.Service.MyService"
             android:enabled="true"
             android:foregroundServiceType="location" />
     </application>

@@ -6,14 +6,14 @@
     app:startDestination="@id/home">
     <fragment
         android:id="@+id/home"
-        android:name="com.pearl.FiggoPartner.UI.Fragment.PartnerHomeFragment"
+        android:name="com.figgo.cabs.FiggoPartner.UI.Fragment.PartnerHomeFragment"
         android:label="fragment_partner_home"
         tools:layout="@layout/fragment_partner_home" >
 
     </fragment>
     <fragment
         android:id="@+id/share_ride"
-        android:name="com.pearl.FiggoPartner.UI.Fragment.PartnerShareRideFragment"
+        android:name="com.figgo.cabs.FiggoPartner.UI.Fragment.PartnerShareRideFragment"
         android:label="fragment_partner_share_ride"
         tools:layout="@layout/fragment_partner_share_ride" >
 
@@ -23,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/ride_sale"
-        android:name="com.pearl.FiggoPartner.UI.Fragment.PartnerRideSaleFragment"
+        android:name="com.figgo.cabs.FiggoPartner.UI.Fragment.PartnerRideSaleFragment"
         android:label="fragment_partner_ride_sale"
         tools:layout="@layout/fragment_partner_ride_sale" >
         <action
@@ -32,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/active_ride"
-        android:name="com.pearl.FiggoPartner.UI.Fragment.PartnerActiveRideFragment"
+        android:name="com.figgo.cabs.FiggoPartner.UI.Fragment.PartnerActiveRideFragment"
         android:label="fragment_partner_active_ride"
         tools:layout="@layout/fragment_partner_active_ride" >
         <action
