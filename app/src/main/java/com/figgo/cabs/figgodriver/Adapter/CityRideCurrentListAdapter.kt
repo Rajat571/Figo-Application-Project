@@ -1,5 +1,6 @@
 package com.figgo.cabs.figgodriver.Adapter
 
+import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -32,8 +33,7 @@ class CityRideCurrentListAdapter(var context:Context, var ridelist:List<CityCurr
 
         holder.itemView.setOnClickListener {
 
-            holder.rideCardview.setCardBackgroundColor(Color.GREEN)
-
+            holder.rideCardview.setBackgroundResource(R.drawable.booking_box_outline)
                 context.startActivity(Intent(context, CityRideActivity::class.java)
                     .putExtra("location_to",data.to)
                     .putExtra("customer_date",data.date)
@@ -44,7 +44,8 @@ class CityRideCurrentListAdapter(var context:Context, var ridelist:List<CityCurr
                     .putExtra("des_long",data.des_long)
                     .putExtra("customer_booking_id",data.cutomer_name)
                     .putExtra("ride_id",data.ride_id)
-                    .putExtra("ride_request_id",data.ride_request_id))
+                    .putExtra("ride_request_id",data.ride_request_id)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
         }
     }
 
