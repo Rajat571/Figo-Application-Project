@@ -112,8 +112,6 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
                 TODO("Not yet implemented")
             }
         }
-
-
        var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .build()
@@ -135,7 +133,6 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
         var verify_btn=view.findViewById<Button>(R.id.otp_Verify_button)
          view_timer=view.findViewById<TextView>(R.id.view_timer)
         var resentOTP=view.findViewById<Button>(R.id.resent_otp)
-
 
 
          verify_btn.setOnClickListener {
@@ -334,7 +331,6 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
 
     }
 
-
     override fun onConnectionFailed(p0: ConnectionResult) {
         TODO("Not yet implemented")
     }
@@ -356,7 +352,6 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
             handleSignInResult(task)
         }
     }
-
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {

@@ -34,7 +34,8 @@ class CityRideAdvanceListAdapter(var context:Context, var advanceridelist:List<C
         Log.d(" CityRideAdvanceListAdapter","date===="+data.date)
 
         holder.itemView.setOnClickListener {
-            holder.rideCardview.setCardBackgroundColor(Color.GREEN)
+            //holder.rideCardview.setCardBackgroundColor(Color.GREEN)
+            holder.rideCardview.setBackgroundResource(R.drawable.booking_box_outline)
 
             context.startActivity(
                 Intent(context, CityRideActivity::class.java)
@@ -48,7 +49,6 @@ class CityRideAdvanceListAdapter(var context:Context, var advanceridelist:List<C
                 .putExtra("customer_booking_id",data.booking_id)
                 .putExtra("ride_id",data.ride_id)
                 .putExtra("ride_request_id","3"))
-
         }
     }
 

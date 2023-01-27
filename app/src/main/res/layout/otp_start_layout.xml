@@ -17,7 +17,7 @@
         android:layout_weight="1"
         android:gravity="end"
         android:textColor="@color/black"
-        android:text="Zikarpur - Ambala"
+        android:text="Customer Ride Details"
         />
     <LinearLayout
         android:layout_width="match_parent"
