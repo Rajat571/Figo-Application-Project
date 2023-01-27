@@ -132,7 +132,7 @@ class CityRideFragment : Fragment() {
                             ridelists.add(CityCurrentRidesList(date_only,time_only,booking_id,address_name,from_name,price,to_location_lat,to_location_long,from_location_lat,from_location_long,ride_id,ride_request_id,y))
                         }
                         //advanceData(response)
-                        cityRideCurrentListAdapter= CityRideCurrentListAdapter(requireContext(),ridelists)
+                        cityRideCurrentListAdapter= CityRideCurrentListAdapter(requireContext().applicationContext,ridelists)
                         binding.cityRideCurrentRecylerview.adapter=cityRideCurrentListAdapter
 
                     }

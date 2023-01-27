@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/Dashboard_Drawer_layout"
-    android:background="@color/light_grey"
+    android:background="#8DD7f7"
     tools:context=".DriverDashBoard">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -73,9 +73,6 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:menu="@menu/new_bottom_nav" />
-
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

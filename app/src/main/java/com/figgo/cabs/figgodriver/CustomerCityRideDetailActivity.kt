@@ -75,9 +75,9 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             val originLocation = LatLng(prefManager.getlatitude().toDouble(), prefManager.getlongitude().toDouble())
             // val originLocation = LatLng( originLatitude, originLongitude)
             mMap.addMarker(MarkerOptions().position(originLocation).title("Current location"))
-            val destinationLocation = LatLng(destinationLatitude!!, destinationLongitude!!)
+            val destinationLocation = LatLng(originLatitude!!, originLongitude!!)
             //val destinationLocation = LatLng(destinationLatitude, destinationLongitude)
-            mMap.addMarker(MarkerOptions().position(destinationLocation).title("drop"))
+            mMap.addMarker(MarkerOptions().position(destinationLocation).title("Pickup"))
             val urll = getDirectionURL(originLocation, destinationLocation, "AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
             GetDirection(urll).execute()
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(destinationLocation, 12F))
@@ -104,6 +104,9 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             var drop=dialog.findViewById<TextView>(R.id.drop)
             var ridestartotp=dialog.findViewById<EditText>(R.id.ridestartotp)
             name.text=intent.getStringExtra("customer_name")
+            if (name.text==null){
+                name.text="Figgo Customer"
+            }
             number.text=intent.getStringExtra("customer_contact")
             pickup.text=intent.getStringExtra("address_name")
             drop.text=intent.getStringExtra("from_name")
@@ -157,7 +160,7 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
           Log.d("VerifyNumber","OTPresponse"+response)
           if (response!=null){
-              if (response.getString("status").equals(true)) {
+              if (response.getString("status").equals("true")) {
                   startActivity(Intent(this, StartRideActivity::class.java))
               }
               else{
@@ -179,7 +182,6 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
               headers.put("Authorization", "Bearer " + prefManager.getToken())
               return headers
           }
-
       }
       queue2.add(jsonObjectRequest)
 
