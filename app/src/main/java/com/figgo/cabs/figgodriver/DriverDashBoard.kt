@@ -4,6 +4,7 @@ package com.figgo.cabs.figgodriver
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.app.Notification
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -14,8 +15,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.transition.Fade
+import android.transition.Slide
+import android.transition.TransitionManager
 import android.util.Log
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.view.Window
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -26,6 +32,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
@@ -37,6 +45,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
+import com.figgo.cabs.figgodriver.Adapter.NotificationHomeAdapter
 import com.figgo.cabs.figgodriver.Fragment.*
 
 import com.figgo.cabs.figgodriver.Service.MyService
@@ -46,6 +55,7 @@ import kotlinx.android.synthetic.main.top_layout.view.*
 import kotlinx.coroutines.*
 import java.lang.Runnable
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.properties.Delegates
 
 class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
@@ -80,6 +90,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
     lateinit var offlineLayout:LinearLayout
     lateinit var bottomNav:BottomNavigationView
     lateinit var notificationlayout:LinearLayout
+    lateinit var notificationRecyclerView: RecyclerView
 
 
     val scope = CoroutineScope(Job() + Dispatchers.Main)
@@ -186,11 +197,16 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             stopService(Intent(this, MyService::class.java))
         }
         topLayout.notificationbell.setOnClickListener {
+            val rootView: ViewGroup = findViewById(R.id.activeRide_layout)
+            val mFade: Slide =Slide(Gravity.LEFT)
             if(notificationlayout.visibility==View.GONE) {
+
+                TransitionManager.beginDelayedTransition(rootView, mFade)
                 notificationlayout.visibility = View.VISIBLE
                 homeFrame.visibility = View.GONE
             }
             else{
+                TransitionManager.beginDelayedTransition(rootView, mFade)
             notificationlayout.visibility = View.GONE
             homeFrame.visibility=View.VISIBLE
         }
@@ -443,6 +459,13 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             //       finish();
             true
         }
+        val notificationRecycler = findViewById<RecyclerView>(R.id.notificationrecycler)
+        val notificationList = listOf<Int>(1,2,3,4,5,6,7,8,9,10);
+        notificationRecycler.adapter=NotificationHomeAdapter(this,notificationList)
+        notificationRecycler.layoutManager=LinearLayoutManager(this)
+
+
+
 
 
     }
