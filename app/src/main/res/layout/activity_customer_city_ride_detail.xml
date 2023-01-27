@@ -112,23 +112,34 @@ xmlns:tools="http://schemas.android.com/tools">
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="35dp"
-
                     android:src="@drawable/ic_baseline_location_on_24"
-
                     />
 
                 <TextView
                     android:id="@+id/allride_time"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-condensed-medium"
                     android:padding="3dp"
                     android:text="06:30 pm"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp" />
+
+                <TextView
+                    android:id="@+id/customer_startbtn"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.6"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/accept_button_background"
+                    android:padding="6dp"
+                    android:text="Start Ride"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
             </LinearLayout>
 
-            <LinearLayout
+           <!-- <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -138,15 +149,14 @@ xmlns:tools="http://schemas.android.com/tools">
                 android:paddingRight="10dp">
 
                 <TextView
-                    android:id="@+id/customer_startbtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#4CAF50"
+                    android:background="@drawable/accept_button_background"
                     android:padding="6dp"
-                    android:layout_weight="1"
-                    android:text="Start"
+                    android:layout_weight="0.9"
+                    android:text="Start Ride"
                     android:gravity="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="13sp" />
 
                 <TextView
@@ -158,6 +168,7 @@ xmlns:tools="http://schemas.android.com/tools">
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="6dp"
+                    android:visibility="gone"
                     android:text="Edit"
                     android:textColor="@color/white"
                     android:textSize="13sp" />
@@ -171,6 +182,7 @@ xmlns:tools="http://schemas.android.com/tools">
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="6dp"
+                    android:visibility="gone"
                     android:text="Del."
                     android:textColor="@color/white"
                     android:textSize="13sp" />
@@ -186,12 +198,10 @@ xmlns:tools="http://schemas.android.com/tools">
                     android:visibility="gone"
                     android:textColor="@color/white"
                     android:textSize="13sp" />
-            </LinearLayout>
+            </LinearLayout>-->
 
 
         </LinearLayout>
-
-
 
         <LinearLayout
             android:padding="10dp"
@@ -330,10 +340,6 @@ xmlns:tools="http://schemas.android.com/tools">
                     android:textStyle="bold"/>
 
             </LinearLayout>
-
-
-
-
 
         </LinearLayout>
         <!--   <androidx.recyclerview.widget.RecyclerView

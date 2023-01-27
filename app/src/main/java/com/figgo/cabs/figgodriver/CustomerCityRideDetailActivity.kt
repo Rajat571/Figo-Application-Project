@@ -104,7 +104,7 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             var drop=dialog.findViewById<TextView>(R.id.drop)
             var ridestartotp=dialog.findViewById<EditText>(R.id.ridestartotp)
             name.text=intent.getStringExtra("customer_name")
-            if (name.text==null){
+            if (intent.getStringExtra("customer_name")=="null"){
                 name.text="Figgo Customer"
             }
             number.text=intent.getStringExtra("customer_contact")

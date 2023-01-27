@@ -65,6 +65,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         binding=DataBindingUtil.setContentView(this, R.layout.activity_city_ride)
         window.setStatusBarColor(Color.parseColor("#000F3B"))
+
         var address_to= intent.getStringExtra("location_to")
         var date=intent.getStringExtra("customer_date")
         var time=intent.getStringExtra("customer_time")

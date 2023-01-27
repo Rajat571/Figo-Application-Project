@@ -94,7 +94,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="13dp"
                     android:layout_weight="1"
-                    android:background="@drawable/accept_button_background"
+                    android:background="@drawable/reject_button_background"
                     android:padding="8dp"
                     android:id="@+id/reject_city_ride_btn"
                     android:text="REJECT"
