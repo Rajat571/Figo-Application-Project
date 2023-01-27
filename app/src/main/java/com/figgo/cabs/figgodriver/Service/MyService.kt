@@ -31,8 +31,6 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
-
-
 import kotlinx.coroutines.*
 import org.json.JSONObject
 import java.util.*
@@ -87,6 +85,7 @@ prefManager= PrefManager(applicationContext)
         )
     }
     private suspend fun latlong() {
+        var x:Float=0.01f
         while(true){
             addressName=""
 
@@ -122,9 +121,10 @@ prefManager= PrefManager(applicationContext)
                     else {
 
                         lat = location.latitude
-                        prefManager.setlatitude(lat.toFloat())
+                        prefManager.setlatitude(lat.toFloat()+x)
                         lon = location.longitude
-                        prefManager.setlongitude(lon.toFloat())
+                        prefManager.setlongitude(lon.toFloat()+x)
+                        x=x+0.01f
                         geocoder = Geocoder(this, Locale.getDefault())
 
                         address = geocoder.getFromLocation(lat,lon,1)
@@ -138,8 +138,8 @@ prefManager= PrefManager(applicationContext)
                         val queue = Volley.newRequestQueue(this)
                         val json = JSONObject()
                         json.put("token", PrefManager(this).getToken())
-                        json.put("lat",""+lat.toString())
-                        json.put("lng",""+lon.toString())
+                        json.put("lat",""+30.284550)
+                        json.put("lng",""+78.013211)
                         json.put("location_name",""+addressName)
                         Log.d("MY_SERVICE == ","json "+json)
                         Log.d("location == ","LATLONG "+prefManager.getlatitude()+","+prefManager.getlongitude())

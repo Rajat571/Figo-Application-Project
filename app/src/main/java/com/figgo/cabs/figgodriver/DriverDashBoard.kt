@@ -79,6 +79,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
     var toggleState by Delegates.notNull<Boolean>()
     lateinit var offlineLayout:LinearLayout
     lateinit var bottomNav:BottomNavigationView
+    lateinit var notificationlayout:LinearLayout
 
 
     val scope = CoroutineScope(Job() + Dispatchers.Main)
@@ -115,6 +116,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         toggleState=false
         offlineLayout = findViewById<LinearLayout>(R.id.offline_layout)
         bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        notificationlayout = findViewById<LinearLayout>(R.id.includenotifications)
         baseclass=object : BaseClass(){
             override fun setLayoutXml() {
                 TODO("Not yet implemented")
@@ -127,7 +129,6 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             override fun initializeClickListners() {
                 TODO("Not yet implemented")
             }
-
             override fun initializeInputs() {
                 TODO("Not yet implemented")
             }
@@ -148,6 +149,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         menu.setOnClickListener {
             drawer.openDrawer(GravityCompat.END)
         }
+
         whataspp.setOnClickListener {
 
             val i = Intent(Intent.ACTION_VIEW)
@@ -183,6 +185,18 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             homeFrame.visibility=View.GONE
             stopService(Intent(this, MyService::class.java))
         }
+        topLayout.notificationbell.setOnClickListener {
+            if(notificationlayout.visibility==View.GONE) {
+                notificationlayout.visibility = View.VISIBLE
+                homeFrame.visibility = View.GONE
+            }
+            else{
+            notificationlayout.visibility = View.GONE
+            homeFrame.visibility=View.VISIBLE
+        }
+            //Toast.makeText(this,"Notification Panel working",Toast.LENGTH_SHORT).show();
+        }
+
         topLayout.toggle_on.setOnClickListener {
             on_toggle.setBackgroundColor(Color.GREEN)
             off_toggle.setBackgroundColor(Color.WHITE)

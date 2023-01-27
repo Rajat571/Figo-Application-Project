@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/Dashboard_Drawer_layout"
-    android:background="#8DD7f7"
+    android:background="@color/black"
     tools:context=".DriverDashBoard">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,15 +23,21 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.5" />
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/activeRide_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-
             android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
             app:layout_constraintTop_toBottomOf="@+id/layout">
+
+            <include
+                android:id="@+id/includenotifications"
+                layout="@layout/notifications_layout"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <FrameLayout
                 android:id="@+id/home_frame"
@@ -45,8 +51,8 @@
                 app:layout_constraintVertical_bias="0.5" />
 
             <include
-                layout="@layout/driveroffline"
                 android:id="@+id/offline_layout"
+                layout="@layout/driveroffline"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

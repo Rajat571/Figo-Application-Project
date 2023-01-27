@@ -461,8 +461,6 @@ class DriverCabDetailsFragment : Fragment() {
                         // Start the activity with camera_intent, and request pic id
                         startActivityForResult(camera_intent, 11)
 
-
-
                     } else if (optionsMenu[i] == "Choose from Gallery") {
                         // choose from  external storage
                         var intent=Intent()
@@ -1004,7 +1002,6 @@ class DriverCabDetailsFragment : Fragment() {
 
         if (requestCode == 1){
             try {
-
                 val photo = data!!.extras!!["data"] as Bitmap?
                 var selectedImageUri4=  getImageUri(requireContext(),photo!!)
                 Log.d("onActivityResult","response"+photo)
@@ -1292,8 +1289,8 @@ class DriverCabDetailsFragment : Fragment() {
                 e.printStackTrace()
             }
         }
-
     }
+
     fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
         val bytes = ByteArrayOutputStream()
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
