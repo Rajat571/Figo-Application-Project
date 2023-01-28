@@ -51,7 +51,7 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.setStatusBarColor(Color.parseColor("#ffffff"))
+        window.setStatusBarColor(Color.parseColor("#000F3B"))
        binding=DataBindingUtil.setContentView(this,R.layout.activity_customer_city_ride_detail)
         binding.bookingCustomer.text=intent.getStringExtra("booking_id")
         binding.bookingType.text=intent.getStringExtra("type")
@@ -64,13 +64,13 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         originLongitude=intent.getStringExtra("to_location_long")!!.toDouble()
         destinationLatitude=intent.getStringExtra("from_location_lat")!!.toDouble()
         destinationLongitude=intent.getStringExtra("from_location_long")!!.toDouble()
-
         prefManager=PrefManager(this)
 
         var mapFragmentt=supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragmentt.getMapAsync(this)
 
         mapFragmentt.getMapAsync {
+
             mMap = it
             val originLocation = LatLng(prefManager.getlatitude().toDouble(), prefManager.getlongitude().toDouble())
             // val originLocation = LatLng( originLatitude, originLongitude)
@@ -81,6 +81,7 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             val urll = getDirectionURL(originLocation, destinationLocation, "AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
             GetDirection(urll).execute()
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(destinationLocation, 12F))
+
         }
 
         var start = findViewById<TextView>(R.id.customer_startbtn)
@@ -156,7 +157,6 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
       var jsonObjectRequest=object :JsonObjectRequest(Method.POST,otp1,json2,Response.Listener<JSONObject>
       {response ->
-
 
           Log.d("VerifyNumber","OTPresponse"+response)
           if (response!=null){
