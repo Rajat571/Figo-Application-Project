@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/notificationcard"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:elevation="@dimen/_2sdp"
+    android:backgroundTint="#D9F4FD"
+    app:cardCornerRadius="@dimen/_3sdp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/_3sdp"
+        android:paddingTop="@dimen/_3sdp"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:layout_margin="@dimen/_5sdp"
+        android:layout_weight="1"
+        >
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/appicon"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="@dimen/_5sdp"
+        >
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Update on Form details verifications"
+    android:id="@+id/notificationheader"
+    android:textColor="@color/black"
+    android:textStyle="bold"
+    android:textSize="@dimen/_10sdp"
+    />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#02201A"
+            android:id="@+id/notificationdesc"
+            android:textSize="@dimen/_8sdp"
+            android:text="Hello Driver, Your form has been sucessfully verified"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_7sdp"
+            android:textColor="#282727"
+            android:id="@+id/notificationtime"
+            android:text="6 hours ago"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:background="@color/white"
+            android:layout_marginTop="@dimen/_3sdp"
+            />
+    </LinearLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
