@@ -49,6 +49,7 @@ import com.figgo.cabs.figgodriver.Adapter.NotificationHomeAdapter
 import com.figgo.cabs.figgodriver.Fragment.*
 
 import com.figgo.cabs.figgodriver.Service.MyService
+import com.figgo.cabs.figgodriver.model.NotificationData
 import com.figgo.cabs.pearllib.BaseClass
 import kotlinx.android.synthetic.main.bottom_button_layout.view.*
 import kotlinx.android.synthetic.main.top_layout.view.*
@@ -460,14 +461,24 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             true
         }
         val notificationRecycler = findViewById<RecyclerView>(R.id.notificationrecycler)
-        val notificationList = listOf<Int>(1,2,3,4,5,6,7,8,9,10);
+        val notificationList = kotlin.collections.ArrayList<NotificationData>()
+        notificationList.add(NotificationData("Congratulation, Your Profile is verified","Hello Figgo Driver, Your profile data is successfully verified.","2 hours ago"))
+        notificationList.add(NotificationData("Start accepting bookings near you","Hello Figgo Driver, Your profile data is successfully verified.","1 hours ago"))
+        notificationList.add(NotificationData("Congratulation, Your Profile is verified","Hello Figgo Driver, Your profile data is successfully verified.","2 hours ago"))
+        notificationList.add(NotificationData("Start accepting bookings near you","Hello Figgo Driver, Your profile data is successfully verified.","1 hours ago"))
+        notificationList.add(NotificationData("Congratulation, Your Profile is verified","Hello Figgo Driver, Your profile data is successfully verified.","2 hours ago"))
+        notificationList.add(NotificationData("Start accepting bookings near you","Hello Figgo Driver, Your profile data is successfully verified.","1 hours ago"))
+        notificationList.add(NotificationData("Congratulation, Your Profile is verified","Hello Figgo Driver, Your profile data is successfully verified.","2 hours ago"))
+        notificationList.add(NotificationData("Start accepting bookings near you","Hello Figgo Driver, Your profile data is successfully verified.","1 hours ago"))
+        notificationList.add(NotificationData("Congratulation, Your Profile is verified","Hello Figgo Driver, Your profile data is successfully verified.","2 hours ago"))
+        notificationList.add(NotificationData("Start accepting bookings near you","Hello Figgo Driver, Your profile data is successfully verified.","1 hours ago"))
+        notificationList.add(NotificationData("Congratulation, Your Profile is verified","Hello Figgo Driver, Your profile data is successfully verified.","2 hours ago"))
+        notificationList.add(NotificationData("Start accepting bookings near you","Hello Figgo Driver, Your profile data is successfully verified.","1 hours ago"))
+        notificationList.add(NotificationData("Congratulation, Your Profile is verified","Hello Figgo Driver, Your profile data is successfully verified.","2 hours ago"))
+        notificationList.add(NotificationData("Start accepting bookings near you","Hello Figgo Driver, Your profile data is successfully verified.","1 hours ago"))
+
         notificationRecycler.adapter=NotificationHomeAdapter(this,notificationList)
         notificationRecycler.layoutManager=LinearLayoutManager(this)
-
-
-
-
-
     }
 
     override fun initializeInputs() {
