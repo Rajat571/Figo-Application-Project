@@ -248,6 +248,6 @@ class CityRideFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
        advanceRidelists.clear()
-
+        ridelists.clear()
     }
 }

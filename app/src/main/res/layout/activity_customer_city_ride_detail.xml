@@ -20,8 +20,8 @@ xmlns:tools="http://schemas.android.com/tools">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="#C4B2B5B9"
+            android:orientation="vertical"
+            android:background="#000F3B"
             android:padding="10sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -33,59 +33,42 @@ xmlns:tools="http://schemas.android.com/tools">
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5sp"
                 android:layout_weight="1"
-
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="35sp"
-                    android:layout_height="38sp"
-
-                    android:src="@drawable/ic_baseline_calendar_month_24" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8sp"
-                    android:layout_marginTop="4sp"
                     android:fontFamily="sans-serif-black"
-                    android:padding="4sp"
+                    android:padding="3sp"
+                    android:textAlignment="textStart"
                     android:text="25.06.2022"
                     android:id="@+id/ride_date"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="18sp" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-
-                android:orientation="horizontal">
-
                 <ImageView
-                    android:layout_width="35sp"
-                    android:layout_height="38sp"
-
-                    android:src="@drawable/ic_baseline_access_time_24" />
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    android:layout_height="35sp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/calendarr" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/_12sdp"
-                    android:layout_gravity="center"
                     android:id="@+id/ride_time"
                     android:fontFamily="sans-serif-black"
                     android:padding="3sp"
                     android:text="06:20PM"
-                    android:textColor="@color/black"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/white"
                     android:textSize="18sp" />
 
             </LinearLayout>
-
 
         </LinearLayout>
 
@@ -361,7 +344,7 @@ xmlns:tools="http://schemas.android.com/tools">
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="400dp"
         />
 
     </androidx.cardview.widget.CardView>
