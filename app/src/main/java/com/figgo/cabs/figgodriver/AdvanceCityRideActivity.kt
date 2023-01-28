@@ -35,7 +35,7 @@ import com.figgo.cabs.pearllib.BaseClass
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
-class AdvanceCityRideActivity : AppCompatActivity(), OnMapReadyCallback {
+class AdvanceCityRideActivity : BaseClass(), OnMapReadyCallback {
     lateinit var binding: ActivityAdvanceCityRideBinding
     lateinit var prefManager: PrefManager
     var lat:Double = 0.0
@@ -47,23 +47,52 @@ class AdvanceCityRideActivity : AppCompatActivity(), OnMapReadyCallback {
     var ride_id:Int=0
     var ride_request_id:Int=0
     var customer_booking_id:String=""
+    var address_to: String? =null
+    var date:String? = null
+    var time:String? = null
+
+
     private lateinit var mMap: GoogleMap
     lateinit var baseClass: BaseClass
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun setLayoutXml() {
         binding= DataBindingUtil.setContentView(this, R.layout.activity_advance_city_ride)
-        window.setStatusBarColor(Color.parseColor("#000F3B"))
+    }
+
+    override fun initializeViews() {
 
 
-        var address_to= intent.getStringExtra("location_to")
-        var date=intent.getStringExtra("customer_date")
-        var time=intent.getStringExtra("customer_time")
+    }
 
+    override fun initializeClickListners() {
+
+    }
+
+    override fun initializeInputs() {
+        address_to= intent.getStringExtra("location_to")
+        date=intent.getStringExtra("customer_date")
+        time=intent.getStringExtra("customer_time")
         binding.advanceRideDate.text=date
         binding.advanceRideAddress.text=address_to
         binding.advanceRideTime.text=time
+
+    }
+
+    override fun initializeLabels() {
+
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setLayoutXml()
+        initializeViews()
+        initializeClickListners()
+        initializeInputs()
+        initializeLabels()
+
+        window.setStatusBarColor(Color.parseColor("#000F3B"))
+
 
         prefManager= PrefManager(this)
 

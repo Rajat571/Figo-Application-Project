@@ -498,9 +498,6 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         initializeClickListners()
         initializeInputs()
         initializeLabels()
-
-
-
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         if (ActivityCompat.checkSelfPermission(
                 this,
