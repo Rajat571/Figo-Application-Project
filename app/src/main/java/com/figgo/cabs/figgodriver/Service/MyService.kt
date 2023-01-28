@@ -101,13 +101,6 @@ prefManager= PrefManager(applicationContext)
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
                 return
             }
             fusedLocationProviderClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, object : CancellationToken() {
@@ -138,8 +131,8 @@ prefManager= PrefManager(applicationContext)
                         val queue = Volley.newRequestQueue(this)
                         val json = JSONObject()
                         json.put("token", PrefManager(this).getToken())
-                        json.put("lat",""+30.284550)
-                        json.put("lng",""+78.013211)
+                        json.put("lat",""+lat.toString())
+                        json.put("lng",""+lon.toString())
                         json.put("location_name",""+addressName)
                         Log.d("MY_SERVICE == ","json "+json)
                         Log.d("location == ","LATLONG "+prefManager.getlatitude()+","+prefManager.getlongitude())
