@@ -117,7 +117,7 @@ prefManager= PrefManager(applicationContext)
                         prefManager.setlatitude(lat.toFloat()+x)
                         lon = location.longitude
                         prefManager.setlongitude(lon.toFloat()+x)
-                        x=x+0.01f
+                        x=x+0.02f
                         geocoder = Geocoder(this, Locale.getDefault())
 
                         address = geocoder.getFromLocation(lat,lon,1)

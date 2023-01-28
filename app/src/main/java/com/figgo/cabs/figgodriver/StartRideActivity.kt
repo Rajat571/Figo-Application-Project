@@ -14,6 +14,7 @@ import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
+import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.databinding.ActivityStartRideBinding
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -36,7 +37,7 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
     private var destinationLongitude: Double = 78.02461312748794
     private lateinit var mMap: GoogleMap
     lateinit var binding: ActivityStartRideBinding
-
+    lateinit var prefManager: PrefManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
        binding=DataBindingUtil.setContentView(this, R.layout.activity_start_ride)
@@ -76,6 +77,8 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
             val urll = getDirectionURL(originLocation, destinationLocation, "AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
             GetDirection(urll).execute()
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 10F))
+            
+
         }
     }
 

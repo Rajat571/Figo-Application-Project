@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     tools:context=".Fragment.HomeDashBoard">
 
@@ -20,22 +20,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/home_deshboard_menu" />
 
-    <ScrollView
+
+    <fragment
+        android:id="@+id/mainContainer"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:fillViewport="true"
+        app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_navigation_bar">
-        <fragment
-            android:id="@+id/mainContainer"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/home_nav_graph" />
-    </ScrollView>
+        app:layout_constraintTop_toBottomOf="@+id/top_navigation_bar"
+        app:navGraph="@navigation/home_nav_graph" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

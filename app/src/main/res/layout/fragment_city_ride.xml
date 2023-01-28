@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     app:cardCornerRadius="15dp"
     android:layout_marginTop="10dp"
-    app:cardBackgroundColor="#B5F1EC"
+    app:cardBackgroundColor="#000706"
     android:layout_margin="5dp"
     app:cardElevation="8dp"
     android:orientation="vertical"
@@ -22,50 +22,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:padding="@dimen/_3sdp">
 
-        <!-- <LinearLayout
-            android:id="@+id/layout_current"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@+id/city_ride_recylerview"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="InvalidId">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="40dp"
-                android:text="Current"
-                android:id="@+id/current"
-                android:gravity="center"
-                android:background="@drawable/change_background"
-                android:textSize="16sp"
-                android:textAlignment="center"
-                android:layout_marginRight="5dp"
-                android:textColor="@color/black"
-                />
-            <TextView
-                android:layout_marginLeft="5dp"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:id="@+id/advance"
-                android:layout_height="40dp"
-                android:text="Advance"
-                android:gravity="center"
-                android:background="@drawable/background_card"
-                android:textSize="16sp"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                />
-
-        </LinearLayout>-->
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_weight="1"
     android:orientation="vertical"
     >
         <TextView
@@ -81,18 +45,19 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/city_ride_advance_recylerview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             tools:ignore="UnknownId"
             tools:layout_editor_absoluteX="4dp" />
 </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical"
             >
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_2sdp"
+    android:layout_height="@dimen/_1sdp"
     android:background="@drawable/profile_gradient"
     android:layout_marginVertical="@dimen/_5sdp"
     />
@@ -111,13 +76,12 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/city_ride_current_recylerview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             tools:ignore="MissingConstraints" />
     </LinearLayout>
     </LinearLayout>
 
 
 </ScrollView>
-
 </androidx.cardview.widget.CardView>
 </layout>

@@ -105,6 +105,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
     override fun initializeViews() {
         wndow=window
         prefManager= PrefManager(this)
+        prefManager.setRegistrationToken("Done")
          whataspp=findViewById<ImageView>(R.id.whatsapp)
          call=findViewById<ImageView>(R.id.call)
          share=findViewById<ImageView>(R.id.share)

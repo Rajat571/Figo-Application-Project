@@ -111,6 +111,7 @@ class WaitingRegistration : Fragment() {
             }
             else{
                 dialog.hide()
+                prefManager.setRegistrationToken("Done")
                 startActivity(Intent( requireContext(), DriverDashBoard::class.java))
             }
         },object :Response.ErrorListener{
