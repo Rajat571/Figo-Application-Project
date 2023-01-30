@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.android.volley.Response
 import com.android.volley.VolleyError
@@ -28,11 +29,6 @@ import org.json.JSONObject
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [WaitingRegistration.newInstance] factory method to
- * create an instance of this fragment.
- */
 class WaitingRegistration : Fragment() {
     lateinit var prefManager: PrefManager
     lateinit var dialog:ProgressDialog
@@ -66,6 +62,14 @@ class WaitingRegistration : Fragment() {
         var pref = PrefManager(requireContext())
         var name:String = pref.getDriverName()
         var tv2 = view.findViewById<TextView>(R.id.textView2)
+        val args = arguments
+        val waiting_layout = view.findViewById<CardView>(R.id.waiting_cardview)
+        if (args != null) {
+            if (args.getInt("Key").equals(1))
+                waiting_layout.visibility = View.GONE
+            else
+                waiting_layout.visibility = View.VISIBLE
+        }
         checkstatus(view)
         tv2.text = "Hello $name\n" +
                 "You registered an account on Figgo Driver App .Your Document Verification is under process, we will connect with you shortly"

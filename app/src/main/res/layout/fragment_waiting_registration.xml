@@ -14,8 +14,8 @@
         android:layout_gravity="center"
         android:layout_margin="10dp"
         android:elevation="10dp"
+        android:id="@+id/waiting_cardview"
         app:cardCornerRadius="10dp"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

@@ -1455,8 +1455,9 @@ class DriverCabDetailsFragment : Fragment() {
 
 
                          prefManager.setRegistrationToken("Done")
-
-                        Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration)
+                         var bundle = Bundle()
+                         bundle.putInt("Key",2)
+                        Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration,bundle)
 
                        //  prefManager.setCabFormToken("Submitted")
                      }

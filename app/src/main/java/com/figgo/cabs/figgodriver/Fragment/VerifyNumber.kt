@@ -272,6 +272,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
                 } else{
                     dialog.hide()
                     prefManager.setToken(token)
+
                     prefManager.setisValidLogin(true)
                     var user=response.getJSONObject("user")
                     var  statuss=user.getString("status").toInt()

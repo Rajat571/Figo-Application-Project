@@ -37,6 +37,10 @@
             <item
                 android:id="@+id/cancellation_policy"
                 android:title="Cancellation Policy"/>
+    <item
+        android:id="@+id/share_app"
+        android:title="Refer and Earn"
+        />
 
             <item
                 android:id="@+id/About_Figgo"

@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
@@ -39,8 +41,10 @@ class WelcomeFragment : Fragment() {
                 {
                     Navigation.findNavController(view).navigate(R.id.action_welcomeDriverFragment_to_figgo_FamilyFragment)
                 }else{
+                    val bundle = Bundle()
+                    bundle.putInt("Key",1)
                 // startActivity(Intent(requireContext(), DriverDashBoard::class.java))
-                  Navigation.findNavController(view).navigate(R.id.action_welcomeDriverFragment_to_waitingRegistration)
+                  Navigation.findNavController(view).navigate(R.id.action_welcomeDriverFragment_to_waitingRegistration,bundle)
                 }}
        // }
         },2000)

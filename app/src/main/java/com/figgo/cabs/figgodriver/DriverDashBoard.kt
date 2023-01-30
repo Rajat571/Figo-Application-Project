@@ -4,7 +4,7 @@ package com.figgo.cabs.figgodriver
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.app.Notification
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -12,10 +12,10 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.location.Location
 import android.net.Uri
+import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.transition.Fade
 import android.transition.Slide
 import android.transition.TransitionManager
 import android.util.Log
@@ -23,18 +23,20 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
+import com.figgo.cabs.PrefManager
+import com.figgo.cabs.R
+import com.figgo.cabs.figgodriver.Adapter.NotificationHomeAdapter
+import com.figgo.cabs.figgodriver.Fragment.*
+import com.figgo.cabs.figgodriver.Service.MyService
+import com.figgo.cabs.figgodriver.model.NotificationData
+import com.figgo.cabs.pearllib.BaseClass
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
@@ -43,21 +45,17 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
-import com.figgo.cabs.PrefManager
-import com.figgo.cabs.R
-import com.figgo.cabs.figgodriver.Adapter.NotificationHomeAdapter
-import com.figgo.cabs.figgodriver.Fragment.*
-
-import com.figgo.cabs.figgodriver.Service.MyService
-import com.figgo.cabs.figgodriver.model.NotificationData
-import com.figgo.cabs.pearllib.BaseClass
 import kotlinx.android.synthetic.main.bottom_button_layout.view.*
 import kotlinx.android.synthetic.main.top_layout.view.*
 import kotlinx.coroutines.*
 import java.lang.Runnable
+import java.net.Inet6Address
+import java.net.NetworkInterface
+import java.net.SocketException
+import java.net.URL
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.properties.Delegates
+
 
 class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
 
@@ -425,6 +423,28 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             offlineLayout.visibility=View.GONE
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,shareFrag).commit()
             homeFrame.visibility=View.VISIBLE
+            Toast.makeText(this,"Ip "+myFunction(true),Toast.LENGTH_SHORT).show()
+            true
+        }
+        draw_layout.menu.findItem(R.id.share_app).setOnMenuItemClickListener {
+            drawer.closeDrawer(GravityCompat.END)
+            val appPackageName = packageName // getPackageName() from Context or Activity object
+
+                    /*    val inviteLink: String ="http://play.google.com/store/apps/details?id=$appPackageName"
+                        val sendIntent = Intent()
+                        sendIntent.action = Intent.ACTION_SEND
+                        sendIntent.putExtra(Intent.EXTRA_TEXT, "I’m inviting you to join Figgo Drivers,use this code while submitting your form to earn rewards. $inviteLink")
+                        sendIntent.type = "text/*"
+                        val shareIntent = Intent.createChooser(sendIntent, null)
+                        startActivity(shareIntent)*/
+
+                     */
+                val shareIntent = Intent(Intent.ACTION_SEND)
+                shareIntent.type = "text/plain"
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Transofy")
+                val app_url = "http://play.google.com/store/apps/details?id=$appPackageName"
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "I’m inviting you to join Figgo Drivers,use the Referral code while submitting your form to earn rewards.\n $app_url   Referral Code : XeR478")
+                startActivity(Intent.createChooser(shareIntent, "Share via"))
 
             true
         }
@@ -535,10 +555,117 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             }
 
    }
+    fun getMacAddr(): String? {
+        var ip = ""
+        try {
+            val enumNetworkInterfaces = NetworkInterface
+                .getNetworkInterfaces()
+            while (enumNetworkInterfaces.hasMoreElements()) {
+                val networkInterface = enumNetworkInterfaces
+                    .nextElement()
+                val enumInetAddress = networkInterface
+                    .inetAddresses
+                while (enumInetAddress.hasMoreElements()) {
+                    val inetAddress = enumInetAddress.nextElement()
+                    if (inetAddress.isSiteLocalAddress) {
+                        ip += inetAddress.hostAddress
+                    }
+                }
+            }
+        } catch (e: SocketException) {
+            // TODO Auto-generated catch block
+            e.printStackTrace()
+            ip += "Something Wrong! $e\n"
+        }
+
+        return ip
+    }
+
+
+    private suspend fun getMyPublicIpAsync() : Deferred<String> =
+        coroutineScope {
+            async(Dispatchers.IO) {
+                var result = ""
+                result = try {
+                    val url = URL("https://api.ipify.org")
+                    val httpsURLConnection = url.openConnection()
+                    val iStream = httpsURLConnection.getInputStream()
+                    val buff = ByteArray(1024)
+                    val read = iStream.read(buff)
+                    String(buff,0, read)
+                } catch (e: Exception) {
+                    "error : $e"
+                }
+                return@async result
+            }
+        }
+
+/*
+    private fun myFunction():String {
+        var ip:String=""
+        CoroutineScope(Dispatchers.Main).launch {
+            val myPublicIp = getMyPublicIpAsync().await()
+            Toast.makeText(this@DriverDashBoard, myPublicIp, Toast.LENGTH_LONG).show()
+            ip=myPublicIp.toString()
+
+        }
+        return ip.toString()
+    }*/
+    fun myFunction(useIPv4: Boolean): String? {
+    try {
+        val en = NetworkInterface
+            .getNetworkInterfaces()
+        while (en.hasMoreElements()) {
+            val intf = en.nextElement()
+            val enumIpAddr = intf
+                .inetAddresses
+            while (enumIpAddr.hasMoreElements()) {
+                val inetAddress = enumIpAddr.nextElement()
+                println("ip1--:$inetAddress")
+                println("ip2--:" + inetAddress.hostAddress)
+                if (!inetAddress.isLoopbackAddress && inetAddress is Inet6Address) {
+                    Log.d("IP address",""+NetworkInterface.getByInetAddress(inetAddress).hardwareAddress)
+
+                    return inetAddress.getHostAddress()?.toString()
+                }
+            }
+        }
+    } catch (ex: Exception) {
+        Log.e("IP Address", ex.toString())
+    }
+    return null
+    }
 
     override fun onDestroy() {
         super.onDestroy()
         prefManager.setActiveRide(0)
+    }
+    private fun getLocalIpAddress(): String? {
+        try {
+
+            val wifiManager: WifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+            return if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return  wifiManager.connectionInfo.macAddress
+            } else {
+                return "0.0.0.0"
+            }
+
+        } catch (ex: Exception) {
+            Log.e("IP Address", ex.toString())
+        }
+
+        return null
     }
 
     override fun onBackPressed() {

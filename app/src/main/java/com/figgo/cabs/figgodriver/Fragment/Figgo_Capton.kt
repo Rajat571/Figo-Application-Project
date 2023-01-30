@@ -104,6 +104,9 @@ class Figgo_Capton : Fragment(){
             startActivityForResult(Intent.createChooser(intent,"select Picture"),4)
 
         }
+     /*   binding.verifyReferalcode.setOnClickListener {
+            baseclass.validateReferalCode()
+        }*/
         binding.policeVerification.setOnClickListener {
             var intent=Intent()
             intent.type="image/*"
@@ -261,9 +264,6 @@ class Figgo_Capton : Fragment(){
                 // Error
             }){}
         queue.add(jsonOblect)
-
-
-
 
 
     }

@@ -217,7 +217,24 @@ abstract class BaseClass : AppCompatActivity() {
         mEditView.setBackgroundResource(R.drawable.input_boder_profile)
     }
 
-    fun validateName(inputUser: EditText): Boolean {
+    fun validateName(number: EditText): Boolean {
+        val num: String = number.getText().toString().trim { it <= ' ' }
+        setCustomError(null, number)
+        return if (num.isEmpty()) {
+            val sMessage = "Please enter number..!!"
+            setCustomError(sMessage, number)
+            false
+        } else if (!isValidMobile(num)) {
+            val sMessage = "Referral Code must be 6 characters long..!!"
+            setCustomError(sMessage, number)
+            false
+        } else {
+            setCustomErrorDisabled(number)
+            true
+        }
+    }
+
+    fun validateReferalCode(inputUser: EditText):Boolean{
         val name = inputUser.text.toString()
         System.out.println("NAMEE==="+name)
         setCustomError(null, inputUser)
@@ -225,8 +242,8 @@ abstract class BaseClass : AppCompatActivity() {
             val sMessage = "Please enter name..!!"
             setCustomError(sMessage, inputUser)
             false
-        } else if (!isValidName(name)) {
-            val sMessage = "Name must be at least 3 character and at most 50 character..!!"
+        } else if (name.length != 6) {
+            val sMessage = "Referal Code must be at least 3 character and at most 50 character..!!"
             setCustomError(sMessage, inputUser)
             false
         } else {
@@ -398,6 +415,7 @@ abstract class BaseClass : AppCompatActivity() {
             true
         }
     }
+
     fun validateAadharNo(aadharno: EditText): Boolean {
         val num = aadharno.getText().toString().trim { it <= ' ' }
         setCustomError(null,aadharno)

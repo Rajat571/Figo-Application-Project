@@ -204,6 +204,42 @@
                         android:padding="15dp"
                         android:hint="Aadhar Number"/>
                 </com.google.android.material.textfield.TextInputLayout>
+<!--        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/_10sdp"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            android:orientation="horizontal"
+
+            >
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_5sdp"
+                android:layout_weight="1"
+                >
+                <EditText
+                    android:background="@drawable/input_boder_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:id="@+id/referalcode"
+                    android:textSize="13sp"
+                    android:inputType="number"
+                    android:maxLength="12"
+                    android:padding="15dp"
+                    android:hint="Referral Code(Optional)"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:id="@+id/verify_referalcode"
+                android:backgroundTint="#011D33"
+                android:text="verify"
+                />
+
+        </LinearLayout>-->
                 <!--
                             <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
