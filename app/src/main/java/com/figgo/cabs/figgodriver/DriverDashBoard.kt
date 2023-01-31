@@ -30,6 +30,10 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.AuthFailureError
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.figgodriver.Adapter.NotificationHomeAdapter
@@ -48,8 +52,9 @@ import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.bottom_button_layout.view.*
 import kotlinx.android.synthetic.main.top_layout.view.*
 import kotlinx.coroutines.*
+import org.json.JSONObject
 import java.lang.Runnable
-import java.net.Inet6Address
+import java.net.InetAddress
 import java.net.NetworkInterface
 import java.net.SocketException
 import java.net.URL
@@ -423,7 +428,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             offlineLayout.visibility=View.GONE
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,shareFrag).commit()
             homeFrame.visibility=View.VISIBLE
-            Toast.makeText(this,"Ip "+myFunction(true),Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Ip "+myFunction(),Toast.LENGTH_SHORT).show()
             true
         }
         draw_layout.menu.findItem(R.id.share_app).setOnMenuItemClickListener {
@@ -439,12 +444,12 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
                         startActivity(shareIntent)*/
 
                      */
-                val shareIntent = Intent(Intent.ACTION_SEND)
-                shareIntent.type = "text/plain"
-                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Transofy")
-                val app_url = "http://play.google.com/store/apps/details?id=$appPackageName"
-                shareIntent.putExtra(Intent.EXTRA_TEXT, "I’m inviting you to join Figgo Drivers,use the Referral code while submitting your form to earn rewards.\n $app_url   Referral Code : XeR478")
-                startActivity(Intent.createChooser(shareIntent, "Share via"))
+            val ip_address:String=myFunction()
+         var ref_link = prefManager.getReferal();
+sendreferal(ip_address)
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse(ref_link)
+            startActivity(i)
 
             true
         }
@@ -500,6 +505,28 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
 
         notificationRecycler.adapter=NotificationHomeAdapter(this,notificationList)
         notificationRecycler.layoutManager=LinearLayoutManager(this)
+    }
+
+    private fun sendreferal(ipAddress: String) {
+        var baseurl="https://test.pearl-developer.com/figo/api/refer/create-referel"
+        var queue= Volley.newRequestQueue(this)
+        var json= JSONObject()
+
+        json.put("ip",ipAddress)
+        var jsonObjectRequest=object : JsonObjectRequest(Method.POST,baseurl,json, Response.Listener<JSONObject>{
+response ->
+Log.d("Referal Response ",""+response)
+    },{
+            Log.d("Error Response ",""+it)
+        }){
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers: MutableMap<String, String> = HashMap()
+                headers.put("Authorization", "Bearer " + prefManager.getToken())
+                return headers
+            }
+        }
+    queue.add(jsonObjectRequest);
     }
 
     override fun initializeInputs() {
@@ -600,18 +627,68 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             }
         }
 
-/*
+
     private fun myFunction():String {
-        var ip:String=""
+   /*     var ip:String=""
         CoroutineScope(Dispatchers.Main).launch {
             val myPublicIp = getMyPublicIpAsync().await()
             Toast.makeText(this@DriverDashBoard, myPublicIp, Toast.LENGTH_LONG).show()
             ip=myPublicIp.toString()
 
         }
-        return ip.toString()
-    }*/
-    fun myFunction(useIPv4: Boolean): String? {
+        return ip.toString()*/
+        try {
+            val interfaces: List<NetworkInterface> =
+                Collections.list(NetworkInterface.getNetworkInterfaces())
+            for (intf in interfaces) {
+                val addrs: List<InetAddress> = Collections.list(intf.inetAddresses)
+                for (addr in addrs) {
+                    if (!addr.isLoopbackAddress) {
+                        val sAddr = addr.hostAddress
+                        val isIPv4 = sAddr.indexOf(':') < 0
+                        if (true) {
+                            if (isIPv4) return sAddr
+                        } else {
+                            if (!isIPv4) {
+                                val delim = sAddr.indexOf('%')
+                                return if (delim < 0) sAddr.uppercase(Locale.getDefault()) else sAddr.substring(
+                                    0,
+                                    delim
+                                ).uppercase(Locale.getDefault())
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (ignored: Exception) {
+        }
+        return ""
+    }
+    private fun getIpAddress(): String? {
+        var ip = ""
+        try {
+            val enumNetworkInterfaces = NetworkInterface
+                .getNetworkInterfaces()
+            while (enumNetworkInterfaces.hasMoreElements()) {
+                val networkInterface = enumNetworkInterfaces
+                    .nextElement()
+                val enumInetAddress = networkInterface
+                    .inetAddresses
+                while (enumInetAddress.hasMoreElements()) {
+                    val inetAddress = enumInetAddress.nextElement()
+                    if (inetAddress.isSiteLocalAddress) {
+                        ip += inetAddress.hostAddress
+                    }
+                }
+            }
+        } catch (e: SocketException) {
+            // TODO Auto-generated catch block
+            e.printStackTrace()
+            ip += "Something Wrong! $e\n"
+        }
+        return ip
+    }
+/*    fun myFunction(useIPv4: Boolean): String? {
     try {
         val en = NetworkInterface
             .getNetworkInterfaces()
@@ -634,7 +711,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         Log.e("IP Address", ex.toString())
     }
     return null
-    }
+    }*/
 
     override fun onDestroy() {
         super.onDestroy()

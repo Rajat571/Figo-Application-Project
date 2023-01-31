@@ -106,7 +106,9 @@ class WaitingRegistration : Fragment() {
             Log.d("WaitingRegistraion","RESPONSE=="+response)
 
             var user=response.getJSONObject("user")
+           // var location = user.getJSONObject("location")
             var status=user.getString("status")
+
             Log.d("WaitingRegistraion","status=="+status)
 
             if (status.equals(0)||status.toInt()==0){
@@ -116,6 +118,8 @@ class WaitingRegistration : Fragment() {
             else{
                 dialog.hide()
                 prefManager.setRegistrationToken("Done")
+               // prefManager.setToken(user.getString("token"))
+                prefManager.setReferal(user.getString("referal_link"))
                 startActivity(Intent( requireContext(), DriverDashBoard::class.java))
             }
         },object :Response.ErrorListener{

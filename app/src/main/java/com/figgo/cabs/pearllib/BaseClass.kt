@@ -225,7 +225,7 @@ abstract class BaseClass : AppCompatActivity() {
             setCustomError(sMessage, number)
             false
         } else if (!isValidMobile(num)) {
-            val sMessage = "Referral Code must be 6 characters long..!!"
+            val sMessage = "Name must be character only.!!"
             setCustomError(sMessage, number)
             false
         } else {

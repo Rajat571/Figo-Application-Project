@@ -112,6 +112,14 @@ import android.content.SharedPreferences
          return pref?.getString("police_ext","").toString()
      }
 
+     fun getReferal():String{
+         return pref?.getString("referal_code","").toString()
+     }
+    fun setReferal(ref:String){
+        editor?.putString("referal_code",ref).toString()
+        editor?.commit()
+    }
+
      fun setDriverAadhar_no(aadhar_no:String){
          editor?.putString("aadhar_no",aadhar_no)
          editor?.commit()
