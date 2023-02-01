@@ -10,4 +10,6 @@
     <color name="light_grey">#EBEBEB</color>
     <color name="orange">#F46236</color>
     <color name="app_color">#0D3243</color>
+    <color name="app_color_light">#0F4963</color>
+    <color name="exel">#081014</color>
 </resources>

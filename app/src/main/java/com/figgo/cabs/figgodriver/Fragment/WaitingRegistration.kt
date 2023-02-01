@@ -118,6 +118,7 @@ class WaitingRegistration : Fragment() {
             else{
                 dialog.hide()
                 prefManager.setRegistrationToken("Done")
+
                // prefManager.setToken(user.getString("token"))
                 prefManager.setReferal(user.getString("referal_link"))
                 startActivity(Intent( requireContext(), DriverDashBoard::class.java))

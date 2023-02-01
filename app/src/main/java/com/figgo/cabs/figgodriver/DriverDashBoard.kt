@@ -349,6 +349,15 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             homeFrame.visibility=View.VISIBLE
             true
         }
+        draw_layout.menu.findItem(R.id.ridehistoryDrawer).setOnMenuItemClickListener {
+            drawer.closeDrawer(GravityCompat.END)
+            offlineLayout.visibility=View.GONE
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,
+               RideHistory()
+            ).commit()
+            homeFrame.visibility=View.VISIBLE
+            true
+        }
         draw_layout.menu.findItem(R.id.cancellation_policy).setOnMenuItemClickListener {
             bundle.putString("Key","Cancel")
             var supportFrag = SupportFragment()

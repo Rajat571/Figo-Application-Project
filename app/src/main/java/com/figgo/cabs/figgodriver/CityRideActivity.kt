@@ -37,12 +37,15 @@ import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.databinding.ActivityCityRideBinding
 import com.figgo.cabs.pearllib.BaseClass
+import com.google.android.gms.location.LocationListener
+import com.google.android.gms.maps.model.Marker
 
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
 
-class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
+class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMarkerClickListener,
+    LocationListener {
     lateinit var binding: ActivityCityRideBinding
     lateinit var prefManager: PrefManager
     var lat:Double = 0.0
@@ -384,6 +387,14 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onDestroy() {
         super.onDestroy()
+    }
+
+    override fun onMarkerClick(p0: Marker): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun onLocationChanged(p0: Location) {
+
     }
 
 
