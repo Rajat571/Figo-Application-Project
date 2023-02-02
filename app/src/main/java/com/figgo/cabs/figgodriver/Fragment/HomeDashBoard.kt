@@ -45,11 +45,11 @@ class HomeDashBoard : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lateinit var navController: NavController
-
-        val navHostFragment=childFragmentManager.findFragmentById(R.id.mainContainer) as NavHostFragment
-        navController=navHostFragment.navController
-        val bottomNavigationView=view.findViewById<BottomNavigationView>(R.id.top_navigation_bar)
-        NavigationUI.setupWithNavController(bottomNavigationView, navController)
+            // perform your task
+            val navHostFragment=childFragmentManager.findFragmentById(R.id.mainContainer) as NavHostFragment
+            navController=navHostFragment.navController
+            val bottomNavigationView=view.findViewById<BottomNavigationView>(R.id.top_navigation_bar)
+            NavigationUI.setupWithNavController(bottomNavigationView, navController)
     }
 
 

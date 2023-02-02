@@ -122,7 +122,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
          driverImage=vieww.findViewById<ImageView>(R.id.driverIV)
          drivername=vieww.findViewById<TextView>(R.id.drivernamee)
          driver_num=vieww.findViewById<TextView>(R.id.driver_numberr)
-        driverImage.setImageBitmap(image)
+         driverImage.setImageBitmap(image)
         drivername.text=prefManager.getDriverName()
         driver_num.text=prefManager.getMobileNo()
         drawer = findViewById<DrawerLayout>(R.id.Dashboard_Drawer_layout)

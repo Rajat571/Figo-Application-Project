@@ -1311,7 +1311,6 @@ class DriverCabDetailsFragment : Fragment() {
         var local_permit_date=t
         var national_permit_date=n
 
-
         base.validatedriverRegistrationNo(binding.registrationNo)
         base.validatedriverRegistrationNo(binding.vechleNo)
         base.validateDriverInsuranceDate(binding.insuranceNo)

@@ -108,6 +108,10 @@ class WaitingRegistration : Fragment() {
             var user=response.getJSONObject("user")
            // var location = user.getJSONObject("location")
             var status=user.getString("status")
+            var name=user.get("name")
+            var num=user.getString("mobile")
+            prefManager.setDriverName(name.toString())
+            prefManager.setMobile_No(num.toString())
 
             Log.d("WaitingRegistraion","status=="+status)
 

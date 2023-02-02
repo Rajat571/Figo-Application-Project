@@ -1,6 +1,7 @@
 package com.figgo.cabs.figgodriver.Fragment
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,15 +16,14 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.google.android.gms.maps.model.*
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.databinding.FragmentCityRideBinding
 import com.figgo.cabs.figgodriver.Adapter.CityRideAdvanceListAdapter
 import com.figgo.cabs.figgodriver.Adapter.CityRideCurrentListAdapter
-
 import com.figgo.cabs.figgodriver.model.CityAdvanceRideList
 import com.figgo.cabs.figgodriver.model.CityCurrentRidesList
+import com.google.android.gms.maps.model.*
 import org.json.JSONObject
 
 
@@ -50,10 +50,10 @@ class CityRideFragment : Fragment() {
         prefManager= PrefManager(requireContext())
         //ridelists.add()
         //submitCurrentRideForm(view,"advance")
-        submitAdvanceRideForm(view)
-        submitCurrentRideForm(view)
-        binding.cityRideAdvanceRecylerview.layoutManager=LinearLayoutManager(requireContext())
-        binding.cityRideCurrentRecylerview.layoutManager=LinearLayoutManager(requireContext())
+            submitAdvanceRideForm(view)
+            submitCurrentRideForm(view)
+            binding.cityRideAdvanceRecylerview.layoutManager = LinearLayoutManager(requireContext())
+            binding.cityRideCurrentRecylerview.layoutManager = LinearLayoutManager(requireContext())
 
       /*  ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","","",0))
         ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","","",0))
@@ -132,7 +132,7 @@ class CityRideFragment : Fragment() {
                             ridelists.add(CityCurrentRidesList(date_only,time_only,booking_id,address_name,from_name,price,to_location_lat,to_location_long,from_location_lat,from_location_long,ride_id,ride_request_id,y))
                         }
                         //advanceData(response)
-                        cityRideCurrentListAdapter= CityRideCurrentListAdapter(requireContext().applicationContext,ridelists)
+                        cityRideCurrentListAdapter= CityRideCurrentListAdapter(requireContextX().applicationContext,ridelists)
                         binding.cityRideCurrentRecylerview.adapter=cityRideCurrentListAdapter
 
                     }
@@ -156,8 +156,13 @@ class CityRideFragment : Fragment() {
         queue.add(jsonOblect)
         //return currentdata
     }
+    fun requireContextX(): Context {
+        return this.context
+            ?: throw IllegalStateException("Fragment $this not attached to a context.")
+    }
 
     private fun submitAdvanceRideForm(view: View) {
+
         val URL = " https://test.pearl-developer.com/figo/api/driver-ride/get-city-ride-request"
         val queue = Volley.newRequestQueue(requireContext())
 
@@ -168,6 +173,7 @@ class CityRideFragment : Fragment() {
                     if (response != null) {
                         var data=response.getJSONArray( "advance").length()
                         for (i in 0 until data){
+
                             var data1=response.getJSONArray("advance").getJSONObject(i)
                             var advance_booking_id=data1.getString( "booking_id")
                             var ride_id=data1.getString( "id")
@@ -189,7 +195,8 @@ class CityRideFragment : Fragment() {
                             var time_only=data1.getString( "time_only")
                             advanceRidelists.add(CityAdvanceRideList(date_only,time_only,advance_booking_id,address_name,from_name,"",from_location_lat,from_location_long,to_location_lat,to_location_long,ride_id))
                         }
-                        cityRideAdvanceListAdapter= CityRideAdvanceListAdapter(requireContext(),advanceRidelists)
+
+                        cityRideAdvanceListAdapter= CityRideAdvanceListAdapter(requireContextX(),advanceRidelists)
                         binding.cityRideAdvanceRecylerview.adapter= cityRideAdvanceListAdapter
                     }
                     // Get your json response and convert it to whatever you want.
