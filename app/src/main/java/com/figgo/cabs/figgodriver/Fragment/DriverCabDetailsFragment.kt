@@ -2,6 +2,7 @@ package com.figgo.cabs.figgodriver.Fragment
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
@@ -999,295 +1000,462 @@ class DriverCabDetailsFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == 1){
-            try {
-                val photo = data!!.extras!!["data"] as Bitmap?
-                var selectedImageUri4=  getImageUri(requireContext(),photo!!)
-                Log.d("onActivityResult","response"+photo)
-                Log.d("onActivityResult",""+selectedImageUri4.toString())
-                driver_profile_ext = base.getExtension(selectedImageUri4!!,requireContext())
-                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
-                driver_profile= base.BitMapToString(bitmap).toString()
-                binding.selfiee.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
-                prefManager.setDriverProfile(driver_profile)
-            } catch (e: IOException) {
-                e.printStackTrace()
+        if (resultCode == RESULT_OK && data != null) {
+            if (requestCode == 1) {
+                try {
+                    val photo = data!!.extras!!["data"] as Bitmap?
+                    var selectedImageUri4 = getImageUri(requireContext(), photo!!)
+                    Log.d("onActivityResult", "response" + photo)
+                    Log.d("onActivityResult", "" + selectedImageUri4.toString())
+                    driver_profile_ext = base.getExtension(selectedImageUri4!!, requireContext())
+                    var bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        selectedImageUri4
+                    )
+                    driver_profile = base.BitMapToString(bitmap).toString()
+                    binding.selfiee.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        R.drawable.check_circle,
+                        0
+                    )
+                    prefManager.setDriverProfile(driver_profile)
+                } catch (e: IOException) {
+                    e.printStackTrace()
                 }
-            }
-        else if (requestCode==2){
-            try {
-                var selectedImageUri4=data?.data
-                Log.d("URI = ",selectedImageUri4.toString())
-                driver_profile_ext = base.getExtension(selectedImageUri4!!,requireContext())
-                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
-                driver_profile= base.BitMapToString(bitmap).toString()
-                binding.selfiee.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
-                prefManager.setDriverProfile(driver_profile)
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-        else if (requestCode == 3){
-            try {
-
-                val photo = data!!.extras!!["data"] as Bitmap?
-                var selectedImageUri4=  getImageUri(requireContext(),photo!!)
-                Log.d("onActivityResult","response"+photo)
-                Log.d("onActivityResult",""+selectedImageUri4.toString())
-                driving_license_ext = base.getExtension(selectedImageUri4!!,requireContext())
-                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
-                driving_license= base.BitMapToString(bitmap).toString()
-                binding.drivingLicence.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
-               // prefManager.setDriverProfile(driver_profile)
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-
-        else if (requestCode==4){
-            try {
-                var selectedImageUri4=data?.data
-                Log.d("URI = ",selectedImageUri4.toString())
-                 driving_license_ext = base.getExtension(selectedImageUri4!!,requireContext())
-                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
-                 driving_license= base.BitMapToString(bitmap).toString()
-                binding.drivingLicence.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-      else if (requestCode == 5){
-            try {
-
-                val photo = data!!.extras!!["data"] as Bitmap?
-                var selectedImageUri4=  getImageUri(requireContext(),photo!!)
-                Log.d("onActivityResult","response"+photo)
-                Log.d("onActivityResult",""+selectedImageUri4.toString())
-                cab_insurance_ext = base.getExtension(selectedImageUri4!!,requireContext())
-                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
-                cab_insrance= base.BitMapToString(bitmap).toString()
-                binding.cabInsurance.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
-                //prefManager.setDriverProfile(driver_profile)
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-        else if (requestCode==6){
-            try {
-                var selectedImageUri4=data?.data
-                 cab_insurance_ext = base.getExtension(selectedImageUri4!!,requireContext())
-                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
-                cab_insrance = base.BitMapToString(bitmap).toString()
-                binding.cabInsurance.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
-            } catch (e: IOException) {
-              }
-        }
-        else if (requestCode == 7){
-            try {
-
-                val photo = data!!.extras!!["data"] as Bitmap?
-                var selectedImageUri4=  getImageUri(requireContext(),photo!!)
-                registration_certificate_ext = base.getExtension(selectedImageUri4!!,requireContext())
-                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
-                registration_certificate= base.BitMapToString(bitmap).toString()
-                binding.registrationCertificate.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-        else if (requestCode==8){
-            try {
-                var selectedImageUri4=data?.data
-                 registration_certificate_ext = base.getExtension(selectedImageUri4!!,requireContext())
-                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
-                 registration_certificate = base.BitMapToString(bitmap).toString()
-                binding.registrationCertificate.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-        else if (requestCode ==9){
-            try {
-
-                val photo = data!!.extras!!["data"] as Bitmap?
-                var selectedImageUri4=  getImageUri(requireContext(),photo!!)
-                national_permit_ext = base.getExtension(selectedImageUri4!!,requireContext())
-                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
-                national_permit= base.BitMapToString(bitmap).toString()
-                binding.nationalPermitImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-        else if (requestCode==10){
-            try {
-                var selectedImageUri4=data?.data
-                 national_permit_ext = base.getExtension(selectedImageUri4!!,requireContext())
-                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
-                 national_permit = base.BitMapToString(bitmap).toString()
-                binding.nationalPermitImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-        else if (requestCode ==11){
-            try {
-
-                val photo = data!!.extras!!["data"] as Bitmap?
-                var selectedImageUri4=  getImageUri(requireContext(),photo!!)
-                local_permit_ext = base.getExtension(selectedImageUri4!!,requireContext())
-                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
-                local_permit= base.BitMapToString(bitmap).toString()
-                binding.localPermitImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-        else if (requestCode==12){
-            try {
-                var selectedImageUri4=data?.data
-                 local_permit_ext = base.getExtension(selectedImageUri4!!,requireContext())
-                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
-                 local_permit = base.BitMapToString(bitmap).toString()
-                binding.localPermitImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-        else if (requestCode ==13){
-            try {
-                val photo = data!!.extras!!["data"] as Bitmap?
-                var selectedImageUri4=  getImageUri(requireContext(),photo!!)
-                taxi_front_pic_ext = base.getExtension(selectedImageUri4!!,requireContext())
-                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
-                driver_cab_image= base.BitMapToString(bitmap).toString()
-                binding.taxiFrontPicImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
-                prefManager.setDriverCab(driver_cab_image)
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-        else if (requestCode==14){
-            try {
-                val selectedImageUri = data?.getData()
-                val bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), selectedImageUri)
-                 taxi_front_pic_ext = base.getExtension(selectedImageUri!!,requireContext())
-                prefManager.setDriverCab_ext(taxi_front_pic_ext!!)
-                driver_cab_image = base.BitMapToString(bitmap).toString()
-                binding.taxiFrontPicImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
-                prefManager.setDriverCab(driver_cab_image)
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-        else if (requestCode ==15){
-            try {
-
-                val photo = data!!.extras!!["data"] as Bitmap?
-                var selectedImageUri4=  getImageUri(requireContext(),photo!!)
-                aadhar_front_ext = base.getExtension(selectedImageUri4!!,requireContext())
-                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
-                aadhar_front= base.BitMapToString(bitmap).toString()
-                binding.aadharFrontImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-        else if (requestCode==16){
-            try {
-                var selectedImageUri4=data?.data
-                aadhar_front_ext = base.getExtension(selectedImageUri4!!,requireContext())
-                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
-                 aadhar_front = base.BitMapToString(bitmap).toString()
-                binding.aadharFrontImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-        else if (requestCode ==17){
-            try {
-
-                val photo = data!!.extras!!["data"] as Bitmap?
-                var selectedImageUri4=  getImageUri(requireContext(),photo!!)
-                aadhar_back_ext = base.getExtension(selectedImageUri4!!,requireContext())
-                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
-                aadhar_back= base.BitMapToString(bitmap).toString()
-                binding.aadharBackImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
-                prefManager.setAadhar_verification_back(aadhar_back)
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }else if (requestCode==18){
-            try {
-                var selectedImageUri4=data?.data
-                 aadhar_back_ext = base.getExtension(selectedImageUri4!!,requireContext())
-                prefManager.setAadhar_back_ext(aadhar_back_ext)
-                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
-                 aadhar_back= base.BitMapToString(bitmap).toString()
-                binding.aadharBackImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
-                prefManager.setAadhar_verification_back(aadhar_back)
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-        else if (requestCode ==19){
-            try {
-
-                val photo = data!!.extras!!["data"] as Bitmap?
-                var selectedImageUri4=  getImageUri(requireContext(),photo!!)
-                police_certification_ext = base.getExtension(selectedImageUri4!!,requireContext())
-                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
-                police_certification= base.BitMapToString(bitmap).toString()
-                binding.policeCertificationImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-        else if (requestCode==20){
-            try {
-                var selectedImageUri4=data?.data
-                 police_certification_ext = base.getExtension(selectedImageUri4!!,requireContext())
-                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
-                 police_certification = base.BitMapToString(bitmap).toString()
-                binding.policeCertificationImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-        else if (requestCode ==21){
-            try {
+            } else if (requestCode == 2) {
+                try {
+                    var selectedImageUri4 = data?.data
+                    Log.d("URI = ", selectedImageUri4.toString())
+                    driver_profile_ext = base.getExtension(selectedImageUri4!!, requireContext())
+                    var bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        selectedImageUri4
+                    )
+                    driver_profile = base.BitMapToString(bitmap).toString()
+                    binding.selfiee.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        R.drawable.check_circle,
+                        0
+                    )
+                    prefManager.setDriverProfile(driver_profile)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            } else if (requestCode == 3) {
+                try {
 
                     val photo = data!!.extras!!["data"] as Bitmap?
-                    var selectedImageUri4=  getImageUri(requireContext(),photo!!)
-                    gps_certification_ext = base.getExtension(selectedImageUri4!!,requireContext())
-                    Log.d("DriverActiveRideFragment","gps_certification_ext"+gps_certification_ext)
-                    var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
-                    gps_certification= base.BitMapToString(bitmap).toString()
-                    Log.d("DriverActiveRideFragment","gps_certification_ext"+gps_certification)
-                    binding.gpscertificte.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
+                    var selectedImageUri4 = getImageUri(requireContext(), photo!!)
+                    Log.d("onActivityResult", "response" + photo)
+                    Log.d("onActivityResult", "" + selectedImageUri4.toString())
+                    driving_license_ext = base.getExtension(selectedImageUri4!!, requireContext())
+                    var bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        selectedImageUri4
+                    )
+                    driving_license = base.BitMapToString(bitmap).toString()
+                    binding.drivingLicence.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        R.drawable.check_circle,
+                        0
+                    )
+                    // prefManager.setDriverProfile(driver_profile)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            } else if (requestCode == 4) {
+                try {
+                    var selectedImageUri4 = data?.data
+                    Log.d("URI = ", selectedImageUri4.toString())
+                    driving_license_ext = base.getExtension(selectedImageUri4!!, requireContext())
+                    var bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        selectedImageUri4
+                    )
+                    driving_license = base.BitMapToString(bitmap).toString()
+                    binding.drivingLicence.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        R.drawable.check_circle,
+                        0
+                    )
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            } else if (requestCode == 5) {
+                try {
+
+                    val photo = data!!.extras!!["data"] as Bitmap?
+                    var selectedImageUri4 = getImageUri(requireContext(), photo!!)
+                    Log.d("onActivityResult", "response" + photo)
+                    Log.d("onActivityResult", "" + selectedImageUri4.toString())
+                    cab_insurance_ext = base.getExtension(selectedImageUri4!!, requireContext())
+                    var bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        selectedImageUri4
+                    )
+                    cab_insrance = base.BitMapToString(bitmap).toString()
+                    binding.cabInsurance.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        R.drawable.check_circle,
+                        0
+                    )
+                    //prefManager.setDriverProfile(driver_profile)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            } else if (requestCode == 6) {
+                try {
+                    var selectedImageUri4 = data?.data
+                    cab_insurance_ext = base.getExtension(selectedImageUri4!!, requireContext())
+                    var bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        selectedImageUri4
+                    )
+                    cab_insrance = base.BitMapToString(bitmap).toString()
+                    binding.cabInsurance.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        R.drawable.check_circle,
+                        0
+                    )
+                } catch (e: IOException) {
+                }
+            } else if (requestCode == 7) {
+                try {
+
+                    val photo = data!!.extras!!["data"] as Bitmap?
+                    var selectedImageUri4 = getImageUri(requireContext(), photo!!)
+                    registration_certificate_ext =
+                        base.getExtension(selectedImageUri4!!, requireContext())
+                    var bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        selectedImageUri4
+                    )
+                    registration_certificate = base.BitMapToString(bitmap).toString()
+                    binding.registrationCertificate.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        R.drawable.check_circle,
+                        0
+                    )
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            } else if (requestCode == 8) {
+                try {
+                    var selectedImageUri4 = data?.data
+                    registration_certificate_ext =
+                        base.getExtension(selectedImageUri4!!, requireContext())
+                    var bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        selectedImageUri4
+                    )
+                    registration_certificate = base.BitMapToString(bitmap).toString()
+                    binding.registrationCertificate.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        R.drawable.check_circle,
+                        0
+                    )
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            } else if (requestCode == 9) {
+                try {
+
+                    val photo = data!!.extras!!["data"] as Bitmap?
+                    var selectedImageUri4 = getImageUri(requireContext(), photo!!)
+                    national_permit_ext = base.getExtension(selectedImageUri4!!, requireContext())
+                    var bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        selectedImageUri4
+                    )
+                    national_permit = base.BitMapToString(bitmap).toString()
+                    binding.nationalPermitImg.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        R.drawable.check_circle,
+                        0
+                    )
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            } else if (requestCode == 10) {
+                try {
+                    var selectedImageUri4 = data?.data
+                    national_permit_ext = base.getExtension(selectedImageUri4!!, requireContext())
+                    var bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        selectedImageUri4
+                    )
+                    national_permit = base.BitMapToString(bitmap).toString()
+                    binding.nationalPermitImg.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        R.drawable.check_circle,
+                        0
+                    )
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            } else if (requestCode == 11) {
+                try {
+                    val photo = data!!.extras!!["data"] as Bitmap?
+                    var selectedImageUri4 = getImageUri(requireContext(), photo!!)
+                    local_permit_ext = base.getExtension(selectedImageUri4!!, requireContext())
+                    var bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        selectedImageUri4
+                    )
+                    local_permit = base.BitMapToString(bitmap).toString()
+                    binding.localPermitImg.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        R.drawable.check_circle,
+                        0
+                    )
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            } else if (requestCode == 12) {
+                try {
+                    var selectedImageUri4 = data?.data
+                    local_permit_ext = base.getExtension(selectedImageUri4!!, requireContext())
+                    var bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        selectedImageUri4
+                    )
+                    local_permit = base.BitMapToString(bitmap).toString()
+                    binding.localPermitImg.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        R.drawable.check_circle,
+                        0
+                    )
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            } else if (requestCode == 13) {
+                try {
+                    val photo = data!!.extras!!["data"] as Bitmap?
+                    var selectedImageUri4 = getImageUri(requireContext(), photo!!)
+                    taxi_front_pic_ext = base.getExtension(selectedImageUri4!!, requireContext())
+                    var bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        selectedImageUri4
+                    )
+                    driver_cab_image = base.BitMapToString(bitmap).toString()
+                    binding.taxiFrontPicImg.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        R.drawable.check_circle,
+                        0
+                    )
+                    prefManager.setDriverCab(driver_cab_image)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            } else if (requestCode == 14) {
+                try {
+                    val selectedImageUri = data?.getData()
+                    val bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().getContentResolver(),
+                        selectedImageUri
+                    )
+                    taxi_front_pic_ext = base.getExtension(selectedImageUri!!, requireContext())
+                    prefManager.setDriverCab_ext(taxi_front_pic_ext!!)
+                    driver_cab_image = base.BitMapToString(bitmap).toString()
+                    binding.taxiFrontPicImg.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        R.drawable.check_circle,
+                        0
+                    )
+                    prefManager.setDriverCab(driver_cab_image)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            } else if (requestCode == 15) {
+                try {
+
+                    val photo = data!!.extras!!["data"] as Bitmap?
+                    var selectedImageUri4 = getImageUri(requireContext(), photo!!)
+                    aadhar_front_ext = base.getExtension(selectedImageUri4!!, requireContext())
+                    var bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        selectedImageUri4
+                    )
+                    aadhar_front = base.BitMapToString(bitmap).toString()
+                    binding.aadharFrontImg.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        R.drawable.check_circle,
+                        0
+                    )
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            } else if (requestCode == 16) {
+                try {
+                    var selectedImageUri4 = data?.data
+                    aadhar_front_ext = base.getExtension(selectedImageUri4!!, requireContext())
+                    var bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        selectedImageUri4
+                    )
+                    aadhar_front = base.BitMapToString(bitmap).toString()
+                    binding.aadharFrontImg.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        R.drawable.check_circle,
+                        0
+                    )
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            } else if (requestCode == 17) {
+                try {
+
+                    val photo = data!!.extras!!["data"] as Bitmap?
+                    var selectedImageUri4 = getImageUri(requireContext(), photo!!)
+                    aadhar_back_ext = base.getExtension(selectedImageUri4!!, requireContext())
+                    var bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        selectedImageUri4
+                    )
+                    aadhar_back = base.BitMapToString(bitmap).toString()
+                    binding.aadharBackImg.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        R.drawable.check_circle,
+                        0
+                    )
+                    prefManager.setAadhar_verification_back(aadhar_back)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            } else if (requestCode == 18) {
+                try {
+                    var selectedImageUri4 = data?.data
+                    aadhar_back_ext = base.getExtension(selectedImageUri4!!, requireContext())
+                    prefManager.setAadhar_back_ext(aadhar_back_ext)
+                    var bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        selectedImageUri4
+                    )
+                    aadhar_back = base.BitMapToString(bitmap).toString()
+                    binding.aadharBackImg.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        R.drawable.check_circle,
+                        0
+                    )
+                    prefManager.setAadhar_verification_back(aadhar_back)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            } else if (requestCode == 19) {
+                try {
+
+                    val photo = data!!.extras!!["data"] as Bitmap?
+                    var selectedImageUri4 = getImageUri(requireContext(), photo!!)
+                    police_certification_ext =
+                        base.getExtension(selectedImageUri4!!, requireContext())
+                    var bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        selectedImageUri4
+                    )
+                    police_certification = base.BitMapToString(bitmap).toString()
+                    binding.policeCertificationImg.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        R.drawable.check_circle,
+                        0
+                    )
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            } else if (requestCode == 20) {
+                try {
+                    var selectedImageUri4 = data?.data
+                    police_certification_ext =
+                        base.getExtension(selectedImageUri4!!, requireContext())
+                    var bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        selectedImageUri4
+                    )
+                    police_certification = base.BitMapToString(bitmap).toString()
+                    binding.policeCertificationImg.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        R.drawable.check_circle,
+                        0
+                    )
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            } else if (requestCode == 21) {
+                try {
+
+                    val photo = data!!.extras!!["data"] as Bitmap?
+                    var selectedImageUri4 = getImageUri(requireContext(), photo!!)
+                    gps_certification_ext = base.getExtension(selectedImageUri4!!, requireContext())
+                    Log.d(
+                        "DriverActiveRideFragment",
+                        "gps_certification_ext" + gps_certification_ext
+                    )
+                    var bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        selectedImageUri4
+                    )
+                    gps_certification = base.BitMapToString(bitmap).toString()
+                    Log.d("DriverActiveRideFragment", "gps_certification_ext" + gps_certification)
+                    binding.gpscertificte.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        R.drawable.check_circle,
+                        0
+                    )
                     binding.trackerGPS.setBackgroundResource(R.drawable.input_boder_profile)
 
-            } catch (e: IOException) {
-                e.printStackTrace()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            } else if (requestCode == 22) {
+                try {
+
+                    var selectedImageUri4 = data?.data
+                    gps_certification_ext = base.getExtension(selectedImageUri4!!, requireContext())
+                    Log.d(
+                        "DriverActiveRideFragment1",
+                        "gps_certification_ext" + gps_certification_ext
+                    )
+                    var bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        selectedImageUri4
+                    )
+                    gps_certification = base.BitMapToString(bitmap).toString()
+                    Log.d("DriverActiveRideFragment1", "gps_certification_ext" + gps_certification)
+                    binding.gpscertificte.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        R.drawable.check_circle,
+                        0
+                    )
+                    binding.trackerGPS.setBackgroundResource(R.drawable.input_boder_profile)
+
+
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
             }
-        }
-        else if (requestCode==22){
-            try {
-
-                var selectedImageUri4=data?.data
-                gps_certification_ext = base.getExtension(selectedImageUri4!!,requireContext())
-                Log.d("DriverActiveRideFragment1","gps_certification_ext"+gps_certification_ext)
-                var bitmap=MediaStore.Images.Media.getBitmap(requireContext().contentResolver,selectedImageUri4)
-                gps_certification = base.BitMapToString(bitmap).toString()
-                Log.d("DriverActiveRideFragment1","gps_certification_ext"+gps_certification)
-                binding.gpscertificte.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.check_circle, 0)
-                binding.trackerGPS.setBackgroundResource(R.drawable.input_boder_profile)
-
-
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
+        } else {
+Toast.makeText(requireContext(),"Please upload images",Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -1372,9 +1540,7 @@ class DriverCabDetailsFragment : Fragment() {
         binding.cabDetailsLayout.isVisible = false
         binding.work.isVisible = false
         binding.uploadImage.isVisible = false
-
         Log.d("SendData", "updatedStateList==="+updatedStateList)
-
         val URL = "https://test.pearl-developer.com/figo/api/regitser-driver"
         Log.d("SendData", "URL===" + URL)
         val queue = Volley.newRequestQueue(requireContext())
@@ -1446,26 +1612,27 @@ class DriverCabDetailsFragment : Fragment() {
              object : JsonObjectRequest(Method.POST, URL, json,
                  Response.Listener<JSONObject?> { response ->
                      Log.d("SendData", "response===" + response)
-                     Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
+
                      if (response != null) {
 
                        //  startActivity(Intent( requireContext(), DriverDashBoard::class.java))
                          binding.progress.isVisible = false
-
-
+                         prefManager.setDashboard("off")
+                         Toast.makeText(this.requireContext(), "Sucessfully sent data for verification.",Toast.LENGTH_SHORT).show()
                          prefManager.setRegistrationToken("Done")
                          var bundle = Bundle()
                          bundle.putInt("Key",2)
                         Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration,bundle)
 
                        //  prefManager.setCabFormToken("Submitted")
+                     }else{
+                        // Toast.makeText(this.requireContext(), "Sucessfully sent data for verification.",Toast.LENGTH_SHORT).show()
+                         baseprivate.ErrorProgressDialog(requireContext(),"101",getString(R.string.server_error))
                      }
                      // Get your json response and convert it to whatever you want.
                  }, Response.ErrorListener {
+                     baseprivate.ErrorProgressDialog(requireContext(),"101",getString(R.string.server_error))
                      Log.d("SendData", "response===" +it.message)
-                     Toast.makeText(this.requireContext(), " "+it.message,Toast.LENGTH_SHORT).show()
-                     // Error
-                //     context?.startActivity(Intent( requireContext(), DriverDashBoard::class.java))
                  }){
 
                  @SuppressLint("SuspiciousIndentation")

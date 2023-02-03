@@ -255,7 +255,7 @@ class SupportFragment : Fragment() {
     }
 
     private fun updateProfile(view: View) {
-        var change = view.findViewById<ConstraintLayout>(R.id.change_profile_pic)
+   /*     var change = view.findViewById<ConstraintLayout>(R.id.change_profile_pic)
         var name = view.findViewById<EditText>(R.id.update_name)
         var vehicle_no = view.findViewById<EditText>(R.id.update_state)
         var mobile_number = view.findViewById<EditText>(R.id.update_number)
@@ -293,7 +293,8 @@ class SupportFragment : Fragment() {
                     }
                 })
             builder.show()
-        }
+        }*/
+    */
     }
 
 

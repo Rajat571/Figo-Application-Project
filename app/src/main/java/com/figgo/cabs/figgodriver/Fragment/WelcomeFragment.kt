@@ -43,6 +43,7 @@ class WelcomeFragment : Fragment() {
                 }else{
                     val bundle = Bundle()
                     bundle.putInt("Key",1)
+
                 // startActivity(Intent(requireContext(), DriverDashBoard::class.java))
                   Navigation.findNavController(view).navigate(R.id.action_welcomeDriverFragment_to_waitingRegistration,bundle)
                 }}

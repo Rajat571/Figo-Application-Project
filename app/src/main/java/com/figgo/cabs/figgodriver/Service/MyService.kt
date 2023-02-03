@@ -78,7 +78,7 @@ class MyService : Service() {
 prefManager= PrefManager(applicationContext)
         scope.launch(Dispatchers.IO) {  latlong() }
 
-        Toast.makeText(applicationContext,"sucess",Toast.LENGTH_SHORT).show()
+       // Toast.makeText(applicationContext,"sucess",Toast.LENGTH_SHORT).show()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) startMyOwnForeground() else startForeground(
             1,
             Notification()
@@ -110,7 +110,7 @@ prefManager= PrefManager(applicationContext)
             })
                 .addOnSuccessListener { location: Location? ->
                     if (location == null)
-                        Toast.makeText(this, "Cannot get location.", Toast.LENGTH_SHORT).show()
+                      //  Toast.makeText(this, "Cannot get location.", Toast.LENGTH_SHORT).show()
                     else {
 
                         lat = location.latitude
@@ -142,11 +142,11 @@ prefManager= PrefManager(applicationContext)
                             Response.Listener<JSONObject?> { response ->
                                 Log.d("Response == ",""+response)
                                 if (response != null) {
-                                    Toast.makeText(this," "+response,Toast.LENGTH_SHORT).show()
+                                   // Toast.makeText(this," "+response,Toast.LENGTH_SHORT).show()
                                 }
                             },{
                                 Log.d("Response == ","Error "+it)
-                                Toast.makeText(this,"Something Went Wrong !!",Toast.LENGTH_SHORT).show()
+                              //  Toast.makeText(this,"Something Went Wrong !!",Toast.LENGTH_SHORT).show()
                             }){}
                         queue.add(jsonObject)
                     }
@@ -176,7 +176,7 @@ prefManager= PrefManager(applicationContext)
         val notificationBuilder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
         val notification: Notification = notificationBuilder.setOngoing(true)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentTitle("App is running in background")
+            .setContentTitle("")
             .setPriority(NotificationManager.IMPORTANCE_MIN)
             .setCategory(Notification.CATEGORY_SERVICE)
             .build()

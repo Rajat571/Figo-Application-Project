@@ -28,6 +28,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.figgo.cabs.R
 import java.io.ByteArrayOutputStream
+import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 
@@ -216,13 +217,14 @@ abstract class BaseClass : AppCompatActivity() {
         mEditView.setError(null)
         mEditView.setBackgroundResource(R.drawable.input_boder_profile)
     }
+/*
 
-    fun validateName(number: EditText): Boolean {
-        val num: String = number.getText().toString().trim { it <= ' ' }
-        setCustomError(null, number)
-        return if (num.isEmpty()) {
+    fun validateName(name: EditText): Boolean {
+        val name: String = name.text().toString()
+        setCustomError(null, name)
+        return if (name.isEmpty()) {
             val sMessage = "Please enter number..!!"
-            setCustomError(sMessage, number)
+            setCustomError(sMessage, name)
             false
         } else if (!isValidMobile(num)) {
             val sMessage = "Name must be character only.!!"
@@ -233,8 +235,9 @@ abstract class BaseClass : AppCompatActivity() {
             true
         }
     }
+*/
 
-    fun validateReferalCode(inputUser: EditText):Boolean{
+    fun validateName(inputUser: EditText):Boolean{
         val name = inputUser.text.toString()
         System.out.println("NAMEE==="+name)
         setCustomError(null, inputUser)
@@ -242,8 +245,8 @@ abstract class BaseClass : AppCompatActivity() {
             val sMessage = "Please enter name..!!"
             setCustomError(sMessage, inputUser)
             false
-        } else if (name.length != 6) {
-            val sMessage = "Referal Code must be at least 3 character and at most 50 character..!!"
+        } else if (name.length < 5) {
+            val sMessage = "Please enter full name!!"
             setCustomError(sMessage, inputUser)
             false
         } else {
@@ -389,8 +392,8 @@ abstract class BaseClass : AppCompatActivity() {
             val sMessage = "Please fill the field..!!"
             setCustomError(sMessage, registrationNo)
             false
-        } else if (!isValidRegisterationNo(num)) {
-            val sMessage = "Number must be 8 letter or digits..!!"
+        } else if (!checkVehicleNumberValidation(num)) {
+            val sMessage = "Please Enter Valid Number"
             setCustomError(sMessage, registrationNo)
             false
         } else {
@@ -435,19 +438,33 @@ abstract class BaseClass : AppCompatActivity() {
 
     fun validatePanNo(panNo: EditText): Boolean {
         val num = panNo.getText().toString().trim { it <= ' ' }
+
         setCustomError(null,panNo)
         return if (num.isEmpty()) {
-            val sMessage = "Please enter valid pan no ..!!"
+            val sMessage = "Please enter PAN..!!"
             setCustomError(sMessage, panNo)
             false
-        } else if (!isValidPanNo(num)) {
-            val sMessage = "Number must be 10  digits or letter..!!"
+        } else if (!checkPancardValidation(num)) {
+            val sMessage = "It should contain upper case letter and number only"
             setCustomError(sMessage, panNo)
             false
         } else {
             setCustomErrorDisabled(panNo)
             true
         }
+    }
+    fun checkPancardValidation(panCard: String): Boolean {
+        val pattern: Pattern = Pattern.compile("[A-Z]{5}[0-9]{4}[A-Z]{1}")
+        val matcher: Matcher = pattern.matcher(panCard)
+        return matcher.matches()
+    }
+    fun checkVehicleNumberValidation(panCard: String): Boolean {
+        val pattern: Pattern = Pattern.compile("^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}\$")
+        val pattern2:Pattern = Pattern.compile("^[A-Z]{2}[0-9]{2} [A-Z]{2}[0-9]{4}\$")
+        val pattern3:Pattern = Pattern.compile("^[A-Z]{2} [0-9]{2} [A-Z]{2} [0-9]{4}\$")
+        var matcher: Boolean =false
+        matcher = pattern.matcher(panCard).matches()||pattern2.matcher(panCard).matches()||pattern3.matcher(panCard).matches()
+        return matcher
     }
 
 

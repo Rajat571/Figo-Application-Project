@@ -2,6 +2,7 @@ package com.figgo.cabs.pearllib
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.location.Criteria
 import android.location.LocationManager
@@ -12,6 +13,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -236,6 +238,27 @@ abstract class BasePrivate : BaseClass() {
             }
         }
     }*/
+
+
+
+    fun ErrorProgressDialog(context:Context,id:String,message:String){
+        val alertDialog2 = AlertDialog.Builder(
+            context
+        )
+        alertDialog2.setTitle("Error : "+id)
+        alertDialog2.setMessage(message)
+        alertDialog2.setPositiveButton(
+            "Yes"
+        ) { dialog: DialogInterface?, which: Int ->
+            finishAffinity()
+            System.exit(0)
+        }
+        alertDialog2.setNegativeButton(
+            "Cancel"
+        ) { dialog: DialogInterface, which: Int -> dialog.cancel() }
+        alertDialog2.show()
+        //       finish();
+    }
 
 
 }

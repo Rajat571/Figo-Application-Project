@@ -83,7 +83,14 @@ import android.content.SharedPreferences
          editor?.commit()
      }
      fun getMobileNo():String{
-         return pref?.getString("mobile_no","").toString()
+         return pref?.getString("dash","").toString()
+     }
+     fun setDashboard(dash:String){
+         editor?.putString("dash",dash)
+         editor?.commit()
+     }
+     fun getDashboard():String{
+         return pref?.getString("dash","").toString()
      }
 
      fun setDL_No(DL_no:String){

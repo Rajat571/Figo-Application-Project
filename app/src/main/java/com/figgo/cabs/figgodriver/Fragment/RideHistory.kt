@@ -43,7 +43,7 @@ class RideHistory : Fragment() {
         var contentdata = ArrayList<List<String>>()
         contentdata.add(listOf("Sr.No","Name","Date","From","To","Time","Duration","Amount","Distance","Feedback"))
         for (i in 0..40)
-            contentdata.add(listOf("1","Sagar Bisht","01-02-2023","Saitaan Chowk","Transport Nagar","8:40am","50min","100","23KM","5star"))
+            contentdata.add(listOf("1","Sagar Bisht","01-02-2023","Chandigarh","Patiala","8:40am","50min","100","23KM","5star"))
         header.adapter= RideHistoryRowAdapter(contentdata,requireContext())
         header.layoutManager=LinearLayoutManager(requireContext())
     }

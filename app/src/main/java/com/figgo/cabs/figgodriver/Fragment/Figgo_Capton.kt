@@ -126,8 +126,8 @@ class Figgo_Capton : Fragment(){
             var driver_pan_no=binding.driverPanNo.text.toString()
             var driver_aadhar_no=binding.driverAdharNo.text.toString()
             prefManager.setDL_No(driver_dl_no)
-          /*  prefManager.setDriverName(driver_name)
-            prefManager.setMobile_No(driver_mobile_no)*/
+            prefManager.setDriverName(driver_name)
+            prefManager.setMobile_No(driver_mobile_no)
             prefManager.setDriverAadhar_no(driver_aadhar_no)
             prefManager.setDriverPan_no(driver_pan_no)
 

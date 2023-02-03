@@ -65,7 +65,7 @@ class WaitingRegistration : Fragment() {
         val args = arguments
         val waiting_layout = view.findViewById<CardView>(R.id.waiting_cardview)
         if (args != null) {
-            if (args.getInt("Key").equals(1))
+            if (pref.getDashboard().equals("on"))
                 waiting_layout.visibility = View.GONE
             else
                 waiting_layout.visibility = View.VISIBLE

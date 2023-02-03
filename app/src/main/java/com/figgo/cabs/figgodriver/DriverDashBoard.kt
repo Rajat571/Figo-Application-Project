@@ -308,7 +308,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             true
         }
         var bundle:Bundle= Bundle()
-
+        prefManager.setDashboard("on")
         draw_layout.menu.findItem(R.id.Support).setOnMenuItemClickListener {
             bundle.putString("Key","Support")
             var supportFrag = SupportFragment()
@@ -370,11 +370,11 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         }
         draw_layout.menu.findItem(R.id.profile).setOnMenuItemClickListener {
             drawer.closeDrawer(GravityCompat.END)
-            bundle.putString("Key","Profile")
+   /*         bundle.putString("Key","Profile")
             var supportFrag = SupportFragment()
             supportFrag.arguments=bundle
-            offlineLayout.visibility=View.GONE
-            supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
+            offlineLayout.visibility=View.GONE*/
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,GetData()).commit()
             homeFrame.visibility=View.VISIBLE
 
             true
@@ -444,21 +444,24 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             drawer.closeDrawer(GravityCompat.END)
             val appPackageName = packageName // getPackageName() from Context or Activity object
 
-                    /*    val inviteLink: String ="http://play.google.com/store/apps/details?id=$appPackageName"
-                        val sendIntent = Intent()
-                        sendIntent.action = Intent.ACTION_SEND
-                        sendIntent.putExtra(Intent.EXTRA_TEXT, "I’m inviting you to join Figgo Drivers,use this code while submitting your form to earn rewards. $inviteLink")
-                        sendIntent.type = "text/*"
-                        val shareIntent = Intent.createChooser(sendIntent, null)
-                        startActivity(shareIntent)*/
 
-                     */
+
+
             val ip_address:String=myFunction()
          var ref_link = prefManager.getReferal();
-sendreferal(ip_address)
-            val i = Intent(Intent.ACTION_VIEW)
+        sendreferal(ip_address)
+        /*    val i = Intent(Intent.ACTION_VIEW)
             i.data = Uri.parse(ref_link)
-            startActivity(i)
+            startActivity(i)*/
+
+            val inviteLink: String =ref_link
+            val sendIntent = Intent()
+            sendIntent.action = Intent.ACTION_SEND
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "I’m inviting you to join Figgo Drivers,use this code while submitting your form to earn rewards. $inviteLink")
+            sendIntent.type = "text/*"
+            val shareIntent = Intent.createChooser(sendIntent, null)
+            startActivity(shareIntent)
+
 
             true
         }
@@ -485,6 +488,7 @@ sendreferal(ip_address)
             ) { dialog: DialogInterface?, which: Int ->
                 Toast.makeText(this,"Logout Successfully",Toast.LENGTH_SHORT).show()
                 prefManager.setToken("")
+                stopService(Intent(this, MyService::class.java))
                 prefManager.setRegistrationToken("")
                 startActivity(Intent(this, LoginActivity::class.java))
             }
