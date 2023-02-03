@@ -52,8 +52,8 @@ class GetData : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         var prefManager = PrefManager(requireContext())
         super.onViewCreated(view, savedInstanceState)
-        var baseclass:BaseClass
-        baseclass=object : BaseClass(){
+        var baseclass:BasePrivate
+        baseclass=object : BasePrivate(){
             override fun setLayoutXml() {
                 TODO("Not yet implemented")
             }
@@ -85,6 +85,7 @@ class GetData : Fragment() {
         var driver_dlNo = view.findViewById<EditText>(R.id.show_driverdlno)
         var driver_panNo = view.findViewById<EditText>(R.id.show_driverPanNo)
         var driver_adharNo = view.findViewById<EditText>(R.id.show_driverAdharNo)
+        var outstationHaspMap =   ArrayList<String>()
         val jsonObject:JsonObjectRequest = object :JsonObjectRequest(Method.GET,get_URL,null,
             {
             if(it!=null)
@@ -95,7 +96,7 @@ class GetData : Fragment() {
                 driver_dlNo.setText(it.getString("dl_number"))
                 driver_panNo.setText(it.getString("pan_number"))
                 driver_adharNo.setText(it.getString("aadhar_number"))
-                baseclass
+                baseclass.fetchStates(requireContext(),spinner_state,it.getString("state").toInt(),spinner_state,outstationHaspMap)
             }
             },{
 

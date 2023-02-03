@@ -843,8 +843,6 @@ class DriverCabDetailsFragment : Fragment() {
                 // Error
             }){}
         queue.add(jsonOblect)
-
-
     }
 
 
