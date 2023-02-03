@@ -14,25 +14,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#8DD7f7"
         tools:context=".Fragment.Figgo_Capton">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:id="@+id/backgrouund"
-            android:background="@drawable/background"
-            tools:ignore="MissingConstraints" >
 
-            <ImageView
-                android:visibility="gone"
-                android:layout_width="wrap_content"
-                android:layout_height="160dp"
-                android:src="@drawable/wall"
-                android:scaleType="centerCrop"
-                />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/choose_user"
             android:layout_width="match_parent"
@@ -374,15 +358,6 @@
                 </LinearLayout>
             </ScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <include
-            layout="@layout/bottom_button_layout"
-            android:id="@+id/bottombuttonbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

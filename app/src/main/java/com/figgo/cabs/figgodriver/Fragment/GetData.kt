@@ -13,6 +13,8 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
+import com.figgo.cabs.pearllib.BaseClass
+import com.figgo.cabs.pearllib.BasePrivate
 import java.util.HashMap
 
 // TODO: Rename parameter arguments, choose names that match
@@ -50,9 +52,33 @@ class GetData : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         var prefManager = PrefManager(requireContext())
         super.onViewCreated(view, savedInstanceState)
+        var baseclass:BaseClass
+        baseclass=object : BaseClass(){
+            override fun setLayoutXml() {
+                TODO("Not yet implemented")
+            }
+
+            override fun initializeViews() {
+                TODO("Not yet implemented")
+            }
+
+            override fun initializeClickListners() {
+                TODO("Not yet implemented")
+            }
+
+            override fun initializeInputs() {
+                TODO("Not yet implemented")
+            }
+
+            override fun initializeLabels() {
+                TODO("Not yet implemented")
+            }
+
+        }
+
         val get_URL = "https://test.pearl-developer.com/figo/api/driver/get-all-details"
         val queue = Volley.newRequestQueue(requireContext())
-        var profile_name = view.findViewById<EditText>(R.id.drivername)
+        var profile_name = view.findViewById<EditText>(R.id.show_drivername)
         var profile_mobile = view.findViewById<EditText>(R.id.show_drivermobileno)
         var spinner_state = view.findViewById<Spinner>(R.id.show_spinner_state)
         var spinner_city = view.findViewById<Spinner>(R.id.show_spinner_city)
@@ -69,6 +95,7 @@ class GetData : Fragment() {
                 driver_dlNo.setText(it.getString("dl_number"))
                 driver_panNo.setText(it.getString("pan_number"))
                 driver_adharNo.setText(it.getString("aadhar_number"))
+                baseclass
             }
             },{
 
