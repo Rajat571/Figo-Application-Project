@@ -75,7 +75,7 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             val originLocation = LatLng(prefManager.getlatitude().toDouble(), prefManager.getlongitude().toDouble())
             // val originLocation = LatLng( originLatitude, originLongitude)
             mMap.addMarker(MarkerOptions().position(originLocation).title("Current location"))
-            val destinationLocation = LatLng(originLatitude!!, originLongitude!!)
+            val destinationLocation = LatLng(destinationLatitude!!, destinationLongitude!!)
             //val destinationLocation = LatLng(destinationLatitude, destinationLongitude)
             mMap.addMarker(MarkerOptions().position(destinationLocation).title("Pickup"))
             val urll = getDirectionURL(originLocation, destinationLocation, "AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
@@ -137,7 +137,7 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
           override fun onErrorResponse(error: VolleyError?) {
               Log.d("VerifyNumber","ERROR"+error)
               ridestartotp.setError("wrong otp")
-              Toast.makeText(this@CustomerCityRideDetailActivity,"Something went wrong",Toast.LENGTH_SHORT).show()
+              Toast.makeText(this@CustomerCityRideDetailActivity,"Entered wrong otp",Toast.LENGTH_SHORT).show()
           }
       }){
 
