@@ -1549,6 +1549,7 @@ Toast.makeText(requireContext(),"Please upload images",Toast.LENGTH_SHORT).show(
         json.put("name",prefManager.getDriverName())
         // json.put("mobile",prefManager.getMobileNo())      //
         json.put("second_number",prefManager.getMobileNo())
+        Log.d("Driver Cab Mobile",""+prefManager.getMobileNo())
         json.put("state",prefManager.getDriverState())
         json.put("city",prefManager.getDriverCity())
         json.put("dl_number",prefManager.getDL_No())
@@ -1599,12 +1600,12 @@ Toast.makeText(requireContext(),"Please upload images",Toast.LENGTH_SHORT).show(
         json.put("police_cer_image",police_certification)
 
         Log.d("SendData", "insurance===" + json)
-        Log.d("SendData", "aadharVerificationFront===" + aadhar_front)
+     /*   Log.d("SendData", "aadharVerificationFront===" + aadhar_front)
         Log.d("SendData", "aadhar_back===" + aadhar_back)
         Log.d("SendData", "police_certification===" +police_certification)
         Log.d("SendData", "driver_profile===" + driver_profile)
         Log.d("SendData", "driving_license" + driving_license)
-        Log.d("SendData", "police_certification_ext" + police_certification_ext)
+        Log.d("SendData", "police_certification_ext" + police_certification_ext)*/
 
          val jsonOblect=
              object : JsonObjectRequest(Method.POST, URL, json,

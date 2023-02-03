@@ -137,8 +137,8 @@ abstract class BasePrivate : BaseClass() {
 
 
         return outstationStateHashMap
-
     }
+
     private fun fetchCity(baseApbcContext: Context?,spinnerCity: Spinner,id: Int) {
         prefManager= PrefManager(baseApbcContext!!)
         var cityhashMap : HashMap<String, Int> = HashMap<String, Int> ()
@@ -181,7 +181,6 @@ abstract class BasePrivate : BaseClass() {
                                 prefManager.setdriverWorkCity(id)
                                 Log.d("SendData", "cityid===" + id)
                                 //  fetchCity(id)
-
                             }
 
                             @SuppressLint("SetTextI18n")
@@ -207,8 +206,6 @@ abstract class BasePrivate : BaseClass() {
                 // Error
             }){}
         queue.add(jsonOblect)
-
-
 
     }
 
