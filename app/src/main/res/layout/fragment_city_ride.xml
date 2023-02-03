@@ -25,62 +25,26 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:padding="@dimen/_3sdp">
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    >
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/audiowide"
-            android:gravity="right"
-            android:layout_marginHorizontal="@dimen/_2sdp"
-            android:paddingVertical="@dimen/_5sdp"
-            android:text="A D V A N C E"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:layout_height="wrap_content">
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/city_ride_advance_recylerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             tools:ignore="UnknownId"
-            tools:layout_editor_absoluteX="4dp" />
-</LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_1sdp"
-            android:background="@drawable/profile_gradient"
-            android:layout_marginVertical="@dimen/_5sdp"
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/audiowide"
-            android:gravity="right"
-            android:padding="@dimen/_5sdp"
-            android:layout_marginHorizontal="@dimen/_2sdp"
-            android:text="C U R R E N T"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+           />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/city_ride_current_recylerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/city_ride_advance_recylerview"
             tools:ignore="MissingConstraints" />
+        </RelativeLayout>
     </LinearLayout>
-    </LinearLayout>
-
-
 </ScrollView>
 </androidx.cardview.widget.CardView>
 </layout>

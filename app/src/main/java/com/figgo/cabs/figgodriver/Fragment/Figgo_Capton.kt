@@ -138,13 +138,12 @@ class Figgo_Capton : Fragment(){
         back.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_figgo_Capton_to_driverWelcomeFragment)
         }
-
     }
 
     private fun fetchState() {
         statehashMap.clear()
         statelist.clear()
-        val URL = " https://test.pearl-developer.com/figo/api/get-state"
+        val URL = "https://test.pearl-developer.com/figo/api/get-state"
 
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()

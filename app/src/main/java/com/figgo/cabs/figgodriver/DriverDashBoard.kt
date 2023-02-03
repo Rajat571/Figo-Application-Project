@@ -96,10 +96,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
     lateinit var notificationlayout:LinearLayout
     lateinit var notificationRecyclerView: RecyclerView
 
-
     val scope = CoroutineScope(Job() + Dispatchers.Main)
-
-
 
     override fun setLayoutXml() {
         setContentView(R.layout.activity_driver_dash_board)

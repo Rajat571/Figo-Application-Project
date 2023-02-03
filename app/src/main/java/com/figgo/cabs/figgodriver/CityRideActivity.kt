@@ -80,9 +80,12 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
          ride_id=intent.getStringExtra("ride_id")!!.toInt()
         ride_request_id=intent.getStringExtra("ride_request_id")!!.toInt()
         Log.d("CityRideActivity","ride_id====="+ride_request_id+ride_id)
-        binding.cityRideAddress.text=address_to
+        binding.locationTo.text=address_to
+        binding.locationFrom.text=intent.getStringExtra("location_from")
         binding.cityRideDate.text=date
         binding.cityRideTime.text=time
+        binding.bookingId.text=customer_booking_id
+        binding.price.text=intent.getStringExtra("price").toString()
 
        // Log.d("SEND DATA","LOCATION_DATA====="+address_to.toString()+"\n"+current_lat.toString()+"\n"+current_long+"\n"+customer_booking_id+"\n"+ride_id+"\n"+ride_request_id)
 
