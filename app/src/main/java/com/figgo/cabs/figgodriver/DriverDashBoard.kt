@@ -305,6 +305,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             true
         }
         var bundle:Bundle= Bundle()
+        var bundle2:Bundle= Bundle()
         prefManager.setDashboard("on")
         draw_layout.menu.findItem(R.id.Support).setOnMenuItemClickListener {
             bundle.putString("Key","Support")
@@ -367,11 +368,13 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         }
         draw_layout.menu.findItem(R.id.profile).setOnMenuItemClickListener {
             drawer.closeDrawer(GravityCompat.END)
-   /*         bundle.putString("Key","Profile")
-            var supportFrag = SupportFragment()
-            supportFrag.arguments=bundle
-            offlineLayout.visibility=View.GONE*/
-            supportFragmentManager.beginTransaction().replace(R.id.home_frame,GetData()).commit()
+            bundle2.putString("Key","Profile")
+           /* var supportFrag = SupportFragment()
+            supportFrag.arguments=bundle*/
+            var getData = GetData()
+            getData.arguments=bundle2
+            offlineLayout.visibility=View.GONE
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,getData).commit()
             homeFrame.visibility=View.VISIBLE
 
             true
@@ -389,11 +392,13 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         }
         draw_layout.menu.findItem(R.id.cab_driver_details_navigation).setOnMenuItemClickListener {
             drawer.closeDrawer(GravityCompat.END)
-            bundle.putString("Key","Cab")
-            var supportFrag = SupportFragment()
-            supportFrag.arguments=bundle
+            bundle2.putString("Key","Cab")
+            /* var supportFrag = SupportFragment()
+             supportFrag.arguments=bundle*/
+            var getData = GetData()
+            getData.arguments=bundle2
             offlineLayout.visibility=View.GONE
-            supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,getData).commit()
             homeFrame.visibility=View.VISIBLE
 
             true
@@ -445,8 +450,8 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
 
 
             val ip_address:String=myFunction()
-         var ref_link = prefManager.getReferal();
-        sendreferal(ip_address)
+            var ref_link = prefManager.getReferal();
+           // sendreferal(ip_address)
         /*    val i = Intent(Intent.ACTION_VIEW)
             i.data = Uri.parse(ref_link)
             startActivity(i)*/
@@ -517,27 +522,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         notificationRecycler.layoutManager=LinearLayoutManager(this)
     }
 
-    private fun sendreferal(ipAddress: String) {
-        var baseurl="https://test.pearl-developer.com/figo/api/refer/create-referel"
-        var queue= Volley.newRequestQueue(this)
-        var json= JSONObject()
 
-        json.put("ip",ipAddress)
-        var jsonObjectRequest=object : JsonObjectRequest(Method.POST,baseurl,json, Response.Listener<JSONObject>{
-response ->
-Log.d("Referal Response ",""+response)
-    },{
-            Log.d("Error Response ",""+it)
-        }){
-            @Throws(AuthFailureError::class)
-            override fun getHeaders(): Map<String, String> {
-                val headers: MutableMap<String, String> = HashMap()
-                headers.put("Authorization", "Bearer " + prefManager.getToken())
-                return headers
-            }
-        }
-    queue.add(jsonObjectRequest);
-    }
 
     override fun initializeInputs() {
 

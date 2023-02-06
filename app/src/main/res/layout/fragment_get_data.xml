@@ -6,6 +6,13 @@
     tools:context=".figgodriver.Fragment.GetData">
 <include
     layout="@layout/profile_layout"
+    android:id="@+id/get_profile_layout"
+    android:visibility="gone"
     />
+    <include
+        layout="@layout/update_cab"
+        android:id="@+id/get_drivercab_layout"
+        android:visibility="gone"
+        />
 
 </LinearLayout>

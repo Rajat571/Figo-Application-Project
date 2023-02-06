@@ -7,10 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.EditText
-import android.widget.Spinner
+import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.android.volley.AuthFailureError
+import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
@@ -21,6 +21,7 @@ import com.figgo.cabs.figgodriver.model.SpinnerObj
 import com.figgo.cabs.pearllib.BaseClass
 import com.figgo.cabs.pearllib.BasePrivate
 import org.json.JSONObject
+import retrofit2.http.GET
 import java.util.HashMap
 
 // TODO: Rename parameter arguments, choose names that match
@@ -66,6 +67,7 @@ class GetData : Fragment() {
         prefManager = PrefManager(requireContext())
         super.onViewCreated(view, savedInstanceState)
         var baseclass:BasePrivate
+        var bundle = arguments
         baseclass=object : BasePrivate(){
             override fun setLayoutXml() {
                 TODO("Not yet implemented")
@@ -99,6 +101,34 @@ class GetData : Fragment() {
         var driver_panNo = view.findViewById<EditText>(R.id.show_driverPanNo)
         var driver_adharNo = view.findViewById<EditText>(R.id.show_driverAdharNo)
         var outstationHaspMap =   ArrayList<String>()
+        var profile_view = view.findViewById<LinearLayout>(R.id.get_profile_layout)
+        var cab_view = view.findViewById<ConstraintLayout>(R.id.get_drivercab_layout)
+
+        //DRIVER CAB AND WORK
+        var cab_category = view.findViewById<Spinner>(R.id.show_cab_category)
+        var cab_type = view.findViewById<Spinner>(R.id.show_cab_type)
+        var vehicle_no = view.findViewById<EditText>(R.id.show_vechle_no)
+        var model_type = view.findViewById<Spinner>(R.id.show_model_type)
+        var insurance_no = view.findViewById<EditText>(R.id.show_insurance_no)
+        var local_permit = view.findViewById<EditText>(R.id.show_tax_permit_no)
+        var national_permit = view.findViewById<EditText>(R.id.show_national_permit_date)
+        var URL2 = "https://test.pearl-developer.com/figo/api/driver/get-cab-work-details"
+        var queue2 = Volley.newRequestQueue(requireContext())
+        var visible_view = bundle?.getString("Key")
+        Toast.makeText(requireContext(),"Key "+visible_view,Toast.LENGTH_SHORT).show()
+        profile_view.visibility=View.GONE
+        cab_view.visibility=View.GONE
+        if(visible_view.equals("Profile"))
+        {
+            profile_view.visibility=View.VISIBLE
+            cab_view.visibility=View.GONE
+        }
+        else if(visible_view.equals("Cab")){
+            cab_view.visibility=View.VISIBLE
+            profile_view.visibility=View.GONE
+        }
+
+
         val jsonObject:JsonObjectRequest = object :JsonObjectRequest(Method.GET,get_URL,null,
             {
             if(it!=null)
@@ -109,10 +139,11 @@ class GetData : Fragment() {
                 driver_dlNo.setText(it.getString("dl_number"))
                 driver_panNo.setText(it.getString("pan_number"))
                 driver_adharNo.setText(it.getString("aadhar_number"))
-                fetchState()
+                fetchState(it.getString("state").toInt())
                 //baseclass.fetchStates(requireContext(),spinner_state,it.getString("state").toInt(),spinner_state,outstationHaspMap)
             }
             },{
+
 
             }){
             @Throws(AuthFailureError::class)
@@ -123,6 +154,25 @@ class GetData : Fragment() {
             }
         }
         queue.add(jsonObject)
+        var jsonObjectRequest2:JsonObjectRequest = object :JsonObjectRequest(Method.GET,URL2,null,
+            {
+                vehicle_no.setText(it.getString("v_number"))
+                insurance_no.setText(it.getString("insurance"))
+                local_permit.setText(it.getString("l_permit"))
+                national_permit.setText(it.getString("n_permit"))
+
+            },{
+
+            }){
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers: MutableMap<String, String> = HashMap()
+                headers.put("Authorization", "Bearer " + prefManager.getToken())
+                return headers
+            }
+        }
+        queue2.add(jsonObjectRequest2)
+
     }
 
 
@@ -145,7 +195,7 @@ class GetData : Fragment() {
                 }
             }
     }
-    private fun fetchState() {
+    private fun fetchState(stateid:Int) {
         statehashMap.clear()
         statelist.clear()
         val URL = "https://test.pearl-developer.com/figo/api/get-state"
@@ -181,6 +231,8 @@ class GetData : Fragment() {
 
                         // stateadapter.setDropDownViewResource(R.layout.spinneritemlayout)
                         spinnerState.setAdapter(stateadapter)
+                        Toast.makeText(requireContext(),"StateId "+statehashMap.keys.toList().indexOf(stateid.toString()),Toast.LENGTH_SHORT).show()
+                        spinnerState.setSelection(statehashMap.keys.toList().indexOf(stateid.toString())+1)
 
 
                        spinnerState.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
