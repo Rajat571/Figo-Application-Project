@@ -8,6 +8,7 @@ import android.location.Location
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.Window
 import android.widget.Button
@@ -91,7 +92,37 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         loc.add("Hallomajra Light")
         loc.add("Sanvg, Ambala")
         loc.add("Haryana, India")
+        var min="05"
+        var sec:Int=60
+        var finished:Boolean=false
+        var timertv = findViewById<TextView>(R.id.timer5min)
+        val timer = object: CountDownTimer(300000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                var min=""+millisUntilFinished/1000/60
+                if(sec.toInt()==60) {
+                    timertv.setText("0" + min + " : " + "00")
+                    sec=sec-1
+                }
+                else if(sec<60&&sec>=0) {
+                    timertv.setText("0" + min + " : " + sec)
+                    sec=sec-1
+                }
+              if(sec==0){
+                  sec=60
+              }
 
+
+            }
+
+
+            override fun onFinish() {
+finished=true
+            }
+        }
+
+        timer.start()
+        if(finished)
+        startActivity(Intent(this, DriverDashBoard::class.java))
         start.setOnClickListener {
             val dialog = Dialog(this)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)

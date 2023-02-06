@@ -1665,7 +1665,6 @@ Toast.makeText(requireContext(),"Please upload images",Toast.LENGTH_SHORT).show(
 
             }else{
                 baseprivate.ErrorProgressDialog(requireContext(),"101",getString(R.string.server_error))
-
             }
 
 

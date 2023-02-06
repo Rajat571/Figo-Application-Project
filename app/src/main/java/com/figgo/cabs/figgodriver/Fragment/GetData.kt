@@ -1,5 +1,4 @@
 package com.figgo.cabs.figgodriver.Fragment
-
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
@@ -88,7 +87,6 @@ class GetData : Fragment() {
             override fun initializeLabels() {
                 TODO("Not yet implemented")
             }
-
         }
 
         val get_URL = "https://test.pearl-developer.com/figo/api/driver/get-all-details"
@@ -139,7 +137,7 @@ class GetData : Fragment() {
                 driver_dlNo.setText(it.getString("dl_number"))
                 driver_panNo.setText(it.getString("pan_number"))
                 driver_adharNo.setText(it.getString("aadhar_number"))
-                fetchState(it.getString("state").toInt())
+                fetchState(it.getString("state").toInt(),it.getString("city").toInt())
                 //baseclass.fetchStates(requireContext(),spinner_state,it.getString("state").toInt(),spinner_state,outstationHaspMap)
             }
             },{
@@ -195,7 +193,7 @@ class GetData : Fragment() {
                 }
             }
     }
-    private fun fetchState(stateid:Int) {
+    private fun fetchState(stateid:Int,cityid:Int) {
         statehashMap.clear()
         statelist.clear()
         val URL = "https://test.pearl-developer.com/figo/api/get-state"
@@ -209,6 +207,7 @@ class GetData : Fragment() {
         val jsonOblect=  object : JsonObjectRequest(Method.POST, URL, json,
             Response.Listener<JSONObject?> { response ->
                 Log.d("SendData", "response===" + response)
+                var x:Int=-1
                 // Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
                 if (response != null) {
                     val status = response.getString("status")
@@ -219,7 +218,8 @@ class GetData : Fragment() {
                             val rec: JSONObject = jsonArray.getJSONObject(i)
                             var name = rec.getString("name")
                             var id = rec.getString("id")
-
+if(id.toInt()==stateid)
+    x=i
                             statelist.add(SpinnerObj(name,id))
                             statehashMap.put(name,id.toInt())
                         }
@@ -231,10 +231,11 @@ class GetData : Fragment() {
 
                         // stateadapter.setDropDownViewResource(R.layout.spinneritemlayout)
                         spinnerState.setAdapter(stateadapter)
-                        Toast.makeText(requireContext(),"StateId "+statehashMap.keys.toList().indexOf(stateid.toString()),Toast.LENGTH_SHORT).show()
-                        spinnerState.setSelection(statehashMap.keys.toList().indexOf(stateid.toString())+1)
+                        Toast.makeText(requireContext(),"StateId "+stateid.toString(),Toast.LENGTH_SHORT).show()
+                        if(x!=-1)
+                        spinnerState.setSelection(x)
 
-
+                        fetchCity(stateid,cityid)
                        spinnerState.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
@@ -245,7 +246,8 @@ class GetData : Fragment() {
 
                                 //binding.selectStateTV.text=statehashMap.keys.toList()[position]
                                 prefManager.setDriveState(id1!!.toInt())
-                                fetchCity(stateadapter.getItem(position)!!.id.toInt())
+                                fetchCity(stateadapter.getItem(position)!!.id.toInt(),-1)
+
                             }
                             override fun onNothingSelected(parent: AdapterView<*>?) {
                             }
@@ -264,14 +266,14 @@ class GetData : Fragment() {
 
     }
 
-    private fun fetchCity(id: Int) {
+    private fun fetchCity(id: Int,cityID:Int) {
         cityhashMap.clear()
         citylist.clear()
         val URL = " https://test.pearl-developer.com/figo/api/get-city"
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
         var token= prefManager.getToken()
-
+        var y:Int=-1
         json.put("state_id",id)
 
         Log.d("SendData", "json===" + json)
@@ -288,6 +290,10 @@ class GetData : Fragment() {
                             val rec: JSONObject = jsonArray.getJSONObject(i)
                             var name = rec.getString("name")
                             var id = rec.getString("id")
+                            if(id.toInt()==cityID) {
+                                y = i
+                                Log.d("CityID",""+y)
+                            }
                             citylist.add(SpinnerObj(name,id))
                             cityhashMap.put(name,id.toInt())
 
@@ -296,6 +302,8 @@ class GetData : Fragment() {
                         val stateadapter = SpinnerAdapter(requireContext(),citylist)
 
                         spinnerCity.setAdapter(stateadapter)
+                        if(y!=-1)
+                            spinnerCity.setSelection(y)
 
 
                         spinnerCity.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
