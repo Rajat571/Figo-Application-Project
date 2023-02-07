@@ -13,6 +13,7 @@ xmlns:tools="http://schemas.android.com/tools">
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:id="@+id/city_ride_activitylayout"
             android:visibility="gone">
 
             <LinearLayout
@@ -372,6 +373,7 @@ xmlns:tools="http://schemas.android.com/tools">
 
         <include
             layout="@layout/acceptwait"
+            android:id="@+id/accept_wait_layout"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

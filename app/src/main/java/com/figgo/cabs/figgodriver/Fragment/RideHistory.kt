@@ -5,6 +5,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.HorizontalScrollView
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -49,6 +52,10 @@ class RideHistory : Fragment() {
         var prefManager=PrefManager(requireContext())
         var header: RecyclerView = view.findViewById<RecyclerView>(R.id.ridehistoryheader)
         var url3 = "https://test.pearl-developer.com/figo/api/driver/ride-history"
+        var progressbar = view.findViewById<ProgressBar>(R.id.ridehistory_progressbar)
+        var data_view = view.findViewById<HorizontalScrollView>(R.id.ridehisory_data)
+        progressbar.visibility=View.VISIBLE
+        data_view.visibility=View.GONE
         val queue = Volley.newRequestQueue(requireContext())
 
         var headerData = listOf<String>("Booking ID","To","From","Status","Distance","View");
@@ -58,34 +65,66 @@ class RideHistory : Fragment() {
 
         val jsonObject:JsonObjectRequest = object :JsonObjectRequest(Method.POST,url3,null,
             {
-                if(it!=null)
-                {
-                    Log.d("Data Response",""+it)
-                    var allride:JSONObject = it.getJSONObject("data")
-                    var allrideArray:JSONArray = allride.getJSONArray("all_rides")
-                    var ride_details:JSONObject
-var booking_id:String
-var destination:String
-var from:String
-var status:String
-var actual_distance:String
-var price:String
-                    contentdata.add(listOf("Booking ID","To","From","Status","Distance","View"))
-                  //  ride_details=allrideArray.optJSONObject(1).getJSONObject("ride_detail")
-                    //Log.d("Ride Detail ",""+ride_details.toString())
-                    for(i in 0..allrideArray.length()-1){
-                        ride_details=allrideArray.optJSONObject(i).getJSONObject("ride_detail")
-                        booking_id = ride_details.getString("booking_id")
-                        destination = ride_details.getJSONObject("to_location").getString("name")
-                        from = ride_details.getJSONObject("from_location").getString("name")
-                        status = ride_details.getString("status")
-                        actual_distance=ride_details.getString("actual_distance")
-                        Log.d("Ride Detail ","book - "+booking_id+" des - "+destination+"from - "+from+"status - "+status+" dist - "+actual_distance)
-                        contentdata.add(listOf(booking_id,destination,from,status,actual_distance,"View"))
+                if(it!=null) {
+                    try {
+
+
+                        progressbar.visibility = View.GONE
+                        data_view.visibility = View.VISIBLE
+                        Log.d("Data Response", "" + it)
+                        var allride: JSONObject = it.getJSONObject("data")
+                        var allrideArray: JSONArray = allride.getJSONArray("all_rides")
+                        var ride_details: JSONObject
+                        var booking_id: String
+                        var destination: String
+                        var from: String
+                        var status: String
+                        var actual_distance: String
+                        var price: String
+                        contentdata.add(
+                            listOf(
+                                "Booking ID",
+                                "To",
+                                "From",
+                                "Status",
+                                "Distance",
+                                "View"
+                            )
+                        )
+                        //  ride_details=allrideArray.optJSONObject(1).getJSONObject("ride_detail")
+                        //Log.d("Ride Detail ",""+ride_details.toString())
+                        for (i in 0..allrideArray.length() - 1) {
+                            ride_details =
+                                allrideArray.optJSONObject(i).getJSONObject("ride_detail")
+                            booking_id = ride_details.getString("booking_id")
+                            destination =
+                                ride_details.getJSONObject("to_location").getString("name")
+                            from = ride_details.getJSONObject("from_location").getString("name")
+                            status = ride_details.getString("status")
+                            actual_distance = ride_details.getString("actual_distance")
+                            Log.d(
+                                "Ride Detail ",
+                                "book - " + booking_id + " des - " + destination + "from - " + from + "status - " + status + " dist - " + actual_distance
+                            )
+                            contentdata.add(
+                                listOf(
+                                    booking_id,
+                                    destination,
+                                    from,
+                                    status,
+                                    actual_distance,
+                                    "View"
+                                )
+                            )
+                        }
+                        header.adapter = RideHistoryRowAdapter(contentdata, requireContext())
+                        header.layoutManager = LinearLayoutManager(requireContext())
                     }
-                    header.adapter= RideHistoryRowAdapter(contentdata,requireContext())
-                    header.layoutManager=LinearLayoutManager(requireContext())
+                    catch (e:Exception){
+                        Toast.makeText(requireContext(),"Server Problem", Toast.LENGTH_SHORT).show()
+                    }
                 }
+
             },{
 
 

@@ -30,10 +30,6 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.AuthFailureError
-import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.figgodriver.Adapter.NotificationHomeAdapter
@@ -52,7 +48,7 @@ import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.bottom_button_layout.view.*
 import kotlinx.android.synthetic.main.top_layout.view.*
 import kotlinx.coroutines.*
-import org.json.JSONObject
+import java.io.File
 import java.lang.Runnable
 import java.net.InetAddress
 import java.net.NetworkInterface
@@ -159,6 +155,8 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         drawer.addDrawerListener(action_bar_toggle)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         image =baseclass.StringToBitMap(prefManager.getDriverProfile())
+        val rootView: ViewGroup = findViewById(R.id.activeRide_layout)
+        val mFade: Slide =Slide(Gravity.LEFT)
         menu.setOnClickListener {
             drawer.openDrawer(GravityCompat.END)
         }
@@ -216,6 +214,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         }
 
         topLayout.toggle_on.setOnClickListener {
+            TransitionManager.beginDelayedTransition(rootView, mFade)
             on_toggle.setBackgroundColor(Color.GREEN)
             off_toggle.setBackgroundColor(Color.WHITE)
             toggleState=false
@@ -269,10 +268,14 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
                 homeFrame.visibility=View.GONE
             }
         }*/
+
         supportFragmentManager.beginTransaction().replace(R.id.home_frame, HomeDashBoard()).commit()
         bottomNav.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.home->{
+                    TransitionManager.beginDelayedTransition(rootView, mFade)
+                    notificationlayout.visibility = View.GONE
+                    homeFrame.visibility=View.VISIBLE
                     x=2
                     topLayout.top_back.text="EXIT"
                     if (toggleState==false)
@@ -285,12 +288,16 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
                     }
                 }
                 R.id.call->{
+
                     var intent_call = Intent(Intent.ACTION_DIAL)
                     intent_call.data = Uri.parse("tel:"+"+919715597855")
                     startActivity(intent_call)
                 }
                 R.id.active_ride->{
                     x=1
+                    TransitionManager.beginDelayedTransition(rootView, mFade)
+                    notificationlayout.visibility = View.GONE
+                    homeFrame.visibility=View.VISIBLE
                     topLayout.top_back.text="Back"
                     if (toggleState==false)
                         supportFragmentManager.beginTransaction().replace(R.id.home_frame,
@@ -390,6 +397,8 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
 
             true
         }
+        //deleteCache(this)
+       // this.cacheDir.deleteRecursively()
         draw_layout.menu.findItem(R.id.cab_driver_details_navigation).setOnMenuItemClickListener {
             drawer.closeDrawer(GravityCompat.END)
             bundle2.putString("Key","Cab")
@@ -782,6 +791,30 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
     }
 
 
+    fun deleteCache(context: Context) {
+        try {
+            val dir = context.cacheDir
+            deleteDir(dir)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 
+    fun deleteDir(dir: File?): Boolean {
+        return if (dir != null && dir.isDirectory) {
+            val children = dir.list()
+            for (i in children.indices) {
+                val success = deleteDir(File(dir, children[i]))
+                if (!success) {
+                    return false
+                }
+            }
+            dir.delete()
+        } else if (dir != null && dir.isFile) {
+            dir.delete()
+        } else {
+            false
+        }
+    }
 
 }

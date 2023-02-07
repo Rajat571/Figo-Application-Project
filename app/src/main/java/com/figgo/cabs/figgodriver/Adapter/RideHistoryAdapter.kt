@@ -51,91 +51,108 @@ class RideHistoryAdapter(var data: List<String>,var x:Int,var context:Context):R
                 var dialog_status=dialog.findViewById<TextView>(R.id.history_status)
 
                 var ride_details:JSONObject
-                var booking_id:String
-                var destination:String
-                var from:String
-                var status:String
+                var booking_id:String="-"
+                var destination:String="-"
+                var from:String="-"
+                var status:String="-"
                 var actual_distance:String
-                var transactionID:String=""
-                var vehicle_name:String
-                var date:String
-                var user_name:String
+                var transactionID:String="-"
+                var vehicle_name:String="-"
+                var date:String="-"
+                var user_name:String="-"
                 val queue = Volley.newRequestQueue(context)
                 val jsonObject: JsonObjectRequest = object :JsonObjectRequest(Method.POST,url3,null,
                     {
-                        if(it!=null)
-                        {
-                            Log.d("Data Response",""+it)
-                            var allride: JSONObject = it.getJSONObject("data")
-                            var allrideArray: JSONArray = allride.getJSONArray("all_rides")
+                        if(it!=null) {
+                            try {
+                                Log.d("Data Response", "" + it)
+                                var allride: JSONObject = it.getJSONObject("data")
+                                var allrideArray: JSONArray = allride.getJSONArray("all_rides")
 
-                            //contentdata.add(listOf("Booking ID","To","From","Status","Distance","View"))
-                            //  ride_details=allrideArray.optJSONObject(1).getJSONObject("ride_detail")
-                            //Log.d("Ride Detail ",""+ride_details.toString())
-                                ride_details=allrideArray.optJSONObject(x).getJSONObject("ride_detail")
-                            if(ride_details.getString("booking_id").equals(null))
-                                booking_id = ride_details.getString("booking_id")
-                            else
-                                booking_id=""
+                                //contentdata.add(listOf("Booking ID","To","From","Status","Distance","View"))
+                                //  ride_details=allrideArray.optJSONObject(1).getJSONObject("ride_detail")
+                                //Log.d("Ride Detail ",""+ride_details.toString())
+                                ride_details =
+                                    allrideArray.optJSONObject(x - 1).getJSONObject("ride_detail")
+                                if (!ride_details.getString("booking_id").equals(null))
+                                    booking_id = ride_details.getString("booking_id")
+                                else
+                                    booking_id = ""
 
-                            if(ride_details.getJSONObject("to_location").getString("name").equals(null))
-                                destination = ride_details.getJSONObject("to_location").getString("name")
-                            else
-                                destination=""
+                                if (!ride_details.getJSONObject("to_location").getString("name")
+                                        .equals(null)
+                                )
+                                    destination =
+                                        ride_details.getJSONObject("to_location").getString("name")
+                                else
+                                    destination = "-"
 
-                            if(ride_details.getJSONObject("from_location").getString("name").equals(null))
-                                from = ride_details.getJSONObject("from_location").getString("name")
-                            else
-                                from=""
+                                if (!ride_details.getJSONObject("from_location").getString("name")
+                                        .equals(null)
+                                )
+                                    from = ride_details.getJSONObject("from_location")
+                                        .getString("name")
+                                else
+                                    from = "-"
 
-                            if(ride_details.getString("status").equals(null))
-                            status = ride_details.getString("status")
-                            else
-                                status=""
+                                if (!ride_details.getString("status").equals(null))
+                                    status = ride_details.getString("status")
+                                else
+                                    status = "-"
 
-                            if(ride_details.getString("actual_distance").equals(null))
-                                actual_distance=ride_details.getString("actual_distance")
-                            else
-                                actual_distance=""
+                                if (!ride_details.getString("actual_distance").equals(null))
+                                    actual_distance = ride_details.getString("actual_distance")
+                                else
+                                    actual_distance = "-"
 
-                            if(ride_details.getJSONObject("model_details").getString("name").equals(null))
-                                vehicle_name=ride_details.getJSONObject("model_details").getString("name")
-                            else
-                                vehicle_name=""
+                                if (!ride_details.getJSONArray("model_details").getJSONObject(0)
+                                        .getString("name").equals(null)
+                                )
+                                    vehicle_name =
+                                        ride_details.getJSONArray("model_details").getJSONObject(0)
+                                            .getString("name")
+                                else
+                                    vehicle_name = "-"
 
-                            if(ride_details.getString("date_only").equals(null))
-                                date=ride_details.getString("date_only")
-                            else
-                                date=""
-                                if(!ride_details.getString("transaction_id").equals(null))
-                                    transactionID=ride_details.getString("transaction_id")
-                            else
-                                transactionID=""
-                                if(!ride_details.getJSONObject("user").getString("name").equals(null)) {
+                                if (!ride_details.getString("date_only").equals(null))
+                                    date = ride_details.getString("date_only")
+                                else
+                                    date = ""
+                                if ((ride_details.getString("transaction_id")) != null)
+                                    transactionID = ride_details.getString("transaction_id")
+                                else
+                                    transactionID = "-"
+                                if (!ride_details.getJSONObject("user").getString("name")
+                                        .equals(null)
+                                ) {
                                     user_name = ride_details.getJSONObject("user").getString("name")
                                     dialog_name.text = user_name
+                                } else {
+                                    dialog_name.text = "-"
                                 }
-                            else{
-                                dialog_name.text=""
-                                }
-                            //vechicle_name = ride_details.getJSONObject("model_details")
-                                Log.d("Ride Detail ","book - "+booking_id+" des - "+destination+"from - "+from+"status - "+status+" dist - "+actual_distance)
-                               // contentdata.add(listOf(booking_id,destination,from,status,actual_distance,"View"))
+                                //vechicle_name = ride_details.getJSONObject("model_details")
+                                Log.d(
+                                    "Ride Detail ",
+                                    "book - " + booking_id + " des - " + destination + "from - " + from + "status - " + status + " dist - " + actual_distance
+                                )
+                                // contentdata.add(listOf(booking_id,destination,from,status,actual_distance,"View"))
 
-                            dialog_booking.text=booking_id
-                            dialog_to.text=destination
-                            dialog_date.text=date
-                            dialog_distance.text=actual_distance
-                            dialog_from.text=from
-                            dialog_transaction.text=transactionID
-                            dialog_vehicle.text=vehicle_name
-                            dialog_status.text=status
-
-
+                                dialog_booking.text = booking_id
+                                dialog_to.text = destination
+                                dialog_date.text = date
+                                dialog_distance.text = actual_distance
+                                dialog_from.text = from
+                                dialog_transaction.text = transactionID
+                                dialog_vehicle.text = vehicle_name
+                                dialog_status.text = status
 
 
-
+                            }
+                            catch (e:Exception){
+                                Toast.makeText(context,"Server Problem",Toast.LENGTH_SHORT).show()
+                            }
                         }
+
                     },{
 
 
@@ -161,7 +178,7 @@ class RideHistoryAdapter(var data: List<String>,var x:Int,var context:Context):R
                 }
                 dialog.show()
 
-                Toast.makeText(context,"VIEW",Toast.LENGTH_SHORT).show()
+                //Toast.makeText(context,"VIEW",Toast.LENGTH_SHORT).show()
             }
         }
         holder.boxTV.text= data[position]

@@ -1,15 +1,18 @@
 package com.figgo.cabs.figgodriver.Fragment
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.figgo.cabs.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.io.File
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,6 +47,7 @@ class HomeDashBoard : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        deleteCache(requireContext())
         lateinit var navController: NavController
             // perform your task
             val navHostFragment=childFragmentManager.findFragmentById(R.id.mainContainer) as NavHostFragment
@@ -71,5 +75,31 @@ class HomeDashBoard : Fragment(){
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    fun deleteCache(context: Context) {
+        try {
+            val dir: File = context.getCacheDir()
+            deleteDir(dir)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun deleteDir(dir: File?): Boolean {
+        return if (dir != null && dir.isDirectory) {
+            val children = dir.list()
+            for (i in children.indices) {
+                val success = deleteDir(File(dir, children[i]))
+                if (!success) {
+                    return false
+                }
+            }
+            dir.delete()
+        } else if (dir != null && dir.isFile) {
+            dir.delete()
+        } else {
+            false
+        }
     }
 }

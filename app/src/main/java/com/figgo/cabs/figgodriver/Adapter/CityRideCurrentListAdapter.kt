@@ -1,9 +1,7 @@
 package com.figgo.cabs.figgodriver.Adapter
 
-import android.app.Application
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.figgo.cabs.R
 import com.figgo.cabs.figgodriver.CityRideActivity
 import com.figgo.cabs.figgodriver.model.CityCurrentRidesList
+import java.io.File
+
 
 class CityRideCurrentListAdapter(var context:Context, var ridelist:List<CityCurrentRidesList>):
     Adapter<CityRideCurrentListAdapter.CityRideHolder>() {
@@ -49,6 +49,8 @@ class CityRideCurrentListAdapter(var context:Context, var ridelist:List<CityCurr
                     .putExtra("ride_id",data.ride_id)
                     .putExtra("ride_request_id",data.ride_request_id)
                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            //deleteCache(context)
+
         }
     }
 
@@ -63,5 +65,31 @@ class CityRideCurrentListAdapter(var context:Context, var ridelist:List<CityCurr
         var customer_time=itemView.findViewById<TextView>(R.id.customer_time)
        // var fare_price=itemView.findViewById<TextView>(R.id.fare_price)
         var rideCardview=itemView.findViewById<CardView>(R.id.ride_cardview)
+    }
+
+    fun deleteCache(context: Context) {
+        try {
+            val dir = context.cacheDir
+            deleteDir(dir)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun deleteDir(dir: File?): Boolean {
+        return if (dir != null && dir.isDirectory) {
+            val children = dir.list()
+            for (i in children.indices) {
+                val success = deleteDir(File(dir, children[i]))
+                if (!success) {
+                    return false
+                }
+            }
+            dir.delete()
+        } else if (dir != null && dir.isFile) {
+            dir.delete()
+        } else {
+            false
+        }
     }
 }

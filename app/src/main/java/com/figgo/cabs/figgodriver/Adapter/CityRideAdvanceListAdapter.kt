@@ -14,6 +14,10 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.figgo.cabs.R
 import com.figgo.cabs.figgodriver.CityRideActivity
 import com.figgo.cabs.figgodriver.model.CityAdvanceRideList
+import java.io.File
+
+
+
 
 class CityRideAdvanceListAdapter(var context:Context, var advanceridelist:List<CityAdvanceRideList>) :
     Adapter<CityRideAdvanceListAdapter.AdvanceRideHolder>() {
@@ -53,6 +57,7 @@ class CityRideAdvanceListAdapter(var context:Context, var advanceridelist:List<C
                 .putExtra("ride_id",data.ride_id)
                 .putExtra("ride_request_id","3"))
         }
+       // deleteCache(context)
     }
 
     override fun getItemCount()=advanceridelist.size
@@ -67,6 +72,32 @@ class CityRideAdvanceListAdapter(var context:Context, var advanceridelist:List<C
       //  var fare_price=itemView.findViewById<TextView>(R.id.advance_fare_price)
         var rideCardview=itemView.findViewById<CardView>(R.id.ride_cardview)
         var customer_time=itemView.findViewById<TextView>(R.id.customer_time)
+    }
+
+    fun deleteCache(context: Context) {
+        try {
+            val dir = context.cacheDir
+            deleteDir(dir)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun deleteDir(dir: File?): Boolean {
+        return if (dir != null && dir.isDirectory) {
+            val children = dir.list()
+            for (i in children.indices) {
+                val success = deleteDir(File(dir, children[i]))
+                if (!success) {
+                    return false
+                }
+            }
+            dir.delete()
+        } else if (dir != null && dir.isFile) {
+            dir.delete()
+        } else {
+            false
+        }
     }
 
 }
