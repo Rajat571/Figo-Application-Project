@@ -25,6 +25,9 @@ import com.figgo.cabs.figgodriver.model.CityAdvanceRideList
 import com.figgo.cabs.figgodriver.model.CityCurrentRidesList
 import com.google.android.gms.maps.model.*
 import org.json.JSONObject
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class CityRideFragment : Fragment() {
@@ -132,6 +135,7 @@ class CityRideFragment : Fragment() {
                             ridelists.add(CityCurrentRidesList(date_only,time_only,booking_id,address_name,from_name,price,to_location_lat,to_location_long,from_location_lat,from_location_long,ride_id,ride_request_id,y))
                         }
                         //advanceData(response)
+                        Collections.reverse(ridelists)
                         cityRideCurrentListAdapter= CityRideCurrentListAdapter(requireContextX().applicationContext,ridelists)
                         binding.cityRideCurrentRecylerview.adapter=cityRideCurrentListAdapter
 
@@ -195,7 +199,7 @@ class CityRideFragment : Fragment() {
                             var time_only=data1.getString( "time_only")
                             advanceRidelists.add(CityAdvanceRideList(date_only,time_only,advance_booking_id,address_name,from_name,"",from_location_lat,from_location_long,to_location_lat,to_location_long,ride_id))
                         }
-
+                        Collections.reverse(advanceRidelists)
                         cityRideAdvanceListAdapter= CityRideAdvanceListAdapter(requireContextX(),advanceRidelists)
                         binding.cityRideAdvanceRecylerview.adapter= cityRideAdvanceListAdapter
                     }

@@ -271,10 +271,6 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                                 .putExtra("customer_name",customer_name)
                                 .putExtra("customer_contact",customer_contact))
                         }
-
-
-
-
                             //prefManager.setActiveRide(1)
                            // startActivity(Intent(this,DriverDashBoard::class.java))
 
@@ -302,9 +298,6 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
         }
     }
 
-
-
-
     override fun onMapReady(googleMap: GoogleMap) {
         mMap =googleMap
        /* val originLocation = LatLng(originLatitude, originLongitude)
@@ -320,7 +313,6 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                 "&mode=driving" +
                 "&key=$secret"
     }
-
 
     @SuppressLint("StaticFieldLeak")
     private inner class GetDirection(val url : String) : AsyncTask<Void, Void, List<List<LatLng>>>(){

@@ -25,12 +25,13 @@ class CityRideAdvanceListAdapter(var context:Context, var advanceridelist:List<C
 
     override fun onBindViewHolder(holder: AdvanceRideHolder, position: Int) {
         var data=advanceridelist[position]
-      /*  holder.customer_date.text=data.date
+      /*
 
         holder.customer_name.text=data.booking_id*/
         holder.customer_time.text=data.time
         holder.location_from.text=data.from
         holder.location_to.text=data.to
+        holder.customer_date.text=data.date
        // holder.fare_price.text=data.fare_price
         Log.d(" CityRideAdvanceListAdapter","date===="+data.date)
         holder.rideCardview.setCardBackgroundColor(Color.parseColor("#ffffff"))
@@ -59,7 +60,7 @@ class CityRideAdvanceListAdapter(var context:Context, var advanceridelist:List<C
 
     class AdvanceRideHolder(itemview:View):androidx.recyclerview.widget.RecyclerView.ViewHolder(itemview)
     {
-      /*  var customer_date=itemView.findViewById<TextView>(R.id.advance_date)
+      /*
 
         var customer_name=itemView.findViewById<TextView>(R.id.advance_booking_id)*/
       var location_to=itemView.findViewById<TextView>(R.id.location_to)
@@ -67,6 +68,7 @@ class CityRideAdvanceListAdapter(var context:Context, var advanceridelist:List<C
       //  var fare_price=itemView.findViewById<TextView>(R.id.advance_fare_price)
         var rideCardview=itemView.findViewById<CardView>(R.id.ride_cardview)
         var customer_time=itemView.findViewById<TextView>(R.id.customer_time)
+        var customer_date=itemView.findViewById<TextView>(R.id.customer_date)
     }
 
 }

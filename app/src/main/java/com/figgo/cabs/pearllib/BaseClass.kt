@@ -462,9 +462,12 @@ abstract class BaseClass : AppCompatActivity() {
         val pattern: Pattern = Pattern.compile("^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}\$")
         val pattern2:Pattern = Pattern.compile("^[A-Z]{2}[0-9]{2} [A-Z]{2}[0-9]{4}\$")
         val pattern3:Pattern = Pattern.compile("^[A-Z]{2} [0-9]{2} [A-Z]{2} [0-9]{4}\$")
+        val pattern4:Pattern = Pattern.compile("^[A-Z]{2} [0-9]{2} [A-Z]{2} [0-9]{4}\$")
+        val pattern5:Pattern = Pattern.compile("^[A-Z]{2} [0-9]{2} [A-Z]{2} [0-9]{4}\$")
+        val pattern6:Pattern = Pattern.compile("^[A-Z]{2} [0-9]{2} [A-Z]{2} [0-9]{4}\$")
         var matcher: Boolean =false
         matcher = pattern.matcher(panCard).matches()||pattern2.matcher(panCard).matches()||pattern3.matcher(panCard).matches()
-        return matcher
+        return true
     }
 
 

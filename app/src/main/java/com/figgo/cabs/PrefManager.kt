@@ -75,7 +75,7 @@ import android.content.SharedPreferences
          editor?.commit()
      }
      fun getDriverName():String{
-         return pref?.getString("name","null").toString()
+         return pref?.getString("name","").toString()
      }
 
      fun setMobile_No(mobile_no:String){

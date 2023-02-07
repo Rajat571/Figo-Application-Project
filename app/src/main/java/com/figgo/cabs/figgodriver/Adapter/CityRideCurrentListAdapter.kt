@@ -24,12 +24,12 @@ class CityRideCurrentListAdapter(var context:Context, var ridelist:List<CityCurr
     override fun onBindViewHolder(holder: CityRideHolder, position: Int) {
 
      var data=ridelist[position]
-       /* holder.customer_date.text=data.date
-
+       /*
         holder.customer_name.text=data.cutomer_name*/
         holder.location_from.text=data.from
         holder.location_to.text=data.to
         holder.customer_time.text=data.time
+        holder.customer_date.text=data.date
        // holder.fare_price.text=data.fare_price
 
         holder.itemView.setOnClickListener {
@@ -55,7 +55,7 @@ class CityRideCurrentListAdapter(var context:Context, var ridelist:List<CityCurr
     override fun getItemCount()=ridelist.size
 
     class CityRideHolder(itemView: View):androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView){
-      /*  var customer_date=itemView.findViewById<TextView>(R.id.customer_date)
+      /*
 
         var customer_name=itemView.findViewById<TextView>(R.id.customer_name)*/
         var location_to=itemView.findViewById<TextView>(R.id.location_to)
@@ -63,5 +63,6 @@ class CityRideCurrentListAdapter(var context:Context, var ridelist:List<CityCurr
         var customer_time=itemView.findViewById<TextView>(R.id.customer_time)
        // var fare_price=itemView.findViewById<TextView>(R.id.fare_price)
         var rideCardview=itemView.findViewById<CardView>(R.id.ride_cardview)
+        var customer_date=itemView.findViewById<TextView>(R.id.customer_date)
     }
 }

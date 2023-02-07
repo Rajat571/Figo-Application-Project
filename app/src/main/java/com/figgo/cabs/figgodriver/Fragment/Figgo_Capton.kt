@@ -56,6 +56,12 @@ class Figgo_Capton : Fragment(){
         /*****************************    PrefManager initialization  *******************************************/
 
         prefManager = PrefManager(requireContext())
+        binding.drivername.hint=""
+        binding.drivername.hint=prefManager.getDriverName()
+        binding.drivermobileno.hint=prefManager.getMobileNo()
+        binding.driverdlno.hint=prefManager.getDL_No()
+        binding.driverPanNo.hint=prefManager.getDriverPan_no()
+        binding.driverAdharNo.hint=prefManager.getDriverAadhar_no()
 
         /*****************************    BaseClass initialization  *******************************************/
         baseclass=object : BaseClass(){
@@ -118,6 +124,8 @@ class Figgo_Capton : Fragment(){
 
         next.setOnClickListener {
 
+
+
             validateForm()
 
             var driver_name=binding.drivername.text.toString()
@@ -130,7 +138,6 @@ class Figgo_Capton : Fragment(){
             prefManager.setMobile_No(driver_mobile_no)
             prefManager.setDriverAadhar_no(driver_aadhar_no)
             prefManager.setDriverPan_no(driver_pan_no)
-
         }
 
         var back=view.findViewById<TextView>(R.id.back_button)
@@ -278,6 +285,7 @@ class Figgo_Capton : Fragment(){
         if (baseclass.validateName(binding.drivername)&&baseclass.validateNumber(binding.drivermobileno)&&baseclass.validateDLNo(binding.driverdlno)&&baseclass.validatePanNo(binding.driverPanNo)&&baseclass.validateAadharNo(binding.driverAdharNo)){
 
             Navigation.findNavController(requireView()).navigate(R.id.action_figgo_Capton_to_driverCabDetailsFragment,args)
+
 
         }
     }
