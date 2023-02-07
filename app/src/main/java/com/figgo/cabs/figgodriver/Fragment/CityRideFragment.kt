@@ -28,6 +28,7 @@ import com.figgo.cabs.figgodriver.model.CityCurrentRidesList
 import com.google.android.gms.maps.model.*
 import org.json.JSONObject
 import java.io.File
+import java.util.Collections
 
 
 class CityRideFragment : Fragment() {
@@ -159,23 +160,11 @@ class CityRideFragment : Fragment() {
                                 /////Advance
 
                                 ridelists.add(
-                                    CityCurrentRidesList(
-                                        date_only,
-                                        time_only,
-                                        booking_id,
-                                        address_name,
-                                        from_name,
-                                        price,
-                                        to_location_lat,
-                                        to_location_long,
-                                        from_location_lat,
-                                        from_location_long,
-                                        ride_id,
-                                        ride_request_id,
-                                        y
+                                    CityCurrentRidesList(date_only, time_only, booking_id, address_name, from_name, price, to_location_lat, to_location_long, from_location_lat, from_location_long, ride_id, ride_request_id, y
                                     )
                                 )
                             }
+                            Collections.reverse(ridelists)
                             cityRideCurrentListAdapter= CityRideCurrentListAdapter(requireContextX().applicationContext,ridelists)
                             binding.cityRideCurrentRecylerview.adapter=cityRideCurrentListAdapter
                         }
@@ -272,6 +261,7 @@ class CityRideFragment : Fragment() {
                                 )
                             }
 
+                            Collections.reverse(advanceRidelists)
                             cityRideAdvanceListAdapter =
                                 CityRideAdvanceListAdapter(requireContextX(), advanceRidelists)
                             binding.cityRideAdvanceRecylerview.adapter = cityRideAdvanceListAdapter
