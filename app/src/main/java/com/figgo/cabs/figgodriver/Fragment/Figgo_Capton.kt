@@ -133,6 +133,7 @@ class Figgo_Capton : Fragment(){
             var driver_dl_no=binding.driverdlno.text.toString()
             var driver_pan_no=binding.driverPanNo.text.toString()
             var driver_aadhar_no=binding.driverAdharNo.text.toString()
+            Log.d("Second Number check",""+driver_mobile_no)
             prefManager.setDL_No(driver_dl_no)
             prefManager.setDriverName(driver_name)
             prefManager.setMobile_No(driver_mobile_no)

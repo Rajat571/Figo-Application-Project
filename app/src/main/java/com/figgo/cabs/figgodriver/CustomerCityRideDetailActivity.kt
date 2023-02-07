@@ -8,11 +8,14 @@ import android.location.Location
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
+import android.view.View
 import android.view.Window
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -48,6 +51,8 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     lateinit var prefManager: PrefManager
     lateinit var binding:ActivityCustomerCityRideDetailBinding
+    lateinit var layout_accept_wait:LinearLayout
+    lateinit var layout_customer_city_ride:LinearLayout
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +71,8 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         destinationLongitude=intent.getStringExtra("from_location_long")!!.toDouble()
         prefManager=PrefManager(this)
 
+        layout_accept_wait=findViewById(R.id.accept_wait_layout)
+        layout_customer_city_ride=findViewById(R.id.city_ride_activitylayout)
         var mapFragmentt=supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragmentt.getMapAsync(this)
 
@@ -91,6 +98,37 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         loc.add("Hallomajra Light")
         loc.add("Sanvg, Ambala")
         loc.add("Haryana, India")
+        var min=5
+        var sec:Int=60
+        var finished:Boolean=false
+        var timertv = findViewById<TextView>(R.id.timer5min)
+        val timer = object: CountDownTimer(5000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                if(sec==60) {
+                    timertv.text = "0" + min + " : " + "00"
+                    min-=1
+                    sec -= 1
+                }
+                else if(sec<60&&sec>=0) {
+                    timertv.setText("0" + min + " : " + sec)
+                    sec=sec-1
+                }
+              if(sec==0){
+                  sec=60
+              }
+
+
+            }
+
+
+            override fun onFinish() {
+finished=true
+                navigatenext()
+
+            }
+        }
+        timer.start()
+       // if(finished)
 
         start.setOnClickListener {
             val dialog = Dialog(this)
@@ -240,5 +278,10 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         return poly
     }
+fun navigatenext(){
 
+        //startActivity(Intent(this, DriverDashBoard::class.java))
+    layout_accept_wait.visibility=View.GONE
+    layout_customer_city_ride.visibility=View.VISIBLE
+    }
 }

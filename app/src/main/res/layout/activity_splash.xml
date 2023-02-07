@@ -22,13 +22,13 @@
             android:gravity="center_vertical|center_horizontal"
             android:orientation="vertical">
 
-            <ImageView
+     <!--       <ImageView
                 android:id="@+id/secndlogo"
                 android:layout_width="60dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:scaleType="fitCenter"
-                android:src="@drawable/appicon" />
+                android:src="@drawable/appicon" />-->
 
             <ImageView
                 android:id="@+id/firstlogo"

@@ -79,7 +79,7 @@ class LoginActivity : BasePublic(), GoogleApiClient.OnConnectionFailedListener,
         fusedLocationProviderClient= LocationServices.getFusedLocationProviderClient(this)
         ActivityCompat.requestPermissions(
             this,
-            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION)
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_LOCATION)
         mGoogleApiClient =
             GoogleApiClient.Builder(this).addApi(LocationServices.API).addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this).build()

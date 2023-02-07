@@ -241,7 +241,7 @@
                         android:padding="3dp"/>-->
 
                         <Spinner
-                            android:id="@+id/cab_category"
+                            android:id="@+id/show_cab_category"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
@@ -256,7 +256,7 @@
                         android:orientation="horizontal">
 
                         <Spinner
-                            android:id="@+id/cab_type"
+                            android:id="@+id/show_cab_type"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
@@ -271,7 +271,7 @@
 
 
                         <Spinner
-                            android:id="@+id/model_type"
+                            android:id="@+id/show_model_type"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
@@ -288,7 +288,7 @@
 
                         <Spinner
                             android:layout_width="match_parent"
-                            android:id="@+id/year_list"
+                            android:id="@+id/show_year_list"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
 
@@ -301,7 +301,7 @@
 
                         <EditText
                             android:background="@drawable/input_boder_profile"
-                            android:id="@+id/vechle_no"
+                            android:id="@+id/show_vechle_no"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textSize="13sp"
@@ -337,7 +337,7 @@
 
                         <EditText
                             android:background="@drawable/input_boder_profile"
-                            android:id="@+id/insurance_no"
+                            android:id="@+id/show_insurance_no"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clickable="false"
@@ -360,7 +360,7 @@
 
                         <EditText
                             android:background="@drawable/input_boder_profile"
-                            android:id="@+id/tax_permit_no"
+                            android:id="@+id/show_tax_permit_no"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clickable="false"
@@ -384,7 +384,7 @@
 
                         <EditText
                             android:background="@drawable/input_boder_profile"
-                            android:id="@+id/national_permit_date"
+                            android:id="@+id/show_national_permit_date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clickable="false"

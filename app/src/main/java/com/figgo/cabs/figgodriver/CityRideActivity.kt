@@ -5,15 +5,20 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.location.Location
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.os.Handler
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.test.core.app.ActivityScenario.launch
 import com.android.volley.AuthFailureError
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
@@ -25,9 +30,6 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
@@ -38,14 +40,15 @@ import com.figgo.cabs.R
 import com.figgo.cabs.databinding.ActivityCityRideBinding
 import com.figgo.cabs.pearllib.BaseClass
 import com.google.android.gms.location.LocationListener
-import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.*
 
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
+import kotlin.concurrent.timer
 
-class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMarkerClickListener,
-    LocationListener {
+class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMarkerClickListener
+ {
     lateinit var binding: ActivityCityRideBinding
     lateinit var prefManager: PrefManager
     var lat:Double = 0.0
@@ -54,6 +57,8 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
     var current_long:Double=0.0
     var des_lat:Double=0.0
     var des_long:Double=0.0
+    var pickupLocation: LatLng? = null
+    var dropLocation: LatLng? = null
     var ride_id:Int=0
     var ride_request_id:Int=0
     var customer_booking_id:String=""
@@ -61,6 +66,8 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
     private var originLongitude: Double = 77.99210085398012
     private var destinationLatitude: Double =  30.35335500972683
     private var destinationLongitude: Double = 78.02461312748794
+    var testlat:Double=30.296748
+    var testlon:Double = 77.976038
     private lateinit var mMap: GoogleMap
     lateinit var baseClass: BaseClass
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -162,9 +169,27 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
             //val destinationLocation = LatLng(destinationLatitude, destinationLongitude)
             mMap.addMarker(MarkerOptions().position(destinationLocation).title("hi"))
             val urll = getDirectionURL(originLocation, destinationLocation, "AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
-            GetDirection(urll).execute()
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(destinationLocation, 8F))
+            //GetDirection(urll).execute()
+            var newlat=30.288415
+            var new_lon=78.014850
+
+           val timer = object: CountDownTimer(100000, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    liveRouting(newlat, new_lon)
+                    newlat+=0.001
+                    new_lon+=0.001
+                }
+                override fun onFinish() {
+
+                }
+            }
+            timer.start()
+
+
+            //liveRouting(newlat, new_lon)
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(destinationLocation, 12F))
         }
+
     }
 
     private fun initializeClickListners() {
@@ -321,7 +346,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
             val request = Request.Builder().url(url).build()
             val response = client.newCall(request).execute()
             val data = response.body()?.string()
-            Log.d("SEND DATA"," data ===="+ data )
+            Log.d("MAPDATA"," data ===="+ data )
 
             val result =  ArrayList<List<LatLng>>()
             try{
@@ -388,8 +413,78 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
         TODO("Not yet implemented")
     }
 
-    override fun onLocationChanged(p0: Location) {
+/*    override fun onLocationChanged(p0: Location) {
+*//*        val curLat: Double = p0.getLatitude() //current latitude
+        val curLong: Double = p0.getLongitude() //current longitude
 
+        mMap.clear()
+
+        pickupLocation = LatLng(curLat, curLong)
+        dropLocation = LatLng(fromLat.toDouble(), fromLong.toDouble())
+        val height = 100
+        val width = 100
+        val bitmapdraw = resources.getDrawable(R.drawable.go_location) as BitmapDrawable
+        val b = bitmapdraw.bitmap
+        val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
+        mMap.addMarker(
+            MarkerOptions().position(pickupLocation!!)
+                .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                .title("Current Location")
+        )
+        val bitmapdraw2 = resources.getDrawable(R.drawable.ic_location) as BitmapDrawable
+        val b2 = bitmapdraw2.bitmap
+        val smallMarker2 = Bitmap.createScaledBitmap(b2, width, height, false)
+        mMap.addMarker(
+            MarkerOptions().position(dropLocation!!)
+                .icon(BitmapDescriptorFactory.fromBitmap(smallMarker2))
+                .title("dropoff")
+
+        )
+
+        val source = "" + curLat + "," + curLong
+        val destination = "" + fromLat + "," + fromLong
+        Log.e("Origin ", "$source\n Destination $destination")
+        GetDirection().execute(source, destination)*//*
+
+    }*/
+
+    fun liveRouting(newlat:Double,newlon:Double){
+       /* val curLat: Double = p0.getLatitude() //current latitude
+        val curLong: Double = p0.getLongitude() //current longitude
+*/
+        mMap.clear()
+        dropLocation   = LatLng(testlat, testlon)
+        pickupLocation     = LatLng(newlat, newlon)
+
+        val height = 100
+        val width = 100
+        /*val bitmapdraw = resources.getDrawable(R.drawable.go_location) as BitmapDrawable
+        val b = bitmapdraw.bitmap
+        val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)*/
+        mMap.addMarker(
+            MarkerOptions().position(pickupLocation!!)
+
+                .title("Current Location")
+        )
+        /*val bitmapdraw2 = resources.getDrawable(R.drawable.ic_location) as BitmapDrawable
+        val b2 = bitmapdraw2.bitmap
+        val smallMarker2 = Bitmap.createScaledBitmap(b2, width, height, false)*/
+        mMap.addMarker(
+            MarkerOptions().position(dropLocation!!)
+
+                .title("dropoff")
+
+        )
+
+        val source = "" + newlat + "," + newlon
+        val destination = "" + testlat + "," + testlon
+        Log.e("Origin ", "$source\n Destination $destination")
+        //GetDirection().execute(source, destination)
+var url:String=getDirectionURL(pickupLocation!!, dropLocation!!,"AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
+        GetDirection(url).execute()
+        Handler().postDelayed({
+            //do something
+        }, 5000)
     }
 
 

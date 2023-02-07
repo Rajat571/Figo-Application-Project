@@ -45,6 +45,8 @@ import kotlinx.android.synthetic.main.fragment_driver_cab_details.*
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 import java.io.IOException
+import java.net.InetAddress
+import java.net.NetworkInterface
 import java.util.*
 
 
@@ -1549,6 +1551,7 @@ Toast.makeText(requireContext(),"Please upload images",Toast.LENGTH_SHORT).show(
         json.put("name",prefManager.getDriverName())
         // json.put("mobile",prefManager.getMobileNo())      //
         json.put("second_number",prefManager.getMobileNo())
+        Log.d("Driver Cab Mobile",""+prefManager.getMobileNo())
         json.put("state",prefManager.getDriverState())
         json.put("city",prefManager.getDriverCity())
         json.put("dl_number",prefManager.getDL_No())
@@ -1599,12 +1602,12 @@ Toast.makeText(requireContext(),"Please upload images",Toast.LENGTH_SHORT).show(
         json.put("police_cer_image",police_certification)
 
         Log.d("SendData", "insurance===" + json)
-        Log.d("SendData", "aadharVerificationFront===" + aadhar_front)
+     /*   Log.d("SendData", "aadharVerificationFront===" + aadhar_front)
         Log.d("SendData", "aadhar_back===" + aadhar_back)
         Log.d("SendData", "police_certification===" +police_certification)
         Log.d("SendData", "driver_profile===" + driver_profile)
         Log.d("SendData", "driving_license" + driving_license)
-        Log.d("SendData", "police_certification_ext" + police_certification_ext)
+        Log.d("SendData", "police_certification_ext" + police_certification_ext)*/
 
          val jsonOblect=
              object : JsonObjectRequest(Method.POST, URL, json,
@@ -1618,9 +1621,8 @@ Toast.makeText(requireContext(),"Please upload images",Toast.LENGTH_SHORT).show(
                          prefManager.setDashboard("off")
                          Toast.makeText(this.requireContext(), "Sucessfully sent data for verification.",Toast.LENGTH_SHORT).show()
                          prefManager.setRegistrationToken("Done")
-                         var bundle = Bundle()
-                         bundle.putInt("Key",2)
-                        Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration,bundle)
+                         val ip_address:String=myFunction()
+                         sendreferal(ip_address)
 
                        //  prefManager.setCabFormToken("Submitted")
                      }else{
@@ -1645,4 +1647,78 @@ Toast.makeText(requireContext(),"Please upload images",Toast.LENGTH_SHORT).show(
              }
          queue.add(jsonOblect)
     }
+
+    private fun sendreferal(ipAddress: String) {
+        var baseurl="https://test.pearl-developer.com/figo/api/refer/create-referel"
+        var queue= Volley.newRequestQueue(requireContext())
+        var json= JSONObject()
+
+        json.put("ip",ipAddress)
+        var jsonObjectRequest=object : JsonObjectRequest(Method.POST,baseurl,json, Response.Listener<JSONObject>{
+                response ->
+            Log.d("Referal Response ",""+response)
+
+            if(!response.equals("null")){
+                var bundle = Bundle()
+                bundle.putInt("Key",2)
+                Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration,bundle)
+
+            }else{
+                baseprivate.ErrorProgressDialog(requireContext(),"101",getString(R.string.server_error))
+            }
+
+
+
+        },{
+            baseprivate.ErrorProgressDialog(requireContext(),"101",getString(R.string.server_error))
+
+            Log.d("Error Response ",""+it)
+        }){
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers: MutableMap<String, String> = HashMap()
+                headers.put("Authorization", "Bearer " + prefManager.getToken())
+                return headers
+            }
+        }
+        queue.add(jsonObjectRequest);
+    }
+
+    private fun myFunction():String {
+        /*     var ip:String=""
+             CoroutineScope(Dispatchers.Main).launch {
+                 val myPublicIp = getMyPublicIpAsync().await()
+                 Toast.makeText(this@DriverDashBoard, myPublicIp, Toast.LENGTH_LONG).show()
+                 ip=myPublicIp.toString()
+
+             }
+             return ip.toString()*/
+        try {
+            val interfaces: List<NetworkInterface> =
+                Collections.list(NetworkInterface.getNetworkInterfaces())
+            for (intf in interfaces) {
+                val addrs: List<InetAddress> = Collections.list(intf.inetAddresses)
+                for (addr in addrs) {
+                    if (!addr.isLoopbackAddress) {
+                        val sAddr = addr.hostAddress
+                        val isIPv4 = sAddr.indexOf(':') < 0
+                        if (true) {
+                            if (isIPv4) return sAddr
+                        } else {
+                            if (!isIPv4) {
+                                val delim = sAddr.indexOf('%')
+                                return if (delim < 0) sAddr.uppercase(Locale.getDefault()) else sAddr.substring(
+                                    0,
+                                    delim
+                                ).uppercase(Locale.getDefault())
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (ignored: Exception) {
+        }
+        return ""
+    }
+
 }

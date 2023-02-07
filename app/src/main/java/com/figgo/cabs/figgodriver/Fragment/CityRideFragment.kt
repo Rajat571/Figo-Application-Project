@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -25,15 +27,15 @@ import com.figgo.cabs.figgodriver.model.CityAdvanceRideList
 import com.figgo.cabs.figgodriver.model.CityCurrentRidesList
 import com.google.android.gms.maps.model.*
 import org.json.JSONObject
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
+import java.io.File
 
 
 class CityRideFragment : Fragment() {
     lateinit var binding: FragmentCityRideBinding
     lateinit var cityRideCurrentListAdapter: CityRideCurrentListAdapter
     lateinit var cityRideAdvanceListAdapter: CityRideAdvanceListAdapter
+    lateinit var progressBar: ProgressBar
+    lateinit var relativeLayout_data:RelativeLayout
     var ridelists=ArrayList<CityCurrentRidesList>()
     var advanceRidelists=ArrayList<CityAdvanceRideList>()
     lateinit var prefManager: PrefManager
@@ -51,10 +53,14 @@ class CityRideFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prefManager= PrefManager(requireContext())
+        progressBar=view.findViewById<ProgressBar>(R.id.city_ride_progressbar)
+        relativeLayout_data = view.findViewById<RelativeLayout>(R.id.city_ride_relative_layout)
         //ridelists.add()
         //submitCurrentRideForm(view,"advance")
             submitAdvanceRideForm(view)
             submitCurrentRideForm(view)
+        progressBar.visibility=View.VISIBLE
+        relativeLayout_data.visibility=View.GONE
             binding.cityRideAdvanceRecylerview.layoutManager = LinearLayoutManager(requireContext())
             binding.cityRideCurrentRecylerview.layoutManager = LinearLayoutManager(requireContext())
 
@@ -96,48 +102,88 @@ class CityRideFragment : Fragment() {
                 Response.Listener<JSONObject?> { response ->
                     Log.d("CITY_RIDE_FRAGMENT Current", "response===" + response)
                     if (response != null) {
+                        progressBar.visibility=View.GONE
+                        relativeLayout_data.visibility=View.VISIBLE
                         ////Current
                         var y=0
-                        var current=response.getJSONObject("current")
-                        var ride_requests=current.getJSONArray("ride_requests").length()
-                        for (i in 0..ride_requests-1){
+                        try {
+                            var current = response.getJSONObject("current")
+                            var ride_requests = current.getJSONArray("ride_requests").length()
 
-                            var data1=response.getJSONObject("current").getJSONArray("ride_requests").getJSONObject(i)
-                            var ride_id=data1.getString( "ride_id")
-                            var ride_request_id=data1.getString( "id")
-                            Log.d("SendData", "ride_request" + ride_request_id+","+ride_id)
+                            for (i in 0..ride_requests - 1) {
 
-                            var ride_detail=response.getJSONObject("current").getJSONArray("ride_requests").getJSONObject(i).getJSONObject( "ride_detail")
-                            var booking_id=ride_detail.getString( "booking_id")
-                            Log.d("SendData", "booking_id" + booking_id)
+                                var data1 =
+                                    response.getJSONObject("current").getJSONArray("ride_requests")
+                                        .getJSONObject(i)
+                                var ride_id = data1.getString("ride_id")
+                                var ride_request_id = data1.getString("id")
+                                Log.d("SendData", "ride_request" + ride_request_id + "," + ride_id)
 
-                            var to_location=response.getJSONObject("current").getJSONArray("ride_requests").getJSONObject(i).getJSONObject( "ride_detail").getJSONObject( "to_location")
-                            var to_location_lat=to_location.getString("lat")
-                            var to_location_long=to_location.getString("lng")
-                            var address_name=to_location.getString("name")
-                            Log.d("SendData", "to_location" + to_location_lat+"\n"+to_location_long+"\n"+address_name)
+                                var ride_detail =
+                                    response.getJSONObject("current").getJSONArray("ride_requests")
+                                        .getJSONObject(i).getJSONObject("ride_detail")
+                                var booking_id = ride_detail.getString("booking_id")
+                                Log.d("SendData", "booking_id" + booking_id)
 
-                            var from_location=response.getJSONObject("current").getJSONArray("ride_requests").getJSONObject(i).getJSONObject("ride_detail").getJSONObject( "from_location")
-                            var from_location_lat=from_location.getString("lat")
-                            var from_location_long=from_location.getString("lng")
-                            var from_name=from_location.getString("name")
-                            Log.d("SendData", "to_location" + from_location_lat+"\n"+from_location_long+"\n"+from_name)
+                                var to_location =
+                                    response.getJSONObject("current").getJSONArray("ride_requests")
+                                        .getJSONObject(i).getJSONObject("ride_detail")
+                                        .getJSONObject("to_location")
+                                var to_location_lat = to_location.getString("lat")
+                                var to_location_long = to_location.getString("lng")
+                                var address_name = to_location.getString("name")
+                                Log.d(
+                                    "SendData",
+                                    "to_location" + to_location_lat + "\n" + to_location_long + "\n" + address_name
+                                )
 
-                            var date_only=ride_detail.getString("date_only")
-                            var time_only=ride_detail.getString( "time_only")
-                            Log.d("SendData", "date_only" + time_only)
+                                var from_location =
+                                    response.getJSONObject("current").getJSONArray("ride_requests")
+                                        .getJSONObject(i).getJSONObject("ride_detail")
+                                        .getJSONObject("from_location")
+                                var from_location_lat = from_location.getString("lat")
+                                var from_location_long = from_location.getString("lng")
+                                var from_name = from_location.getString("name")
+                                Log.d(
+                                    "SendData",
+                                    "to_location" + from_location_lat + "\n" + from_location_long + "\n" + from_name
+                                )
 
-                            var price=data1.getString( "price")
-                            Log.d("SendData", "price" + price)
+                                var date_only = ride_detail.getString("date_only")
+                                var time_only = ride_detail.getString("time_only")
+                                Log.d("SendData", "date_only" + time_only)
 
-                            /////Advance
+                                var price = data1.getString("price")
+                                Log.d("SendData", "price" + price)
 
-                            ridelists.add(CityCurrentRidesList(date_only,time_only,booking_id,address_name,from_name,price,to_location_lat,to_location_long,from_location_lat,from_location_long,ride_id,ride_request_id,y))
+                                /////Advance
+
+                                ridelists.add(
+                                    CityCurrentRidesList(
+                                        date_only,
+                                        time_only,
+                                        booking_id,
+                                        address_name,
+                                        from_name,
+                                        price,
+                                        to_location_lat,
+                                        to_location_long,
+                                        from_location_lat,
+                                        from_location_long,
+                                        ride_id,
+                                        ride_request_id,
+                                        y
+                                    )
+                                )
+                            }
+                            cityRideCurrentListAdapter= CityRideCurrentListAdapter(requireContextX().applicationContext,ridelists)
+                            binding.cityRideCurrentRecylerview.adapter=cityRideCurrentListAdapter
+                        }
+                        catch (e:Exception){
+                            Toast.makeText(requireContext(),"Server Problem",Toast.LENGTH_SHORT).show()
                         }
                         //advanceData(response)
-                        Collections.reverse(ridelists)
-                        cityRideCurrentListAdapter= CityRideCurrentListAdapter(requireContextX().applicationContext,ridelists)
-                        binding.cityRideCurrentRecylerview.adapter=cityRideCurrentListAdapter
+
 
                     }
                     // Get your json response and convert it to whatever you want.
@@ -175,33 +221,63 @@ class CityRideFragment : Fragment() {
                 Response.Listener<JSONObject?> { response ->
                     Log.d("CITY_RIDE_FRAGMENT Advance", "response===" + response)
                     if (response != null) {
-                        var data=response.getJSONArray( "advance").length()
-                        for (i in 0 until data){
+                        try {
+                            var data = response.getJSONArray("advance").length()
+                            progressBar.visibility = View.GONE
+                            relativeLayout_data.visibility = View.VISIBLE
+                            for (i in 0 until data) {
 
-                            var data1=response.getJSONArray("advance").getJSONObject(i)
-                            var advance_booking_id=data1.getString( "booking_id")
-                            var ride_id=data1.getString( "id")
-                            Log.d("SendData", "advance_booking_id" + advance_booking_id)
+                                var data1 = response.getJSONArray("advance").getJSONObject(i)
+                                var advance_booking_id = data1.getString("booking_id")
+                                var ride_id = data1.getString("id")
+                                Log.d("SendData", "advance_booking_id" + advance_booking_id)
 
-                            var to_location=response.getJSONArray("advance").getJSONObject(i).getJSONObject("to_location")
-                            var to_location_lat=to_location.getString("lat")
-                            var to_location_long=to_location.getString("lng")
-                            var address_name=to_location.getString("name")
-                            Log.d("SendData", "to_location" + to_location_lat+"\n"+to_location_long+"\n"+address_name)
+                                var to_location = response.getJSONArray("advance").getJSONObject(i)
+                                    .getJSONObject("to_location")
+                                var to_location_lat = to_location.getString("lat")
+                                var to_location_long = to_location.getString("lng")
+                                var address_name = to_location.getString("name")
+                                Log.d(
+                                    "SendData",
+                                    "to_location" + to_location_lat + "\n" + to_location_long + "\n" + address_name
+                                )
 
-                            var from_location=response.getJSONArray("advance").getJSONObject(i).getJSONObject("from_location")
-                            var from_location_lat=from_location.getString("lat")
-                            var from_location_long=from_location.getString("lng")
-                            var from_name=from_location.getString("name")
+                                var from_location =
+                                    response.getJSONArray("advance").getJSONObject(i)
+                                        .getJSONObject("from_location")
+                                var from_location_lat = from_location.getString("lat")
+                                var from_location_long = from_location.getString("lng")
+                                var from_name = from_location.getString("name")
 
-                            Log.d("SendData", "to_location" + from_location_lat+"\n"+from_location_long+"\n"+from_name)
-                            var date_only=data1.getString("date_only")
-                            var time_only=data1.getString( "time_only")
-                            advanceRidelists.add(CityAdvanceRideList(date_only,time_only,advance_booking_id,address_name,from_name,"",from_location_lat,from_location_long,to_location_lat,to_location_long,ride_id))
+                                Log.d(
+                                    "SendData",
+                                    "to_location" + from_location_lat + "\n" + from_location_long + "\n" + from_name
+                                )
+                                var date_only = data1.getString("date_only")
+                                var time_only = data1.getString("time_only")
+                                advanceRidelists.add(
+                                    CityAdvanceRideList(
+                                        date_only,
+                                        time_only,
+                                        advance_booking_id,
+                                        address_name,
+                                        from_name,
+                                        "",
+                                        from_location_lat,
+                                        from_location_long,
+                                        to_location_lat,
+                                        to_location_long,
+                                        ride_id
+                                    )
+                                )
+                            }
+
+                            cityRideAdvanceListAdapter =
+                                CityRideAdvanceListAdapter(requireContextX(), advanceRidelists)
+                            binding.cityRideAdvanceRecylerview.adapter = cityRideAdvanceListAdapter
+                        }catch (e:Exception){
+                            Toast.makeText(requireContext(),"Server Problem",Toast.LENGTH_SHORT).show()
                         }
-                        Collections.reverse(advanceRidelists)
-                        cityRideAdvanceListAdapter= CityRideAdvanceListAdapter(requireContextX(),advanceRidelists)
-                        binding.cityRideAdvanceRecylerview.adapter= cityRideAdvanceListAdapter
                     }
                     // Get your json response and convert it to whatever you want.
                 }, object : Response.ErrorListener {
@@ -260,5 +336,30 @@ class CityRideFragment : Fragment() {
         super.onDestroyView()
        advanceRidelists.clear()
         ridelists.clear()
+    }
+    fun deleteCache(context: Context) {
+        try {
+            val dir = context.cacheDir
+            deleteDir(dir)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun deleteDir(dir: File?): Boolean {
+        return if (dir != null && dir.isDirectory) {
+            val children = dir.list()
+            for (i in children.indices) {
+                val success = deleteDir(File(dir, children[i]))
+                if (!success) {
+                    return false
+                }
+            }
+            dir.delete()
+        } else if (dir != null && dir.isFile) {
+            dir.delete()
+        } else {
+            false
+        }
     }
 }

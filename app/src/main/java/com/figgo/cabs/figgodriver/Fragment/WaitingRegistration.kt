@@ -110,8 +110,8 @@ class WaitingRegistration : Fragment() {
             var status=user.getString("status")
             var name=user.get("name")
             var num=user.getString("mobile")
-            prefManager.setDriverName(name.toString())
-            prefManager.setMobile_No(num.toString())
+            /*prefManager.setDriverName(name.toString())
+            prefManager.setMobile_No(num.toString())*/
 
             Log.d("WaitingRegistraion","status=="+status)
 
