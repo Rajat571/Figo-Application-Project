@@ -1,5 +1,5 @@
 package com.figgo.cabs.figgodriver.Fragment
-import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.navigation.Navigation
 import com.android.volley.AuthFailureError
 import com.android.volley.RequestQueue
 import com.android.volley.Response
@@ -16,6 +18,7 @@ import com.android.volley.toolbox.Volley
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.figgodriver.Adapter.SpinnerAdapter
+import com.figgo.cabs.figgodriver.UI.DriverDashBoard
 import com.figgo.cabs.figgodriver.model.SpinnerObj
 import com.figgo.cabs.pearllib.BaseClass
 import com.figgo.cabs.pearllib.BasePrivate
@@ -45,27 +48,28 @@ class GetData : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         prefManager = PrefManager(requireContext())
         super.onViewCreated(view, savedInstanceState)
+
         var baseclass:BasePrivate
         var bundle = arguments
         baseclass=object : BasePrivate(){
             override fun setLayoutXml() {
-                TODO("Not yet implemented")
+
             }
 
             override fun initializeViews() {
-                TODO("Not yet implemented")
+
             }
 
             override fun initializeClickListners() {
-                TODO("Not yet implemented")
+
             }
 
             override fun initializeInputs() {
-                TODO("Not yet implemented")
+
             }
 
             override fun initializeLabels() {
-                TODO("Not yet implemented")
+
             }
         }
 
@@ -284,7 +288,6 @@ if(id.toInt()==stateid)
                                 Log.d("SendData", "cityid===" + id1)
 
                             }
-                            @SuppressLint("SetTextI18n")
                             override fun onNothingSelected(adapter: AdapterView<*>?) {
                             }
                         })

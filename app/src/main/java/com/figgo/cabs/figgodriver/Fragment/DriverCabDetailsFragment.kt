@@ -626,8 +626,6 @@ class DriverCabDetailsFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 // Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
                 fetchCabCategory(position)
-
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {

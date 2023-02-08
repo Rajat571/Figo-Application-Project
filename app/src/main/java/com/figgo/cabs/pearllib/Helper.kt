@@ -23,6 +23,4 @@ package com.figgo.cabs.pearllib
      var get_cab_work_details= baseurl+"driver/get-cab-work-details"
      var ride_history= baseurl+"driver/ride-history"
 
-
-
 }
