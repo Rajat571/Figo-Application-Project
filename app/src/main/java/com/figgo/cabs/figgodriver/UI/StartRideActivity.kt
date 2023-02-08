@@ -1,21 +1,23 @@
-package com.figgo.cabs.figgodriver
+package com.figgo.cabs.figgodriver.UI
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.location.Location
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
+import android.view.View
+import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationServices
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
+import com.figgo.cabs.PrefManager
+import com.figgo.cabs.R
+import com.figgo.cabs.databinding.ActivityStartRideBinding
+import com.figgo.cabs.figgodriver.MapData
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -23,112 +25,39 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
-import com.google.android.gms.tasks.CancellationToken
-import com.google.android.gms.tasks.CancellationTokenSource
-import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.android.libraries.places.api.Places
 import com.google.gson.Gson
-import com.figgo.cabs.PrefManager
-import com.figgo.cabs.R
-import com.figgo.cabs.databinding.ActivityAdvanceCityRideBinding
-import com.figgo.cabs.pearllib.BaseClass
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
-class AdvanceCityRideActivity : BaseClass(), OnMapReadyCallback {
-    lateinit var binding: ActivityAdvanceCityRideBinding
-    lateinit var prefManager: PrefManager
-    var lat:Double = 0.0
-    var long:Double = 0.0
-    var current_lat:Double=0.0
-    var current_long:Double=0.0
-    var des_lat:Double=0.0
-    var des_long:Double=0.0
-    var ride_id:Int=0
-    var ride_request_id:Int=0
-    var customer_booking_id:String=""
-    var address_to: String? =null
-    var date:String? = null
-    var time:String? = null
+class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
 
-
+    private var originLatitude: Double =30.28401063526107
+    private var originLongitude: Double = 77.99210085398012
+    private var destinationLatitude: Double =  30.35335500972683
+    private var destinationLongitude: Double = 78.02461312748794
     private lateinit var mMap: GoogleMap
-    lateinit var baseClass: BaseClass
-    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-
-    override fun setLayoutXml() {
-        binding= DataBindingUtil.setContentView(this, R.layout.activity_advance_city_ride)
-    }
-
-    override fun initializeViews() {
-
-
-    }
-
-    override fun initializeClickListners() {
-
-    }
-
-    override fun initializeInputs() {
-        address_to= intent.getStringExtra("location_to")
-        date=intent.getStringExtra("customer_date")
-        time=intent.getStringExtra("customer_time")
-        binding.advanceRideDate.text=date
-        binding.advanceRideAddress.text=address_to
-        binding.advanceRideTime.text=time
-
-    }
-
-    override fun initializeLabels() {
-
-    }
-
+    lateinit var binding: ActivityStartRideBinding
+    lateinit var prefManager: PrefManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setLayoutXml()
-        initializeViews()
-        initializeClickListners()
-        initializeInputs()
-        initializeLabels()
-
+       binding=DataBindingUtil.setContentView(this, R.layout.activity_start_ride)
         window.setStatusBarColor(Color.parseColor("#000F3B"))
 
+        var arrow_up_btn=findViewById<ImageView>(R.id.arrow_up_IV)
+        binding.arrowDownIV.setOnClickListener {
+            TransitionManager.beginDelayedTransition( binding.startRideBottomLayout, AutoTransition())
+            binding.startRideBottomLayout.visibility=View.VISIBLE
 
-        prefManager= PrefManager(this)
-
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            return
+        }
+        arrow_up_btn.setOnClickListener {
+            TransitionManager.beginDelayedTransition( binding.startRideBottomLayout, AutoTransition())
+            var start_ride_bottom_layout=findViewById<LinearLayout>(R.id.start_ride_bottom_layout)
+            start_ride_bottom_layout.visibility=View.GONE
         }
 
-
-        fusedLocationProviderClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, object : CancellationToken() {
-            override fun onCanceledRequested(p0: OnTokenCanceledListener) = CancellationTokenSource().token
-
-            override fun isCancellationRequested() = false
-        })
-            .addOnSuccessListener { location: Location? ->
-                if (location == null)
-                    Toast.makeText(this, "Cannot get location.", Toast.LENGTH_SHORT).show()
-                else {
-                    lat = location.latitude
-                    prefManager.setlatitude(lat.toFloat())
-                    long = location.longitude
-                    prefManager.setlongitude(long.toFloat())
-                    Toast.makeText(this,"Lat :"+lat+"\nLong: "+long, Toast.LENGTH_SHORT).show()
-                }
-            }
-        // Fetching API_KEY which we wrapped
         val ai: ApplicationInfo = applicationContext.packageManager
             ?.getApplicationInfo(applicationContext.applicationContext!!.packageName, PackageManager.GET_META_DATA)!!
-
         val value = ai.metaData["com.google.android.geo.${R.string.Google_maps_key}"]
         val apiKey = value.toString()
         // Initializing the Places API with the help of our API_KEY
@@ -136,22 +65,24 @@ class AdvanceCityRideActivity : BaseClass(), OnMapReadyCallback {
             Places.initialize(applicationContext.applicationContext,apiKey)
         }
 
-
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         mapFragment.getMapAsync {
             mMap = it
-            val originLocation = LatLng(current_lat!!, current_long!!)
+            // val originLocation = LatLng(current_lat!!, current_long!!)
+            val originLocation = LatLng( originLatitude, originLongitude)
             mMap.addMarker(MarkerOptions().position(originLocation).title("hey"))
-            val destinationLocation = LatLng(des_lat!!, des_long!!)
+            // val destinationLocation = LatLng(des_lat!!, des_long!!)
+            val destinationLocation = LatLng(destinationLatitude, destinationLongitude)
             mMap.addMarker(MarkerOptions().position(destinationLocation).title("hi"))
             val urll = getDirectionURL(originLocation, destinationLocation, "AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
             GetDirection(urll).execute()
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 14F))
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 10F))
+            
+
         }
-
-
     }
+
 
     private fun getDirectionURL(origin:LatLng, dest:LatLng, secret: String) : String{
         return "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}" +
@@ -160,7 +91,6 @@ class AdvanceCityRideActivity : BaseClass(), OnMapReadyCallback {
                 "&mode=driving" +
                 "&key=$secret"
     }
-
 
     @SuppressLint("StaticFieldLeak")
     private inner class GetDirection(val url : String) : AsyncTask<Void, Void, List<List<LatLng>>>(){
@@ -192,6 +122,10 @@ class AdvanceCityRideActivity : BaseClass(), OnMapReadyCallback {
                 lineoption.width(10f)
                 lineoption.color(Color.GREEN)
                 lineoption.geodesic(true)
+               /* lineoption.startCap()
+                if (result.lastIndex.equals(LatLng(destinationLatitude, destinationLongitude))){
+
+                }*/
             }
             mMap.addPolyline(lineoption)
         }

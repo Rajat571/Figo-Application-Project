@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.figgo.cabs.R
 
-import com.figgo.cabs.figgodriver.PriceDetailsActivity
+import com.figgo.cabs.figgodriver.UI.PriceDetailsActivity
 
 
 class ViewRideDialog:DialogFragment() {

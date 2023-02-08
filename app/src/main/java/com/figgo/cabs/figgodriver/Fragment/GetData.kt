@@ -1,5 +1,5 @@
 package com.figgo.cabs.figgodriver.Fragment
-import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.navigation.Navigation
 import com.android.volley.AuthFailureError
 import com.android.volley.RequestQueue
 import com.android.volley.Response
@@ -16,27 +18,16 @@ import com.android.volley.toolbox.Volley
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.figgodriver.Adapter.SpinnerAdapter
+import com.figgo.cabs.figgodriver.UI.DriverDashBoard
 import com.figgo.cabs.figgodriver.model.SpinnerObj
 import com.figgo.cabs.pearllib.BaseClass
 import com.figgo.cabs.pearllib.BasePrivate
+import com.figgo.cabs.pearllib.Helper
 import org.json.JSONObject
 import retrofit2.http.GET
 import java.util.HashMap
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [GetData.newInstance] factory method to
- * create an instance of this fragment.
- */
 class GetData : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
     val statelist: ArrayList<SpinnerObj> = ArrayList()
     val citylist: ArrayList<SpinnerObj> = ArrayList()
     var statehashMap : HashMap<String, Int> = HashMap<String, Int> ()
@@ -44,14 +35,6 @@ class GetData : Fragment() {
     lateinit var spinnerState:Spinner
     lateinit var spinnerCity:Spinner
     lateinit var prefManager:PrefManager
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,31 +48,34 @@ class GetData : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         prefManager = PrefManager(requireContext())
         super.onViewCreated(view, savedInstanceState)
+
         var baseclass:BasePrivate
         var bundle = arguments
         baseclass=object : BasePrivate(){
             override fun setLayoutXml() {
-                TODO("Not yet implemented")
+
             }
 
             override fun initializeViews() {
-                TODO("Not yet implemented")
+
             }
 
             override fun initializeClickListners() {
-                TODO("Not yet implemented")
+
             }
 
             override fun initializeInputs() {
-                TODO("Not yet implemented")
+
             }
 
             override fun initializeLabels() {
-                TODO("Not yet implemented")
+
             }
         }
 
-        val get_URL = "https://test.pearl-developer.com/figo/api/driver/get-all-details"
+       // val get_URL = "https://test.pearl-developer.com/figo/api/driver/get-all-details"
+        var get_URL=Helper.get_all_details
+        Log.d("GetDATA","URL"+get_URL)
         val queue = Volley.newRequestQueue(requireContext())
         var profile_name = view.findViewById<EditText>(R.id.show_drivername)
         var profile_mobile = view.findViewById<EditText>(R.id.show_drivermobileno)
@@ -110,7 +96,10 @@ class GetData : Fragment() {
         var insurance_no = view.findViewById<EditText>(R.id.show_insurance_no)
         var local_permit = view.findViewById<EditText>(R.id.show_tax_permit_no)
         var national_permit = view.findViewById<EditText>(R.id.show_national_permit_date)
-        var URL2 = "https://test.pearl-developer.com/figo/api/driver/get-cab-work-details"
+        //var URL2 = "https://test.pearl-developer.com/figo/api/driver/get-cab-work-details"
+        var URL2=Helper.get_cab_work_details
+        Log.d("GetDATA","URL"+URL2)
+
         var queue2 = Volley.newRequestQueue(requireContext())
         var visible_view = bundle?.getString("Key")
         Toast.makeText(requireContext(),"Key "+visible_view,Toast.LENGTH_SHORT).show()
@@ -173,30 +162,13 @@ class GetData : Fragment() {
 
     }
 
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment GetData.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            GetData().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
     private fun fetchState(stateid:Int,cityid:Int) {
         statehashMap.clear()
         statelist.clear()
-        val URL = "https://test.pearl-developer.com/figo/api/get-state"
+        //val URL = "https://test.pearl-developer.com/figo/api/get-state"
+        var URL=Helper.get_state
+        Log.d("GetDATA","URL"+URL)
+
 
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
@@ -269,7 +241,9 @@ if(id.toInt()==stateid)
     private fun fetchCity(id: Int,cityID:Int) {
         cityhashMap.clear()
         citylist.clear()
-        val URL = " https://test.pearl-developer.com/figo/api/get-city"
+        //val URL = " https://test.pearl-developer.com/figo/api/get-city"
+        var URL=Helper.get_city
+        Log.d("GetDATA","URL"+URL)
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
         var token= prefManager.getToken()
@@ -314,7 +288,6 @@ if(id.toInt()==stateid)
                                 Log.d("SendData", "cityid===" + id1)
 
                             }
-                            @SuppressLint("SetTextI18n")
                             override fun onNothingSelected(adapter: AdapterView<*>?) {
                             }
                         })

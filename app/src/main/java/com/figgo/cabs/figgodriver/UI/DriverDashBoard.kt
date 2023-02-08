@@ -1,4 +1,4 @@
-package com.figgo.cabs.figgodriver
+package com.figgo.cabs.figgodriver.UI
 
 
 import android.Manifest
@@ -57,9 +57,7 @@ import java.net.URL
 import java.util.*
 import kotlin.properties.Delegates
 
-
 class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
-
     var doubleBackToExitPressedOnce = false
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     lateinit var prefManager: PrefManager
@@ -381,7 +379,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             var getData = GetData()
             getData.arguments=bundle2
             offlineLayout.visibility=View.GONE
-            supportFragmentManager.beginTransaction().replace(R.id.home_frame,getData).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,getData,"Home").addToBackStack(null).commit()
             homeFrame.visibility=View.VISIBLE
 
             true
@@ -750,6 +748,10 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
     }
 
     override fun onBackPressed() {
+        /*val fragment: GetData? = supportFragmentManager.findFragmentByTag("home") as GetData?
+        if (fragment.allowBackPressed()) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
+            super.onBackPressed()
+        }*/
         val count = supportFragmentManager.backStackEntryCount
         if (count == 0) {
             if (doubleBackToExitPressedOnce) {
@@ -767,8 +769,17 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             Handler(Looper.getMainLooper()).postDelayed(Runnable {
                 doubleBackToExitPressedOnce = false
             }, 2000)
-        } else {
-            supportFragmentManager.popBackStack()
+        }
+        else if(count==1){
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,
+                HomeDashBoard()
+            ).commit()
+
+        }else {
+           // supportFragmentManager.popBackStack()
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,
+               HomeDashBoard()
+            ).commit()
         }
     }
 
@@ -780,7 +791,6 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         startService(Intent(this, MyService::class.java))
         Log.i("state", "onResume")
     }
-
     override fun onStart() {
         super.onStart()
         /*  registerBroadcast()

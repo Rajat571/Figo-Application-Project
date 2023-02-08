@@ -1,13 +1,11 @@
-package com.figgo.cabs.figgodriver
+package com.figgo.cabs.figgodriver.UI
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.location.Location
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
@@ -18,7 +16,6 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.test.core.app.ActivityScenario.launch
 import com.android.volley.AuthFailureError
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
@@ -38,14 +35,14 @@ import com.google.gson.Gson
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.databinding.ActivityCityRideBinding
+import com.figgo.cabs.figgodriver.MapData
 import com.figgo.cabs.pearllib.BaseClass
-import com.google.android.gms.location.LocationListener
+import com.figgo.cabs.pearllib.Helper
 import com.google.android.gms.maps.model.*
 
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
-import kotlin.concurrent.timer
 
 class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMarkerClickListener
  {
@@ -195,7 +192,9 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
     private fun initializeClickListners() {
 
         binding.rejectCityRideBtn.setOnClickListener {
-            var url="https://test.pearl-developer.com/figo/api/driver-ride/reject-city-ride-request"
+            //var url="https://test.pearl-developer.com/figo/api/driver-ride/reject-city-ride-request"
+            var url=Helper.reject_city_ride_request
+            Log.d("CityRideActivity", "Reject status URL===" + url)
             var queue=Volley.newRequestQueue(this)
             var json=JSONObject()
             json.put("ride_request_id",ride_request_id)
@@ -239,8 +238,9 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
 
         binding.acceptCityRideBtn.setOnClickListener {
 
-
-            var url="https://test.pearl-developer.com/figo/api/driver-ride/accept-city-ride-request"
+           // var url="https://test.pearl-developer.com/figo/api/driver-ride/accept-city-ride-request"
+            var url=Helper.accept_city_ride_request
+            Log.d("CityRideActivity", "Accept status URL===" + url)
             var queue=Volley.newRequestQueue(this)
             var json=JSONObject()
             json.put("ride_id",ride_id)

@@ -20,7 +20,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.figgodriver.Adapter.SpinnerAdapter
-import com.figgo.cabs.figgodriver.LoginActivity
+import com.figgo.cabs.figgodriver.UI.LoginActivity
 import com.figgo.cabs.figgodriver.model.SpinnerObj
 import org.json.JSONObject
 

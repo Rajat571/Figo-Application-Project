@@ -1,20 +1,14 @@
 package com.figgo.cabs.figgodriver.Fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
-import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
-import com.figgo.cabs.figgodriver.DriverDashBoard
-
-
 
 
 class WelcomeFragment : Fragment() {

@@ -18,6 +18,7 @@ import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.figgodriver.Adapter.RideHistoryAdapter
 import com.figgo.cabs.figgodriver.Adapter.RideHistoryRowAdapter
+import com.figgo.cabs.pearllib.Helper
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.HashMap
@@ -51,7 +52,9 @@ class RideHistory : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         var prefManager=PrefManager(requireContext())
         var header: RecyclerView = view.findViewById<RecyclerView>(R.id.ridehistoryheader)
-        var url3 = "https://test.pearl-developer.com/figo/api/driver/ride-history"
+       // var url3 = "https://test.pearl-developer.com/figo/api/driver/ride-history"
+        var url3=Helper.ride_history
+        Log.d("RideHistory","URL"+url3)
         var progressbar = view.findViewById<ProgressBar>(R.id.ridehistory_progressbar)
         var data_view = view.findViewById<HorizontalScrollView>(R.id.ridehisory_data)
         progressbar.visibility=View.VISIBLE

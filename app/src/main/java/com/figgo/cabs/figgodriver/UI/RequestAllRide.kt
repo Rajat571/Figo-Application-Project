@@ -1,4 +1,4 @@
-package com.figgo.cabs.figgodriver
+package com.figgo.cabs.figgodriver.UI
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

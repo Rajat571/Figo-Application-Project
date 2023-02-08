@@ -46,28 +46,28 @@
         android:theme="@style/Theme.FiggoDriver"
         tools:targetApi="31">
         <activity
-            android:name=".figgodriver.CustomerCityRideDetailActivity"
+            android:name=".figgodriver.UI.CustomerCityRideDetailActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".figgodriver.StartRideActivity"
+            android:name=".figgodriver.UI.StartRideActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".figgodriver.AdvanceCityRideActivity"
+            android:name=".figgodriver.UI.AdvanceCityRideActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".figgodriver.CityRideActivity"
+            android:name=".figgodriver.UI.CityRideActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -90,7 +90,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".figgodriver.ShareRide"
+            android:name=".figgodriver.UI.ShareRide"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <meta-data
@@ -98,7 +98,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".figgodriver.RequestAllRide"
+            android:name=".figgodriver.UI.RequestAllRide"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <meta-data
@@ -106,7 +106,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".figgodriver.DriverDashBoard"
+            android:name=".figgodriver.UI.DriverDashBoard"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <meta-data
@@ -114,7 +114,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".figgodriver.PriceDetailsActivity"
+            android:name=".figgodriver.UI.PriceDetailsActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <meta-data
@@ -130,7 +130,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".figgodriver.LoginActivity"
+            android:name=".figgodriver.UI.LoginActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <meta-data
@@ -138,7 +138,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".figgodriver.WelcomeActivity"
+            android:name=".figgodriver.UI.WelcomeActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <meta-data
@@ -146,7 +146,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".figgodriver.SplashActivity"
+            android:name=".figgodriver.UI.SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>
@@ -160,7 +160,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".figgodriver.AccountDetails"
+            android:name=".figgodriver.UI.AccountDetails"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
 

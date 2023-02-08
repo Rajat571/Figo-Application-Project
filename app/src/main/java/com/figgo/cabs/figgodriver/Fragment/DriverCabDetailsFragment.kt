@@ -35,11 +35,11 @@ import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.databinding.FragmentDriverCabDetailsBinding
 import com.figgo.cabs.figgodriver.Adapter.SpinnerAdapter
-import com.figgo.cabs.figgodriver.DriverDashBoard
 
 import com.figgo.cabs.figgodriver.model.SpinnerObj
 import com.figgo.cabs.pearllib.BaseClass
 import com.figgo.cabs.pearllib.BasePrivate
+import com.figgo.cabs.pearllib.Helper
 import kotlinx.android.synthetic.main.cancel_ride_dialog.*
 import kotlinx.android.synthetic.main.fragment_driver_cab_details.*
 import org.json.JSONObject
@@ -626,8 +626,6 @@ class DriverCabDetailsFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 // Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
                 fetchCabCategory(position)
-
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -714,7 +712,8 @@ class DriverCabDetailsFragment : Fragment() {
         prefManager= PrefManager(baseApbcContext!!)
         var hashMap : HashMap<String, Int> = HashMap<String, Int> ()
         var state_id:Int = 0
-        val URL = " https://test.pearl-developer.com/figo/api/get-state"
+        //val URL = " https://test.pearl-developer.com/figo/api/get-state"
+        var URL=Helper.get_state
         val queue = Volley.newRequestQueue(baseApbcContext)
         val json = JSONObject()
 
@@ -755,7 +754,6 @@ class DriverCabDetailsFragment : Fragment() {
                                     fetchCity(stateadapter.getItem(position)!!.id.toInt())
                                 }
 
-
                             }
 
                             @SuppressLint("SetTextI18n")
@@ -779,7 +777,8 @@ class DriverCabDetailsFragment : Fragment() {
         citylist.clear()
         //prefManager=PrefManager(baseApbcContext!!)
         var cityhashMap : HashMap<String, Int> = HashMap<String, Int> ()
-        val URL = " https://test.pearl-developer.com/figo/api/get-city"
+       // val URL = " https://test.pearl-developer.com/figo/api/get-city"
+        var URL=Helper.get_city
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
         //    var token= prefManager.getToken()
@@ -850,7 +849,9 @@ class DriverCabDetailsFragment : Fragment() {
 
     private fun fetchCabCategory(position: Int) {
         hashMap.clear()
-        val URL = " https://test.pearl-developer.com/figo/api/f_category"
+        //val URL = " https://test.pearl-developer.com/figo/api/f_category"
+        val URL=Helper.f_category
+        Log.d("SendData", "URL===" + URL)
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
         var token= prefManager.getToken()
@@ -911,13 +912,14 @@ class DriverCabDetailsFragment : Fragment() {
 
     private fun fetchModel(position: Int) {
         modelHashMap.clear()
-        val URL = "https://test.pearl-developer.com/figo/api/f_model"
+        //val URL = "https://test.pearl-developer.com/figo/api/f_model"
+        var URL=Helper.f_model
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
         var token= prefManager.getToken()
 
         json.put("category_id",position)
-
+        Log.d("SendData", "json===" + URL)
         Log.d("SendData", "json===" + json)
 
         val jsonOblect=
@@ -1541,7 +1543,8 @@ Toast.makeText(requireContext(),"Please upload images",Toast.LENGTH_SHORT).show(
         binding.work.isVisible = false
         binding.uploadImage.isVisible = false
         Log.d("SendData", "updatedStateList==="+updatedStateList)
-        val URL = "https://test.pearl-developer.com/figo/api/regitser-driver"
+        //val URL = "https://test.pearl-developer.com/figo/api/regitser-driver"
+        var URL=Helper.regitser_driver
         Log.d("SendData", "URL===" + URL)
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
@@ -1649,7 +1652,8 @@ Toast.makeText(requireContext(),"Please upload images",Toast.LENGTH_SHORT).show(
     }
 
     private fun sendreferal(ipAddress: String) {
-        var baseurl="https://test.pearl-developer.com/figo/api/refer/create-referel"
+       // var baseurl="https://test.pearl-developer.com/figo/api/refer/create-referel"
+        var baseurl=Helper.create_referel
         var queue= Volley.newRequestQueue(requireContext())
         var json= JSONObject()
 

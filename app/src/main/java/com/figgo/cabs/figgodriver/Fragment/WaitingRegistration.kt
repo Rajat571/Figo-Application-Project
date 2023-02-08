@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,8 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
-import com.figgo.cabs.figgodriver.DriverDashBoard
+import com.figgo.cabs.figgodriver.UI.DriverDashBoard
+import com.figgo.cabs.pearllib.Helper
 import org.json.JSONObject
 
 
@@ -95,7 +95,8 @@ class WaitingRegistration : Fragment() {
         dialog.getWindow()?.setGravity(Gravity.BOTTOM);*/
         dialog = ProgressDialog.show(requireContext(), "", "Please wait for approval...")
 
-        var baseurl="https://test.pearl-developer.com/figo/api/check-status"
+       // var baseurl="https://test.pearl-developer.com/figo/api/check-status"
+        var baseurl=Helper.check_status
         var queue=Volley.newRequestQueue(requireContext())
         var json=JSONObject()
         json.put("token", prefManager.getToken())

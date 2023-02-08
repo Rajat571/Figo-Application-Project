@@ -1,10 +1,9 @@
-package com.figgo.cabs.figgodriver
+package com.figgo.cabs.figgodriver.UI
 
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
-import android.location.Location
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -27,7 +26,8 @@ import com.android.volley.toolbox.Volley
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.databinding.ActivityCustomerCityRideDetailBinding
-import com.google.android.gms.location.LocationRequest
+import com.figgo.cabs.figgodriver.MapData
+import com.figgo.cabs.pearllib.Helper
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -35,9 +35,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
-import com.google.android.gms.tasks.CancellationToken
-import com.google.android.gms.tasks.CancellationTokenSource
-import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -117,9 +114,7 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                   sec=60
               }
 
-
             }
-
 
             override fun onFinish() {
 finished=true
@@ -152,7 +147,9 @@ finished=true
 
 
             submit.setOnClickListener {
-                val otp1 = "https://test.pearl-developer.com/figo/api/driver-ride/check-ride-otp"
+               // val otp1 = "https://test.pearl-developer.com/figo/api/driver-ride/check-ride-otp"
+                var otp1=Helper.check_ride_otp
+                Log.d("VerifyNumber","URL"+otp1)
                 val queue2 = Volley.newRequestQueue(this@CustomerCityRideDetailActivity)
                 val json2 = JSONObject()
                 var otp=ridestartotp.text.toString()
