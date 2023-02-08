@@ -65,6 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Resent OTP"
+        android:visibility="gone"
         android:textColor="@color/white"
         android:backgroundTint="#236A8B"
         android:id="@+id/resent_otp"

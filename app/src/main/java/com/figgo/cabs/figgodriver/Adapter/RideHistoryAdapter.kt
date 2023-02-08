@@ -189,6 +189,7 @@ class RideHistoryAdapter(var data: List<String>,var x:Int,var context:Context):R
             holder.boxTV.setTextColor(context.getColor(R.color.white))
         }else if(x%2==0) {
             holder.block.setBackgroundColor(Color.LTGRAY)
+            holder.side.setBackgroundColor(Color.LTGRAY)
         }
     }
 
@@ -202,4 +203,5 @@ class RideHistoryAdapter(var data: List<String>,var x:Int,var context:Context):R
 class RideHistoryHolder(itemView: View):ViewHolder(itemView){
     var boxTV=itemView.findViewById<TextView>(R.id.tablecontentTV)
     var block = itemView.findViewById<LinearLayout>(R.id.blocklinear)
+    var side = itemView.findViewById<LinearLayout>(R.id.history_side_band)
 }

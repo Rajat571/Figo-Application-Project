@@ -25,5 +25,7 @@
     android:layout_width="@dimen/_1sdp"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:id="@+id/history_side_band"
+    android:orientation="vertical"
     />
 </LinearLayout>
