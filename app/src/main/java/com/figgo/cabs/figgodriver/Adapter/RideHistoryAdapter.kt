@@ -16,6 +16,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
+import com.figgo.cabs.pearllib.Helper
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -32,7 +33,9 @@ class RideHistoryAdapter(var data: List<String>,var x:Int,var context:Context):R
             holder.boxTV.setBackgroundColor(context.getColor(R.color.app_color))
             holder.boxTV.setTextColor(context.getColor(R.color.white))
             holder.boxTV.setOnClickListener {
-                var url3 = "https://test.pearl-developer.com/figo/api/driver/ride-history"
+                //var url3 = "https://test.pearl-developer.com/figo/api/driver/ride-history"
+                var url3=Helper.ride_history
+                Log.d("RideHistory","URL"+url3)
 
                 val dialog = Dialog(context)
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)

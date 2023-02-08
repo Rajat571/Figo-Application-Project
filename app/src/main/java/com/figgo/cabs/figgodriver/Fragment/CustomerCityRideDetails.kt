@@ -1,7 +1,6 @@
 package com.figgo.cabs.figgodriver.Fragment
 
 import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -18,7 +17,7 @@ import androidx.databinding.DataBindingUtil
 import com.figgo.cabs.R
 import com.figgo.cabs.databinding.FragmentCustomerCityRideDetailsBinding
 
-import com.figgo.cabs.figgodriver.StartRideActivity
+import com.figgo.cabs.figgodriver.UI.StartRideActivity
 
 
 class CustomerCityRideDetails : Fragment() {

@@ -1,4 +1,4 @@
-package com.figgo.cabs.figgodriver
+package com.figgo.cabs.figgodriver.UI
 
 import android.content.Intent
 import android.graphics.Color

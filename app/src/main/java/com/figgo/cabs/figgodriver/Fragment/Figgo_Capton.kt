@@ -25,6 +25,7 @@ import com.figgo.cabs.figgodriver.Adapter.SpinnerAdapter
 import com.figgo.cabs.figgodriver.model.SpinnerObj
 import com.figgo.cabs.pearllib.BaseClass
 import com.figgo.cabs.pearllib.BasePrivate
+import com.figgo.cabs.pearllib.Helper
 
 import kotlinx.android.synthetic.main.fragment_driver_cab_details.view.*
 import kotlinx.android.synthetic.main.fragment_figgo__capton.*
@@ -56,12 +57,6 @@ class Figgo_Capton : Fragment(){
         /*****************************    PrefManager initialization  *******************************************/
 
         prefManager = PrefManager(requireContext())
-        binding.drivername.hint=""
-        binding.drivername.hint=prefManager.getDriverName()
-        binding.drivermobileno.hint=prefManager.getMobileNo()
-        binding.driverdlno.hint=prefManager.getDL_No()
-        binding.driverPanNo.hint=prefManager.getDriverPan_no()
-        binding.driverAdharNo.hint=prefManager.getDriverAadhar_no()
 
         /*****************************    BaseClass initialization  *******************************************/
         baseclass=object : BaseClass(){
@@ -86,9 +81,7 @@ class Figgo_Capton : Fragment(){
             }
 
         }
-
         fetchState()
-
 
         binding.llAadharFront.setOnClickListener {
             val intent = Intent()
@@ -124,8 +117,6 @@ class Figgo_Capton : Fragment(){
 
         next.setOnClickListener {
 
-
-
             validateForm()
 
             var driver_name=binding.drivername.text.toString()
@@ -151,7 +142,9 @@ class Figgo_Capton : Fragment(){
     private fun fetchState() {
         statehashMap.clear()
         statelist.clear()
-        val URL = "https://test.pearl-developer.com/figo/api/get-state"
+       // val URL = "https://test.pearl-developer.com/figo/api/get-state"
+        var URL=Helper.get_state
+        Log.d("GetDATA","URL"+URL)
 
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
@@ -218,7 +211,9 @@ class Figgo_Capton : Fragment(){
     private fun fetchCity(id: Int) {
         cityhashMap.clear()
         citylist.clear()
-        val URL = " https://test.pearl-developer.com/figo/api/get-city"
+        //val URL = " https://test.pearl-developer.com/figo/api/get-city"
+        var URL=Helper.get_city
+        Log.d("Figgo_Capton","URL "+URL)
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
         var token= prefManager.getToken()
@@ -253,6 +248,7 @@ class Figgo_Capton : Fragment(){
                             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, position: Int, id: Long) {
 
                                 val id1 = stateadapter.getItem(position)?.id
+
                                 prefManager.setDriveCity(id1!!.toInt())
                                 Log.d("SendData", "cityid===" + id1)
 
@@ -271,8 +267,6 @@ class Figgo_Capton : Fragment(){
                 // Error
             }){}
         queue.add(jsonOblect)
-
-
     }
 
     private fun validateForm() {
@@ -286,9 +280,17 @@ class Figgo_Capton : Fragment(){
         if (baseclass.validateName(binding.drivername)&&baseclass.validateNumber(binding.drivermobileno)&&baseclass.validateDLNo(binding.driverdlno)&&baseclass.validatePanNo(binding.driverPanNo)&&baseclass.validateAadharNo(binding.driverAdharNo)){
 
             Navigation.findNavController(requireView()).navigate(R.id.action_figgo_Capton_to_driverCabDetailsFragment,args)
-
-
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        binding.drivername.setText(prefManager.getDriverName())
+        binding.drivermobileno.setText(prefManager.getMobileNo())
+        binding.driverdlno.setText(prefManager.getDL_No())
+        binding.driverPanNo.setText(prefManager.getDriverPan_no())
+        binding.driverAdharNo.setText(prefManager.getDriverAadhar_no())
     }
 
 }

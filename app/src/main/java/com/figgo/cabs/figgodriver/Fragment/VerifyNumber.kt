@@ -31,16 +31,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.tasks.Task
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.databinding.FragmentVerifyNumberBinding
-import com.figgo.cabs.figgodriver.DriverDashBoard
+import com.figgo.cabs.figgodriver.UI.DriverDashBoard
 
 import com.figgo.cabs.pearllib.BaseClass
+import com.figgo.cabs.pearllib.Helper
 import kotlinx.android.synthetic.main.fragment_m_pin_generate.*
 
 import org.json.JSONObject
@@ -175,8 +175,10 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
                 otp_screen.visibility=View.VISIBLE
 
                  mobile_num = binding.inputNumber.text.toString()
-                val URL = "https://test.pearl-developer.com/figo/api/create-driver"
-                val otp1 = "https://test.pearl-developer.com/figo/api/otp/send-otp"
+               // val URL = "https://test.pearl-developer.com/figo/api/create-driver"
+                var URL=Helper.create_driver
+               // val otp1 = "https://test.pearl-developer.com/figo/api/otp/send-otp"
+                val otp1=Helper.send_otp
                 val queue = Volley.newRequestQueue(requireContext())
                 val json = JSONObject()
                 json.put("mobile", mobile_num)
@@ -197,6 +199,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
                               //   status=user.getString("status").toInt()
                                // Log.d("VerifyNumber","STATUS"+status)
 
+                                Log.d("SendData", "check_otp===" + otp1)
                                 val queue2 = Volley.newRequestQueue(requireContext())
                                 val json2 = JSONObject()
                                 json2.put("type", "driver")
@@ -250,7 +253,9 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
     private fun verifyOTP(view: View) {
         var dialog=ProgressDialog(requireContext())
         dialog.show()
-        var otp_check_url="https://test.pearl-developer.com/figo/api/otp/check-otp"
+      //  var otp_check_url="https://test.pearl-developer.com/figo/api/otp/check-otp"
+        var otp_check_url=Helper.check_otp
+        Log.d("VerifyNumber","otp_check"+otp_check_url)
 
         var input_otp=view.findViewById<TextView>(R.id.enteredOTP).text.toString()
         Log.d("VerifyNumber","input_otp"+input_otp)
@@ -290,7 +295,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
                                 Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
                             }*/
                             else {
-                                startActivity(Intent(requireContext(),DriverDashBoard::class.java))
+                                startActivity(Intent(requireContext(), DriverDashBoard::class.java))
                             }
                         //}
                  //   }
@@ -315,7 +320,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
                            }
                           else{*/
                         dialog.hide()
-                        startActivity(Intent(requireContext(),DriverDashBoard::class.java))
+                        startActivity(Intent(requireContext(), DriverDashBoard::class.java))
                     }
                 }
 

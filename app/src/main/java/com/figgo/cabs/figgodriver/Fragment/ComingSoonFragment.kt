@@ -1,4 +1,4 @@
-package com.figgo.cabs.figgodriver
+package com.figgo.cabs.figgodriver.Fragment
 
 import android.os.Bundle
 import android.view.KeyEvent
@@ -16,11 +16,6 @@ import com.figgo.cabs.R
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ComingSoonFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ComingSoonFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null

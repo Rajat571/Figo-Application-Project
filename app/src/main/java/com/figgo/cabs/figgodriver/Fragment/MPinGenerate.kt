@@ -10,14 +10,12 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.databinding.FragmentMPinGenerateBinding
 
-import com.figgo.cabs.figgodriver.DriverDashBoard
+import com.figgo.cabs.figgodriver.UI.DriverDashBoard
 import com.figgo.cabs.pearllib.BaseClass
-import kotlinx.android.synthetic.main.fragment_m_pin_generate.*
 
 //import com.pearl.figgodriver.R
 //import com.example.figgodriver.R

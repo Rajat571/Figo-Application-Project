@@ -25,6 +25,7 @@ import com.figgo.cabs.figgodriver.Adapter.CityRideAdvanceListAdapter
 import com.figgo.cabs.figgodriver.Adapter.CityRideCurrentListAdapter
 import com.figgo.cabs.figgodriver.model.CityAdvanceRideList
 import com.figgo.cabs.figgodriver.model.CityCurrentRidesList
+import com.figgo.cabs.pearllib.Helper
 import com.google.android.gms.maps.model.*
 import org.json.JSONObject
 import java.io.File
@@ -95,7 +96,9 @@ class CityRideFragment : Fragment() {
     }
 
     private fun submitCurrentRideForm(view: View){
-        val URL = "https://test.pearl-developer.com/figo/api/driver-ride/get-city-ride-request"
+       // val URL = "https://test.pearl-developer.com/figo/api/driver-ride/get-city-ride-request"
+        var URL=Helper.customer_booking_list
+        Log.d("CityRideFragment", "CITY_RIDE_FRAGMENT Current===" + URL)
         val queue = Volley.newRequestQueue(requireContext())
 
         val jsonOblect: JsonObjectRequest =
@@ -202,9 +205,10 @@ class CityRideFragment : Fragment() {
 
     private fun submitAdvanceRideForm(view: View) {
 
-        val URL = " https://test.pearl-developer.com/figo/api/driver-ride/get-city-ride-request"
+        //val URL = " https://test.pearl-developer.com/figo/api/driver-ride/get-city-ride-request"
+        var URL=Helper.customer_booking_list
         val queue = Volley.newRequestQueue(requireContext())
-
+        Log.d("CityRideFragment", "CITY_RIDE_FRAGMENT Current===" + URL)
         val jsonOblect: JsonObjectRequest =
             object : JsonObjectRequest(Method.POST, URL,null,
                 Response.Listener<JSONObject?> { response ->

@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.figgo.cabs.R
-import com.figgo.cabs.figgodriver.CityRideActivity
+import com.figgo.cabs.figgodriver.UI.CityRideActivity
 import com.figgo.cabs.figgodriver.model.CityAdvanceRideList
 import java.io.File
 

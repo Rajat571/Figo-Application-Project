@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.figgo.cabs.R
 
-import com.figgo.cabs.figgodriver.DriverDashBoard
+import com.figgo.cabs.figgodriver.UI.DriverDashBoard
 import com.figgo.cabs.figgodriver.Fragment.ViewRideDialog
 import com.figgo.cabs.figgodriver.model.ActiveRide
 
