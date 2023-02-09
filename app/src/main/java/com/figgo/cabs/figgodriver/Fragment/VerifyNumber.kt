@@ -38,9 +38,10 @@ import com.google.android.gms.tasks.Task
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.databinding.FragmentVerifyNumberBinding
-import com.figgo.cabs.figgodriver.DriverDashBoard
+import com.figgo.cabs.figgodriver.UI.DriverDashBoard
 
 import com.figgo.cabs.pearllib.BaseClass
+import com.figgo.cabs.pearllib.Helper
 import kotlinx.android.synthetic.main.fragment_m_pin_generate.*
 
 import org.json.JSONObject
@@ -184,8 +185,10 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
             otp_screen.visibility = View.VISIBLE
 
 
-            val URL = "https://test.pearl-developer.com/figo/api/create-driver"
-            val otp1 = "https://test.pearl-developer.com/figo/api/otp/send-otp"
+            //val URL = "https://test.pearl-developer.com/figo/api/create-driver"
+        var URL=Helper.create_driver
+          //  val otp1 = "https://test.pearl-developer.com/figo/api/otp/send-otp"
+        val otp1= Helper.send_otp
             val queue = Volley.newRequestQueue(requireContext())
             val json = JSONObject()
             json.put("mobile", mobile_num)
@@ -264,7 +267,9 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
     private fun verifyOTP(view: View) {
         var dialog=ProgressDialog(requireContext())
         dialog.show()
-        var otp_check_url="https://test.pearl-developer.com/figo/api/otp/check-otp"
+        //  var otp_check_url="https://test.pearl-developer.com/figo/api/otp/check-otp"
+        var otp_check_url=Helper.check_otp
+        Log.d("VerifyNumber","otp_check"+otp_check_url)
 
         var input_otp=view.findViewById<TextView>(R.id.enteredOTP).text.toString()
         Log.d("VerifyNumber","input_otp"+input_otp)
@@ -280,36 +285,36 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
 
             Log.d("VerifyNumber","OTP Check RESPONSE"+response)
 
-                if (input_otp.toInt()!=getotp) {
-                    dialog.hide()
-                    Toast.makeText(requireContext(), "incorrect otp"+response.getString("message"), Toast.LENGTH_SHORT).show()
-                } else{
-                    dialog.hide()
-                    prefManager.setToken(token)
+            if (input_otp.toInt()!=getotp) {
+                dialog.hide()
+                Toast.makeText(requireContext(), "incorrect otp"+response.getString("message"), Toast.LENGTH_SHORT).show()
+            } else{
+                dialog.hide()
+                prefManager.setToken(token)
 
-                    prefManager.setisValidLogin(true)
-                    var user=response.getJSONObject("user")
-                    var  statuss=user.getString("status").toInt()
+                prefManager.setisValidLogin(true)
+                var user=response.getJSONObject("user")
+                var  statuss=user.getString("status").toInt()
 
-                    if (statuss.equals(0)) {
+                if (statuss.equals(0)) {
                     dialog.hide()
-                /*    if (prefManager.getToken().equals("") || prefManager.getToken().equals("null")) {*/
-                     /*   if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")) {
-                            Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
-                        } else {*/
-                            if (profile_status==0 || prefManager.getRegistrationToken().equals("")) {
-                                Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
-                            }
-                           /* else if (status.equals(0)||status==0){
-                                Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
-                            }*/
-                            else {
-                                startActivity(Intent(requireContext(),DriverDashBoard::class.java))
-                            }
-                        //}
-                 //   }
-               /*     else {
-                      *//*  if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")
+                    /*    if (prefManager.getToken().equals("") || prefManager.getToken().equals("null")) {*/
+                    /*   if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")) {
+                           Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
+                       } else {*/
+                    if (profile_status==0 || prefManager.getRegistrationToken().equals("")) {
+                        Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                    }
+                    /* else if (status.equals(0)||status==0){
+                         Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                     }*/
+                    else {
+                        startActivity(Intent(requireContext(), DriverDashBoard::class.java))
+                    }
+                    //}
+                    //   }
+                    /*     else {
+                           *//*  if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")
                         ) {
                             Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
                         } else {*//*
@@ -322,16 +327,16 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
                     }*/
                     // Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
                 }
-                    else{
-                        /*   dialog.hide()
-                         if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")) {
-                               Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
-                           }
-                          else{*/
-                        dialog.hide()
-                        startActivity(Intent(requireContext(),DriverDashBoard::class.java))
-                    }
+                else{
+                    /*   dialog.hide()
+                     if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")) {
+                           Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
+                       }
+                      else{*/
+                    dialog.hide()
+                    startActivity(Intent(requireContext(), DriverDashBoard::class.java))
                 }
+            }
 
 
         },object :Response.ErrorListener{
@@ -345,7 +350,6 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
         queue.add(jsonObjectRequest)
 
     }
-
     override fun onConnectionFailed(p0: ConnectionResult) {
         TODO("Not yet implemented")
     }
