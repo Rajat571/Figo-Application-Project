@@ -48,8 +48,8 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     lateinit var prefManager: PrefManager
     lateinit var binding:ActivityCustomerCityRideDetailBinding
-    lateinit var layout_accept_wait:LinearLayout
-    lateinit var layout_customer_city_ride:LinearLayout
+    //lateinit var layout_accept_wait:LinearLayout
+    //lateinit var layout_customer_city_ride:LinearLayout
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,8 +68,8 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         destinationLongitude=intent.getStringExtra("from_location_long")!!.toDouble()
         prefManager=PrefManager(this)
 
-        layout_accept_wait=findViewById(R.id.accept_wait_layout)
-        layout_customer_city_ride=findViewById(R.id.city_ride_activitylayout)
+       // layout_accept_wait=findViewById(R.id.accept_wait_layout)
+        //layout_customer_city_ride=findViewById(R.id.city_ride_activitylayout)
         var mapFragmentt=supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragmentt.getMapAsync(this)
 
@@ -95,7 +95,7 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         loc.add("Hallomajra Light")
         loc.add("Sanvg, Ambala")
         loc.add("Haryana, India")
-        var min=5
+        /*var min=5
         var sec:Int=60
         var finished:Boolean=false
         var timertv = findViewById<TextView>(R.id.timer5min)
@@ -122,7 +122,7 @@ finished=true
 
             }
         }
-        timer.start()
+        timer.start()*/
        // if(finished)
 
         start.setOnClickListener {
@@ -275,10 +275,10 @@ finished=true
         }
         return poly
     }
-fun navigatenext(){
+/*fun navigatenext(){
 
         //startActivity(Intent(this, DriverDashBoard::class.java))
     layout_accept_wait.visibility=View.GONE
     layout_customer_city_ride.visibility=View.VISIBLE
-    }
+    }*/
 }

@@ -31,7 +31,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.tasks.Task
@@ -56,15 +55,14 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
     lateinit var vieW: View
     lateinit var googleApiClient: GoogleApiClient
     private val RC_SIGN_IN = 1
-    lateinit var resent_otp:Button
+
     var driver_id:String=""
     var profile_status=0
     var token:String=""
     var mobile_num=""
     var getotp=0
     var status=0
-    lateinit var otp_screen:CardView
-   lateinit var view_timer:TextView
+    lateinit var view_timer:TextView
     lateinit var cTimer:CountDownTimer
     var googleSignInClient: GoogleSignInClient? = null
     lateinit var dialog:ProgressDialog
@@ -75,7 +73,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
     ): View? {
         // Inflate the layout for this fragment
 
-         binding=DataBindingUtil.inflate(inflater, R.layout.fragment_verify_number, container, false)
+        binding=DataBindingUtil.inflate(inflater, R.layout.fragment_verify_number, container, false)
         var view=binding.root
 
         return view
@@ -88,8 +86,8 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
         dialog= ProgressDialog(requireContext())
         startTimer()
 
-      vieW = view
-        otp_screen = view.findViewById<CardView>(R.id.otp_screen)
+        vieW = view
+        var otp_screen = view.findViewById<CardView>(R.id.otp_screen)
         prefManager = PrefManager(requireContext())
         binding.chooseUser.isVisible = true
         otp_screen.visibility=View.GONE
@@ -114,155 +112,143 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
                 TODO("Not yet implemented")
             }
         }
-       var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .build()
-        
+
         googleSignInClient = GoogleSignIn.getClient(requireContext(), gso);
 
         val account = GoogleSignIn.getLastSignedInAccount(requireContext())
 
-     /*   val signInButton: SignInButton = view.findViewById(R.id.sign_in_button)
-        signInButton.setSize(SignInButton.SIZE_STANDARD)
-        signInButton.setOnClickListener {
-            val signInIntent: Intent = googleSignInClient!!.getSignInIntent()
-            startActivityForResult(signInIntent, RC_SIGN_IN)
-        }*/
+        /*   val signInButton: SignInButton = view.findViewById(R.id.sign_in_button)
+           signInButton.setSize(SignInButton.SIZE_STANDARD)
+           signInButton.setOnClickListener {
+               val signInIntent: Intent = googleSignInClient!!.getSignInIntent()
+               startActivityForResult(signInIntent, RC_SIGN_IN)
+           }*/
         binding.number.setOnClickListener {
             binding.llNumber.isVisible=true
             binding.inputEmail.isVisible=false
         }
         var verify_btn=view.findViewById<Button>(R.id.otp_Verify_button)
-         view_timer=view.findViewById<TextView>(R.id.view_timer)
-        resent_otp=view.findViewById<Button>(R.id.resent_otp)
+        view_timer=view.findViewById<TextView>(R.id.view_timer)
+        var resentOTP=view.findViewById<Button>(R.id.resent_otp)
 
-        if ( baseClass.validateNumber(binding.inputNumber)) {
-            mobile_num = binding.inputNumber.text.toString()
+
+        verify_btn.setOnClickListener {
+            verifyOTP(view)
         }
 
-         verify_btn.setOnClickListener {
-             verifyOTP(view)
-        }
+        resentOTP.setOnClickListener {
+            verifyOTP(view)
+            /*   val otp1 = "https://test.pearl-developer.com/figo/api/otp/send-otp"
 
-        resent_otp.setOnClickListener {
-            sendOTP()
-         /*   val otp1 = "https://test.pearl-developer.com/figo/api/otp/send-otp"
+               val queue2 = Volley.newRequestQueue(requireContext())
+               val json2 = JSONObject()
+               json2.put("type", "driver")
+               json2.put("type_id", driver_id.toInt())
+               json2.put("contact_no", mobile_num)
 
-            val queue2 = Volley.newRequestQueue(requireContext())
-            val json2 = JSONObject()
-            json2.put("type", "driver")
-            json2.put("type_id", driver_id.toInt())
-            json2.put("contact_no", mobile_num)
+               Log.d("OTP", "json2===" + json2)
 
-            Log.d("OTP", "json2===" + json2)
+               var jsonObjectRequest=object :JsonObjectRequest(Method.POST,otp1,json2,Response.Listener<JSONObject>
+               {response ->
 
-            var jsonObjectRequest=object :JsonObjectRequest(Method.POST,otp1,json2,Response.Listener<JSONObject>
-            {response ->
+                   Log.d("VerifyNumber","OTPresponse"+response)
+               },object :Response.ErrorListener{
+                   override fun onErrorResponse(error: VolleyError?) {
+                       Log.d("VerifyNumber","ERROR"+error)
+                       Toast.makeText(requireContext(),"Something went wrong",Toast.LENGTH_SHORT).show()
+                   }
+               }){
 
-                Log.d("VerifyNumber","OTPresponse"+response)
-            },object :Response.ErrorListener{
-                override fun onErrorResponse(error: VolleyError?) {
-                    Log.d("VerifyNumber","ERROR"+error)
-                    Toast.makeText(requireContext(),"Something went wrong",Toast.LENGTH_SHORT).show()
-                }
-            }){
-
-            }
-            queue2.add(jsonObjectRequest)*/
+               }
+               queue2.add(jsonObjectRequest)*/
 
         }
-
         binding.continuetv.setOnClickListener {
-            sendOTP()
+            dialog.show()
+            if ( baseClass.validateNumber(binding.inputNumber)){
 
-            }
-        }
+                //binding.progress.isVisible = true
+                binding.chooseUser.isVisible = false
+                otp_screen.visibility=View.VISIBLE
 
-    private fun sendOTP() {
-        dialog.show()
-            //binding.progress.isVisible = true
-            binding.chooseUser.isVisible = false
-            otp_screen.visibility = View.VISIBLE
+                mobile_num = binding.inputNumber.text.toString()
+                // val URL = "https://test.pearl-developer.com/figo/api/create-driver"
+                var URL=Helper.create_driver
+                // val otp1 = "https://test.pearl-developer.com/figo/api/otp/send-otp"
+                val otp1=Helper.send_otp
+                val queue = Volley.newRequestQueue(requireContext())
+                val json = JSONObject()
+                json.put("mobile", mobile_num)
+                Log.d("VerifyNumber", "response===" + URL)
+                val jsonOblect: JsonObjectRequest =
+                    object : JsonObjectRequest(Method.POST, URL, json, object :
+                        Response.Listener<JSONObject?>               {
+                        override fun onResponse(response: JSONObject?) {
 
+                            Log.d("SendData", "response===" + response)
+                            if (response != null) {
+                                token = response.getString("token")
+                                Log.d("SendData", "token===" + token)
 
-            //val URL = "https://test.pearl-developer.com/figo/api/create-driver"
-        var URL=Helper.create_driver
-          //  val otp1 = "https://test.pearl-developer.com/figo/api/otp/send-otp"
-        val otp1= Helper.send_otp
-            val queue = Volley.newRequestQueue(requireContext())
-            val json = JSONObject()
-            json.put("mobile", mobile_num)
-            Log.d("VerifyNumber", "response===" + URL)
-            val jsonOblect: JsonObjectRequest =
-                object : JsonObjectRequest(Method.POST, URL, json,
-                    Response.Listener<JSONObject?> { response ->
-                        Log.d("SendData", "response===" + response)
-                        if (response != null) {
-                            token = response.getString("token")
-                            Log.d("SendData", "token===" + token)
+                                profile_status = response.getString("profile_status").toInt()
+                                driver_id = response.getJSONObject("user").getString("id")
+                                // var user=response.getJSONObject("user")
+                                //   status=user.getString("status").toInt()
+                                // Log.d("VerifyNumber","STATUS"+status)
 
-                            profile_status = response.getString("profile_status").toInt()
-                            driver_id = response.getJSONObject("user").getString("id")
-                            // var user=response.getJSONObject("user")
-                            //   status=user.getString("status").toInt()
-                            // Log.d("VerifyNumber","STATUS"+status)
+                                Log.d("SendData", "check_otp===" + otp1)
+                                val queue2 = Volley.newRequestQueue(requireContext())
+                                val json2 = JSONObject()
+                                json2.put("type", "driver")
+                                json2.put("type_id", driver_id.toInt())
+                                json2.put("contact_no", mobile_num)
 
-                            val queue2 = Volley.newRequestQueue(requireContext())
-                            val json2 = JSONObject()
-                            json2.put("type", "driver")
-                            json2.put("type_id", driver_id.toInt())
-                            json2.put("contact_no", mobile_num)
+                                Log.d("OTP", "json2===" + json2)
 
-                            Log.d("OTP", "json2===" + json2)
-
-                            var jsonObjectRequest = object : JsonObjectRequest(Method.POST,
-                                otp1,
-                                json2,
-                                Response.Listener<JSONObject>
-                                { response ->
-                                    getotp = response.getString("otp").toInt()
-                                    Log.d("VerifyNumber", "getotp" + getotp)
+                                var jsonObjectRequest=object :JsonObjectRequest(Method.POST,otp1,json2,Response.Listener<JSONObject>
+                                {response ->
+                                    getotp=response.getString("otp").toInt()
+                                    Log.d("VerifyNumber","getotp"+getotp)
                                     dialog.hide()
 
-                                    Log.d("VerifyNumber", "OTPresponse" + response)
-                                },
-                                object : Response.ErrorListener {
+                                    Log.d("VerifyNumber","OTPresponse"+response)
+                                },object :Response.ErrorListener{
                                     override fun onErrorResponse(error: VolleyError?) {
                                         dialog.hide()
-                                        Log.d("VerifyNumber", "ERROR" + error)
-                                        Toast.makeText(
-                                            requireContext(),
-                                            "Something went wrong",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                        Log.d("VerifyNumber","ERROR"+error)
+                                        Toast.makeText(requireContext(),"Something went wrong",Toast.LENGTH_SHORT).show()
                                     }
-                                }) {
+                                }){
+
+                                }
+                                queue2.add(jsonObjectRequest)
+
 
                             }
-                            queue2.add(jsonObjectRequest)
-
-
+                            // Get your json response and convert it to whatever you want.
                         }
-                        // Get your json response and convert it to whatever you want.
                     }, object : Response.ErrorListener {
-                    override fun onErrorResponse(error: VolleyError?) {
-                        // Error
+                        override fun onErrorResponse(error: VolleyError?) {
+                            // Error
+                        }
+                    }) {
+                        @SuppressLint("SuspiciousIndentation")
+                        @Throws(AuthFailureError::class)
+                        override fun getHeaders(): Map<String, String> {
+                            val headers: MutableMap<String, String> = HashMap()
+                            headers.put("Content-Type", "application/json; charset=UTF-8");
+                            headers.put("Accept","application/vnd.api+json");
+                            return headers
+                        }
                     }
-                }) {
-                    @SuppressLint("SuspiciousIndentation")
-                    @Throws(AuthFailureError::class)
-                    override fun getHeaders(): Map<String, String> {
-                        val headers: MutableMap<String, String> = HashMap()
-                        headers.put("Content-Type", "application/json; charset=UTF-8");
-                        headers.put("Accept", "application/vnd.api+json");
-                        return headers
-                    }
-                }
 
-            queue.add(jsonOblect)
-
+                queue.add(jsonOblect)
+            }
+        }
     }
-
 
     private fun verifyOTP(view: View) {
         var dialog=ProgressDialog(requireContext())
@@ -350,6 +336,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
         queue.add(jsonObjectRequest)
 
     }
+
     override fun onConnectionFailed(p0: ConnectionResult) {
         TODO("Not yet implemented")
     }
@@ -393,7 +380,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
             }
 
             // Signed in successfully, show authenticated UI.
-           // updateUI(account)
+            // updateUI(account)
         } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
@@ -410,8 +397,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
             }
 
             override fun onFinish() {
-                view_timer.setText("Resend OTP!")
-                resent_otp.visibility=View.VISIBLE
+                view_timer.setText("Re send OTP!")
 
             }
         }

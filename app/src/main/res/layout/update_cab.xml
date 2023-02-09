@@ -241,7 +241,7 @@
                         android:padding="3dp"/>-->
 
                         <Spinner
-                            android:id="@+id/show_cab_category"
+                            android:id="@+id/drivershow_cab_category"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </LinearLayout>

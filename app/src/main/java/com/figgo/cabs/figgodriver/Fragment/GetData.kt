@@ -25,16 +25,25 @@ import com.figgo.cabs.pearllib.BasePrivate
 import com.figgo.cabs.pearllib.Helper
 import org.json.JSONObject
 import retrofit2.http.GET
-import java.util.HashMap
+import java.util.*
+import kotlin.collections.ArrayList
 
 class GetData : Fragment() {
     val statelist: ArrayList<SpinnerObj> = ArrayList()
     val citylist: ArrayList<SpinnerObj> = ArrayList()
     var statehashMap : HashMap<String, Int> = HashMap<String, Int> ()
     var cityhashMap : HashMap<String, Int> = HashMap<String, Int> ()
+    var hashMap : HashMap<String, Int> = HashMap<String, Int> ()
+    var modelHashMap  : HashMap<String, Int> = HashMap<String, Int> ()
     lateinit var spinnerState:Spinner
     lateinit var spinnerCity:Spinner
+    var yearList= listOf<Int>()
+    lateinit var spinner_cabtype:Spinner
     lateinit var prefManager:PrefManager
+    lateinit var spinner_cabcategory:Spinner
+    lateinit var year:Spinner
+    var current_year:Int = 0
+    lateinit var carModel:Spinner
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -89,16 +98,27 @@ class GetData : Fragment() {
         var cab_view = view.findViewById<ConstraintLayout>(R.id.get_drivercab_layout)
 
         //DRIVER CAB AND WORK
-        var cab_category = view.findViewById<Spinner>(R.id.show_cab_category)
-        var cab_type = view.findViewById<Spinner>(R.id.show_cab_type)
+        spinner_cabtype = view.findViewById<Spinner>(R.id.drivershow_cab_category)
+         spinner_cabcategory = view.findViewById<Spinner>(R.id.show_cab_type)
         var vehicle_no = view.findViewById<EditText>(R.id.show_vechle_no)
-        var model_type = view.findViewById<Spinner>(R.id.show_model_type)
+        carModel = view.findViewById<Spinner>(R.id.show_model_type)
         var insurance_no = view.findViewById<EditText>(R.id.show_insurance_no)
         var local_permit = view.findViewById<EditText>(R.id.show_tax_permit_no)
         var national_permit = view.findViewById<EditText>(R.id.show_national_permit_date)
+        year = view.findViewById<Spinner>(R.id.show_year_list)
         //var URL2 = "https://test.pearl-developer.com/figo/api/driver/get-cab-work-details"
         var URL2=Helper.get_cab_work_details
         Log.d("GetDATA","URL"+URL2)
+
+        current_year   = Calendar.getInstance().get(Calendar.YEAR)
+        for(i in 2000..current_year)
+        {
+            yearList+=i
+
+        }
+        val dateadapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,yearList);
+        dateadapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+        year.adapter=dateadapter
 
         var queue2 = Volley.newRequestQueue(requireContext())
         var visible_view = bundle?.getString("Key")
@@ -147,6 +167,22 @@ class GetData : Fragment() {
                 insurance_no.setText(it.getString("insurance"))
                 local_permit.setText(it.getString("l_permit"))
                 national_permit.setText(it.getString("n_permit"))
+
+                var adapter = ArrayAdapter.createFromResource(requireContext(),R.array.CabType,android.R.layout.simple_spinner_item);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+                spinner_cabtype?.adapter = adapter
+                spinner_cabtype?.onItemSelectedListener = object :
+                    AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                        // Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
+                        fetchCabCategory2(position)
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>) {
+                        // write code to perform some action
+                    }
+                }
+
 
             },{
 
@@ -205,7 +241,7 @@ if(id.toInt()==stateid)
                         spinnerState.setAdapter(stateadapter)
                         Toast.makeText(requireContext(),"StateId "+stateid.toString(),Toast.LENGTH_SHORT).show()
                         if(x!=-1)
-                        spinnerState.setSelection(x)
+                         spinnerState.setSelection(x)
 
                         fetchCity(stateid,cityid)
                        spinnerState.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -302,6 +338,190 @@ if(id.toInt()==stateid)
             }){}
         queue.add(jsonOblect)
 
+
+    }
+
+    private fun fetchCabCategory(position: Int) {
+        hashMap.clear()
+        //val URL = " https://test.pearl-developer.com/figo/api/f_category"
+        val URL=Helper.f_category
+        Log.d("SendData", "URL===" + URL)
+        val queue = Volley.newRequestQueue(requireContext())
+        val json = JSONObject()
+        var token= prefManager.getToken()
+
+        json.put("type_id",position)
+
+        Log.d("SendData", "json===" + json)
+
+        val jsonOblect=
+            object : JsonObjectRequest(Method.POST, URL, json,
+                Response.Listener<JSONObject?> { response ->
+                    Log.d("SendData", "response===" + response)
+                    // Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
+                    if (response != null) {
+                        val status = response.getString("status")
+                        if(status.equals("1")){
+                            val jsonArray = response.getJSONArray("categories")
+                            for (i in 0..jsonArray.length()-1){
+                                val rec: JSONObject = jsonArray.getJSONObject(i)
+                                var name = rec.getString("name")
+                                var id = rec.getString("id")
+                                hashMap.put(name,id.toInt())
+                            }
+
+                            val cabcategoryadapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,hashMap.keys.toList());
+                            cabcategoryadapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+                            spinner_cabcategory.adapter = cabcategoryadapter
+                            spinner_cabcategory?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+
+                                    fetchModel(hashMap.values.toList()[position])
+                                    prefManager.setDriverCabCategory(hashMap.values.toList()[position].toString())
+                                    Log.d("DriverCabCategory","DriverCabCategory==="+ prefManager.setDriverCabCategory(hashMap.values.toList()[position].toString()))
+
+
+                                }
+
+                                override fun onNothingSelected(parent: AdapterView<*>) {
+                                    hashMap.clear()
+                                }
+                            }
+                        }else{
+                        }
+
+
+                        Log.d("SendData", "json===" + json)
+
+
+                    }
+                    // Get your json response and convert it to whatever you want.
+                }, Response.ErrorListener {
+                    // Error
+                }){}
+        queue.add(jsonOblect)
+
+    }
+
+
+    private fun fetchModel(position: Int) {
+        modelHashMap.clear()
+        //val URL = "https://test.pearl-developer.com/figo/api/f_model"
+        var URL=Helper.f_model
+        val queue = Volley.newRequestQueue(requireContext())
+        val json = JSONObject()
+        var token= prefManager.getToken()
+
+        json.put("category_id",position)
+        Log.d("SendData", "json===" + URL)
+        Log.d("SendData", "json===" + json)
+
+        val jsonOblect=
+            object : JsonObjectRequest(Method.POST, URL, json,
+                Response.Listener<JSONObject?> { response ->
+                    Log.d("SendData", "response===" + response)
+                    // Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
+                    if (response != null) {
+                        val status = response.getString("status")
+                        if(status.equals("1")){
+                            val jsonArray = response.getJSONArray("models")
+                            for (i in 0..jsonArray.length()-1){
+                                val rec: JSONObject = jsonArray.getJSONObject(i)
+                                var name = rec.getString("name")
+                                var id = rec.getString("id")
+                                modelHashMap.put(name,id.toInt())
+                            }
+
+                            val cabModeladapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,modelHashMap.keys.toList());
+                            cabModeladapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+                            carModel.adapter = cabModeladapter
+                            carModel?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                                    //  fetchModel(hashMap.values.toList()[position])
+                                    Log.d("SendData", "modelHashMap.values.toList()[position]===" + modelHashMap.values.toList()[position])
+                                    prefManager.setDriverVechleModel(modelHashMap.values.toList()[position])
+                                    Log.d("DriverVechleModel","DriverVechleModel==="+  prefManager.setDriverVechleModel(modelHashMap.values.toList()[position]))
+                                }
+
+                                override fun onNothingSelected(parent: AdapterView<*>) {
+                                    modelHashMap.clear()
+                                }
+                            }
+                        }else{
+
+                        }
+
+
+                        Log.d("SendData", "json===" + json)
+
+
+                    }
+                    // Get your json response and convert it to whatever you want.
+                }, Response.ErrorListener {
+                    // Error
+                }){}
+        queue.add(jsonOblect)
+
+    }
+    private fun fetchCabCategory2(position: Int) {
+        hashMap.clear()
+        //val URL = " https://test.pearl-developer.com/figo/api/f_category"
+        val URL=Helper.f_category
+        Log.d("SendData", "URL===" + URL)
+        val queue = Volley.newRequestQueue(requireContext())
+        val json = JSONObject()
+        var token= prefManager.getToken()
+
+        json.put("type_id",position)
+
+        Log.d("SendData", "json===" + json)
+
+        val jsonOblect=
+            object : JsonObjectRequest(Method.POST, URL, json,
+                Response.Listener<JSONObject?> { response ->
+                    Log.d("SendData", "response===" + response)
+                    // Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
+                    if (response != null) {
+                        val status = response.getString("status")
+                        if(status.equals("1")){
+                            val jsonArray = response.getJSONArray("categories")
+                            for (i in 0..jsonArray.length()-1){
+                                val rec: JSONObject = jsonArray.getJSONObject(i)
+                                var name = rec.getString("name")
+                                var id = rec.getString("id")
+                                hashMap.put(name,id.toInt())
+                            }
+
+                            val cabcategoryadapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,hashMap.keys.toList());
+                            cabcategoryadapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+                            spinner_cabcategory.adapter = cabcategoryadapter
+                            spinner_cabcategory?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+
+                                    fetchModel(hashMap.values.toList()[position])
+                                    prefManager.setDriverCabCategory(hashMap.values.toList()[position].toString())
+                                    Log.d("DriverCabCategory","DriverCabCategory==="+ prefManager.setDriverCabCategory(hashMap.values.toList()[position].toString()))
+
+
+                                }
+
+                                override fun onNothingSelected(parent: AdapterView<*>) {
+                                    hashMap.clear()
+                                }
+                            }
+                        }else{
+                        }
+
+
+                        Log.d("SendData", "json===" + json)
+
+
+                    }
+                    // Get your json response and convert it to whatever you want.
+                }, Response.ErrorListener {
+                    // Error
+                }){}
+        queue.add(jsonOblect)
 
     }
 

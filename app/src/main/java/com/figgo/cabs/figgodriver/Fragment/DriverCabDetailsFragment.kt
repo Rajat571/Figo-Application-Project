@@ -61,9 +61,10 @@ class DriverCabDetailsFragment : Fragment() {
     lateinit var spinner_cabcategory: Spinner
     lateinit var carModel:Spinner
     var hashMap : HashMap<String, Int> = HashMap<String, Int> ()
+    var modelHashMap  : HashMap<String, Int> = HashMap<String, Int> ()
     var stateList = kotlin.collections.ArrayList<String>()
     var updatedStateList = ArrayList<String>()
-    var modelHashMap  : HashMap<String, Int> = HashMap<String, Int> ()
+
     lateinit  var next  :TextView
     lateinit  var back  :TextView
     var current_year:Int = 0

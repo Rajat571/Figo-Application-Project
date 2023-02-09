@@ -309,7 +309,7 @@ class SupportFragment : Fragment() {
 
 
     private fun updateDriverCabDetails(view: View) {
-        var cab_category=view.findViewById<Spinner>(R.id.show_cab_category)
+        var cab_category=view.findViewById<Spinner>(R.id.drivershow_cab_category)
        cab_type=view.findViewById(R.id.show_cab_type)
         model_type=view.findViewById(R.id.show_model_type)
         year_list=view.findViewById<Spinner>(R.id.show_year_list)
