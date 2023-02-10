@@ -119,6 +119,24 @@ class GetData : Fragment() {
         val dateadapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,yearList);
         dateadapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
         year.adapter=dateadapter
+        year.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                // Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
+
+                val i = yearList[position]
+
+                //prefManager.setDriverVechleYear(i)
+                Log.d("Model year","Model year==="+i)
+                Log.d("Model year","Model year==="+ prefManager.setDriverVechleType(position.toString()))
+
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // write code to perform some action
+            }
+        }
 
         var queue2 = Volley.newRequestQueue(requireContext())
         var visible_view = bundle?.getString("Key")
@@ -177,12 +195,10 @@ class GetData : Fragment() {
                         // Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
                         fetchCabCategory2(position)
                     }
-
                     override fun onNothingSelected(parent: AdapterView<*>) {
                         // write code to perform some action
                     }
                 }
-
 
             },{
 
