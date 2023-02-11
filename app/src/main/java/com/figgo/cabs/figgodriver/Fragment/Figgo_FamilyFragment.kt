@@ -14,7 +14,7 @@ import com.figgo.cabs.databinding.FragmentFiggoFamilyBinding
 
 
 class Figgo_FamilyFragment : Fragment() {
-  lateinit var binding: FragmentFiggoFamilyBinding
+    lateinit var binding: FragmentFiggoFamilyBinding
     lateinit var prefManager: PrefManager
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,14 +29,14 @@ class Figgo_FamilyFragment : Fragment() {
         Log.d("onViewCreated","token == "+prefManager.getToken())
         Log.d("onViewCreated","id === "+ prefManager.getUserId())
 
-     binding.taxiPartner.setOnCheckedChangeListener { buttonView, isChecked ->
-         if (isChecked){
-             var args = Bundle()
-             args.putString("Parent","TaxiPartner");
+        binding.taxiPartner.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked){
+                var args = Bundle()
+                args.putString("Parent","TaxiPartner");
 
-             Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_comingSoonFragment,args)
-         }
-     }
+                Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_comingSoonFragment,args)
+            }
+        }
         binding.figgoDriver.setOnCheckedChangeListener { buttonView, isChecked ->
 
             if(isChecked){
@@ -48,7 +48,7 @@ class Figgo_FamilyFragment : Fragment() {
         binding.hotelPartner.setOnCheckedChangeListener { buttonView, isChecked ->
 
             if(isChecked){
-             //   var hotelPartner = PartnerWelcomeFragment()
+                //   var hotelPartner = PartnerWelcomeFragment()
                 var args = Bundle()
                 args.putString("Parent","HotelPartner");
 //                hotelPartner.arguments = args;

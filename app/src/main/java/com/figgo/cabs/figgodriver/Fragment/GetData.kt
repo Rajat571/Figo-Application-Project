@@ -1,5 +1,4 @@
 package com.figgo.cabs.figgodriver.Fragment
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -23,6 +22,7 @@ import com.figgo.cabs.figgodriver.model.SpinnerObj
 import com.figgo.cabs.pearllib.BaseClass
 import com.figgo.cabs.pearllib.BasePrivate
 import com.figgo.cabs.pearllib.Helper
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONObject
 import retrofit2.http.GET
 import java.util.*
@@ -41,9 +41,13 @@ class GetData : Fragment() {
     lateinit var spinner_cabtype:Spinner
     lateinit var prefManager:PrefManager
     lateinit var spinner_cabcategory:Spinner
+    lateinit var work_view:ConstraintLayout
     lateinit var year:Spinner
     var current_year:Int = 0
+    lateinit var cab_view:ConstraintLayout
+    lateinit var profile_view: LinearLayout
     lateinit var carModel:Spinner
+    lateinit var bottom_nav:BottomNavigationView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -94,8 +98,12 @@ class GetData : Fragment() {
         var driver_panNo = view.findViewById<EditText>(R.id.show_driverPanNo)
         var driver_adharNo = view.findViewById<EditText>(R.id.show_driverAdharNo)
         var outstationHaspMap =   ArrayList<String>()
-        var profile_view = view.findViewById<LinearLayout>(R.id.get_profile_layout)
-        var cab_view = view.findViewById<ConstraintLayout>(R.id.get_drivercab_layout)
+        profile_view = view.findViewById<LinearLayout>(R.id.get_profile_layout)
+        cab_view = view.findViewById<ConstraintLayout>(R.id.get_drivercab_layout)
+        work_view = view.findViewById(R.id.get_workarea_layout)
+        bottom_nav= view.findViewById<BottomNavigationView>(R.id.driverdetails_menu)
+        work_view.visibility=View.GONE
+        bottomNavClickListener()
 
         //DRIVER CAB AND WORK
         spinner_cabtype = view.findViewById<Spinner>(R.id.drivershow_cab_category)
@@ -164,7 +172,11 @@ class GetData : Fragment() {
                 driver_dlNo.setText(it.getString("dl_number"))
                 driver_panNo.setText(it.getString("pan_number"))
                 driver_adharNo.setText(it.getString("aadhar_number"))
+                if(it.getString("city")!=null)
                 fetchState(it.getString("state").toInt(),it.getString("city").toInt())
+                else
+                fetchState(it.getString("state").toInt(),0)
+
                 //baseclass.fetchStates(requireContext(),spinner_state,it.getString("state").toInt(),spinner_state,outstationHaspMap)
             }
             },{
@@ -199,6 +211,10 @@ class GetData : Fragment() {
                         // write code to perform some action
                     }
                 }
+                var yearval = it.getString("year")
+                year.setSelection(dateadapter.getPosition(yearval.toInt()))
+
+
 
             },{
 
@@ -212,6 +228,32 @@ class GetData : Fragment() {
         }
         queue2.add(jsonObjectRequest2)
 
+    }
+
+    private fun bottomNavClickListener() {
+        bottom_nav.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.detailsdriver ->{
+                    profile_view.visibility = View.VISIBLE
+                    work_view.visibility=View.GONE
+                    cab_view.visibility = View.GONE
+                }
+                R.id.detailsCab->{
+                    profile_view.visibility = View.GONE
+                    cab_view.visibility = View.VISIBLE
+                    work_view.visibility=View.GONE
+                }
+                R.id.detailswork->{
+                    work_view.visibility=View.VISIBLE
+                    profile_view.visibility = View.GONE
+                    cab_view.visibility = View.GONE
+
+                    true
+                }
+            }
+            true
+
+        }
     }
 
     private fun fetchState(stateid:Int,cityid:Int) {
@@ -261,6 +303,7 @@ if(id.toInt()==stateid)
 
                         fetchCity(stateid,cityid)
                        spinnerState.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
                             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
                                 var id1 = stateadapter.getItem(position)!!.id.toInt()
@@ -298,6 +341,7 @@ if(id.toInt()==stateid)
         Log.d("GetDATA","URL"+URL)
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
+        var tapNo:Int=0
         var token= prefManager.getToken()
         var y:Int=-1
         json.put("state_id",id)
@@ -328,25 +372,38 @@ if(id.toInt()==stateid)
                         val stateadapter = SpinnerAdapter(requireContext(),citylist)
 
                         spinnerCity.setAdapter(stateadapter)
-                        if(y!=-1)
+                        if(y!=-1) {
                             spinnerCity.setSelection(y)
+                            tapNo += 1
+                        }
+                        if(tapNo>=1||y==-1) {
 
 
-                        spinnerCity.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
-                            override fun onItemSelected(adapterView: AdapterView<*>?, view: View, position: Int, id: Long) {
+                            spinnerCity.onItemSelectedListener = object :
+                                AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(
+                                    adapterView: AdapterView<*>?,
+                                    view: View,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    if(position<cityhashMap.size&&position>=0) {
+                                        tapNo += 1
+                                        val id1 = stateadapter.getItem(position).id
+                                        //  prefManager.setDriveCity(id1!!.toInt())
+                                        Log.d("SendData", "cityid===" + id1)
+                                    }
 
-                                val id1 = stateadapter.getItem(position)?.id
-                                prefManager.setDriveCity(id1!!.toInt())
-                                Log.d("SendData", "cityid===" + id1)
-
+                                }
+                                override fun onNothingSelected(adapter: AdapterView<*>?) {
+                                }
                             }
-                            override fun onNothingSelected(adapter: AdapterView<*>?) {
-                            }
-                        })
+                        }
                     }else{
 
                     }
                     Log.d("SendData", "json===" + json)
+
                 }
 
             }, Response.ErrorListener {

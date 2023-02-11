@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
 import android.os.AsyncTask
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
@@ -17,12 +16,19 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import com.android.volley.AuthFailureError
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.figgo.cabs.PrefManager
+import com.figgo.cabs.R
+import com.figgo.cabs.databinding.ActivityCityRideBinding
+import com.figgo.cabs.figgodriver.MapData
+import com.figgo.cabs.pearllib.BaseClass
+import com.figgo.cabs.pearllib.Helper
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
@@ -30,26 +36,17 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.android.libraries.places.api.Places
 import com.google.gson.Gson
-import com.figgo.cabs.PrefManager
-import com.figgo.cabs.R
-import com.figgo.cabs.databinding.ActivityCityRideBinding
-import com.figgo.cabs.figgodriver.MapData
-import com.figgo.cabs.pearllib.BaseClass
-import com.figgo.cabs.pearllib.Helper
-import com.google.android.gms.maps.model.*
 import kotlinx.coroutines.*
-
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMarkerClickListener
  {
@@ -65,7 +62,9 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
     var dropLocation: LatLng? = null
      lateinit var defaultLayout:LinearLayout
      lateinit var acceptwaitLayout:LinearLayout
+     lateinit var timer:CountDownTimer
     var ride_id:Int=0
+     var accepted:Int=0
     var ride_request_id:Int=0
     var customer_booking_id:String=""
     private var originLatitude: Double =30.28401063526107
@@ -211,7 +210,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
         }
 
         binding.acceptCityRideBtn.setOnClickListener {
-
+            accepted=1
            // var url="https://test.pearl-developer.com/figo/api/driver-ride/accept-city-ride-request"
 
             defaultLayout.visibility= View.GONE
@@ -219,7 +218,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
             var timertv = findViewById<TextView>(R.id.timer5min)
             var min=5
             var sec:Int=60
-            val timer = object: CountDownTimer(10000, 1000) {
+            timer = object: CountDownTimer(100000, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
                     if(sec==60) {
                         timertv.text = "0" + min + " : " + "00"
@@ -233,24 +232,27 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                     if(sec==0){
                         sec=60
                     }
-                    if(millisUntilFinished.toInt()%10==0) {
+                    if(millisUntilFinished.toInt()%5==0) {
                         Log.d("TIMER ",". . . . . .")
                         acceptwait()
                     }
-
                 }
                 override fun onFinish() {
                     //navigatenext()
                    // Toast.makeText(this,"Booking Failed",Toast.LENGTH_SHORT).show()
                     reject()
                 }
+
             }
             timer.start()
+
+
 
          }
     }
      private fun acceptwait(){
-
+         Log.d("RES CITY", "Enter Functions")
+      //   Toast.makeText(this,"Accept API RUNIING",Toast.LENGTH_SHORT).show()
          var min=5
          var sec:Int=60
          var booking_id:String=""
@@ -281,7 +283,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                      val jsonOblect: JsonObjectRequest =
                          object : JsonObjectRequest(Method.POST, url, json,
                              com.android.volley.Response.Listener<JSONObject?> { response ->
-                                 Log.d("CityRideActivity", "Accept status response===" + response)
+                                // Log.d("CityRideActivityRes", "Accept status response===" + response)
 
                                  var message = response.getString("message")
                                  //     Toast.makeText(this@CityRideActivity, ""+message, Toast.LENGTH_LONG).show()
@@ -289,13 +291,14 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                                  if (response != null) {
 
                                      var data = response.getJSONObject("data")
+
                                      var ride = data.getJSONObject("ride")
                                      var id = ride.getString("id")
                                      var status = ride.getString("status")
                                      booking_id = ride.getString("booking_id")
                                      type = ride.getString("type")
-
-                                     Log.d("CityRideActivity", "id===" + booking_id)
+                                     Log.d("RES CITY", "Accept status response===" + response)
+                                  //   Log.d("CityRideActivity", "id===" + booking_id)
 
                                      var to_location =
                                          response.getJSONObject("data").getJSONObject("ride")
@@ -303,20 +306,20 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                                      to_location_lat = to_location.getString("lat")
                                       to_location_long = to_location.getString("lng")
                                       address_name = to_location.getString("name")
-                                     Log.d(
+                                /*     Log.d(
                                          "SendData",
                                          "to_location" + to_location_lat + "\n" + to_location_long + "\n" + address_name
-                                     )
+                                     )*/
 
                                    var from_location = response.getJSONObject("data").getJSONObject("ride")
                                              .getJSONObject("from_location")
                                       from_location_lat = from_location.getString("lat")
                                       from_location_long = from_location.getString("lng")
                                       from_name = from_location.getString("name")
-                                     Log.d(
+                              /*       Log.d(
                                          "SendData",
                                          "to_location" + from_location_lat + "\n" + from_location_long + "\n" + from_name
-                                     )
+                                     )*/
 
                                       date_only = ride.getString("date_only")
                                       time_only = ride.getString("time_only")
@@ -325,8 +328,10 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                                       customer_id = customer.getString("id")
                                       customer_name = customer.getString("name")
                                       customer_contact = customer.getString("contact_no")
+                                     Toast.makeText(this, status,Toast.LENGTH_SHORT).show()
                                      prefManager.setActiveRide(1)
                                      if (status.equals("accepted")) {
+                                         Toast.makeText(this,"Accepted",Toast.LENGTH_SHORT).show()
                                              startActivity(
                                                  Intent(
                                                      this,
@@ -354,7 +359,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                              }, object : com.android.volley.Response.ErrorListener {
                                  override fun onErrorResponse(error: VolleyError?) {
                                      Log.d("CityRideActivity", "error===" + error)
-                                     // Toast.makeText(this@CityRideActivity, "Something went wrong!", Toast.LENGTH_LONG).show()
+                                      Toast.makeText(this@CityRideActivity, "Something went wrong!", Toast.LENGTH_LONG).show()
                                  }
                              }) {
                              @SuppressLint("SuspiciousIndentation")
@@ -372,7 +377,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                /*      delay(10000L)
                  }}*/
 
-             // Toast.makeText(this,"Accepted",Toast.LENGTH_SHORT).show()l
+
 
      }
 
@@ -593,5 +598,18 @@ var url:String=getDirectionURL(pickupLocation!!, dropLocation!!,"AIzaSyCbd3JqvfS
         }, 5000)
     }
 
-
+     override fun onBackPressed() {
+         // code here to show dialog
+        // reject()
+         if(accepted==1) {
+             timer.onFinish()
+             timer.cancel()
+         }
+         super.onBackPressed() // optional depending on your needs
+     }
+     override fun onPause() {
+         super.onPause()
+         timer.cancel() // timer is a reference to my inner CountDownTimer class
+         //timer = null
+     }
 }

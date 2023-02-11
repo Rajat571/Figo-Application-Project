@@ -6,7 +6,10 @@ package com.figgo.cabs.pearllib
 
     var baseurl = "https://test.pearl-developer.com/figo/api/"
     var  create_driver = baseurl + "create-driver"
+    var new_create_driver = baseurl+"register-user"
+    var new_check_OTP = baseurl+"verify-otp"
      var  send_otp = baseurl + "otp/send-otp"
+     var user_type = baseurl+"check-user-type"
      var check_otp= baseurl+"otp/check-otp"
      var get_state= baseurl+"get-state"
      var get_city= baseurl+"get-city"

@@ -190,6 +190,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
 
                             Log.d("SendData", "response===" + response)
                             if (response != null) {
+
                                 token = response.getString("token")
                                 Log.d("SendData", "token===" + token)
 

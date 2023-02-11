@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -15,10 +16,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="20dp"
-            android:background="@drawable/mpin_gradinet"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingVertical="10dp">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -41,11 +42,12 @@
                     android:textStyle="bold" />
 
             </LinearLayout>
+
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/change_profile_pic_image"
                 android:layout_width="@dimen/_60sdp"
-            android:layout_marginLeft="@dimen/_15sdp"
                 android:layout_height="@dimen/_60sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
                 android:src="@drawable/ic_car_flat"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +58,7 @@
         </LinearLayout>
 
 
-    <!--    <LinearLayout
+        <!--    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_15sdp"
@@ -225,7 +227,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:layout_margin="10dp"
                         android:background="@drawable/input_boder_profile"
                         android:gravity="center"
@@ -248,12 +250,12 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:layout_margin="10dp"
                         android:background="@drawable/input_boder_profile"
                         android:gravity="center"
-                        android:visibility="visible"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="visible">
 
                         <Spinner
                             android:id="@+id/show_cab_type"
@@ -263,7 +265,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:layout_margin="10dp"
                         android:background="@drawable/input_boder_profile"
                         android:gravity="center"
@@ -278,159 +280,131 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:layout_margin="10dp"
                         android:background="@drawable/input_boder_profile"
                         android:gravity="center"
                         android:orientation="horizontal">
 
 
-
                         <Spinner
-                            android:layout_width="match_parent"
                             android:id="@+id/show_year_list"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
                         android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
                         android:layout_marginRight="10dp">
 
                         <EditText
-                            android:background="@drawable/input_boder_profile"
                             android:id="@+id/show_vechle_no"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="13sp"
+                            android:background="@drawable/input_boder_profile"
+                            android:hint="Vechle No."
                             android:padding="15dp"
-                            android:hint="Vechle No." />
+                            android:textSize="13sp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
-                        android:visibility="gone"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp">
+                        android:layout_margin="10dp"
+                        android:visibility="gone">
 
                         <EditText
-                            android:background="@drawable/input_boder_profile"
                             android:id="@+id/registration_no"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="13sp"
+                            android:background="@drawable/input_boder_profile"
+                            android:hint="Registration No."
                             android:padding="15dp"
-                            android:hint="Registration No." />
+                            android:textSize="13sp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
                         android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
                         android:layout_marginRight="10dp">
 
                         <EditText
-                            android:background="@drawable/input_boder_profile"
                             android:id="@+id/show_insurance_no"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:background="@drawable/input_boder_profile"
                             android:clickable="false"
                             android:cursorVisible="false"
                             android:drawableEnd="@drawable/ic_baseline_calendar_month_24"
                             android:focusable="false"
-                            android:textSize="13sp"
-                            android:padding="10dp"
                             android:focusableInTouchMode="false"
-                            android:hint="Insurance valid up to" />
+                            android:hint="Insurance valid up to"
+                            android:padding="10dp"
+                            android:textSize="13sp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
                         android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
                         android:layout_marginRight="10dp">
 
                         <EditText
-                            android:background="@drawable/input_boder_profile"
                             android:id="@+id/show_tax_permit_no"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:background="@drawable/input_boder_profile"
                             android:clickable="false"
                             android:cursorVisible="false"
                             android:drawableEnd="@drawable/ic_baseline_calendar_month_24"
                             android:focusable="false"
-                            android:textSize="13sp"
-                            android:padding="10dp"
                             android:focusableInTouchMode="false"
-                            android:hint="Local Permit valid up to" />
+                            android:hint="Local Permit valid up to"
+                            android:padding="10dp"
+                            android:textSize="13sp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginRight="10dp">
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="5dp">
 
                         <EditText
-                            android:background="@drawable/input_boder_profile"
                             android:id="@+id/show_national_permit_date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:background="@drawable/input_boder_profile"
                             android:clickable="false"
                             android:cursorVisible="false"
                             android:drawableEnd="@drawable/ic_baseline_calendar_month_24"
                             android:focusable="false"
-                            android:textSize="13sp"
-                            android:padding="10dp"
                             android:focusableInTouchMode="false"
-                            android:hint="National Permit valid up to" />
+                            android:hint="National Permit valid up to"
+                            android:padding="10dp"
+                            android:textSize="13sp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <Button
-                        android:id="@+id/update_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginHorizontal="@dimen/_7sdp"
-                        android:backgroundTint="#062635"
-                        android:padding="@dimen/_10sdp"
-                        android:text="Update"
-                        android:textColor="@color/white" />
+
                 </LinearLayout>
 
             </ScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_15sdp"
-            android:orientation="horizontal">
-            <!--            <TextView-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:text="Reset Mpin"-->
-            <!--                android:textColor="@color/black"-->
-            <!--                android:padding="@dimen/_5sdp"-->
-            <!--                android:gravity="right"-->
-            <!--                android:textStyle="bold"-->
-            <!--                android:textSize="@dimen/_10sdp"-->
-            <!--                />-->
-
-        </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

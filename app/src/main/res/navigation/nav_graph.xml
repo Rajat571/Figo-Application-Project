@@ -184,7 +184,7 @@
         tools:layout="@layout/fragment_waiting_registration" />
     <fragment
         android:id="@+id/comingSoonFragment"
-        android:name="com.figgo.cabs.figgodriver.ComingSoonFragment"
+        android:name="com.figgo.cabs.figgodriver.Fragment.ComingSoonFragment"
         android:label="fragment_coming_soon"
         tools:layout="@layout/fragment_coming_soon" >
         <action

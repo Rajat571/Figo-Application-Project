@@ -268,6 +268,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         }*/
 
         supportFragmentManager.beginTransaction().replace(R.id.home_frame, HomeDashBoard()).commit()
+        Log.d("Package Name ",""+this.packageName)
         bottomNav.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.home->{
@@ -466,7 +467,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             val inviteLink: String =ref_link
             val sendIntent = Intent()
             sendIntent.action = Intent.ACTION_SEND
-            sendIntent.putExtra(Intent.EXTRA_TEXT, "I’m inviting you to join Figgo Drivers,use this code while submitting your form to earn rewards. $inviteLink")
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "I’m inviting you to join Figgo Drivers,use this link to download app.. $inviteLink")
             sendIntent.type = "text/*"
             val shareIntent = Intent.createChooser(sendIntent, null)
             startActivity(shareIntent)

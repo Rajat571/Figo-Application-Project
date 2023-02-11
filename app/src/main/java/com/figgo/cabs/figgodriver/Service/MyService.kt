@@ -140,7 +140,7 @@ prefManager= PrefManager(applicationContext)
                         val jsonObject=  object : JsonObjectRequest(
                             Method.POST, URL, json,
                             Response.Listener<JSONObject?> { response ->
-                                Log.d("Response == ",""+response)
+                             //   Log.d("Response == ",""+response)
                                 if (response != null) {
                                    // Toast.makeText(this," "+response,Toast.LENGTH_SHORT).show()
                                 }
@@ -181,7 +181,7 @@ prefManager= PrefManager(applicationContext)
             .setCategory(Notification.CATEGORY_SERVICE)
             .build()
         startForeground(2, notification)
-        Log.d("SEND DATA","Response service==="+channelName)
+    //    Log.d("SEND DATA","Response service==="+channelName)
     }
 
     companion object {

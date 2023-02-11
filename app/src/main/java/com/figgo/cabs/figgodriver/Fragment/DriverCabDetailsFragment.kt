@@ -653,8 +653,6 @@ class DriverCabDetailsFragment : Fragment() {
                 prefManager.setDriverVechleYear(i)
                 Log.d("Model year","Model year==="+i)
                 Log.d("Model year","Model year==="+ prefManager.setDriverVechleType(position.toString()))
-
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {

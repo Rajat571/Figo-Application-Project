@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.VolleyError
@@ -42,7 +43,7 @@ class CityRideFragment : Fragment() {
     var advanceRidelists=ArrayList<CityAdvanceRideList>()
     lateinit var prefManager: PrefManager
      lateinit var currentdata: CityCurrentRidesList
-
+lateinit var swiperefresh:SwipeRefreshLayout
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,10 +58,18 @@ class CityRideFragment : Fragment() {
         prefManager= PrefManager(requireContext())
         progressBar=view.findViewById<ProgressBar>(R.id.city_ride_progressbar)
         relativeLayout_data = view.findViewById<RelativeLayout>(R.id.city_ride_relative_layout)
+        //swiperefresh = view.findViewById(R.id.dashboard_swipe_refresh_layout)
         //ridelists.add()
         //submitCurrentRideForm(view,"advance")
-            submitAdvanceRideForm(view)
-            submitCurrentRideForm(view)
+/*        swiperefresh.setOnRefreshListener {
+            swiperefresh.isRefreshing=false
+
+            cityRideAdvanceListAdapter.notifyDataSetChanged()
+            cityRideCurrentListAdapter.notifyDataSetChanged()
+
+        }*/
+        submitAdvanceRideForm(view)
+        submitCurrentRideForm(view)
         progressBar.visibility=View.VISIBLE
         relativeLayout_data.visibility=View.GONE
             binding.cityRideAdvanceRecylerview.layoutManager = LinearLayoutManager(requireContext())
@@ -268,6 +277,7 @@ class CityRideFragment : Fragment() {
                             Collections.reverse(advanceRidelists)
                             cityRideAdvanceListAdapter =
                                 CityRideAdvanceListAdapter(requireContextX(), advanceRidelists)
+
                             binding.cityRideAdvanceRecylerview.adapter = cityRideAdvanceListAdapter
                         }catch (e:Exception){
                             Toast.makeText(requireContext(),"Server Problem",Toast.LENGTH_SHORT).show()
