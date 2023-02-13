@@ -21,11 +21,13 @@
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/driverdetails_menu"
             android:layout_width="match_parent"
+            app:itemTextColor="@drawable/view_details_bottom_nav_color"
             android:layout_height="48dp"
+            android:textAlignment="center"
+            app:labelVisibilityMode="labeled"
             android:layout_margin="10dp"
             android:background="@drawable/menu_item_background"
-            android:padding="8dp"
-            app:itemTextColor="#000F3B"
+            android:padding="3dp"
             app:menu="@menu/details_view_update_menu" />
 
         <include

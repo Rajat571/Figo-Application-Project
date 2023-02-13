@@ -2,6 +2,7 @@ package com.figgo.cabs.figgodriver.UI
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
@@ -16,16 +17,19 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import com.android.volley.AuthFailureError
+import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.databinding.ActivityCityRideBinding
+import com.figgo.cabs.figgodriver.LiveRouting
 import com.figgo.cabs.figgodriver.MapData
 import com.figgo.cabs.pearllib.BaseClass
 import com.figgo.cabs.pearllib.Helper
@@ -62,7 +66,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
     var dropLocation: LatLng? = null
      lateinit var defaultLayout:LinearLayout
      lateinit var acceptwaitLayout:LinearLayout
-     lateinit var timer:CountDownTimer
+     private var timer:CountDownTimer?=null
     var ride_id:Int=0
      var accepted:Int=0
     var ride_request_id:Int=0
@@ -82,6 +86,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
         super.onCreate(savedInstanceState)
         binding=DataBindingUtil.setContentView(this, R.layout.activity_city_ride)
         window.setStatusBarColor(Color.parseColor("#000F3B"))
+        var liveRouting = LiveRouting()
 
         var address_to= intent.getStringExtra("location_to")
         var date=intent.getStringExtra("customer_date")
@@ -92,6 +97,8 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
         des_lat=intent.getStringExtra("des_lat")!!.toDouble()
         des_long=intent.getStringExtra("des_long")!!.toDouble()
          ride_id=intent.getStringExtra("ride_id")!!.toInt()
+
+        liveRouting.firebaseInit(ride_id)
         ride_request_id=intent.getStringExtra("ride_request_id")!!.toInt()
         defaultLayout=findViewById(R.id.city_ride_defaultlayout)
         acceptwaitLayout=findViewById(R.id.cityride_wait_layout)
@@ -130,6 +137,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
         initializeClickListners()
 
         prefManager= PrefManager(this)
+        prefManager.setRideID(ride_id)
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         if (ActivityCompat.checkSelfPermission(
@@ -184,7 +192,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
             var newlat=30.288415
             var new_lon=78.014850
 
-           val timer = object: CountDownTimer(100000, 1000) {
+           timer = object: CountDownTimer(100000, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
                     liveRouting(newlat, new_lon)
                     newlat+=0.001
@@ -194,7 +202,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
 
                 }
             }
-            timer.start()
+            (timer as CountDownTimer).start()
 
 
             //liveRouting(newlat, new_lon)
@@ -244,7 +252,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                 }
 
             }
-            timer.start()
+            (timer as CountDownTimer).start()
 
 
 
@@ -330,7 +338,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                                       customer_contact = customer.getString("contact_no")
                                      Toast.makeText(this, status,Toast.LENGTH_SHORT).show()
                                      prefManager.setActiveRide(1)
-                                     if (status.equals("accepted")) {
+                                     if (status.equals("pending")) {
                                          Toast.makeText(this,"Accepted",Toast.LENGTH_SHORT).show()
                                              startActivity(
                                                  Intent(
@@ -356,12 +364,8 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                                  // startActivity(Intent(this,DriverDashBoard::class.java))
 
 
-                             }, object : com.android.volley.Response.ErrorListener {
-                                 override fun onErrorResponse(error: VolleyError?) {
-                                     Log.d("CityRideActivity", "error===" + error)
-                                      Toast.makeText(this@CityRideActivity, "Something went wrong!", Toast.LENGTH_LONG).show()
-                                 }
-                             }) {
+                             },
+                             Response.ErrorListener { error -> Log.d("CityRideActivity", "error===" + error) }) {
                              @SuppressLint("SuspiciousIndentation")
                              @Throws(AuthFailureError::class)
                              override fun getHeaders(): Map<String, String> {
@@ -457,7 +461,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
             val request = Request.Builder().url(url).build()
             val response = client.newCall(request).execute()
             val data = response.body()?.string()
-            Log.d("MAPDATA"," data ===="+ data )
+            //Log.d("MAPDATA"," data ===="+ data )
 
             val result =  ArrayList<List<LatLng>>()
             try{
@@ -560,9 +564,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
     }*/
 
     fun liveRouting(newlat:Double,newlon:Double){
-       /* val curLat: Double = p0.getLatitude() //current latitude
-        val curLong: Double = p0.getLongitude() //current longitude
-*/
+
         mMap.clear()
         dropLocation   = LatLng(testlat, testlon)
         pickupLocation     = LatLng(newlat, newlon)
@@ -591,25 +593,34 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
         val destination = "" + testlat + "," + testlon
         Log.e("Origin ", "$source\n Destination $destination")
         //GetDirection().execute(source, destination)
-var url:String=getDirectionURL(pickupLocation!!, dropLocation!!,"AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
+        var url:String=getDirectionURL(pickupLocation!!, dropLocation!!,"AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
         GetDirection(url).execute()
         Handler().postDelayed({
             //do something
         }, 5000)
     }
 
+
      override fun onBackPressed() {
          // code here to show dialog
-        // reject()
+         // reject()
          if(accepted==1) {
-             timer.onFinish()
-             timer.cancel()
+             timer?.onFinish()
+             timer?.cancel()
          }
+
          super.onBackPressed() // optional depending on your needs
      }
+
+
+
+
+
+
+
      override fun onPause() {
          super.onPause()
-         timer.cancel() // timer is a reference to my inner CountDownTimer class
+         timer?.cancel() // timer is a reference to my inner CountDownTimer class
          //timer = null
      }
 }

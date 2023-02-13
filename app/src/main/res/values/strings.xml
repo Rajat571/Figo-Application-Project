@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Figgo Partner</string>
     <string name="welcome" translatable="false">Sign up to begin your future\nwith Figgo and grow in life</string>
-    <string name="logindetails">By proceeding,you consent to get calls,whatsapp or sms,messages including by automated means from uber and its affiliates to the number provided</string>
+    <string name="logindetails">By proceeding,you consent to get calls,whatsapp or sms,messages including by automated means from Figgo  and its affiliates to the number provided</string>
     <string name="e_verification"> Congratulations,\n e-Verification has been completed successfully.\n To use this app you are requested to generate MPIN</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

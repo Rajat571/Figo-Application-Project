@@ -23,7 +23,7 @@ class CityRideCurrentListAdapter(var context:Context, var ridelist:List<CityCurr
 
     override fun onBindViewHolder(holder: CityRideHolder, position: Int) {
 
-     var data=ridelist[position]
+     val data=ridelist[position]
        /*
         holder.customer_name.text=data.cutomer_name*/
         holder.location_from.text=data.from
@@ -33,9 +33,9 @@ class CityRideCurrentListAdapter(var context:Context, var ridelist:List<CityCurr
        // holder.fare_price.text=data.fare_price
 
         holder.itemView.setOnClickListener {
-            holder.rideCardview.setBackground(context.getDrawable(R.drawable.booking_box_outline))
+            holder.rideCardview.background = context.getDrawable(R.drawable.booking_box_outline)
            //holder.rideCardview.setCardBackgroundColor(Color.GREEN)
-                context.startActivity(Intent(context, CityRideActivity::class.java)
+            context.startActivity(Intent(context, CityRideActivity::class.java)
                     .putExtra("location_to",data.to)
                     .putExtra("location_from",data.from)
                     .putExtra("price",data.fare_price)

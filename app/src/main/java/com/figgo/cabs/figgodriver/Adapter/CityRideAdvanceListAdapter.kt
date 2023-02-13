@@ -24,7 +24,7 @@ class CityRideAdvanceListAdapter(var context:Context, var advanceridelist:List<C
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdvanceRideHolder {
-        return AdvanceRideHolder(LayoutInflater.from(context).inflate(R.layout.city_current_ride_list_layout,parent,false))
+        return AdvanceRideHolder(LayoutInflater.from(context).inflate(R.layout.city_advance_ride_list_layout,parent,false))
     }
 
     override fun onBindViewHolder(holder: AdvanceRideHolder, position: Int) {
@@ -68,12 +68,12 @@ class CityRideAdvanceListAdapter(var context:Context, var advanceridelist:List<C
       /*
 
         var customer_name=itemView.findViewById<TextView>(R.id.advance_booking_id)*/
-      var location_to=itemView.findViewById<TextView>(R.id.location_to)
-        var location_from=itemView.findViewById<TextView>(R.id.location_from)
+      var location_to=itemView.findViewById<TextView>(R.id.ad_location_to)
+        var location_from=itemView.findViewById<TextView>(R.id.ad_location_from)
       //  var fare_price=itemView.findViewById<TextView>(R.id.advance_fare_price)
-        var rideCardview=itemView.findViewById<CardView>(R.id.ride_cardview)
-        var customer_time=itemView.findViewById<TextView>(R.id.customer_time)
-        var customer_date=itemView.findViewById<TextView>(R.id.customer_date)
+        var rideCardview=itemView.findViewById<CardView>(R.id.ad_ride_cardview)
+        var customer_time=itemView.findViewById<TextView>(R.id.ad_customer_time)
+        var customer_date=itemView.findViewById<TextView>(R.id.ad_customer_date)
     }
 
     fun deleteCache(context: Context) {

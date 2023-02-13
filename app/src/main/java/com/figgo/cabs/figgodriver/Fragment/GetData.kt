@@ -173,9 +173,9 @@ class GetData : Fragment() {
                 driver_panNo.setText(it.getString("pan_number"))
                 driver_adharNo.setText(it.getString("aadhar_number"))
                 if(it.getString("city")!=null)
-                fetchState(it.getString("state").toInt(),it.getString("city").toInt())
+                 fetchState(it.getString("state").toInt(),it.getString("city").toInt())
                 else
-                fetchState(it.getString("state").toInt(),0)
+                 fetchState(it.getString("state").toInt(),0)
 
                 //baseclass.fetchStates(requireContext(),spinner_state,it.getString("state").toInt(),spinner_state,outstationHaspMap)
             }
@@ -301,7 +301,7 @@ if(id.toInt()==stateid)
                         if(x!=-1)
                          spinnerState.setSelection(x)
 
-                        fetchCity(stateid,cityid)
+                        //fetchCity(stateid,cityid)
                        spinnerState.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
                             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -313,7 +313,7 @@ if(id.toInt()==stateid)
 
                                 //binding.selectStateTV.text=statehashMap.keys.toList()[position]
                                 prefManager.setDriveState(id1!!.toInt())
-                                fetchCity(stateadapter.getItem(position)!!.id.toInt(),-1)
+                                fetchCity(stateadapter.getItem(position)!!.id.toInt(),cityid)
 
                             }
                             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -376,9 +376,9 @@ if(id.toInt()==stateid)
                             spinnerCity.setSelection(y)
                             tapNo += 1
                         }
-                        if(tapNo>=1||y==-1) {
 
 
+try{
                             spinnerCity.onItemSelectedListener = object :
                                 AdapterView.OnItemSelectedListener {
                                 override fun onItemSelected(
@@ -390,7 +390,7 @@ if(id.toInt()==stateid)
                                     if(position<cityhashMap.size&&position>=0) {
                                         tapNo += 1
                                         val id1 = stateadapter.getItem(position).id
-                                        //  prefManager.setDriveCity(id1!!.toInt())
+                                        prefManager.setDriveCity(id1!!.toInt())
                                         Log.d("SendData", "cityid===" + id1)
                                     }
 
@@ -398,7 +398,11 @@ if(id.toInt()==stateid)
                                 override fun onNothingSelected(adapter: AdapterView<*>?) {
                                 }
                             }
-                        }
+}
+catch (e:Exception){
+    Log.d("Spinner Problem", "Position null")
+}
+
                     }else{
 
                     }

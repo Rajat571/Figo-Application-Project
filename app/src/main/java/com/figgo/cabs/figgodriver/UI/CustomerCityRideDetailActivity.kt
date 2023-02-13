@@ -2,6 +2,7 @@ package com.figgo.cabs.figgodriver.UI
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.AsyncTask
@@ -17,6 +18,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
@@ -126,7 +128,8 @@ finished=true
        // if(finished)
 
         start.setOnClickListener {
-            val dialog = Dialog(this)
+            startActivity(Intent(this, StartRideActivity::class.java))
+/*            val dialog = Dialog(this)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialog.setCancelable(false)
             dialog.setContentView(R.layout.otp_start_layout)
@@ -148,6 +151,7 @@ finished=true
 
             submit.setOnClickListener {
                // val otp1 = "https://test.pearl-developer.com/figo/api/driver-ride/check-ride-otp"
+
                 var otp1=Helper.check_ride_otp
                 Log.d("VerifyNumber","URL"+otp1)
                 val queue2 = Volley.newRequestQueue(this@CustomerCityRideDetailActivity)
@@ -187,13 +191,13 @@ finished=true
       }
       queue2.add(jsonObjectRequest)
 
-               /* Toast.makeText(this,"OTP SENT SUCCESSFULLY", Toast.LENGTH_SHORT).show()*/
+               *//* Toast.makeText(this,"OTP SENT SUCCESSFULLY", Toast.LENGTH_SHORT).show()*//*
                 dialog.dismiss()
             }
             cancel.setOnClickListener {
                 dialog.dismiss()
             }
-            dialog.show()
+            dialog.show()*/
         }
     }
 
@@ -281,4 +285,26 @@ finished=true
     layout_accept_wait.visibility=View.GONE
     layout_customer_city_ride.visibility=View.VISIBLE
     }*/
+
+
+    override fun onBackPressed() {
+        val alertDialog2 = AlertDialog.Builder(
+            this
+        )
+        alertDialog2.setTitle("Alert..")
+        alertDialog2.setMessage("Are you sure you want to cancel the ride?")
+        alertDialog2.setPositiveButton(
+            "Yes"
+        ) { dialog: DialogInterface?, which: Int ->
+            finishAffinity()
+
+            startActivity(Intent(this,DriverDashBoard::class.java))
+        }
+        alertDialog2.setNegativeButton(
+            "Cancel"
+        ) { dialog: DialogInterface, which: Int -> dialog.cancel() }
+        alertDialog2.show()
+        //       finish();
+    }
+
 }

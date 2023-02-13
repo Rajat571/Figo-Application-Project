@@ -60,6 +60,9 @@
 
 
             <!--            working state layout-->
+
+
+            <!--            local working area layout-->
             <LinearLayout
                 android:id="@+id/working_state_layout"
                 android:layout_width="match_parent"
@@ -142,8 +145,6 @@
                 </LinearLayout>
             </LinearLayout>
 
-
-            <!--            local working area layout-->
             <LinearLayout
                 android:id="@+id/working_local_layout"
                 android:layout_width="match_parent"

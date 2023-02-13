@@ -14,6 +14,7 @@ import android.location.Location
 import android.net.Uri
 import android.net.wifi.WifiManager
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
 import android.transition.Slide
@@ -272,6 +273,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         bottomNav.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.home->{
+
                     TransitionManager.beginDelayedTransition(rootView, mFade)
                     notificationlayout.visibility = View.GONE
                     homeFrame.visibility=View.VISIBLE
@@ -380,7 +382,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             var getData = GetData()
             getData.arguments=bundle2
             offlineLayout.visibility=View.GONE
-            supportFragmentManager.beginTransaction().replace(R.id.home_frame,getData,"Home").addToBackStack(null).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,getData,"Home").commit()
             homeFrame.visibility=View.VISIBLE
 
             true
@@ -452,6 +454,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         }
         draw_layout.menu.findItem(R.id.share_app).setOnMenuItemClickListener {
             drawer.closeDrawer(GravityCompat.END)
+
             val appPackageName = packageName // getPackageName() from Context or Activity object
 
 

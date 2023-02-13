@@ -1,31 +1,48 @@
 package com.figgo.cabs.figgodriver.UI
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.databinding.ActivityStartRideBinding
+import com.figgo.cabs.figgodriver.Location
 import com.figgo.cabs.figgodriver.MapData
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.gms.tasks.CancellationToken
+import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.android.libraries.places.api.Places
+import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -36,14 +53,24 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
     private var originLongitude: Double = 77.99210085398012
     private var destinationLatitude: Double =  30.35335500972683
     private var destinationLongitude: Double = 78.02461312748794
+    private lateinit var driverlocation:LatLng
+    private lateinit var customerLocation:LatLng
+    private var customerLAT:Double=0.0
+    private var customerLON:Double=0.0
+    private lateinit var dropLocation:LatLng
     private lateinit var mMap: GoogleMap
     lateinit var binding: ActivityStartRideBinding
+     var rideID:Int = 0
+    private var timer:CountDownTimer?=null
     lateinit var prefManager: PrefManager
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    var rideId:Int=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
        binding=DataBindingUtil.setContentView(this, R.layout.activity_start_ride)
         window.setStatusBarColor(Color.parseColor("#000F3B"))
-
+prefManager= PrefManager(this)
+        rideId = prefManager.getRideID()
         var arrow_up_btn=findViewById<ImageView>(R.id.arrow_up_IV)
         binding.arrowDownIV.setOnClickListener {
             TransitionManager.beginDelayedTransition( binding.startRideBottomLayout, AutoTransition())
@@ -65,6 +92,11 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
             Places.initialize(applicationContext.applicationContext,apiKey)
         }
 
+        val database = FirebaseDatabase.getInstance()
+        val customerRef = database.getReference("$rideId customer")
+        val driverRef = database.getReference("$rideId driver")
+
+var count:Int = 0
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         mapFragment.getMapAsync {
@@ -76,8 +108,28 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
             val destinationLocation = LatLng(destinationLatitude, destinationLongitude)
             mMap.addMarker(MarkerOptions().position(destinationLocation).title("hi"))
             val urll = getDirectionURL(originLocation, destinationLocation, "AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
-            GetDirection(urll).execute()
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 10F))
+            //GetDirection(urll).execute()
+
+            timer = object: CountDownTimer(100000, 500) {
+                override fun onTick(millisUntilFinished: Long) {
+                    val driverData = driverRef.child("loc $count")
+                    count++
+                    customerLAT=0.0
+                    customerLON=0.0
+                    //setCurrentLatLon()
+                    originLatitude+=0.0001
+                    originLongitude+=0.0001
+                    driverData.child("LAT ").setValue("$originLatitude")
+                    driverData.child("LON ").setValue("$originLongitude")
+
+                    liveRouting(originLatitude,originLongitude,customerLAT,customerLON)
+                }
+                override fun onFinish() {
+
+                }
+            }
+            (timer as CountDownTimer).start()
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 11F))
             
 
         }
@@ -164,5 +216,72 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(p0: GoogleMap) {
         mMap =p0
+    }
+
+    fun liveRouting(driver_lat:Double,driver_lon:Double,cust_lat:Double,cust_lon:Double){
+
+        mMap.clear()
+
+        driverlocation   = LatLng(driver_lat, driver_lon)
+        dropLocation  = LatLng(destinationLatitude, destinationLongitude)
+        //customerLocation = LatLng(cust_lat)
+        val height = 80
+        val width = 80
+        val bitmapdraw = resources.getDrawable(R.drawable.ic_drivercab) as BitmapDrawable
+        val b = bitmapdraw.bitmap
+        val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
+        mMap.addMarker(
+            MarkerOptions().position(driverlocation!!)
+                .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                .title("Current Location")
+        )
+        val bitmapdraw2 = resources.getDrawable(R.drawable.ic_destination) as BitmapDrawable
+        val b2 = bitmapdraw2.bitmap
+        val smallMarker2 = Bitmap.createScaledBitmap(b2, width, height, false)
+        mMap.addMarker(
+            MarkerOptions().position(dropLocation!!)
+                .icon(BitmapDescriptorFactory.fromBitmap(smallMarker2))
+                .title("drop-off")
+        )
+
+        val source = "$driver_lat,$driver_lon"
+        val destination = "$destinationLatitude,$destinationLongitude"
+        Log.e("Origin ", "$source\n Destination $destination")
+        //GetDirection().execute(source, destination)
+        var url:String=getDirectionURL(driverlocation!!, dropLocation!!,"AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
+        GetDirection(url).execute()
+        Handler().postDelayed({
+            //do something
+        }, 5000)
+    }
+
+    fun setCurrentLatLon(){
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        fusedLocationProviderClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, object : CancellationToken() {
+            override fun onCanceledRequested(p0: OnTokenCanceledListener) = CancellationTokenSource().token
+
+            override fun isCancellationRequested() = false
+        })
+            .addOnSuccessListener { location: android.location.Location? ->
+                if (location == null)
+                    Toast.makeText(this, "Cannot get location.", Toast.LENGTH_SHORT).show()
+                else {
+                    originLatitude = location.latitude
+                    prefManager.setlatitude(originLatitude.toFloat())
+                    originLongitude = location.longitude
+                    prefManager.setlongitude(originLongitude.toFloat())
+                    //Toast.makeText(this,"Lat :"+lat+"\nLong: "+long, Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 }

@@ -10,6 +10,10 @@
     <item
         android:title="Work Area"
         android:id="@+id/detailswork"/>
+    <item
+        android:title="Images"
+        android:id="@+id/details_images"
+        />
 
 
 </menu>

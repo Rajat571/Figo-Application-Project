@@ -1,7 +1,5 @@
 package com.figgo.cabs.figgodriver.Fragment
-
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -30,7 +28,7 @@ import com.figgo.cabs.pearllib.Helper
 import com.google.android.gms.maps.model.*
 import org.json.JSONObject
 import java.io.File
-import java.util.Collections
+import java.util.*
 
 
 class CityRideFragment : Fragment() {
@@ -58,7 +56,7 @@ lateinit var swiperefresh:SwipeRefreshLayout
         prefManager= PrefManager(requireContext())
         progressBar=view.findViewById<ProgressBar>(R.id.city_ride_progressbar)
         relativeLayout_data = view.findViewById<RelativeLayout>(R.id.city_ride_relative_layout)
-        //swiperefresh = view.findViewById(R.id.dashboard_swipe_refresh_layout)
+        swiperefresh = view.findViewById(R.id.pulldownforrefresh)
         //ridelists.add()
         //submitCurrentRideForm(view,"advance")
 /*        swiperefresh.setOnRefreshListener {
@@ -102,18 +100,28 @@ lateinit var swiperefresh:SwipeRefreshLayout
             binding.cityRideAdvanceRecylerview.visibility=View.VISIBLE
         }*/
 
+
+        swiperefresh.setOnRefreshListener {
+            swiperefresh.isRefreshing = false
+            cityRideCurrentListAdapter.notifyDataSetChanged()
+            cityRideAdvanceListAdapter.notifyDataSetChanged()
+            submitCurrentRideForm(view)
+            submitAdvanceRideForm(view)
+        }
+
     }
 
     private fun submitCurrentRideForm(view: View){
+        ridelists.clear()
        // val URL = "https://test.pearl-developer.com/figo/api/driver-ride/get-city-ride-request"
         var URL=Helper.customer_booking_list
-        Log.d("CityRideFragment", "CITY_RIDE_FRAGMENT Current===" + URL)
+        Log.d("CityRideFragment", "CITY_RIDE_FRAGMENT Current===$URL")
         val queue = Volley.newRequestQueue(requireContext())
 
         val jsonOblect: JsonObjectRequest =
             object : JsonObjectRequest(Method.POST, URL,null,
                 Response.Listener<JSONObject?> { response ->
-                    Log.d("CITY_RIDE_FRAGMENT Current", "response===" + response)
+                    Log.d("CITY_RIDE_FRAGMENT Current", "response===$response")
                     if (response != null) {
                         progressBar.visibility=View.GONE
                         relativeLayout_data.visibility=View.VISIBLE
@@ -123,7 +131,7 @@ lateinit var swiperefresh:SwipeRefreshLayout
                             var current = response.getJSONObject("current")
                             var ride_requests = current.getJSONArray("ride_requests").length()
 
-                            for (i in 0..ride_requests - 1) {
+                            for (i in 0 until ride_requests) {
 
                                 var data1 =
                                     response.getJSONObject("current").getJSONArray("ride_requests")
@@ -176,24 +184,19 @@ lateinit var swiperefresh:SwipeRefreshLayout
                                     )
                                 )
                             }
-                            Collections.reverse(ridelists)
-                            cityRideCurrentListAdapter= CityRideCurrentListAdapter(requireContextX().applicationContext,ridelists)
+                            ridelists.reverse()
+                            cityRideCurrentListAdapter= CityRideCurrentListAdapter(requireContext().applicationContext,ridelists)
                             binding.cityRideCurrentRecylerview.adapter=cityRideCurrentListAdapter
                         }
-                        catch (e:Exception){
-                            Toast.makeText(requireContext(),"Server Problem",Toast.LENGTH_SHORT).show()
+                        catch (_:Exception){
                         }
                         //advanceData(response)
 
 
                     }
                     // Get your json response and convert it to whatever you want.
-                }, object : Response.ErrorListener {
-                override fun onErrorResponse(error: VolleyError?) {
-                    Log.d("SendData", "error===" + error)
-                    Toast.makeText(requireActivity(), "Something went wrong!", Toast.LENGTH_LONG).show()
-                }
-            }) {
+                },
+                Response.ErrorListener { error -> Log.d("SendData", "error===$error") }) {
                 @SuppressLint("SuspiciousIndentation")
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): Map<String, String> {
@@ -207,13 +210,9 @@ lateinit var swiperefresh:SwipeRefreshLayout
         queue.add(jsonOblect)
         //return currentdata
     }
-    fun requireContextX(): Context {
-        return this.context
-            ?: throw IllegalStateException("Fragment $this not attached to a context.")
-    }
 
     private fun submitAdvanceRideForm(view: View) {
-
+        advanceRidelists.clear()
         //val URL = " https://test.pearl-developer.com/figo/api/driver-ride/get-city-ride-request"
         var URL=Helper.customer_booking_list
         val queue = Volley.newRequestQueue(requireContext())
@@ -250,7 +249,7 @@ lateinit var swiperefresh:SwipeRefreshLayout
                                 var from_location_lat = from_location.getString("lat")
                                 var from_location_long = from_location.getString("lng")
                                 var from_name = from_location.getString("name")
-
+                                var price = data1.getString("price")
                                 Log.d(
                                     "SendData",
                                     "to_location" + from_location_lat + "\n" + from_location_long + "\n" + from_name
@@ -264,7 +263,7 @@ lateinit var swiperefresh:SwipeRefreshLayout
                                         advance_booking_id,
                                         address_name,
                                         from_name,
-                                        "",
+                                        price,
                                         from_location_lat,
                                         from_location_long,
                                         to_location_lat,
@@ -276,19 +275,15 @@ lateinit var swiperefresh:SwipeRefreshLayout
 
                             Collections.reverse(advanceRidelists)
                             cityRideAdvanceListAdapter =
-                                CityRideAdvanceListAdapter(requireContextX(), advanceRidelists)
+                                CityRideAdvanceListAdapter(requireContext(), advanceRidelists)
 
                             binding.cityRideAdvanceRecylerview.adapter = cityRideAdvanceListAdapter
-                        }catch (e:Exception){
-                            Toast.makeText(requireContext(),"Server Problem",Toast.LENGTH_SHORT).show()
+                        }catch (_:Exception){
                         }
                     }
                     // Get your json response and convert it to whatever you want.
-                }, object : Response.ErrorListener {
-                    override fun onErrorResponse(error: VolleyError?) {
-                        Log.d("SendData", "error===" + error)
-                        Toast.makeText(requireActivity(), "Something went wrong!", Toast.LENGTH_LONG).show()
-                    }
+                }, Response.ErrorListener { error ->
+                    Log.d("SendData", "error===" + error)
                 }) {
                 @SuppressLint("SuspiciousIndentation")
                 @Throws(AuthFailureError::class)
@@ -341,14 +336,7 @@ lateinit var swiperefresh:SwipeRefreshLayout
        advanceRidelists.clear()
         ridelists.clear()
     }
-    fun deleteCache(context: Context) {
-        try {
-            val dir = context.cacheDir
-            deleteDir(dir)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
+
 
     fun deleteDir(dir: File?): Boolean {
         return if (dir != null && dir.isDirectory) {
@@ -366,4 +354,6 @@ lateinit var swiperefresh:SwipeRefreshLayout
             false
         }
     }
+
+
 }

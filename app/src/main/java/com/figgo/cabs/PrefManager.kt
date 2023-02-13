@@ -345,4 +345,12 @@ import android.content.SharedPreferences
      fun getAccountPhotoURL():String{
          return pref?.getString("PhotoUrl","")!!
      }
+
+     fun getRideID():Int{
+         return pref?.getInt("RideID",0)!!
+     }
+     fun setRideID(rideID:Int){
+         editor?.putInt("RideID",rideID)
+         editor?.commit()
+     }
 }
