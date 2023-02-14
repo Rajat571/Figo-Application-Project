@@ -138,13 +138,13 @@ lateinit var swiperefresh:SwipeRefreshLayout
                                         .getJSONObject(i)
                                 var ride_id = data1.getString("ride_id")
                                 var ride_request_id = data1.getString("id")
-                                Log.d("SendData", "ride_request" + ride_request_id + "," + ride_id)
+                               // Log.d("SendData", "ride_request" + ride_request_id + "," + ride_id)
 
                                 var ride_detail =
                                     response.getJSONObject("current").getJSONArray("ride_requests")
                                         .getJSONObject(i).getJSONObject("ride_detail")
                                 var booking_id = ride_detail.getString("booking_id")
-                                Log.d("SendData", "booking_id" + booking_id)
+                                //Log.d("SendData", "booking_id" + booking_id)
 
                                 var to_location =
                                     response.getJSONObject("current").getJSONArray("ride_requests")
@@ -153,10 +153,10 @@ lateinit var swiperefresh:SwipeRefreshLayout
                                 var to_location_lat = to_location.getString("lat")
                                 var to_location_long = to_location.getString("lng")
                                 var address_name = to_location.getString("name")
-                                Log.d(
+                             /*   Log.d(
                                     "SendData",
                                     "to_location" + to_location_lat + "\n" + to_location_long + "\n" + address_name
-                                )
+                                )*/
 
                                 var from_location =
                                     response.getJSONObject("current").getJSONArray("ride_requests")

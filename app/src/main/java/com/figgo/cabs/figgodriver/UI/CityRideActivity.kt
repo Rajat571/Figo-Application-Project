@@ -67,6 +67,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
      lateinit var defaultLayout:LinearLayout
      lateinit var acceptwaitLayout:LinearLayout
      private var timer:CountDownTimer?=null
+     lateinit var price:String
     var ride_id:Int=0
      var accepted:Int=0
     var ride_request_id:Int=0
@@ -109,6 +110,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
         binding.cityRideTime.text=time
         binding.bookingId.text=customer_booking_id
         binding.price.text=intent.getStringExtra("price").toString()
+        price=intent.getStringExtra("price").toString()
         defaultLayout.visibility= View.VISIBLE
         acceptwaitLayout.visibility=View.GONE
 
@@ -355,8 +357,10 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                                                      .putExtra("from_name", from_name)
                                                      .putExtra("date_only", date_only)
                                                      .putExtra("time_only", time_only)
+                                                     .putExtra("ride_id", ride_id)
                                                      .putExtra("customer_name", customer_name)
                                                      .putExtra("customer_contact", customer_contact)
+                                                     .putExtra("price",price)
                                              )
                                      }
                                  }

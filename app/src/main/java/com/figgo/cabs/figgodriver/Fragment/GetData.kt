@@ -48,6 +48,20 @@ class GetData : Fragment() {
     lateinit var profile_view: LinearLayout
     lateinit var carModel:Spinner
     lateinit var bottom_nav:BottomNavigationView
+    lateinit var local_working_areaLayout:LinearLayout
+    lateinit var local_state:Spinner
+    lateinit var local_city:Spinner
+    lateinit var chooseWorkingArea:Spinner
+    lateinit var outstationWorkinAreaLayout:LinearLayout
+    lateinit var outstationState1:Spinner
+    lateinit var outstationState2:Spinner
+    lateinit var outstationState3:Spinner
+    lateinit var outstationState4:Spinner
+    lateinit var outstationState5:Spinner
+    var updatedStateList = java.util.ArrayList<String>()
+    var stateList = kotlin.collections.ArrayList<String>()
+    var selectedcity  = 0
+    var selectedState = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -102,6 +116,23 @@ class GetData : Fragment() {
         cab_view = view.findViewById<ConstraintLayout>(R.id.get_drivercab_layout)
         work_view = view.findViewById(R.id.get_workarea_layout)
         bottom_nav= view.findViewById<BottomNavigationView>(R.id.driverdetails_menu)
+
+
+        chooseWorkingArea = view.findViewById(R.id.show_working_area_spinner)
+
+        //OUTSTATION
+        outstationWorkinAreaLayout = view.findViewById(R.id.show_working_state_layout)
+        outstationState1 = view.findViewById(R.id.show_select_state1)
+        outstationState2 = view.findViewById(R.id.show_select_state2)
+        outstationState3 = view.findViewById(R.id.show_select_state3)
+        outstationState4 = view.findViewById(R.id.show_select_state4)
+        outstationState5 = view.findViewById(R.id.show_select_state5)
+
+        //LOCAL
+        local_working_areaLayout = view.findViewById(R.id.show_working_local_layout)
+        local_state = view.findViewById(R.id.show_select_state_local)
+        local_city = view.findViewById(R.id.show_select_city)
+
         work_view.visibility=View.GONE
         bottomNavClickListener()
 
@@ -116,7 +147,7 @@ class GetData : Fragment() {
         year = view.findViewById<Spinner>(R.id.show_year_list)
         //var URL2 = "https://test.pearl-developer.com/figo/api/driver/get-cab-work-details"
         var URL2=Helper.get_cab_work_details
-        Log.d("GetDATA","URL"+URL2)
+        Log.d("GetDATA", "URL$URL2")
 
         current_year   = Calendar.getInstance().get(Calendar.YEAR)
         for(i in 2000..current_year)
@@ -213,7 +244,41 @@ class GetData : Fragment() {
                 }
                 var yearval = it.getString("year")
                 year.setSelection(dateadapter.getPosition(yearval.toInt()))
+                
+                //work Area
 
+                var adapter2 = ArrayAdapter.createFromResource(requireContext(),R.array.work_type,android.R.layout.simple_spinner_item);
+                chooseWorkingArea.adapter = adapter2
+                chooseWorkingArea.onItemSelectedListener = object :
+                    AdapterView.OnItemSelectedListener{
+                    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                        if(p2 == 2){
+                            updatedStateList.clear()
+                        }
+                        else if(p2==0){
+                            selectedState =0
+                            selectedcity = 0
+                            outstationWorkinAreaLayout.visibility=View.GONE
+                            local_working_areaLayout.visibility=View.GONE
+                        }
+                        else{
+                            selectedState =0
+                            selectedcity = 0
+/*                            updatedStateList = baseprivate.fetchStates(requireContext(), outstationState1, 1, outstationState1, stateList)
+                            updatedStateList =  baseprivate.fetchStates(requireContext(),outstationState2,2,outstationState2,stateList)
+                            updatedStateList =   baseprivate.fetchStates(requireContext(),outstationState3,3,outstationState3,stateList)
+                            updatedStateList =  baseprivate.fetchStates(requireContext(),outstationState4,4,outstationState4,stateList)
+                            updatedStateList = baseprivate.fetchStates(requireContext(),outstationState5,5,outstationState5,stateList)
+
+                            binding.workingStateLayout.visibility=View.VISIBLE
+                            binding.workingLocalLayout.visibility=View.GONE*/
+                        }
+                    }
+
+                    override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                    }
+                }
 
 
             },{
@@ -311,7 +376,7 @@ if(id.toInt()==stateid)
 
                                 Log.d("SendData", "id1===" + stateadapter.getItem(position)!!.id.toInt())
 
-                                //binding.selectStateTV.text=statehashMap.keys.toList()[position]
+                                //outstationStateTV.text=statehashMap.keys.toList()[position]
                                 prefManager.setDriveState(id1!!.toInt())
                                 fetchCity(stateadapter.getItem(position)!!.id.toInt(),cityid)
 
@@ -551,12 +616,12 @@ catch (e:Exception){
 
         json.put("type_id",position)
 
-        Log.d("SendData", "json===" + json)
+        Log.d("SendData", "json===$json")
 
         val jsonOblect=
             object : JsonObjectRequest(Method.POST, URL, json,
                 Response.Listener<JSONObject?> { response ->
-                    Log.d("SendData", "response===" + response)
+                    Log.d("SendData", "response===$response")
                     // Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
                     if (response != null) {
                         val status = response.getString("status")
@@ -599,6 +664,10 @@ catch (e:Exception){
                     // Error
                 }){}
         queue.add(jsonOblect)
+
+    }
+    
+    fun setWorkingArea(){
 
     }
 

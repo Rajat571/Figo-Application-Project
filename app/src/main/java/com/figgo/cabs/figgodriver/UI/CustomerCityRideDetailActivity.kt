@@ -41,13 +41,20 @@ import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
+import java.util.HashMap
 
 class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private var originLatitude: Double =0.0
     private var originLongitude: Double = 0.0
     private var destinationLatitude: Double =0.0
     private var destinationLongitude: Double =0.0
+    lateinit var bookingID:String
+    lateinit var bookingType:String
+    lateinit var pickuplocationTV:String
+    lateinit var fareprice:String
+    lateinit var dropLocationTV:String
     private lateinit var mMap: GoogleMap
+    var rideId:Int = 0
     lateinit var prefManager: PrefManager
     lateinit var binding:ActivityCustomerCityRideDetailBinding
     //lateinit var layout_accept_wait:LinearLayout
@@ -68,6 +75,13 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         originLongitude=intent.getStringExtra("to_location_long")!!.toDouble()
         destinationLatitude=intent.getStringExtra("from_location_lat")!!.toDouble()
         destinationLongitude=intent.getStringExtra("from_location_long")!!.toDouble()
+
+        bookingID = intent.getStringExtra("booking_id")!!
+        bookingType = intent.getStringExtra("type")!!
+        pickuplocationTV = intent.getStringExtra("from_name")!!
+        dropLocationTV = intent.getStringExtra("address_name")!!
+        fareprice = intent.getStringExtra("price")!!
+        rideId = intent.getIntExtra("ride_id",0)!!
         prefManager=PrefManager(this)
 
        // layout_accept_wait=findViewById(R.id.accept_wait_layout)
@@ -128,7 +142,12 @@ finished=true
        // if(finished)
 
         start.setOnClickListener {
-            startActivity(Intent(this, StartRideActivity::class.java))
+            startActivity(Intent(this, StartRideActivity::class.java)
+                .putExtra("bookingID",bookingID)
+                .putExtra("bookingType",bookingType)
+                .putExtra("pickup",pickuplocationTV)
+                .putExtra("dropLocation",dropLocationTV)
+                .putExtra("price",fareprice))
 /*            val dialog = Dialog(this)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialog.setCancelable(false)
@@ -292,13 +311,13 @@ finished=true
             this
         )
         alertDialog2.setTitle("Alert..")
-        alertDialog2.setMessage("Are you sure you want to cancel the ride?")
+        alertDialog2.setMessage("Are you sure you want to cancel this ride?")
         alertDialog2.setPositiveButton(
             "Yes"
         ) { dialog: DialogInterface?, which: Int ->
             finishAffinity()
-
-            startActivity(Intent(this,DriverDashBoard::class.java))
+            reject()
+            //startActivity(Intent(this,DriverDashBoard::class.java))
         }
         alertDialog2.setNegativeButton(
             "Cancel"
@@ -306,5 +325,60 @@ finished=true
         alertDialog2.show()
         //       finish();
     }
+
+    fun reject(){
+        //var url="https://test.pearl-developer.com/figo/api/driver-ride/reject-city-ride-request"
+        var url=Helper.reject_city_ride_request
+        Log.d("CityRideActivity", "Reject status URL===" + url)
+        var queue=Volley.newRequestQueue(this)
+        var json=JSONObject()
+        if(rideId==0)
+        json.put("ride_request_id",prefManager.getRideID())
+        else
+            json.put("ride_request_id",rideId)
+        val jsonOblect: JsonObjectRequest =
+            object : JsonObjectRequest(Method.POST, url,json,
+                com.android.volley.Response.Listener<JSONObject?> { response ->
+                    Log.d("CityRideActivity", "Reject status response===" + response)
+                    var statuss=response.getString("status")
+                    if (statuss.equals(true)) {
+                        var message=response.getString("message")
+                        Toast.makeText(this@CustomerCityRideDetailActivity, "rejected"+message, Toast.LENGTH_LONG).show()
+                        //finish()
+
+
+                    }
+                    // Get your json response and convert it to whatever you want.
+                }, object : com.android.volley.Response.ErrorListener {
+                    override fun onErrorResponse(error: VolleyError?) {
+                        Log.d("CityRideActivity", "error===" + error)
+                      //  Toast.makeText(this@CustomerCityRideDetailActivity, "Something went wrong!", Toast.LENGTH_LONG).show()
+                    }
+                })
+
+            {
+                @SuppressLint("SuspiciousIndentation")
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val headers: MutableMap<String, String> = HashMap()
+                    headers.put("Content-Type", "application/json; charset=UTF-8");
+                    headers.put("Authorization", "Bearer " + prefManager.getToken());
+                    return headers
+                }
+            }
+
+        queue.add(jsonOblect)
+        // Toast.makeText(this,"Accepted",Toast.LENGTH_SHORT).show()
+
+
+        // Toast.makeText(this," This Booking is rejected",Toast.LENGTH_SHORT).show()
+        // finish()
+        startActivity(
+            Intent(
+                this,
+                DriverDashBoard::class.java
+            ))
+    }
+
 
 }

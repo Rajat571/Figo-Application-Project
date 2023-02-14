@@ -721,7 +721,7 @@ class DriverCabDetailsFragment : Fragment() {
 
         val jsonOblect=  object : JsonObjectRequest(Method.POST, URL, json,
             Response.Listener<JSONObject?> { response ->
-                Log.d("SendData", "response===" + response)
+                //Log.d("SendData", "response===" + response)
                 // Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
                 if (response != null) {
                     val status = response.getString("status")
