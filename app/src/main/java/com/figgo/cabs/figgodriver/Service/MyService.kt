@@ -114,9 +114,9 @@ prefManager= PrefManager(applicationContext)
                     else {
 
                         lat = location.latitude
-                        prefManager.setlatitude(lat.toFloat()+x)
+                        prefManager.setlatitude(lat.toFloat())
                         lon = location.longitude
-                        prefManager.setlongitude(lon.toFloat()+x)
+                        prefManager.setlongitude(lon.toFloat())
                         x=x+0.02f
                         geocoder = Geocoder(this, Locale.getDefault())
 
@@ -188,4 +188,7 @@ prefManager= PrefManager(applicationContext)
         private const val TAG = "BroadcastService"
         const val COUNTDOWN_BR = "your_package_name.countdown_br"
     }
+
+
+
 }

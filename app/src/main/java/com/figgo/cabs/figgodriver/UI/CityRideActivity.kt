@@ -99,7 +99,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
         des_long=intent.getStringExtra("des_long")!!.toDouble()
          ride_id=intent.getStringExtra("ride_id")!!.toInt()
 
-        liveRouting.firebaseInit(ride_id)
+      //  liveRouting.firebaseInit(ride_id)
         ride_request_id=intent.getStringExtra("ride_request_id")!!.toInt()
         defaultLayout=findViewById(R.id.city_ride_defaultlayout)
         acceptwaitLayout=findViewById(R.id.cityride_wait_layout)
@@ -193,10 +193,10 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
             //GetDirection(urll).execute()
             var newlat=30.288415
             var new_lon=78.014850
-
-           timer = object: CountDownTimer(100000, 1000) {
+            liveRouting(newlat, new_lon)
+         /*  timer = object: CountDownTimer(100000, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
-                    liveRouting(newlat, new_lon)
+
                     newlat+=0.001
                     new_lon+=0.001
                 }
@@ -205,7 +205,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                 }
             }
             (timer as CountDownTimer).start()
-
+*/
 
             //liveRouting(newlat, new_lon)
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(destinationLocation, 12F))

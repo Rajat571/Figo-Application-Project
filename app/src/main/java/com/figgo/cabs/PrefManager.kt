@@ -353,4 +353,15 @@ import android.content.SharedPreferences
          editor?.putInt("RideID",rideID)
          editor?.commit()
      }
+     fun setCustomerlocation(lat:Float,lon:Float){
+         editor?.putFloat("CLat",lat)
+         editor?.putFloat("CLon",lon)
+         editor?.commit()
+     }
+     fun getCustLat():Float{
+         return pref?.getFloat("CLat",0.0f)!!
+     }
+     fun getCustLon():Float{
+         return pref?.getFloat("CLon",0.0f)!!
+     }
 }

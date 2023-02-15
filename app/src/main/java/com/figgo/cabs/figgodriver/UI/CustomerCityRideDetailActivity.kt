@@ -29,6 +29,7 @@ import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.databinding.ActivityCustomerCityRideDetailBinding
 import com.figgo.cabs.figgodriver.MapData
+import com.figgo.cabs.figgodriver.Service.MyService
 import com.figgo.cabs.pearllib.Helper
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -83,7 +84,7 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         fareprice = intent.getStringExtra("price")!!
         rideId = intent.getIntExtra("ride_id",0)!!
         prefManager=PrefManager(this)
-
+        stopService(Intent(this, MyService::class.java))
        // layout_accept_wait=findViewById(R.id.accept_wait_layout)
         //layout_customer_city_ride=findViewById(R.id.city_ride_activitylayout)
         var mapFragmentt=supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment

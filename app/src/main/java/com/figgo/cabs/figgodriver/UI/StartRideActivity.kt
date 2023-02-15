@@ -3,6 +3,7 @@ package com.figgo.cabs.figgodriver.UI
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.content.res.Resources
@@ -35,6 +36,8 @@ import com.figgo.cabs.R
 import com.figgo.cabs.databinding.ActivityStartRideBinding
 import com.figgo.cabs.figgodriver.Location
 import com.figgo.cabs.figgodriver.MapData
+import com.figgo.cabs.figgodriver.Service.FireBaseService
+import com.figgo.cabs.figgodriver.Service.MyService
 import com.figgo.cabs.pearllib.Helper
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
@@ -58,6 +61,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.otp_start_layout.*
+import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONArray
@@ -81,6 +85,8 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var pickuplocation:TextView
     lateinit var fareprice:TextView
     lateinit var dropLocationTV:TextView
+    lateinit var price:String
+    var endRoute:Boolean = false
     private lateinit var mMap: GoogleMap
     lateinit var binding: ActivityStartRideBinding
     private var timer:CountDownTimer?=null
@@ -104,9 +110,12 @@ prefManager= PrefManager(this)
         bookingID.text = intent.getStringExtra("bookingID")
         pickuplocation.text = intent.getStringExtra("pickup")
         fareprice.text = intent.getStringExtra("price")
+        price = intent.getStringExtra("price").toString()
         dropLocationTV.text = intent.getStringExtra("dropLocation")
 
+        startService(Intent(this,FireBaseService::class.java))
         rideId = prefManager.getRideID()
+        Log.d("RideID ","$rideId")
         var arrow_up_btn=findViewById<ImageView>(R.id.arrow_up_IV)
         binding.arrowDownIV.setOnClickListener {
             TransitionManager.beginDelayedTransition( binding.startRideBottomLayout, AutoTransition())
@@ -119,7 +128,7 @@ prefManager= PrefManager(this)
             start_ride_bottom_layout.visibility=View.GONE
         }
         rideComplete.setOnClickListener {
-            rideFinish()
+            rideDetails()
         }
 
         val ai: ApplicationInfo = applicationContext.packageManager
@@ -131,12 +140,14 @@ prefManager= PrefManager(this)
             Places.initialize(applicationContext.applicationContext,apiKey)
         }
 
-        val database = FirebaseDatabase.getInstance()
+/*        val database = FirebaseDatabase.getInstance()
         val customerRef = database.getReference("1070 customer")
-        val driverRef = database.getReference("1070 driver")
+        val driverRef = database.getReference("1070 customer")*/
 
 var count:Int = 0
         val mapFragment = supportFragmentManager.findFragmentById(R.id.mapend) as SupportMapFragment
+        updateRoute()
+        val scope = CoroutineScope(Job() + Dispatchers.Main)
         mapFragment.getMapAsync(this)
         mapFragment.getMapAsync {
             mMap = it
@@ -149,47 +160,37 @@ var count:Int = 0
             val urll = getDirectionURL(originLocation, destinationLocation, "AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
             //GetDirection(urll).execute()
 
-            timer = object: CountDownTimer(100000, 500) {
-                override fun onTick(millisUntilFinished: Long) {
+           /* while(!endRoute) {*/
 
-                    count++
-                    customerLAT=0.0
-                    customerLON=0.0
-                    //setCurrentLatLon()
-                    originLatitude+=0.0001
-                    originLongitude+=0.0001
-                    driverRef.child("LAT ").setValue("$originLatitude")
-                    driverRef.child("LON ").setValue("$originLongitude")
-                    customerRef.addValueEventListener(object : ValueEventListener{
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            var gson = Gson()
-                            val json = Gson().toJson(snapshot.value)
-                            var LAT = json
-                            var LON = snapshot
 
-                            Log.d("$this", "$LAT $LON")
-                        }
+                timer = object: CountDownTimer(9000000, 2000) {
+                    override fun onTick(millisUntilFinished: Long) {
+                        updateRoute()
+                        liveRouting(originLatitude, originLongitude, customerLAT, customerLON)
+                    }
 
-                        override fun onCancelled(error: DatabaseError) {
-                        }
-
-                    })
-                    liveRouting(originLatitude,originLongitude,customerLAT,customerLON)
-
+                    override fun onFinish() {
+                        TODO("Not yet implemented")
+                    }
                 }
-                override fun onFinish() {
+                (timer as CountDownTimer).start()
+                Thread.sleep(2000L)
 
-                }
-            }
-            (timer as CountDownTimer).start()
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 11F))
             
 
         }
     }
 
-    private fun rideFinish() {
-var url = Helper.ride_complete
+    private fun updateRoute(){
+        originLatitude = prefManager.getlatitude().toDouble()
+        originLongitude = prefManager.getlongitude().toDouble()
+        customerLAT = prefManager.getCustLat().toDouble()
+        customerLON = prefManager.getCustLon().toDouble()
+
+    }
+    private fun rideDetails() {
+    var url = Helper.ride_details
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -202,13 +203,14 @@ var url = Helper.ride_complete
         var distance = dialog.findViewById<TextView>(R.id.rdcomplete_distance)
         var to = dialog.findViewById<TextView>(R.id.rdcomplete_destination)
         var from = dialog.findViewById<TextView>(R.id.rdcomplete_from)
-        var price = dialog.findViewById<TextView>(R.id.rdcomplete_price)
+        var priceTV = dialog.findViewById<TextView>(R.id.rdcomplete_price)
         var status = dialog.findViewById<TextView>(R.id.rdcomplete_status)
         var tID = dialog.findViewById<TextView>(R.id.rdcomplete_transaction)
         var endMSG = dialog.findViewById<TextView>(R.id.rdcomplete_message)
         var submit = dialog.findViewById<Button>(R.id.rdcomplete_ok)
         var cancel = dialog.findViewById<ImageView>(R.id.rdcomplete_cancel)
         var queue=Volley.newRequestQueue(this)
+        priceTV.text = price
         var json = JSONObject()
         json.put("ride_id",rideId)
         var jsonObject: JsonObjectRequest = object : JsonObjectRequest(Method.POST,url,json,{
@@ -216,18 +218,18 @@ var url = Helper.ride_complete
                 Log.d("$this","Res = $it")
                 rideInfoArray = it.getJSONArray("ride-info")
                 rideInfo = rideInfoArray.getJSONObject(0)
-                rideInfoone = rideInfoArray.getJSONObject(1)
+              //  rideInfoone = rideInfoArray.getJSONObject(1)
                 date.text = rideInfo.getString("date_only")
                 distance.text = rideInfo.getString("actual_distance")
                 to.text = rideInfo.getJSONObject("to_location").getString("name")
                 from.text = rideInfo.getJSONObject("from_location").getString("name")
-                price.text = rideInfoone.getString("price")
+                //priceTV.text = rideInfoone.getString("price")
                 //status.text = it.getString()
                 tID.text = rideInfo.getString("transaction_id")
                 if (rideInfo.getString("transaction_id").equals("null")){
                     status.text="Pending"
                     status.setTextColor(resources.getColor(R.color.red))
-                    endMSG.text="Please take the payment from customer on ride complete."
+                    endMSG.text="Please take payment from customer on ride complete."
                 }
                 else{
                     status.text="Done"
@@ -252,12 +254,50 @@ var url = Helper.ride_complete
         queue.add(jsonObject)
         submit.setOnClickListener {
             //Toast.makeText(view.context,"OTP SENT SUCCESSFULLY", Toast.LENGTH_SHORT).show()
-            dialog.dismiss()
+            rideFinish()
         }
         cancel.setOnClickListener {
             dialog.dismiss()
         }
         dialog.show()
+    }
+
+    private fun rideFinish() {
+        var url = Helper.ride_complete
+        val dialog = Dialog(this)
+        endRoute=true
+        stopService(Intent(this,FireBaseService::class.java))
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.ridecompleteok)
+        var okButton = dialog.findViewById<Button>(R.id.final_ridecomplete)
+        okButton.setOnClickListener {
+            startActivity(Intent(this,DriverDashBoard::class.java))
+        }
+        var queue=Volley.newRequestQueue(this)
+        var json = JSONObject()
+        json.put("ride_id",rideId)
+        var jsonObject: JsonObjectRequest = object : JsonObjectRequest(Method.POST,url,json,{
+            if (it!=null){
+               Toast.makeText(this,"Ride Successfully Completed",Toast.LENGTH_SHORT).show()
+
+
+                dialog.show()
+            }
+        },{
+
+        }){
+            @SuppressLint("SuspiciousIndentation")
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers: MutableMap<String, String> = HashMap()
+                headers.put("Content-Type", "application/json; charset=UTF-8");
+                headers.put("Authorization", "Bearer " + prefManager.getToken());
+                return headers
+            }
+        }
+        queue.add(jsonObject)
+
     }
 
 
@@ -349,6 +389,7 @@ var url = Helper.ride_complete
 
         driverlocation   = LatLng(driver_lat, driver_lon)
         dropLocation  = LatLng(destinationLatitude, destinationLongitude)
+        customerLocation = LatLng(cust_lat,cust_lon)
         //customerLocation = LatLng(cust_lat)
         val height = 80
         val width = 80
@@ -358,7 +399,7 @@ var url = Helper.ride_complete
         mMap.addMarker(
             MarkerOptions().position(driverlocation!!)
                 .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
-                .title("Current Location")
+                .title("My Location")
         )
         val bitmapdraw2 = resources.getDrawable(R.drawable.ic_destination) as BitmapDrawable
         val b2 = bitmapdraw2.bitmap
@@ -367,6 +408,14 @@ var url = Helper.ride_complete
             MarkerOptions().position(dropLocation!!)
                 .icon(BitmapDescriptorFactory.fromBitmap(smallMarker2))
                 .title("drop-off")
+        )
+        val bitdraw3 = resources.getDrawable(R.drawable.ic_customerpin) as BitmapDrawable
+        val b3 = bitdraw3.bitmap
+        val smallMarker3 = Bitmap.createScaledBitmap(b3,width,height,false)
+        mMap.addMarker(
+            MarkerOptions().position(customerLocation!!)
+                .icon(BitmapDescriptorFactory.fromBitmap(smallMarker3))
+                .title("customer")
         )
 
         val source = "$driver_lat,$driver_lon"
@@ -380,7 +429,7 @@ var url = Helper.ride_complete
         }, 5000)
     }
 
-    fun setCurrentLatLon(){
+    /*fun setCurrentLatLon(){
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -408,5 +457,5 @@ var url = Helper.ride_complete
                     //Toast.makeText(this,"Lat :"+lat+"\nLong: "+long, Toast.LENGTH_SHORT).show()
                 }
             }
-    }
+    }*/
 }

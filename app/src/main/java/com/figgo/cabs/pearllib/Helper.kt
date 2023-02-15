@@ -9,7 +9,9 @@ package com.figgo.cabs.pearllib
     var new_create_driver = baseurl+"register-user"
     var new_check_OTP = baseurl+"verify-otp"
      var  send_otp = baseurl + "otp/send-otp"
-     var user_type = baseurl+"check-user-type"
+     //var user_type = baseurl+"check-user-type"
+     var user_type = baseurl+"set-type"
+  var register_partner = baseurl+"partner/register_partner"
      var check_otp= baseurl+"otp/check-otp"
      var get_state= baseurl+"get-state"
      var get_city= baseurl+"get-city"
@@ -25,6 +27,7 @@ package com.figgo.cabs.pearllib
      var get_all_details= baseurl+"driver/get-all-details"
      var get_cab_work_details= baseurl+"driver/get-cab-work-details"
      var ride_history= baseurl+"driver/ride-history"
+     var ride_details = baseurl+"ride/ride-details"
      var ride_complete = baseurl+"ride/ride-complete"
 
 }
