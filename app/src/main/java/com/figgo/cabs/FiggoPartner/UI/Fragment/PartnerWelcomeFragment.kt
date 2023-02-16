@@ -28,19 +28,20 @@ class PartnerWelcomeFragment : Fragment() {
         val check=binding.terms
         val accept = binding.accept
         val cancel = binding.cancel
+
         val value = arguments?.getString("Parent");
-        if(value=="Hotel Partner"){
+        /*if(value=="Hotel Partner"){*/
         accept.setOnClickListener {
             if (check.isChecked)
-            Navigation.findNavController(view).navigate(R.id.action_partnerWelcomeFragment_to_figgoHotelPartner)
+                Navigation.findNavController(view).navigate(R.id.action_partnerWelcomeFragment_to_partnerDetails)
             else
                 Toast.makeText(requireContext(),"Please accept the terms and conditions.",Toast.LENGTH_SHORT).show()
         }
         cancel.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_partnerWelcomeFragment_to_figgo_FamilyFragment)
         }
-        }
-        else{
+
+/*        else{
         accept.setOnClickListener {
             if (check.isChecked)
                 Navigation.findNavController(view).navigate(R.id.action_partnerWelcomeFragment_to_partnerDetails)
@@ -50,6 +51,6 @@ class PartnerWelcomeFragment : Fragment() {
             cancel.setOnClickListener {
                 Navigation.findNavController(view).navigate(R.id.action_partnerWelcomeFragment_to_figgo_FamilyFragment)
             }
-        } }
+        }*/ }
 
 }

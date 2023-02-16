@@ -86,6 +86,9 @@
         <action
             android:id="@+id/action_partnerDetails_to_partnerWelcomeFragment"
             app:destination="@id/partnerWelcomeFragment" />
+        <action
+            android:id="@+id/action_partnerDetails_to_figgo_Capton"
+            app:destination="@id/figgo_Capton" />
     </fragment>
     <fragment
         android:id="@+id/driverDetailsFragment"

@@ -55,8 +55,8 @@ class Figgo_FamilyFragment : Fragment() {
             if(isChecked){
                 var args = Bundle()
                 args.putString("Parent","Driver");
+                setUserType("Driver",view)
 
-                Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_driverWelcomeFragment,args)
             }
         }
         binding.hotelPartner.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -66,7 +66,10 @@ class Figgo_FamilyFragment : Fragment() {
 
 //                hotelPartner.arguments = args;
                 //childFragmentManager.beginTransaction().add(R.id.nav_controller,hotelPartner).commit()
-                setUserType("Driver",view)
+                var args = Bundle()
+                args.putString("Parent","Hotel");
+                Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_comingSoonFragment,args)
+
 
 
             }
@@ -84,16 +87,20 @@ class Figgo_FamilyFragment : Fragment() {
                     Log.d("Choose User Response ",it.toString())
                     if(it.getString("status").equals("true")){
                         ret = true
-                        if (userType.equals("Partner"))
-                            Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_partnerDetails)
+                        if (userType.equals("Partner")) {
+                            var args = Bundle()
+                            args.putString("Parent","Partner")
+                            Navigation.findNavController(view)
+                                .navigate(R.id.action_figgo_FamilyFragment_to_partnerWelcomeFragment,args)
+                        }
                         else if (userType.equals("Driver")){
                             var args = Bundle()
-                            args.putString("Parent","HotelPartner");
-                            Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_comingSoonFragment,args)
+                            args.putString("Parent","Driver");
+                            Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_driverWelcomeFragment,args)
                         }
                         else{
                             var args = Bundle()
-                            args.putString("Parent","TaxiPartner");
+                            args.putString("Parent","HotelPartner");
                             Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_comingSoonFragment,args)
                         }
 

@@ -1,10 +1,12 @@
 package com.figgo.cabs.FiggoPartner.UI.Fragment
 
+import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
@@ -20,6 +22,8 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import com.android.volley.AuthFailureError
@@ -133,6 +137,9 @@ class PartnerDetails : Fragment() {
 
         up_adharback = view.findViewById(R.id.adhar_back)
         up_adharfront = view.findViewById(R.id.adhar_front)
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
+            == PackageManager.PERMISSION_DENIED)
+            ActivityCompat.requestPermissions(requireActivity(),arrayOf(Manifest.permission.CAMERA), 200);
         val optionsMenu = arrayOf<CharSequence>(
             "Take Photo",
             "Choose from Gallery",
@@ -185,7 +192,7 @@ class PartnerDetails : Fragment() {
 
                     } else if (optionsMenu[i] == "Choose from Gallery") {
                         // choose from  external storage
-                        var intent= Intent()
+                        val intent= Intent()
                         intent.type="image/*"
                         intent.action= Intent.ACTION_GET_CONTENT
                         startActivityForResult(Intent.createChooser(intent,"select Picture"),4)
@@ -202,6 +209,8 @@ progressBar = view.findViewById(R.id.partnerprogressbar)
         defLayout = view.findViewById(R.id.choose_user)
         progressBar.visibility=View.GONE
         defLayout.visibility=View.VISIBLE
+        var data = Bundle()
+        data.putString("Parent","Driver");
         next.setOnClickListener {
             progressBar.visibility=View.VISIBLE
             defLayout.visibility=View.GONE
@@ -223,7 +232,8 @@ progressBar = view.findViewById(R.id.partnerprogressbar)
                         Log.d("Partner Register Response ",it.toString())
                         progressBar.visibility=View.GONE
                         defLayout.visibility=View.VISIBLE
-                        Navigation.findNavController(view).navigate(R.id.action_partnerDetails_to_driverDetailsFragment)
+                        prefManager.setUserType("Partner")
+                        Navigation.findNavController(view).navigate(R.id.action_partnerDetails_to_figgo_Capton,data)
 
                     }
                 },

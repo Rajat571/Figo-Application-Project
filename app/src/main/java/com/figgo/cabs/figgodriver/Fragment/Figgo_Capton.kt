@@ -54,6 +54,9 @@ class Figgo_Capton : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var arg = arguments
+        var user_type = arg?.getString("Parent")
+
         /*****************************    PrefManager initialization  *******************************************/
 
         prefManager = PrefManager(requireContext())

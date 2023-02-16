@@ -1441,7 +1441,7 @@ class DriverCabDetailsFragment : Fragment() {
                         selectedImageUri4
                     )
                     gps_certification = base.BitMapToString(bitmap).toString()
-                    Log.d("DriverActiveRideFragment1", "gps_certification_ext" + gps_certification)
+                //    Log.d("DriverActiveRideFragment1", "gps_certification_ext" + gps_certification)
                     binding.gpscertificte.setCompoundDrawablesWithIntrinsicBounds(
                         0,
                         0,
@@ -1537,13 +1537,21 @@ Toast.makeText(requireContext(),"Please upload images",Toast.LENGTH_SHORT).show(
     }
 
     private fun submitForm(insurance_valid_date:String,local_permit_date:String,national_permit_date:String,car_category:String,car_model:Int,model_year:Int,v_number:String) {
+        var user_type = prefManager.getUserType()
         binding.progress.isVisible = true
         binding.cabDetailsLayout.isVisible = false
         binding.work.isVisible = false
         binding.uploadImage.isVisible = false
         Log.d("SendData", "updatedStateList==="+updatedStateList)
         //val URL = "https://test.pearl-developer.com/figo/api/regitser-driver"
-        var URL=Helper.regitser_driver
+        var URL = Helper.regitser_driver
+        if(user_type.equals("Driver")) {
+            URL = Helper.regitser_driver
+            Toast.makeText(requireContext(),"Submitting driver",Toast.LENGTH_SHORT).show()
+        } else if(user_type.equals("Partner")) {
+            URL = Helper.create_driverbypartner
+            Toast.makeText(requireContext(),"Submitting driver by partner",Toast.LENGTH_SHORT).show()
+        }
         Log.d("SendData", "URL===" + URL)
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()

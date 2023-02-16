@@ -10,6 +10,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.Navigation
+import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -34,10 +35,16 @@ class DriverWelcomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var args = arguments
+        var data = Bundle()
+        data.putString("Parent","Driver");
+        prefManager = PrefManager(requireContext())
+        var userType: String? = args?.getString("Parent")
         var taxi_cab=view.findViewById<CheckBox>(R.id.terms)
         var accept = view.findViewById<Button>(R.id.accept)
        accept.setOnClickListener {
             if (taxi_cab.isChecked){
+                prefManager.setUserType("Driver")
                 Navigation.findNavController(view).navigate(R.id.action_driverWelcomeFragment_to_figgo_Capton)
             }
            else{

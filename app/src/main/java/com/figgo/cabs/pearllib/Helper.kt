@@ -12,6 +12,7 @@ package com.figgo.cabs.pearllib
      //var user_type = baseurl+"check-user-type"
      var user_type = baseurl+"set-type"
   var register_partner = baseurl+"partner/register_partner"
+     var create_driverbypartner = baseurl+"partner/create-driver-by-partner"
      var check_otp= baseurl+"otp/check-otp"
      var get_state= baseurl+"get-state"
      var get_city= baseurl+"get-city"

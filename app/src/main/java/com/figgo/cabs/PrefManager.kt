@@ -364,4 +364,12 @@ import android.content.SharedPreferences
      fun getCustLon():Float{
          return pref?.getFloat("CLon",0.0f)!!
      }
+
+     fun setUserType(user:String){
+         editor?.putString("UserType",user)
+         editor?.commit()
+     }
+     fun getUserType():String{
+         return pref?.getString("UserType","")!!
+     }
 }
