@@ -6,7 +6,9 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.location.Location
 import android.os.AsyncTask
 import android.os.Bundle
@@ -183,17 +185,25 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
         mapFragment.getMapAsync(this)
         mapFragment.getMapAsync {
             mMap = it
+            val height = 80
+            val width = 80
+            val bitmapdraw = resources.getDrawable(R.drawable.location_green) as BitmapDrawable
+            val b = bitmapdraw.bitmap
+            val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
             val originLocation = LatLng(current_lat!!, current_long!!)
            // val originLocation = LatLng( originLatitude, originLongitude)
-            mMap.addMarker(MarkerOptions().position(originLocation).title("hey"))
+            mMap.addMarker(MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                .position(originLocation).title("hey"))
             val destinationLocation = LatLng(des_lat!!, des_long!!)
             //val destinationLocation = LatLng(destinationLatitude, destinationLongitude)
-            mMap.addMarker(MarkerOptions().position(destinationLocation).title("hi"))
+            mMap.addMarker(MarkerOptions()
+                .position(destinationLocation).title("hi"))
             val urll = getDirectionURL(originLocation, destinationLocation, "AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
-            //GetDirection(urll).execute()
+            GetDirection(urll).execute()
             var newlat=30.288415
             var new_lon=78.014850
-            liveRouting(newlat, new_lon)
+           // liveRouting(newlat, new_lon)
          /*  timer = object: CountDownTimer(100000, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
 
@@ -228,7 +238,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
             var timertv = findViewById<TextView>(R.id.timer5min)
             var min=5
             var sec:Int=60
-            timer = object: CountDownTimer(100000, 1000) {
+            timer = object: CountDownTimer(300000, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
                     if(sec==60) {
                         timertv.text = "0" + min + " : " + "00"
@@ -340,7 +350,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                                       customer_contact = customer.getString("contact_no")
                                      Toast.makeText(this, status,Toast.LENGTH_SHORT).show()
                                      prefManager.setActiveRide(1)
-                                     if (status.equals("pending")) {
+                                     if (!status.equals("pending")) {
                                          Toast.makeText(this,"Accepted",Toast.LENGTH_SHORT).show()
                                              startActivity(
                                                  Intent(

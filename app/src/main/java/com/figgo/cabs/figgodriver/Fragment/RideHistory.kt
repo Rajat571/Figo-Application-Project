@@ -69,7 +69,7 @@ class RideHistory : Fragment() {
         val jsonObject:JsonObjectRequest = object :JsonObjectRequest(Method.POST,url3,null,
             {
                 if(it!=null) {
-                    try {
+                    /*try {*/
 
 
                         progressbar.visibility = View.GONE
@@ -96,9 +96,10 @@ class RideHistory : Fragment() {
                         )
                         //  ride_details=allrideArray.optJSONObject(1).getJSONObject("ride_detail")
                         //Log.d("Ride Detail ",""+ride_details.toString())
-                        for (i in 0..allrideArray.length() - 1) {
+                        for (i in 0 until allrideArray.length()) {
+                            try{
                             ride_details =
-                                allrideArray.optJSONObject(i).getJSONObject("ride_detail")
+                                allrideArray.getJSONObject(i).getJSONObject("ride_detail")
                             booking_id = ride_details.getString("booking_id")
                             destination =
                                 ride_details.getJSONObject("to_location").getString("name")
@@ -119,13 +120,16 @@ class RideHistory : Fragment() {
                                     "View"
                                 )
                             )
+                            }
+                            catch (e:Exception){
+                                //Toast.makeText(requireContext(),"Server Problem", Toast.LENGTH_SHORT).show()
+                            }
+
                         }
+
                         header.adapter = RideHistoryRowAdapter(contentdata, requireContext())
                         header.layoutManager = LinearLayoutManager(requireContext())
-                    }
-                    catch (e:Exception){
-                        Toast.makeText(requireContext(),"Server Problem", Toast.LENGTH_SHORT).show()
-                    }
+
                 }
 
             },{

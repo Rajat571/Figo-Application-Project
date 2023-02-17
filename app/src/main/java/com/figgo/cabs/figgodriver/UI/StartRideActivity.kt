@@ -21,6 +21,7 @@ import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
@@ -145,6 +146,7 @@ prefManager= PrefManager(this)
         val driverRef = database.getReference("1070 customer")*/
 
 var count:Int = 0
+        Toast.makeText(this,"Ride ID $rideId",Toast.LENGTH_SHORT).show()
         val mapFragment = supportFragmentManager.findFragmentById(R.id.mapend) as SupportMapFragment
         updateRoute()
         val scope = CoroutineScope(Job() + Dispatchers.Main)
@@ -165,6 +167,7 @@ var count:Int = 0
 
                 timer = object: CountDownTimer(9000000, 2000) {
                     override fun onTick(millisUntilFinished: Long) {
+
                         updateRoute()
                         liveRouting(originLatitude, originLongitude, customerLAT, customerLON)
                     }
@@ -209,12 +212,15 @@ var count:Int = 0
         var endMSG = dialog.findViewById<TextView>(R.id.rdcomplete_message)
         var submit = dialog.findViewById<Button>(R.id.rdcomplete_ok)
         var cancel = dialog.findViewById<ImageView>(R.id.rdcomplete_cancel)
+        var completerideprogress = dialog.findViewById<ProgressBar>(R.id.completeridedetailprogressbar)
         var queue=Volley.newRequestQueue(this)
         priceTV.text = price
         var json = JSONObject()
         json.put("ride_id",rideId)
         var jsonObject: JsonObjectRequest = object : JsonObjectRequest(Method.POST,url,json,{
             if (it!=null){
+                try{
+                    completerideprogress.visibility=View.GONE
                 Log.d("$this","Res = $it")
                 rideInfoArray = it.getJSONArray("ride-info")
                 rideInfo = rideInfoArray.getJSONObject(0)
@@ -238,6 +244,9 @@ var count:Int = 0
                 }
                 //endMSG.text = it.getString()
 
+            } catch (e:Exception){
+                    Toast.makeText(this,"Try Again! Server Problem", Toast.LENGTH_SHORT).show()
+                }
             }
         },{
 
@@ -409,7 +418,7 @@ var count:Int = 0
                 .icon(BitmapDescriptorFactory.fromBitmap(smallMarker2))
                 .title("drop-off")
         )
-        val bitdraw3 = resources.getDrawable(R.drawable.ic_customerpin) as BitmapDrawable
+        val bitdraw3 = resources.getDrawable(R.drawable.ic_custmarker) as BitmapDrawable
         val b3 = bitdraw3.bitmap
         val smallMarker3 = Bitmap.createScaledBitmap(b3,width,height,false)
         mMap.addMarker(
@@ -423,6 +432,7 @@ var count:Int = 0
         Log.e("Origin ", "$source\n Destination $destination")
         //GetDirection().execute(source, destination)
         var url:String=getDirectionURL(driverlocation!!, dropLocation!!,"AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
+
         GetDirection(url).execute()
         Handler().postDelayed({
             //do something
@@ -457,5 +467,10 @@ var count:Int = 0
                     //Toast.makeText(this,"Lat :"+lat+"\nLong: "+long, Toast.LENGTH_SHORT).show()
                 }
             }
+    }*/
+/*
+    override fun onDestroy() {
+        super.onDestroy()
+        stopService(Intent(this,FireBaseService::class.java))
     }*/
 }

@@ -136,7 +136,7 @@
                     android:src="@drawable/fromlocation"
                     />
                 <TextView
-                    android:id="@+id/location_from"
+                    android:id="@+id/location_to"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
@@ -162,7 +162,8 @@
                     android:layout_height="20dp"
                     android:src="@drawable/destinationlocation" />
                 <TextView
-                    android:id="@+id/location_to"
+
+                    android:id="@+id/location_from"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""

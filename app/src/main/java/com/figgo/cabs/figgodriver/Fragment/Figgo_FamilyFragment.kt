@@ -69,6 +69,7 @@ class Figgo_FamilyFragment : Fragment() {
                 var args = Bundle()
                 args.putString("Parent","Hotel");
                 Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_comingSoonFragment,args)
+                //Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_partner_end_screen,args)
 
 
 
@@ -102,6 +103,7 @@ class Figgo_FamilyFragment : Fragment() {
                             var args = Bundle()
                             args.putString("Parent","HotelPartner");
                             Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_comingSoonFragment,args)
+                            //Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_partner_end_screen,args)
                         }
 
                     }

@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -35,6 +37,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
@@ -79,8 +82,8 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         bookingID = intent.getStringExtra("booking_id")!!
         bookingType = intent.getStringExtra("type")!!
-        pickuplocationTV = intent.getStringExtra("from_name")!!
-        dropLocationTV = intent.getStringExtra("address_name")!!
+        pickuplocationTV = intent.getStringExtra("address_name")!!
+        dropLocationTV = intent.getStringExtra("from_name")!!
         fareprice = intent.getStringExtra("price")!!
         rideId = intent.getIntExtra("ride_id",0)!!
         prefManager=PrefManager(this)
@@ -94,8 +97,15 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
             mMap = it
             val originLocation = LatLng(prefManager.getlatitude().toDouble(), prefManager.getlongitude().toDouble())
+            val height = 80
+            val width = 80
+            val bitmapdraw = resources.getDrawable(R.drawable.location_green) as BitmapDrawable
+            val b = bitmapdraw.bitmap
+            val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
             // val originLocation = LatLng( originLatitude, originLongitude)
-            mMap.addMarker(MarkerOptions().position(originLocation).title("Current location"))
+            mMap.addMarker(MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                .position(originLocation).title("Current location"))
             val destinationLocation = LatLng(destinationLatitude!!, destinationLongitude!!)
             //val destinationLocation = LatLng(destinationLatitude, destinationLongitude)
             mMap.addMarker(MarkerOptions().position(destinationLocation).title("Pickup"))
@@ -149,7 +159,9 @@ finished=true
                 .putExtra("pickup",pickuplocationTV)
                 .putExtra("dropLocation",dropLocationTV)
                 .putExtra("price",fareprice))
-/*            val dialog = Dialog(this)
+
+
+            /*val dialog = Dialog(this)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialog.setCancelable(false)
             dialog.setContentView(R.layout.otp_start_layout)
@@ -186,7 +198,14 @@ finished=true
           Log.d("VerifyNumber","OTPresponse"+response)
           if (response!=null){
               if (response.getString("status").equals("true")) {
-                  startActivity(Intent(this, StartRideActivity::class.java))
+                  //startActivity(Intent(this, StartRideActivity::class.java))
+                  startActivity(Intent(this, StartRideActivity::class.java)
+                      .putExtra("bookingID",bookingID)
+                      .putExtra("bookingType",bookingType)
+                      .putExtra("pickup",pickuplocationTV)
+                      .putExtra("dropLocation",dropLocationTV)
+                      .putExtra("price",fareprice))
+
               }
               else{
                   Toast.makeText(this,""+response.getString("message"),Toast.LENGTH_LONG).show()
@@ -211,7 +230,7 @@ finished=true
       }
       queue2.add(jsonObjectRequest)
 
-               *//* Toast.makeText(this,"OTP SENT SUCCESSFULLY", Toast.LENGTH_SHORT).show()*//*
+                Toast.makeText(this,"OTP SENT SUCCESSFULLY", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
             }
             cancel.setOnClickListener {

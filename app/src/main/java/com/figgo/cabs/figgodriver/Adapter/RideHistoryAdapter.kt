@@ -52,6 +52,7 @@ class RideHistoryAdapter(var data: List<String>,var x:Int,var context:Context):R
                 var dialog_transaction=dialog.findViewById<TextView>(R.id.history_transaction)
                 var dialog_vehicle=dialog.findViewById<TextView>(R.id.history_vehicle)
                 var dialog_status=dialog.findViewById<TextView>(R.id.history_status)
+                var progressBar = dialog.findViewById<ProgressBar>(R.id.historydialogprogressBar)
 
                 var ride_details:JSONObject
                 var booking_id:String="-"
@@ -71,13 +72,13 @@ class RideHistoryAdapter(var data: List<String>,var x:Int,var context:Context):R
                                 Log.d("Data Response", "" + it)
                                 var allride: JSONObject = it.getJSONObject("data")
                                 var allrideArray: JSONArray = allride.getJSONArray("all_rides")
-
+                                progressBar.visibility=View.GONE
                                 //contentdata.add(listOf("Booking ID","To","From","Status","Distance","View"))
                                 //  ride_details=allrideArray.optJSONObject(1).getJSONObject("ride_detail")
                                 //Log.d("Ride Detail ",""+ride_details.toString())
                                 ride_details =
                                     allrideArray.optJSONObject(x - 1).getJSONObject("ride_detail")
-                                if (!ride_details.getString("booking_id").equals(null))
+                                if (!ride_details.getString("booking_id").equals("null"))
                                     booking_id = ride_details.getString("booking_id")
                                 else
                                     booking_id = ""
@@ -98,18 +99,18 @@ class RideHistoryAdapter(var data: List<String>,var x:Int,var context:Context):R
                                 else
                                     from = "-"
 
-                                if (!ride_details.getString("status").equals(null))
+                                if (!ride_details.getString("status").equals("null"))
                                     status = ride_details.getString("status")
                                 else
                                     status = "-"
 
-                                if (!ride_details.getString("actual_distance").equals(null))
+                                if (!ride_details.getString("actual_distance").equals("null"))
                                     actual_distance = ride_details.getString("actual_distance")
                                 else
                                     actual_distance = "-"
 
                                 if (!ride_details.getJSONArray("model_details").getJSONObject(0)
-                                        .getString("name").equals(null)
+                                        .getString("name").equals("null")
                                 )
                                     vehicle_name =
                                         ride_details.getJSONArray("model_details").getJSONObject(0)
@@ -117,16 +118,16 @@ class RideHistoryAdapter(var data: List<String>,var x:Int,var context:Context):R
                                 else
                                     vehicle_name = "-"
 
-                                if (!ride_details.getString("date_only").equals(null))
+                                if (!ride_details.getString("date_only").equals("null"))
                                     date = ride_details.getString("date_only")
                                 else
                                     date = ""
-                                if ((ride_details.getString("transaction_id")) != null)
+                                if ((ride_details.getString("transaction_id")) != "null")
                                     transactionID = ride_details.getString("transaction_id")
                                 else
                                     transactionID = "-"
                                 if (!ride_details.getJSONObject("user").getString("name")
-                                        .equals(null)
+                                        .equals("null")
                                 ) {
                                     user_name = ride_details.getJSONObject("user").getString("name")
                                     dialog_name.text = user_name
@@ -152,7 +153,7 @@ class RideHistoryAdapter(var data: List<String>,var x:Int,var context:Context):R
 
                             }
                             catch (e:Exception){
-                                Toast.makeText(context,"Server Problem",Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context,"Try Again!..Server Problem",Toast.LENGTH_SHORT).show()
                             }
                         }
 

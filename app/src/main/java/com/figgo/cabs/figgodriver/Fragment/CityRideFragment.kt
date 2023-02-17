@@ -274,8 +274,7 @@ lateinit var swiperefresh:SwipeRefreshLayout
                             }
 
                             Collections.reverse(advanceRidelists)
-                            cityRideAdvanceListAdapter =
-                                CityRideAdvanceListAdapter(requireContext(), advanceRidelists)
+                            cityRideAdvanceListAdapter =   CityRideAdvanceListAdapter(requireContext(), advanceRidelists)
 
                             binding.cityRideAdvanceRecylerview.adapter = cityRideAdvanceListAdapter
                         }catch (_:Exception){

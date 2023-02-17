@@ -210,7 +210,7 @@ progressBar = view.findViewById(R.id.partnerprogressbar)
         progressBar.visibility=View.GONE
         defLayout.visibility=View.VISIBLE
         var data = Bundle()
-        data.putString("Parent","Driver");
+        data.putString("Parent","Partner");
         next.setOnClickListener {
             progressBar.visibility=View.VISIBLE
             defLayout.visibility=View.GONE
@@ -277,6 +277,7 @@ progressBar = view.findViewById(R.id.partnerprogressbar)
                         R.drawable.check_circle,
                         0
                     )*/
+                    up_adharback.setImageResource(R.drawable.check_circle)
                     prefManager.setAadhar_verification_back(aadhar_back)
                 } catch (e: IOException) {
                     e.printStackTrace()
@@ -297,6 +298,7 @@ progressBar = view.findViewById(R.id.partnerprogressbar)
                         R.drawable.check_circle,
                         0
                     )*/
+                    up_adharback.setImageResource(R.drawable.check_circle)
                     prefManager.setAadhar_verification_back(aadhar_back)
                 } catch (e: IOException) {
                     e.printStackTrace()
@@ -320,6 +322,7 @@ progressBar = view.findViewById(R.id.partnerprogressbar)
                                     R.drawable.check_circle,
                                     0
                                 )*/
+                    up_adharfront.setImageResource(R.drawable.check_circle)
                     prefManager.setAadhar_verification_front(aadhar_front)
                 } catch (e: IOException) {
                     e.printStackTrace()
@@ -334,12 +337,7 @@ progressBar = view.findViewById(R.id.partnerprogressbar)
                         selectedImageUri4
                     )
                     aadhar_front = base.BitMapToString(bitmap).toString()
-                    /*      binding.selfiee.setCompoundDrawablesWithIntrinsicBounds(
-                              0,
-                              0,
-                              R.drawable.check_circle,
-                              0
-                          )*/
+                          up_adharfront.setImageResource(R.drawable.check_circle)
                     prefManager.setAadhar_verification_back(aadhar_front)
                 } catch (e: IOException) {
                     e.printStackTrace()
