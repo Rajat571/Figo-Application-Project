@@ -1,13 +1,17 @@
 package com.figgo.cabs.FiggoPartner.UI.Fragment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.cardview.widget.CardView
 import androidx.navigation.Navigation
+import com.figgo.cabs.FiggoPartner.UI.Partner_Dashboard
 import com.figgo.cabs.R
+import com.figgo.cabs.figgodriver.Fragment.Figgo_Capton
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,8 +51,26 @@ class PartnerEndScreen : Fragment() {
         var data = Bundle()
         data.putString("Parent","Partner");
         addmore.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_partnerDetails_to_figgo_Capton,data)
+            Navigation.findNavController(view).navigate(R.id.action_partner_end_screen_to_figgo_Capton)
         }
+        partnerdash.setOnClickListener {
+            startActivity(Intent(requireContext(),Partner_Dashboard::class.java))
+        }
+        requireActivity()
+            .onBackPressedDispatcher
+            .addCallback(requireActivity(), object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    //   Log.d(TAG, "Fragment back pressed invoked")
+                    // Do custom work here
+                    Navigation.findNavController(view).navigate(R.id.action_partner_end_screen_to_figgo_FamilyFragment)
+                    // if you want onBackPressed() to be called as normal afterwards
+                    if (isEnabled) {
+                        isEnabled = false
+                        requireActivity().onBackPressed()
+                    }
+                }
+            }
+            )
     }
 
     companion object {

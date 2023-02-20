@@ -234,7 +234,6 @@ progressBar = view.findViewById(R.id.partnerprogressbar)
                         defLayout.visibility=View.VISIBLE
                         prefManager.setUserType("Partner")
                         Navigation.findNavController(view).navigate(R.id.action_partnerDetails_to_figgo_Capton,data)
-
                     }
                 },
                 {
@@ -337,7 +336,7 @@ progressBar = view.findViewById(R.id.partnerprogressbar)
                         selectedImageUri4
                     )
                     aadhar_front = base.BitMapToString(bitmap).toString()
-                          up_adharfront.setImageResource(R.drawable.check_circle)
+                    up_adharfront.setImageResource(R.drawable.check_circle)
                     prefManager.setAadhar_verification_back(aadhar_front)
                 } catch (e: IOException) {
                     e.printStackTrace()

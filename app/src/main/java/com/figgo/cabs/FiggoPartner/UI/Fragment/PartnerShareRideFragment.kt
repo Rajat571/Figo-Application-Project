@@ -1,11 +1,14 @@
 package com.figgo.cabs.FiggoPartner.UI.Fragment
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.navigation.Navigation
 import com.figgo.cabs.R
@@ -49,42 +52,19 @@ class PartnerShareRideFragment : Fragment() {
     private lateinit var back: TextView;
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var create: Button = view.findViewById<Button>(R.id.rideshare_create)
-        var allride = view.findViewById<Button>(R.id.rideshare_allride)
-        back = view.findViewById(R.id.top_back)
-        var createFrag = createRS()
-        var allRidefrag = allRideRS()
-        var driverdetails = RequestDetails()
-        var details = view.findViewById<Button>(R.id.Request_Detals)
-        setfragment(createFrag)
-        //back = view.findViewById<TextView>(R.id.back_button)
-        create.setOnClickListener{
-            setfragment(createFrag)
-            allride.setBackgroundResource(R.color.purple_200)
-            allride.setTextColor(resources.getColor(R.color.white))
-            create.setBackgroundColor(resources.getColor(R.color.white))
-            create.text = "CREATE"
-            create.setTextColor(resources.getColor(R.color.orange))
+        var number = view.findViewById<LinearLayout>(R.id.partcall_us)
+        var email = view.findViewById<LinearLayout>(R.id.partemail_us)
+        var tv2 = view.findViewById<TextView>(R.id.parttextView2)
+        tv2.text = "The mission of our company is to provide the most clean and safe cab/taxi services throughout India by ensuring the security of our customers during the whole duration of their trip. We have a mission to provide a comfortable travel/journey experience in the most cost-effective manner possible. We also aim to be known as one of the most renowned and trusted cab/taxi company and become role model when it comes to the concept of operations and giving services to customers."
+        var intent_call = Intent(Intent.ACTION_DIAL)
+        intent_call.data = Uri.parse("tel:"+"+919715597855")
+        number.setOnClickListener {
+            startActivity(intent_call)
         }
-        allride.setOnClickListener {
-            setfragment(allRidefrag)
-            create.setBackgroundResource(R.color.purple_200)
-            create.setTextColor(resources.getColor(R.color.white))
-            allride.setBackgroundColor(resources.getColor(R.color.white))
-            allride.setTextColor(resources.getColor(R.color.orange))
+        var intent_email = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:"+"support@figgocabs.com"))
+        email.setOnClickListener{
+            startActivity(intent_email)
         }
-        back.setOnClickListener {
-Navigation.findNavController(view).navigate(R.id.action_share_ride_to_home2)
-        }
-//        details.setOnClickListener {
-//            setfragment(driverdetails)
-//            create.setBackgroundColor(resources.getColor(R.color.white))
-//            create.setTextColor(resources.getColor(R.color.orange))
-//            create.text = "DETAILS"
-//            allride.setBackgroundResource(R.color.purple_200)
-//            allride.setTextColor(resources.getColor(R.color.white))
-//        }
-
     }
 
     private fun setfragment(frag: Fragment) {

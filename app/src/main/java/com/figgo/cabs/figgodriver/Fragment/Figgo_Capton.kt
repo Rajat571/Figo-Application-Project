@@ -104,7 +104,6 @@ class Figgo_Capton : Fragment(){
             intent.type="image/*"
             intent.action=Intent.ACTION_GET_CONTENT
             startActivityForResult(Intent.createChooser(intent,"select Picture"),4)
-
         }
      /*   binding.verifyReferalcode.setOnClickListener {
             baseclass.validateReferalCode()

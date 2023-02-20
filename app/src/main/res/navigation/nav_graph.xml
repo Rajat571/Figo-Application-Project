@@ -149,6 +149,9 @@
         <action
             android:id="@+id/action_driverCabDetailsFragment_to_waitingRegistration"
             app:destination="@id/waitingRegistration" />
+        <action
+            android:id="@+id/action_driverCabDetailsFragment_to_partner_end_screen"
+            app:destination="@id/partner_end_screen" />
 
     </fragment>
 
@@ -208,6 +211,9 @@
         <action
             android:id="@+id/action_partner_end_screen_to_figgo_Capton"
             app:destination="@id/figgo_Capton" />
+        <action
+            android:id="@+id/action_partner_end_screen_to_figgo_FamilyFragment"
+            app:destination="@id/figgo_FamilyFragment" />
     </fragment>
 
 

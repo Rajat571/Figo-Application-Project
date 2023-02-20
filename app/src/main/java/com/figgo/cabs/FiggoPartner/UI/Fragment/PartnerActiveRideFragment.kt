@@ -9,10 +9,14 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.figgo.cabs.FiggoPartner.Adapter.PartnerActiveRideAdapter
+import com.figgo.cabs.FiggoPartner.Adapter.PartnerPaymentHistoryAdapter
 import com.figgo.cabs.FiggoPartner.Model.PartnerActiveRide
 import com.figgo.cabs.R
 import com.figgo.cabs.databinding.FragmentPartnerActiveRideBinding
+import com.figgo.cabs.figgodriver.Adapter.PayHistoryAdapter
+import com.figgo.cabs.figgodriver.model.PaymentHistoryModel
 
 
 class PartnerActiveRideFragment : Fragment() {
@@ -32,22 +36,20 @@ class PartnerActiveRideFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.activeDriverList.layoutManager= LinearLayoutManager(requireContext())
 
-        datalist.add(PartnerActiveRide("Oneway","20.10.2022","view"))
-        datalist.add(PartnerActiveRide("Oneway","20.10.2022","view"))
-        datalist.add(PartnerActiveRide("Oneway","20.10.2022","view"))
-        datalist.add(PartnerActiveRide("Oneway","20.10.2022","view"))
+        paymentHistoryAdapter(view)
 
-        activeRideAdapter=
-         PartnerActiveRideAdapter(
-                requireContext(),
-                datalist
-            )
-        binding.activeDriverList.adapter=activeRideAdapter
-        var back = view.findViewById<TextView>(R.id.top_back)
-        back.setOnClickListener {
-         Navigation.findNavController(view).navigate(R.id.action_active_ride_to_home2)
-        }
+    }
+
+    private fun paymentHistoryAdapter(view: View) {
+        var history = view.findViewById<RecyclerView>(R.id.partRechargeHistoryRecycler)
+        var data = ArrayList<PaymentHistoryModel>()
+        data.add(PaymentHistoryModel("2.10.2022","300","Mr. XYZ XYZ","15minute 6:25pm","10 KM",1))
+        data.add(PaymentHistoryModel("2.10.2022","1000","Mr. XYZ XYZ","15minute 6:25pm","10 KM",0))
+        data.add(PaymentHistoryModel("2.10.2022","1500","Mr. XYZ XYZ","15minute 6:25pm","10 KM",0))
+        data.add(PaymentHistoryModel("2.10.2022","23","Mr. XYZ XYZ","15minute 6:25pm","10 KM",1))
+        data.add(PaymentHistoryModel("2.10.2022","2300","Mr. XYZ XYZ","15minute 6:25pm","10 KM",1))
+        history.adapter= PartnerPaymentHistoryAdapter(data)
+        history.layoutManager=LinearLayoutManager(requireContext())
     }
 }

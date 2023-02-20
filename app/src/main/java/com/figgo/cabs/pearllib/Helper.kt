@@ -30,5 +30,5 @@ package com.figgo.cabs.pearllib
      var ride_history= baseurl+"driver/ride-history"
      var ride_details = baseurl+"ride/ride-details"
      var ride_complete = baseurl+"ride/ride-complete"
-
+     var partner_getDrivers = baseurl+"partner/get-drivers"
 }

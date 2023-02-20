@@ -1,5 +1,6 @@
 package com.figgo.cabs.figgodriver.Fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.fragment.app.Fragment
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
+import com.figgo.cabs.FiggoPartner.UI.Partner_Dashboard
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 
@@ -39,6 +41,9 @@ class WelcomeFragment : Fragment() {
                     bundle.putInt("Key",1)
 
                 // startActivity(Intent(requireContext(), DriverDashBoard::class.java))
+                    if(prefManager.getUserType().equals("Partner"))
+                        startActivity(Intent(requireContext(),Partner_Dashboard::class.java))
+                    else
                   Navigation.findNavController(view).navigate(R.id.action_welcomeDriverFragment_to_waitingRegistration,bundle)
                 }}
        // }

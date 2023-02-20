@@ -4,7 +4,10 @@ import android.Manifest
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -25,6 +28,7 @@ class LoginActivity : BasePublic(), GoogleApiClient.OnConnectionFailedListener,
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -73,13 +77,82 @@ class LoginActivity : BasePublic(), GoogleApiClient.OnConnectionFailedListener,
             alertDialog2.show()
         }
         actionBar?.hide()
-
+var permissionCheck:Boolean= true
+        var i=0
         var window=window
         window.setStatusBarColor(Color.parseColor("#000F3B"))
         fusedLocationProviderClient= LocationServices.getFusedLocationProviderClient(this)
         ActivityCompat.requestPermissions(
             this,
             arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_LOCATION)
+/*
+while (i<2) {
+    val locationPermissionRequest = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        when {
+            permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
+                // Precise location access granted.
+               i+=1
+
+            }
+            permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
+                // Only approximate location access granted.
+                i+=1
+
+            }
+
+            else -> {
+                // No location access granted.
+                permissionCheck = true
+            }
+        }
+    }
+
+// ...
+
+// Before you perform the actual permission request, check whether your app
+// already has the permissions, and whether your app needs to show a permission
+// rationale dialog. For more details, see Request permissions.
+    locationPermissionRequest.launch(
+        arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+
+        )
+    )
+}
+        var j=0
+        while (j<1) {
+
+            val locationPermissionRequest = registerForActivityResult(
+                ActivityResultContracts.RequestMultiplePermissions()
+            ) { permissions ->
+                when {
+                    permissions.getOrDefault(Manifest.permission.WRITE_EXTERNAL_STORAGE, false) -> {
+                        j+=1
+                    }
+                    else -> {
+                        // No location access granted.
+                        permissionCheck = true
+                    }
+                }
+            }
+
+// ...
+
+// Before you perform the actual permission request, check whether your app
+// already has the permissions, and whether your app needs to show a permission
+// rationale dialog. For more details, see Request permissions.
+            locationPermissionRequest.launch(
+                arrayOf(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+
+                    )
+            )
+        }
+*/
+
         mGoogleApiClient =
             GoogleApiClient.Builder(this).addApi(LocationServices.API).addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this).build()

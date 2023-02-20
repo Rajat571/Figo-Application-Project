@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.figgo.cabs.FiggoPartner.Adapter.PartnerAllRideAdapter
 import com.figgo.cabs.FiggoPartner.Model.AllRideData
 import com.figgo.cabs.R
+import com.figgo.cabs.figgodriver.Fragment.Figgo_Capton
 import com.figgo.cabs.figgodriver.Fragment.allRideRS
 
 
@@ -50,54 +52,10 @@ class PartnerRideSaleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var frag = view.findViewById<FrameLayout>(R.id.partnerdriveraddframe)
+        childFragmentManager.beginTransaction().replace(R.id.partnerdriveraddframe,Figgo_Capton()).commit()
 
-        val allrideData = ArrayList<AllRideData>();
-        var main1 = view.findViewById<LinearLayout>(R.id.main_1)
-        var topbutton = view.findViewById<LinearLayout>(R.id.top_buttons)
-        var details = view.findViewById<LinearLayout>(R.id.details_view)
-        var allride = view.findViewById<ConstraintLayout>(R.id.allrideview)
-        var details_button = view.findViewById<Button>(R.id.details_button)
-        var allride_button = view.findViewById<Button>(R.id.allride_button)
-//        var details_view = view.findViewById<LinearLayout>(R.id.details_view)
-//        var allride_view = view.findViewById<LinearLayout>(R.id.details_view)
-        var submit = view.findViewById<Button>(R.id.sumit)
-        var allRidefrag = allRideRS()
-        var back = view.findViewById<TextView>(R.id.top_back)
-        main1.visibility = View.VISIBLE
-        topbutton.visibility = View.GONE
-        details.visibility = View.GONE
-        allride.visibility = View.GONE
 
-        submit.setOnClickListener {
-            main1.visibility = View.GONE
-            topbutton.visibility = View.VISIBLE
-            details.visibility = View.VISIBLE
-            allride.visibility = View.GONE
-        }
-
-        details_button.setOnClickListener{
-            details.visibility = View.VISIBLE
-            allride.visibility = View.GONE
-        }
-
-        allride_button.setOnClickListener {
-            details.visibility = View.GONE
-            allride.visibility = View.VISIBLE
-            //setfragment(allRidefrag)
-
-            allrideData.add(AllRideData("6:30 pm","PGI, Sector 12, Chandigarh","Chandigarh (Google location)"))
-            allrideData.add(AllRideData("7:30 pm","PGI, Sector 12, Chandigarh","Chandigarh (Google location)"))
-            allrideData.add(AllRideData("8:30 pm","PGI, Sector 12, Chandigarh","Chandigarh (Google location)"))
-            val recyclerView1 = view.findViewById<RecyclerView>(R.id.frameRSall2)
-            //  val recyclerView2 = view.view.findViewById<RecyclerView>(R.id.drop_recycler)
-            recyclerView1.adapter = PartnerAllRideAdapter(allrideData)
-            recyclerView1.layoutManager = LinearLayoutManager(context)
-
-        }
-
-        back.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_ride_sale_to_home2)
-        }
     }
 
     companion object {

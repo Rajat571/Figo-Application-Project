@@ -1672,7 +1672,10 @@ Toast.makeText(requireContext(),"Please upload images",Toast.LENGTH_SHORT).show(
             if(!response.equals("null")){
                 var bundle = Bundle()
                 bundle.putInt("Key",2)
-                Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration,bundle)
+                if(prefManager.getUserType() == "Partner")
+                    Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_partner_end_screen)
+                else
+                    Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration,bundle)
 
             }else{
                 baseprivate.ErrorProgressDialog(requireContext(),"101",getString(R.string.server_error))

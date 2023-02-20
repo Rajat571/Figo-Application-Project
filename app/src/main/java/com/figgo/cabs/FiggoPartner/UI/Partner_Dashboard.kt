@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -28,7 +29,7 @@ class Partner_Dashboard : AppCompatActivity() {
         setContentView(R.layout.activity_partner_dashboard)
         var window=window
         window.setStatusBarColor(Color.parseColor("#000F3B"))
-        var whataspp=findViewById<ImageView>(R.id.whatsapp)
+        /*var whataspp=findViewById<ImageView>(R.id.whatsapp)
         var call=findViewById<ImageView>(R.id.call)
         var share=findViewById<ImageView>(R.id.share)
 
@@ -51,11 +52,16 @@ class Partner_Dashboard : AppCompatActivity() {
             intent.putExtra(Intent.EXTRA_TEXT,"I am Inviting you to join  Figgo App for better experience to book cabs");
             intent.setType("text/plain");
             startActivity(Intent.createChooser(intent, "Invite Friends"));
-        }
+        }*/
         val navHostFragment=supportFragmentManager.findFragmentById(R.id.mainContainer) as NavHostFragment
         navController=navHostFragment.navController
         val bottomNavigationView=findViewById<BottomNavigationView>(R.id.navigation_bar)
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
+
+        var exit = findViewById<TextView>(R.id.partnerexitbutton)
+        exit.setOnClickListener {
+            onBackPressed()
+        }
     }
 
 
