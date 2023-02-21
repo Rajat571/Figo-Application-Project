@@ -16,6 +16,7 @@
             android:minHeight="@dimen/_200sdp"
             android:backgroundTint="#000F3B"
             app:cardCornerRadius="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
             app:layout_constraintBottom_toTopOf="@+id/partner_home_recycler"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -26,17 +27,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
                 <ImageView
                     android:layout_width="@dimen/_80sdp"
                     android:layout_height="@dimen/_80sdp"
-                    android:src="@drawable/drivercar" />
-
+                    android:src="@drawable/ic_managedriver" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

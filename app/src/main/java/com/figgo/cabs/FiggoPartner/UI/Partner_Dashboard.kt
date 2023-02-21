@@ -1,5 +1,7 @@
 package com.figgo.cabs.FiggoPartner.UI
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -13,7 +15,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
+import com.figgo.cabs.figgodriver.Service.MyService
+import com.figgo.cabs.figgodriver.UI.LoginActivity
 
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -28,6 +33,28 @@ class Partner_Dashboard : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_partner_dashboard)
         var window=window
+        var prefManager = PrefManager(this)
+        var logout = findViewById<TextView>(R.id.partner_logout)
+        logout.setOnClickListener {
+            val alertDialog2 = AlertDialog.Builder(
+                this
+            )
+            alertDialog2.setTitle("Alert...")
+            alertDialog2.setMessage("Are you sure you want to exit ?")
+            alertDialog2.setPositiveButton(
+                "Yes"
+            ) { dialog: DialogInterface?, which: Int ->
+                Toast.makeText(this,"Logout Successfully",Toast.LENGTH_SHORT).show()
+                prefManager.setToken("")
+                prefManager.setRegistrationToken("")
+                startActivity(Intent(this, LoginActivity::class.java))
+            }
+            alertDialog2.setNegativeButton(
+                "Cancel"
+            ) { dialog: DialogInterface, which: Int -> dialog.cancel() }
+            alertDialog2.show()
+
+        }
         window.setStatusBarColor(Color.parseColor("#000F3B"))
         /*var whataspp=findViewById<ImageView>(R.id.whatsapp)
         var call=findViewById<ImageView>(R.id.call)

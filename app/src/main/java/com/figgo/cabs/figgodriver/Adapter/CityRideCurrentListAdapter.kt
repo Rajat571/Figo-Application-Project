@@ -26,10 +26,12 @@ class CityRideCurrentListAdapter(var context:Context, var ridelist:List<CityCurr
      val data=ridelist[position]
        /*
         holder.customer_name.text=data.cutomer_name*/
+
         holder.location_from.text=data.from
         holder.location_to.text=data.to
         holder.customer_time.text=data.time
         holder.customer_date.text=data.date
+
        // holder.fare_price.text=data.fare_price
 
         holder.itemView.setOnClickListener {

@@ -153,15 +153,17 @@ finished=true
        // if(finished)
 
         start.setOnClickListener {
+/*
             startActivity(Intent(this, StartRideActivity::class.java)
                 .putExtra("bookingID",bookingID)
                 .putExtra("bookingType",bookingType)
                 .putExtra("pickup",pickuplocationTV)
                 .putExtra("dropLocation",dropLocationTV)
                 .putExtra("price",fareprice))
+*/
 
 
-            /*val dialog = Dialog(this)
+            val dialog = Dialog(this)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialog.setCancelable(false)
             dialog.setContentView(R.layout.otp_start_layout)
@@ -230,13 +232,13 @@ finished=true
       }
       queue2.add(jsonObjectRequest)
 
-                Toast.makeText(this,"OTP SENT SUCCESSFULLY", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this,"OTP SENT SUCCESSFULLY", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
             }
             cancel.setOnClickListener {
                 dialog.dismiss()
             }
-            dialog.show()*/
+            dialog.show()
         }
     }
 

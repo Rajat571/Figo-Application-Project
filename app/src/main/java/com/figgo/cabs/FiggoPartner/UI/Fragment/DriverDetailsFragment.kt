@@ -49,7 +49,7 @@ class DriverDetailsFragment : Fragment() {
             contract2.launch("image/*")
         }
         next.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_driverDetailsFragment_to_cabDetailsFragment)
+            //Navigation.findNavController(view).navigate(R.id.action_driverDetailsFragment_to_cabDetailsFragment)
         }
         back.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_driverDetailsFragment_to_partnerDetails)

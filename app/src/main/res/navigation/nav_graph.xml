@@ -100,20 +100,8 @@
         android:label="fragment_driver_details"
         tools:layout="@layout/fragment_driver_details" >
         <action
-            android:id="@+id/action_driverDetailsFragment_to_cabDetailsFragment"
-            app:destination="@id/cabDetailsFragment" />
-        <action
             android:id="@+id/action_driverDetailsFragment_to_partnerDetails"
             app:destination="@id/partnerDetails" />
-    </fragment>
-    <fragment
-        android:id="@+id/cabDetailsFragment"
-        android:name="com.figgo.cabs.FiggoPartner.UI.Fragment.CabDetailsFragment"
-        android:label="fragment_cab_details"
-        tools:layout="@layout/fragment_cab_details" >
-        <action
-            android:id="@+id/action_cabDetailsFragment_to_driverDetailsFragment"
-            app:destination="@id/driverDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/driverWelcomeFragment"

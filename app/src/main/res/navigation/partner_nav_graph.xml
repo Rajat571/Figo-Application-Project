@@ -24,11 +24,15 @@
     <fragment
         android:id="@+id/ride_sale"
         android:name="com.figgo.cabs.FiggoPartner.UI.Fragment.PartnerRideSaleFragment"
-        android:label="fragment_partner_ride_sale"
+        android:label="fragment_figgo_capton"
         tools:layout="@layout/fragment_partner_ride_sale" >
         <action
             android:id="@+id/action_ride_sale_to_home2"
             app:destination="@id/home" />
+
+        <action
+            android:id="@+id/action_ride_sale_to_partner_drivercab"
+            app:destination="@id/partner_drivercab" />
     </fragment>
     <fragment
         android:id="@+id/active_ride"
@@ -38,5 +42,24 @@
         <action
             android:id="@+id/action_active_ride_to_home2"
             app:destination="@id/home" />
+    </fragment>
+    <fragment
+        android:id="@+id/partner_drivercab"
+        android:name="com.figgo.cabs.FiggoPartner.UI.Fragment.CabDetailsFragment"
+        android:label="fragment_partner_active_ride"
+        tools:layout="@layout/fragment_cab_details" >
+        <action
+            android:id="@+id/action_partner_drivercab_to_ride_sale"
+            app:destination="@id/ride_sale" />
+        <action
+            android:id="@+id/action_partner_drivercab_to_partner_endscreennav"
+            app:destination="@id/partner_endscreennav" />
+    </fragment>
+    <fragment
+        android:id="@+id/partner_endscreennav"
+        android:name="com.figgo.cabs.FiggoPartner.UI.Fragment.PartnerEndScreen"
+        android:label="fragment_partner_end_screen"
+        tools:layout="@layout/fragment_partner_end_screen" >
+
     </fragment>
 </navigation>

@@ -50,6 +50,7 @@
                 android:gravity="center"
                 android:textSize="@dimen/_10sdp"
                 android:text="Logout"
+                android:id="@+id/partner_logout"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 app:drawableEndCompat="@drawable/logoutwhite" />

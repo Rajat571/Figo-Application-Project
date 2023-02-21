@@ -91,7 +91,7 @@ class PartnerHomeFragment : Fragment() {
             override fun getHeaders(): Map<String, String> {
                 val headers: MutableMap<String, String> = HashMap()
                 headers["Content-Type"] = "application/json; charset=UTF-8";
-                headers["Authorization"] = "Bearer " + "4586|aNz5HXwotAMADp9SpP28AMmVqQpM6xqS2BbJ4EYg";
+                headers["Authorization"] = "Bearer " +prefManager.getToken() ;
                 return headers
             }
         }

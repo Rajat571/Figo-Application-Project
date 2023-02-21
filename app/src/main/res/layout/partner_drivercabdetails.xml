@@ -1,35 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
         android:fillViewport="true"
         >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
-            android:background="@color/white"
+            android:background="#8DD7f7"
             tools:context=".Fragment.DriverCabDetailsFragment">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/partbackgrouund"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@drawable/background"
+                tools:ignore="MissingConstraints">
 
+                <ImageView
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="160dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/wall" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
             <!--  Driver cab details layout-->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/partcab_details_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/background_layout"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:cardCornerRadius="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/partbackgrouund">
+                app:layout_constraintTop_toTopOf="@+id/partbackgrouund"
+                app:layout_constraintVertical_bias="0.745">
 
                 <ScrollView
                     android:layout_width="match_parent"
@@ -53,7 +66,6 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginVertical="@dimen/_10sdp"
                             android:orientation="horizontal">
 
                             <TextView
@@ -64,8 +76,7 @@
                                 android:layout_weight="1"
                                 android:padding="8dp"
                                 android:text="Cab Details"
-                                android:textColor="#000000"
-                                android:textStyle="bold"
+                                android:textColor="#325DCB"
                                 android:textSize="20sp" />
 
                             <de.hdodenhof.circleimageview.CircleImageView
@@ -773,4 +784,4 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-</layout>
+
