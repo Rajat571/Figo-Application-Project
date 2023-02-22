@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.figgo.cabs.FiggoPartner.Model.AllRideData
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
+import com.figgo.cabs.figgodriver.Adapter.AllRideAdapter
+import com.figgo.cabs.figgodriver.Adapter.OutstationAdapter
 
 
 // TODO: Rename parameter arguments, choose names that match

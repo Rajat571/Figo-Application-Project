@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 //import androidx.transition.TransitionManager
 import com.figgo.cabs.FiggoPartner.Model.AllRideData
 import com.figgo.cabs.R
+import com.figgo.cabs.figgodriver.Adapter.AllRideAdapter
 
 import kotlinx.android.synthetic.main.fragment_all_ride_r_s.*
 

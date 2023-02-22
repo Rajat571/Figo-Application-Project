@@ -6,29 +6,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.navigation.Navigation
 import com.android.volley.AuthFailureError
-import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.figgodriver.Adapter.SpinnerAdapter
-import com.figgo.cabs.figgodriver.UI.DriverDashBoard
 import com.figgo.cabs.figgodriver.model.SpinnerObj
-import com.figgo.cabs.pearllib.BaseClass
 import com.figgo.cabs.pearllib.BasePrivate
 import com.figgo.cabs.pearllib.Helper
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONObject
-import retrofit2.http.GET
 import java.util.*
 import kotlin.collections.ArrayList
 
-class GetData : Fragment() {
+class UpdateDriverProfileFragment : Fragment() {
     val statelist: ArrayList<SpinnerObj> = ArrayList()
     val citylist: ArrayList<SpinnerObj> = ArrayList()
     var statehashMap : HashMap<String, Int> = HashMap<String, Int> ()

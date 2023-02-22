@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.figgo.cabs.FiggoPartner.Model.AllRideData
 import com.figgo.cabs.R
-import com.figgo.cabs.figgodriver.Fragment.DropAdapter
+
 class StatusViewAdapter(val allrideData:List<AllRideData>): RecyclerView.Adapter<StatusViewAdapter.ViewHolder>() {
     @SuppressLint("MissingInflatedId")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

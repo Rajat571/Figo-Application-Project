@@ -14,7 +14,7 @@ import androidx.navigation.Navigation
 import com.figgo.cabs.R
 import com.figgo.cabs.figgodriver.Fragment.RequestDetails
 import com.figgo.cabs.figgodriver.Fragment.allRideRS
-import com.figgo.cabs.figgodriver.Fragment.createRS
+
 
 
 // TODO: Rename parameter arguments, choose names that match
