@@ -14,7 +14,6 @@ import android.location.Location
 import android.net.Uri
 import android.net.wifi.WifiManager
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
 import android.transition.Slide
@@ -379,7 +378,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             bundle2.putString("Key","Profile")
            /* var supportFrag = SupportFragment()
             supportFrag.arguments=bundle*/
-            var getData = GetData()
+            var getData = UpdateDriverProfileFragment()
             getData.arguments=bundle2
             offlineLayout.visibility=View.GONE
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,getData,"Home").commit()
@@ -405,7 +404,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             bundle2.putString("Key","Cab")
             /* var supportFrag = SupportFragment()
              supportFrag.arguments=bundle*/
-            var getData = GetData()
+            var getData = UpdateDriverProfileFragment()
             getData.arguments=bundle2
             offlineLayout.visibility=View.GONE
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,getData).commit()
@@ -457,9 +456,6 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
 
             val appPackageName = packageName // getPackageName() from Context or Activity object
 
-
-
-
             val ip_address:String=myFunction()
             var ref_link = prefManager.getReferal();
            // sendreferal(ip_address)
@@ -474,8 +470,6 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             sendIntent.type = "text/*"
             val shareIntent = Intent.createChooser(sendIntent, null)
             startActivity(shareIntent)
-
-
             true
         }
 

@@ -1,4 +1,4 @@
-package com.figgo.cabs.figgodriver.Fragment
+package com.figgo.cabs.figgodriver.Adapter
 
 import android.annotation.SuppressLint
 import android.app.Dialog

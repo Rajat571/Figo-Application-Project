@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 import com.figgo.cabs.FiggoPartner.Model.AllRideData
 import com.figgo.cabs.R
-import com.figgo.cabs.figgodriver.Fragment.AllRideAdapter
+import com.figgo.cabs.figgodriver.Adapter.AllRideAdapter
 import com.figgo.cabs.figgodriver.Fragment.allRideRS
 
 class RequestAllRide : AppCompatActivity() {

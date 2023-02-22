@@ -12,9 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.figgo.cabs.FiggoPartner.Model.AllRideData
 import com.figgo.cabs.R
-
-
-import kotlinx.android.synthetic.main.bottom_button_layout.*
+import com.figgo.cabs.figgodriver.Adapter.AllRideAdapter
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

@@ -106,7 +106,7 @@
                 android:background="@color/light_grey"
                 android:elevation="10dp"
                 android:hint="Cab Number"
-                android:labelFor="@id/cityname_spinner" />
+              />
         </LinearLayout>
 
 

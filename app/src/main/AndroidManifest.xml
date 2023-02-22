@@ -168,7 +168,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".figgodriver.UI.AccountDetails"
+            android:name=".figgodriver.UI.DriverRechargeActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
 

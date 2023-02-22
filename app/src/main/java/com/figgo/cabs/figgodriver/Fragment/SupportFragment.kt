@@ -28,17 +28,6 @@ import com.figgo.cabs.pearllib.BaseClass
 import kotlinx.android.synthetic.main.change_mpin.view.*
 import org.json.JSONObject
 
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [SupportFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SupportFragment : Fragment() {
     lateinit var prefManager: PrefManager
     lateinit var cab_type:Spinner
@@ -63,7 +52,6 @@ class SupportFragment : Fragment() {
         imageuri = it!!
         profile_pic.setImageURI(it)
         // upload()
-
     }
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -226,7 +214,6 @@ class SupportFragment : Fragment() {
         var mpin_old = view.findViewById<EditText>(R.id.old_mpin)
         var mpin_new = view.findViewById<EditText>(R.id.mPin_new)
         var mpin_confirm = view.findViewById<EditText>(R.id.confirm_mpin)
-
     }
     var base = object : BaseClass(){
         override fun setLayoutXml() {

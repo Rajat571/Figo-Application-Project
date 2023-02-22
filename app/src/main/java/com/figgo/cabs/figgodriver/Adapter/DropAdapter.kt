@@ -1,4 +1,4 @@
-package com.figgo.cabs.figgodriver.Fragment
+package com.figgo.cabs.figgodriver.Adapter
 
 import android.view.LayoutInflater
 import android.view.View
