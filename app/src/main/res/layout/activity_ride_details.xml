@@ -2,9 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".figgodriver.UI.RideDetailsActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#98D8C3"
+    android:background="@color/white"
     android:minWidth="@dimen/_100sdp"
     android:orientation="vertical"
     android:padding="@dimen/_3sdp">
@@ -43,7 +44,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="@dimen/_20sdp"
->
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"

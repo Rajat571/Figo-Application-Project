@@ -103,7 +103,11 @@ class PartnerRideSaleFragment : Fragment() {
             }
 
         }
-        fetchState()
+        try {
+            fetchState()
+        }catch(e:Exception){
+
+        }
 
         binding.partllAadharFront.setOnClickListener {
             val intent = Intent()
@@ -181,9 +185,11 @@ class PartnerRideSaleFragment : Fragment() {
                 if (response != null) {
                     val status = response.getString("status")
                     if(status.equals("1")){
+                        try{
                         val jsonArray = response.getJSONArray("states")
                         // statehashMap.put("Select State",0)
                         for (i in 0..jsonArray.length()-1){
+
                             val rec: JSONObject = jsonArray.getJSONObject(i)
                             var name = rec.getString("name")
                             var id = rec.getString("id")
@@ -217,7 +223,11 @@ class PartnerRideSaleFragment : Fragment() {
                             }
                         }
 
-                    }else{
+                    }catch (e:Exception) {
+                        }
+                        }
+                        else
+                        {
 
                     }
 

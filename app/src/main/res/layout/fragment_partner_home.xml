@@ -6,54 +6,61 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#000F3B"
         tools:context="com.example.FiggoPartner.UI.Fragment.PartnerHomeFragment">
 
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView4"
+        <LinearLayout
+            android:id="@+id/linearLayout12"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:minHeight="@dimen/_200sdp"
-            android:backgroundTint="#000F3B"
-            app:cardCornerRadius="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
-            app:layout_constraintBottom_toTopOf="@+id/partner_home_recycler"
+            android:layout_height="@dimen/_100sdp"
+            android:paddingTop="@dimen/_30sdp"
+            android:gravity="center"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-                <ImageView
-                    android:layout_width="@dimen/_80sdp"
-                    android:layout_height="@dimen/_80sdp"
-                    android:src="@drawable/ic_managedriver" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Manage Drivers"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_18sdp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+            <ImageView
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
+                android:src="@drawable/ic_managedriver" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Manage Drivers"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_18sdp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView4"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:backgroundTint="#000F3B"
+            android:minHeight="@dimen/_200sdp"
+            app:cardCornerRadius="@dimen/_5sdp"
+            app:layout_constraintBottom_toTopOf="@+id/partner_home_recycler"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout12">
+
+
         </androidx.cardview.widget.CardView>
 
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/partner_home_recycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout12" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -5,10 +5,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.Window
+import android.view.*
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.AuthFailureError
@@ -41,6 +38,7 @@ class RideHistoryAdapter(var data: List<String>,var x:Int,var context:Context):R
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
                 dialog.setCancelable(false)
                 dialog.setContentView(R.layout.historyview_details)
+                dialog.getWindow()?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 var submit = dialog.findViewById<Button>(R.id.view_ok)
                 var cancel = dialog.findViewById<ImageView>(R.id.view_cancel)
                 var dialog_booking = dialog.findViewById<TextView>(R.id.history_booking_id)
@@ -149,11 +147,17 @@ class RideHistoryAdapter(var data: List<String>,var x:Int,var context:Context):R
                                 dialog_transaction.text = transactionID
                                 dialog_vehicle.text = vehicle_name
                                 dialog_status.text = status
-
-
                             }
                             catch (e:Exception){
-                                Toast.makeText(context,"Try Again!..Server Problem",Toast.LENGTH_SHORT).show()
+                                dialog_booking.text = "- - - - "
+                                dialog_to.text = "- - - - "
+                                dialog_date.text = "- - - - "
+                                dialog_distance.text = "- - - - "
+                                dialog_from.text = "- - - - "
+                                dialog_transaction.text = "- - - - "
+                                dialog_vehicle.text = "- - - - "
+                                dialog_status.text = "- - - - "
+                                //Toast.makeText(context,"Try Again!..Server Problem",Toast.LENGTH_SHORT).show()
                             }
                         }
 

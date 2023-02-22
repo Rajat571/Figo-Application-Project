@@ -13,6 +13,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.StrictMode
 import android.provider.MediaStore
 import android.util.Log
@@ -58,6 +59,7 @@ class CabDetailsFragment : Fragment() {
     lateinit var prefManager: PrefManager
     lateinit var spinner_cabcategory: Spinner
     lateinit var carModel: Spinner
+    private var timer:CountDownTimer?=null
     var hashMap : HashMap<String, Int> = HashMap<String, Int> ()
     var modelHashMap  : HashMap<String, Int> = HashMap<String, Int> ()
     var stateList = kotlin.collections.ArrayList<String>()
@@ -269,7 +271,11 @@ class CabDetailsFragment : Fragment() {
             val day = calender.get(Calendar.DAY_OF_MONTH)
             val datePickerDialog = DatePickerDialog(
                 this.requireContext(),
-                { view, year, monthOfYear, dayOfMonth ->
+                {
+                        view,
+                        year,
+                        monthOfYear,
+                        dayOfMonth ->
 
                     date = (year.toString() + "-" + (monthOfYear + 1) + "-" +dayOfMonth.toString())
                     t=date
@@ -1723,7 +1729,17 @@ class CabDetailsFragment : Fragment() {
                         //  prefManager.setCabFormToken("Submitted")
                         bottom_nav_bar.visibility=View.GONE
                         includedLayout.visibility=View.VISIBLE
-                        onDestroy()
+                        timer = object : CountDownTimer(3000, 1000) {
+                            override fun onTick(millisUntilFinished: Long) {
+
+                            }
+
+                            override fun onFinish() {
+                                onDestroy()
+                            }
+                        }
+                        (timer as CountDownTimer).start()
+
                     }else{
                         // Toast.makeText(this.requireContext(), "Sucessfully sent data for verification.",Toast.LENGTH_SHORT).show()
                         baseprivate.ErrorProgressDialog(requireContext(),"101",getString(R.string.server_error))
@@ -1827,5 +1843,10 @@ class CabDetailsFragment : Fragment() {
         return ""
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        startActivity(Intent(requireContext(),Partner_Dashboard::class.java))
+
+    }
 }
 

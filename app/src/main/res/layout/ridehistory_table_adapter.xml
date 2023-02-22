@@ -6,8 +6,8 @@
     android:orientation="horizontal"
     android:layout_height="wrap_content">
     <LinearLayout
-        android:layout_width="100dp"
-        android:layout_height="50dp"
+        android:layout_width="120dp"
+        android:layout_height="65dp"
         android:minWidth="80dp"
         android:layout_margin="@dimen/_1sdp"
         >
@@ -16,9 +16,9 @@
             android:layout_height="match_parent"
             android:text="BLOCK"
             android:gravity="center"
-            android:textSize="@dimen/_10sdp"
+            android:textSize="@dimen/_8sdp"
             android:id="@+id/tablecontentTV"
-            android:layout_margin="@dimen/_5sdp"
+            android:layout_margin="@dimen/_2sdp"
             />
     </LinearLayout>
 <LinearLayout

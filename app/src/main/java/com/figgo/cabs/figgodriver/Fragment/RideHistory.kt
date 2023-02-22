@@ -70,8 +70,6 @@ class RideHistory : Fragment() {
             {
                 if(it!=null) {
                     /*try {*/
-
-
                         progressbar.visibility = View.GONE
                         data_view.visibility = View.VISIBLE
                         Log.d("Data Response", "" + it)
@@ -131,7 +129,6 @@ class RideHistory : Fragment() {
                         header.layoutManager = LinearLayoutManager(requireContext())
 
                 }
-
             },{
 
 
