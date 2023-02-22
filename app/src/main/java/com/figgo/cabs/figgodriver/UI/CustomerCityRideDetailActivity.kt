@@ -186,15 +186,15 @@ finished=true
             submit.setOnClickListener {
                // val otp1 = "https://test.pearl-developer.com/figo/api/driver-ride/check-ride-otp"
 
-                var otp1=Helper.check_ride_otp
-                Log.d("VerifyNumber","URL"+otp1)
+                var URL=Helper.check_ride_otp
+                Log.d("VerifyNumber","URL"+URL)
                 val queue2 = Volley.newRequestQueue(this@CustomerCityRideDetailActivity)
                 val json2 = JSONObject()
                 var otp=ridestartotp.text.toString()
-                json2.put("otp", otp.toInt())
+                json2.put("otp", otp)
                 Log.d("OTP", "json2===" + json2)
 
-      var jsonObjectRequest=object :JsonObjectRequest(Method.POST,otp1,json2,Response.Listener<JSONObject>
+      var jsonObjectRequest=object :JsonObjectRequest(Method.POST,URL,json2,Response.Listener<JSONObject>
       {response ->
 
           Log.d("VerifyNumber","OTPresponse"+response)
@@ -207,10 +207,9 @@ finished=true
                       .putExtra("pickup",pickuplocationTV)
                       .putExtra("dropLocation",dropLocationTV)
                       .putExtra("price",fareprice))
-
               }
               else{
-                  Toast.makeText(this,""+response.getString("message"),Toast.LENGTH_LONG).show()
+                  //Toast.makeText(this,""+response.getString("message"),Toast.LENGTH_LONG).show()
               }
           }
       },object :Response.ErrorListener{
@@ -226,7 +225,9 @@ finished=true
           override fun getHeaders(): Map<String, String> {
               val headers: MutableMap<String, String> = HashMap()
               headers.put("Content-Type", "application/json; charset=UTF-8");
-              headers.put("Authorization", "Bearer " + prefManager.getToken())
+              headers.put("Authorization", "Bearer " + prefManager.getToken());
+              headers.put("Accept","application/vnd.api+json");
+
               return headers
           }
       }

@@ -8,13 +8,22 @@
         android:layout_height="match_parent"
         android:fillViewport="true"
         >
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:background="@color/white"
             tools:context=".Fragment.DriverCabDetailsFragment">
 
+            <include
+                android:id="@+id/partincludedlayout"
+                layout="@layout/layout_partneraddeddriver"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
 
             <!--  Driver cab details layout-->
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -65,8 +74,8 @@
                                 android:padding="8dp"
                                 android:text="Cab Details"
                                 android:textColor="#000000"
-                                android:textStyle="bold"
-                                android:textSize="20sp" />
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
 
                             <de.hdodenhof.circleimageview.CircleImageView
                                 android:id="@+id/partupload_car"
@@ -318,11 +327,11 @@
                 android:id="@+id/partwork"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginHorizontal="@dimen/_7ssp"
+                android:layout_marginVertical="100dp"
                 android:background="@drawable/background_layout"
                 android:visibility="gone"
                 app:cardCornerRadius="10dp"
-                android:layout_marginHorizontal="@dimen/_7ssp"
-                android:layout_marginVertical="100dp"
                 app:layout_constraintBottom_toTopOf="@+id/partbottombuttonbar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -507,8 +516,6 @@
                         </LinearLayout>
 
 
-
-
                     </LinearLayout>
                 </ScrollView>
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -517,11 +524,11 @@
                 android:id="@+id/partupload_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginHorizontal="@dimen/_7ssp"
+                android:layout_marginVertical="100dp"
                 android:background="@drawable/background_layout"
                 android:visibility="gone"
                 app:cardCornerRadius="10dp"
-                android:layout_marginHorizontal="@dimen/_7ssp"
-                android:layout_marginVertical="100dp"
                 app:layout_constraintBottom_toTopOf="@+id/partbottombuttonbar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -571,10 +578,10 @@
 
                                 <TextView
                                     android:id="@+id/partselfiee"
-                                    android:drawableEnd="@drawable/upload"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Selfie"/>
+                                    android:drawableEnd="@drawable/upload"
+                                    android:text="Selfie" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -586,10 +593,10 @@
 
                                 <TextView
                                     android:id="@+id/partdriving_licence"
-                                    android:drawableEnd="@drawable/upload"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Driving Licence"/>
+                                    android:drawableEnd="@drawable/upload"
+                                    android:text="Driving Licence" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -602,10 +609,10 @@
 
                                 <TextView
                                     android:id="@+id/partcab_insurance"
-                                    android:drawableEnd="@drawable/upload"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Cab Insurance"/>
+                                    android:drawableEnd="@drawable/upload"
+                                    android:text="Cab Insurance" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -617,10 +624,10 @@
 
                                 <TextView
                                     android:id="@+id/partregistration_certificate"
-                                    android:drawableEnd="@drawable/upload"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Registration Certificate"/>
+                                    android:drawableEnd="@drawable/upload"
+                                    android:text="Registration Certificate" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -633,10 +640,10 @@
 
                                 <TextView
                                     android:id="@+id/partnational_permit_img"
-                                    android:drawableEnd="@drawable/upload"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="National Permit"/>
+                                    android:drawableEnd="@drawable/upload"
+                                    android:text="National Permit" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -649,11 +656,12 @@
 
                                 <TextView
                                     android:id="@+id/partlocal_permit_img"
-                                    android:drawableEnd="@drawable/upload"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Local Permit"/>
+                                    android:drawableEnd="@drawable/upload"
+                                    android:text="Local Permit" />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -664,11 +672,12 @@
 
                                 <TextView
                                     android:id="@+id/parttaxi_front_pic_img"
-                                    android:drawableEnd="@drawable/upload"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Taxi Front Pic \nwith number plate"/>
+                                    android:drawableEnd="@drawable/upload"
+                                    android:text="Taxi Front Pic \nwith number plate" />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -679,11 +688,12 @@
 
                                 <TextView
                                     android:id="@+id/partaadhar_front_img"
-                                    android:drawableEnd="@drawable/upload"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Aadhar Card Front"/>
+                                    android:drawableEnd="@drawable/upload"
+                                    android:text="Aadhar Card Front" />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -694,11 +704,12 @@
 
                                 <TextView
                                     android:id="@+id/partaadhar_back_img"
-                                    android:drawableEnd="@drawable/upload"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Aadhar Card Back"/>
+                                    android:drawableEnd="@drawable/upload"
+                                    android:text="Aadhar Card Back" />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -709,11 +720,12 @@
 
                                 <TextView
                                     android:id="@+id/partpolice_certification_img"
-                                    android:drawableEnd="@drawable/upload"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Police Certification"/>
+                                    android:drawableEnd="@drawable/upload"
+                                    android:text="Police Certification" />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:id="@+id/parttrackerGPS"
                                 android:layout_width="match_parent"
@@ -725,15 +737,12 @@
 
                                 <TextView
                                     android:id="@+id/partgpscertificte"
-                                    android:drawableEnd="@drawable/upload"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Inbuilt GPS Certificate"/>
+                                    android:drawableEnd="@drawable/upload"
+                                    android:text="Inbuilt GPS Certificate" />
                             </LinearLayout>
                         </LinearLayout>
-
-
-
 
 
                     </LinearLayout>
@@ -772,5 +781,7 @@
                 app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </ScrollView>
 </layout>

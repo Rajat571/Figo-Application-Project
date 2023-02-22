@@ -67,6 +67,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONObject
+import org.w3c.dom.Text
 import java.util.HashMap
 
 class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -81,6 +82,7 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
     private var customerLON:Double=0.0
     private lateinit var dropLocation:LatLng
     lateinit var rideComplete:CardView
+    lateinit var bookID:String
     lateinit var bookingID:TextView
     lateinit var bookingType:TextView
     lateinit var pickuplocation:TextView
@@ -109,6 +111,7 @@ prefManager= PrefManager(this)
 
         bookingType.text = intent.getStringExtra("bookingType")
         bookingID.text = intent.getStringExtra("bookingID")
+        bookID = intent.getStringExtra("bookingID").toString()
         pickuplocation.text = intent.getStringExtra("pickup")
         fareprice.text = intent.getStringExtra("price")
         price = intent.getStringExtra("price").toString()
@@ -164,21 +167,23 @@ var count:Int = 0
 
            /* while(!endRoute) {*/
 
+try {
+    timer = object : CountDownTimer(9000000, 2000) {
+        override fun onTick(millisUntilFinished: Long) {
 
-                timer = object: CountDownTimer(9000000, 2000) {
-                    override fun onTick(millisUntilFinished: Long) {
+            updateRoute()
+            liveRouting(originLatitude, originLongitude, customerLAT, customerLON)
+        }
 
-                        updateRoute()
-                        liveRouting(originLatitude, originLongitude, customerLAT, customerLON)
-                    }
+        override fun onFinish() {
+            TODO("Not yet implemented")
+        }
+    }
+    (timer as CountDownTimer).start()
+    Thread.sleep(2000L)
+    }catch (e:Exception){
 
-                    override fun onFinish() {
-                        TODO("Not yet implemented")
-                    }
-                }
-                (timer as CountDownTimer).start()
-                Thread.sleep(2000L)
-
+    }
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 11F))
             
 
@@ -202,6 +207,8 @@ var count:Int = 0
         var rideInfoArray:JSONArray
         var rideInfo:JSONObject
         var rideInfoone:JSONObject
+        var bookingID = dialog.findViewById<TextView>(R.id.rdcomplete_booking_id)
+        bookingID.text = bookID
         var date = dialog.findViewById<TextView>(R.id.rdcomplete_date)
         var distance = dialog.findViewById<TextView>(R.id.rdcomplete_distance)
         var to = dialog.findViewById<TextView>(R.id.rdcomplete_destination)

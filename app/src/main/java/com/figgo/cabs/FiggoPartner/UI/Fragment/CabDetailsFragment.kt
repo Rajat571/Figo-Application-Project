@@ -66,8 +66,10 @@ class CabDetailsFragment : Fragment() {
     lateinit  var next  :TextView
     lateinit  var back  :TextView
     var current_year:Int = 0
-    lateinit var spinner_cabtype   : Spinner
-    lateinit  var workingarea      : Spinner
+    lateinit var spinner_cabtype: Spinner
+    lateinit  var workingarea : Spinner
+    lateinit var bottom_nav_bar:LinearLayout
+    lateinit var includedLayout:LinearLayout
     var selectedcity  = 0
     var selectedState = 0
 
@@ -179,6 +181,13 @@ class CabDetailsFragment : Fragment() {
         workingarea        = view.findViewById<Spinner>(R.id.partworking_area_spinner)
         carDP                  = view.findViewById(R.id.partupload_car)
         carModel               = view.findViewById<Spinner>(R.id.partvechle_model)
+
+        bottom_nav_bar = view.findViewById(R.id.partbottombuttonbar)
+        includedLayout = view.findViewById(R.id.partincludedlayout)
+
+        //bottom_nav_bar.visibility=View.GONE
+        includedLayout.visibility = View.GONE
+
 
     }
 
@@ -621,16 +630,25 @@ class CabDetailsFragment : Fragment() {
         var adapter = ArrayAdapter.createFromResource(requireContext(),R.array.CabType,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
         spinner_cabtype?.adapter = adapter
-        spinner_cabtype?.onItemSelectedListener = object :
-            AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                // Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
-                fetchCabCategory(position)
-            }
+        try {
+            spinner_cabtype?.onItemSelectedListener = object :
+                AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View,
+                    position: Int,
+                    id: Long
+                ) {
+                    // Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
+                    fetchCabCategory(position)
+                }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // write code to perform some action
+                override fun onNothingSelected(parent: AdapterView<*>) {
+                    // write code to perform some action
+                }
             }
+        }catch (e:Exception){
+
         }
 
 
@@ -642,69 +660,120 @@ class CabDetailsFragment : Fragment() {
         val dateadapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,yearList);
         dateadapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
         binding.partmodelYear.adapter = dateadapter
-        binding.partmodelYear?.onItemSelectedListener = object :
-            AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                // Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
+        try {
+            binding.partmodelYear?.onItemSelectedListener = object :
+                AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View,
+                    position: Int,
+                    id: Long
+                ) {
+                    // Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
 
-                val i = yearList[position]
+                    val i = yearList[position]
 
-                prefManager.setDriverVechleYear(i)
-                Log.d("Model year","Model year==="+i)
-                Log.d("Model year","Model year==="+ prefManager.setDriverVechleType(position.toString()))
+                    prefManager.setDriverVechleYear(i)
+                    Log.d("Model year", "Model year===" + i)
+                    Log.d(
+                        "Model year",
+                        "Model year===" + prefManager.setDriverVechleType(position.toString())
+                    )
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {
+                    // write code to perform some action
+                }
             }
+        }catch (e:Exception){
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // write code to perform some action
-            }
         }
 
         var adapter2 = ArrayAdapter.createFromResource(requireContext(),R.array.work_type,android.R.layout.simple_spinner_item);
         workingarea.adapter = adapter2
-        workingarea.onItemSelectedListener = object :
-            AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                prefManager.setDriverVechleType(position.toString())
+        try {
+            workingarea.onItemSelectedListener = object :
+                AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View,
+                    position: Int,
+                    id: Long
+                ) {
+                    prefManager.setDriverVechleType(position.toString())
 
-                if(position==2){
-                    updatedStateList.clear()
-                    selectedState =0
-                    selectedcity  =0
-                    fetchState(requireContext())
-                    binding.partworkingStateLayout.visibility=View.GONE
-                    binding.partworkingLocalLayout.visibility=View.VISIBLE
-                }else if(position == 0){
-                    selectedState =0
-                    selectedcity = 0
-                    binding.partworkingStateLayout.visibility=View.GONE
-                    binding.partworkingLocalLayout.visibility=View.GONE
+                    if (position == 2) {
+                        updatedStateList.clear()
+                        selectedState = 0
+                        selectedcity = 0
+                        fetchState(requireContext())
+                        binding.partworkingStateLayout.visibility = View.GONE
+                        binding.partworkingLocalLayout.visibility = View.VISIBLE
+                    } else if (position == 0) {
+                        selectedState = 0
+                        selectedcity = 0
+                        binding.partworkingStateLayout.visibility = View.GONE
+                        binding.partworkingLocalLayout.visibility = View.GONE
+                    } else {
+
+                        selectedState = 0
+                        selectedcity = 0
+                        updatedStateList = baseprivate.fetchStates(
+                            requireContext(),
+                            binding.partselectState1,
+                            1,
+                            binding.partselectState1,
+                            stateList
+                        )
+                        updatedStateList = baseprivate.fetchStates(
+                            requireContext(),
+                            binding.partselectState2,
+                            2,
+                            binding.partselectState1,
+                            stateList
+                        )
+                        updatedStateList = baseprivate.fetchStates(
+                            requireContext(),
+                            binding.partselectState3,
+                            3,
+                            binding.partselectState1,
+                            stateList
+                        )
+                        updatedStateList = baseprivate.fetchStates(
+                            requireContext(),
+                            binding.partselectState4,
+                            4,
+                            binding.partselectState1,
+                            stateList
+                        )
+                        updatedStateList = baseprivate.fetchStates(
+                            requireContext(),
+                            binding.partselectState5,
+                            5,
+                            binding.partselectState1,
+                            stateList
+                        )
+
+                        binding.partworkingStateLayout.visibility = View.VISIBLE
+                        binding.partworkingLocalLayout.visibility = View.GONE
+
+                    }
+
                 }
-                else{
 
-                    selectedState =0
-                    selectedcity = 0
-                    updatedStateList = baseprivate.fetchStates(requireContext(), binding.partselectState1, 1, binding.partselectState1, stateList)
-                    updatedStateList =  baseprivate.fetchStates(requireContext(),binding.partselectState2,2,binding.partselectState1,stateList)
-                    updatedStateList =   baseprivate.fetchStates(requireContext(),binding.partselectState3,3,binding.partselectState1,stateList)
-                    updatedStateList =  baseprivate.fetchStates(requireContext(),binding.partselectState4,4,binding.partselectState1,stateList)
-                    updatedStateList = baseprivate.fetchStates(requireContext(),binding.partselectState5,5,binding.partselectState1,stateList)
-
-                    binding.partworkingStateLayout.visibility=View.VISIBLE
-                    binding.partworkingLocalLayout.visibility=View.GONE
-
+                override fun onNothingSelected(parent: AdapterView<*>) {
+                    // write code to perform some action
                 }
-
             }
+        }catch (e:Exception){
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // write code to perform some action
-            }
         }
 
 
     }
 
     private fun fetchState(baseApbcContext: Context?) {
+        try {
         statelist.clear()
         updatedStateList.clear()
         prefManager= PrefManager(baseApbcContext!!)
@@ -770,8 +839,14 @@ class CabDetailsFragment : Fragment() {
         queue.add(jsonOblect)
 
     }
+        catch (_:Exception){
+        }
+    }
 
     private fun fetchCity(localStateId: Int) {
+        try{
+
+
         citylist.clear()
         //prefManager=PrefManager(baseApbcContext!!)
         var cityhashMap : HashMap<String, Int> = HashMap<String, Int> ()
@@ -843,9 +918,14 @@ class CabDetailsFragment : Fragment() {
             }){}
         queue.add(jsonOblect)
     }
+        catch (_:Exception){
+        }
+    }
 
 
     private fun fetchCabCategory(position: Int) {
+        try{
+
         hashMap.clear()
         //val URL = " https://test.pearl-developer.com/figo/api/f_category"
         val URL= Helper.f_category
@@ -905,10 +985,14 @@ class CabDetailsFragment : Fragment() {
                 }){}
         queue.add(jsonOblect)
 
+    }catch (_:Exception){
+    }
     }
 
 
     private fun fetchModel(position: Int) {
+        try{
+
         modelHashMap.clear()
         //val URL = "https://test.pearl-developer.com/figo/api/f_model"
         var URL= Helper.f_model
@@ -966,6 +1050,8 @@ class CabDetailsFragment : Fragment() {
                 }){}
         queue.add(jsonOblect)
 
+    }catch (_:Exception){
+    }
     }
 
 
@@ -1635,6 +1721,9 @@ class CabDetailsFragment : Fragment() {
                         sendreferal(ip_address)
 
                         //  prefManager.setCabFormToken("Submitted")
+                        bottom_nav_bar.visibility=View.GONE
+                        includedLayout.visibility=View.VISIBLE
+                        onDestroy()
                     }else{
                         // Toast.makeText(this.requireContext(), "Sucessfully sent data for verification.",Toast.LENGTH_SHORT).show()
                         baseprivate.ErrorProgressDialog(requireContext(),"101",getString(R.string.server_error))
@@ -1672,10 +1761,12 @@ class CabDetailsFragment : Fragment() {
             if(!response.equals("null")){
                 var bundle = Bundle()
                 bundle.putInt("Key",2)
-                if(prefManager.getUserType() == "Partner")
+            /*    if(prefManager.getUserType() == "Partner")
                     Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_partner_end_screen)
                 else
-                    Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration,bundle)
+                    Navigation.findNavController(requireView()).navigate(R.id.action_driverCabDetailsFragment_to_waitingRegistration,bundle)*/
+
+
 
             }else{
 
