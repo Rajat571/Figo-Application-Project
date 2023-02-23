@@ -64,6 +64,28 @@ class UpdateDriverProfileFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_get_data, container, false)
     }
+    var baseprivate = object : BasePrivate(){
+        override fun setLayoutXml() {
+            TODO("Not yet implemented")
+        }
+
+        override fun initializeViews() {
+            TODO("Not yet implemented")
+        }
+
+        override fun initializeClickListners() {
+            TODO("Not yet implemented")
+        }
+
+        override fun initializeInputs() {
+            TODO("Not yet implemented")
+        }
+
+        override fun initializeLabels() {
+            TODO("Not yet implemented")
+        }
+
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -110,7 +132,6 @@ class UpdateDriverProfileFragment : Fragment() {
         cab_view = view.findViewById<ConstraintLayout>(R.id.get_drivercab_layout)
         work_view = view.findViewById(R.id.get_workarea_layout)
         bottom_nav= view.findViewById<BottomNavigationView>(R.id.driverdetails_menu)
-
 
         chooseWorkingArea = view.findViewById(R.id.show_working_area_spinner)
 
@@ -248,6 +269,11 @@ class UpdateDriverProfileFragment : Fragment() {
                     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                         if(p2 == 2){
                             updatedStateList.clear()
+
+                            selectedState =0
+                            selectedcity = 0
+                            outstationWorkinAreaLayout.visibility=View.GONE
+                            local_working_areaLayout.visibility=View.VISIBLE
                         }
                         else if(p2==0){
                             selectedState =0
@@ -258,14 +284,14 @@ class UpdateDriverProfileFragment : Fragment() {
                         else{
                             selectedState =0
                             selectedcity = 0
-/*                            updatedStateList = baseprivate.fetchStates(requireContext(), outstationState1, 1, outstationState1, stateList)
+                            updatedStateList = baseprivate.fetchStates(requireContext(), outstationState1, 1, outstationState1, stateList)
                             updatedStateList =  baseprivate.fetchStates(requireContext(),outstationState2,2,outstationState2,stateList)
                             updatedStateList =   baseprivate.fetchStates(requireContext(),outstationState3,3,outstationState3,stateList)
                             updatedStateList =  baseprivate.fetchStates(requireContext(),outstationState4,4,outstationState4,stateList)
                             updatedStateList = baseprivate.fetchStates(requireContext(),outstationState5,5,outstationState5,stateList)
 
-                            binding.workingStateLayout.visibility=View.VISIBLE
-                            binding.workingLocalLayout.visibility=View.GONE*/
+                            outstationWorkinAreaLayout.visibility=View.VISIBLE
+                            local_working_areaLayout.visibility=View.GONE
                         }
                     }
 
@@ -304,6 +330,7 @@ class UpdateDriverProfileFragment : Fragment() {
                 }
                 R.id.detailswork->{
                     work_view.visibility=View.VISIBLE
+
                     profile_view.visibility = View.GONE
                     cab_view.visibility = View.GONE
 

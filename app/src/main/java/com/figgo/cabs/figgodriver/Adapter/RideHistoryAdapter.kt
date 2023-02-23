@@ -38,9 +38,9 @@ class RideHistoryAdapter(var data: List<String>,var x:Int,var context:Context):R
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
                 dialog.setCancelable(false)
                 dialog.setContentView(R.layout.historyview_details)
-                dialog.getWindow()?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                /*dialog.getWindow()?.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);*/
                 var submit = dialog.findViewById<Button>(R.id.view_ok)
-                var cancel = dialog.findViewById<ImageView>(R.id.view_cancel)
+                var cancel = dialog.findViewById<ImageView>(R.id.view_cancel_dialog)
                 var dialog_booking = dialog.findViewById<TextView>(R.id.history_booking_id)
                 var dialog_to = dialog.findViewById<TextView>(R.id.history_destination)
                 var dialog_name=dialog.findViewById<TextView>(R.id.history_customer_name)
