@@ -6,51 +6,56 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#000F3B"
+        android:background="#00013B"
         tools:context="com.example.FiggoPartner.UI.Fragment.PartnerHomeFragment">
 
-        <LinearLayout
-            android:id="@+id/linearLayout12"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_100sdp"
-            android:paddingTop="@dimen/_30sdp"
-            android:gravity="center"
-            android:orientation="horizontal"
+
+        <include
+            android:id="@+id/include"
+            layout="@layout/layout_searchbox"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:layout_width="@dimen/_80sdp"
-                android:layout_height="@dimen/_80sdp"
-                android:src="@drawable/ic_managedriver" />
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_10sdp"
+            android:text="Recently Added"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/include" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Manage Drivers"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_18sdp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView4"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/partner_home_scroll_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:backgroundTint="#000F3B"
-            android:minHeight="@dimen/_200sdp"
-            app:cardCornerRadius="@dimen/_5sdp"
-            app:layout_constraintBottom_toTopOf="@+id/partner_home_recycler"
+
+            android:background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout12">
+            app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-
-        </androidx.cardview.widget.CardView>
-
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/_5sdp"
+            android:padding="@dimen/_10sdp"
+            android:text="All Drivers"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/partner_home_scroll_recyclerView" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/partner_home_recycler"
@@ -60,7 +65,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout12" />
+            app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

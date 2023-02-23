@@ -213,7 +213,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
                         Log.d("SendData", "check_otp===" + otp1)
                         val queue2 = Volley.newRequestQueue(requireContext())
                         val json2 = JSONObject()
-                        json2.put("type", "driver")
+                        json2.put("type", "Driver")
                         json2.put("type_id", driver_id.toInt())
                         json2.put("contact_no", mobile_num)
 
