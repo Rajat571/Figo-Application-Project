@@ -1,4 +1,6 @@
 package com.figgo.cabs.figgodriver.Fragment
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -269,7 +271,7 @@ class UpdateDriverProfileFragment : Fragment() {
                     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                         if(p2 == 2){
                             updatedStateList.clear()
-
+                            fetchState2(requireContext())
                             selectedState =0
                             selectedcity = 0
                             outstationWorkinAreaLayout.visibility=View.GONE
@@ -691,5 +693,142 @@ catch (e:Exception){
     fun setWorkingArea(){
 
     }
+    private fun fetchState2(baseApbcContext: Context?) {
+        statelist.clear()
+        updatedStateList.clear()
+        prefManager= PrefManager(baseApbcContext!!)
+        var hashMap : HashMap<String, Int> = HashMap<String, Int> ()
+        var state_id:Int = 0
+        //val URL = " https://test.pearl-developer.com/figo/api/get-state"
+        var URL=Helper.get_state
+        val queue = Volley.newRequestQueue(baseApbcContext)
+        val json = JSONObject()
 
+        json.put("country_id","101")
+        Log.d("SendData", "json===" + json)
+
+        val jsonOblect=  object : JsonObjectRequest(Method.POST, URL, json,
+            Response.Listener<JSONObject?> { response ->
+                //Log.d("SendData", "response===" + response)
+                // Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
+                if (response != null) {
+                    val status = response.getString("status")
+                    if(status.equals("1")){
+                        val jsonArray = response.getJSONArray("states")
+                        for (i in 0..jsonArray.length()-1){
+                            val rec: JSONObject = jsonArray.getJSONObject(i)
+                            var name = rec.getString("name")
+                            var id = rec.getString("id")
+                            statelist.add(SpinnerObj(name,id))
+                            hashMap.put(name,id.toInt())
+                        }
+                        //spinner
+                        //  val stateadapter =  ArrayAdapter(baseApbcContext!!,android.R.layout.simple_spinner_item,hashMap.keys.toList());
+                        val stateadapter = SpinnerAdapter(requireContext(),statelist)
+                        //  stateadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        local_state.setAdapter(stateadapter)
+                        local_state.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(adapterView: AdapterView<*>?, view: View, position: Int, id: Long) {
+
+
+                                if(position != 0){
+                                    selectedState = statelist.get(position).id.toInt()
+                                    updatedStateList.add(selectedState.toString())
+                                    //   prefManager.setdriverWorkState(state_id)
+                                    Log.d("data","selectedState===="+selectedState)
+
+                                    //fetchCity(selectedState,baseApbcContext)
+                                    fetchCity2(stateadapter.getItem(position)!!.id.toInt())
+                                }
+
+                            }
+
+                            @SuppressLint("SetTextI18n")
+                            override fun onNothingSelected(adapter: AdapterView<*>?) {
+                                //  (binding.spinnerState.getChildAt(0) as TextView).text = "Select Category"
+                            }
+                        })
+                    }else{
+                        Toast.makeText(baseApbcContext,"Something Went Wrong !!",Toast.LENGTH_SHORT).show()
+                    }
+                }
+                // Get your json response and convert it to whatever you want.
+            }, Response.ErrorListener {
+                // Error
+            }){}
+        queue.add(jsonOblect)
+
+    }
+    private fun fetchCity2(localStateId: Int) {
+        citylist.clear()
+        //prefManager=PrefManager(baseApbcContext!!)
+        var cityhashMap : HashMap<String, Int> = HashMap<String, Int> ()
+        // val URL = " https://test.pearl-developer.com/figo/api/get-city"
+        var URL=Helper.get_city
+        val queue = Volley.newRequestQueue(requireContext())
+        val json = JSONObject()
+        //    var token= prefManager.getToken()
+
+        json.put("state_id",localStateId)
+
+        Log.d("fetchCity", "json===" + json)
+
+        val jsonOblect=  object : JsonObjectRequest(Method.POST, URL, json,
+            Response.Listener<JSONObject?> { response ->
+                Log.d("SendData", "response===" + response)
+                // Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
+                if (response != null) {
+                    val status = response.getString("status")
+                    if(status.equals("1")){
+                        val jsonArray = response.getJSONArray("cities")
+                        for (i in 0..jsonArray.length()-1){
+                            val rec: JSONObject = jsonArray.getJSONObject(i)
+                            var name = rec.getString("name")
+                            var id = rec.getString("id")
+                            citylist.add(SpinnerObj(name,id))
+                            cityhashMap.put(name,id.toInt())
+                        }
+                        //spinner
+                        /* val cityadapter = baseApbcContext?.let { ArrayAdapter(it,android.R.layout.simple_spinner_item,cityhashMap.keys.toList()) };
+                          if (cityadapter != null) {
+                              cityadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                         }*/
+                        val cityadapter = SpinnerAdapter(requireContext(),citylist)
+                       local_city.setAdapter(cityadapter)
+                        local_city.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(adapterView: AdapterView<*>?, view: View, position: Int, id: Long) {
+
+
+
+                                if(position !=0){
+                                    selectedcity = citylist.get(position).id.toInt()
+                                    //  prefManager.setdriverWorkCity(selectedcity)
+                                    Log.d("SendData", "selectCityid===" + selectedcity)
+                                    //  fetchCity(id)
+                                }
+
+
+                            }
+
+                            @SuppressLint("SetTextI18n")
+                            override fun onNothingSelected(adapter: AdapterView<*>?) {
+                                //  (binding.spinnerState.getChildAt(0) as TextView).text = "Select Category"
+                            }
+                        })
+
+                    }else{
+
+                    }
+
+
+                    Log.d("SendData", "json===" + json)
+
+
+                }
+                // Get your json response and convert it to whatever you want.
+            }, Response.ErrorListener {
+                // Error
+            }){}
+        queue.add(jsonOblect)
+    }
 }
