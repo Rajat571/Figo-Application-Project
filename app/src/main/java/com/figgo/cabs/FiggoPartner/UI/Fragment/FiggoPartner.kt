@@ -37,14 +37,13 @@ import com.figgo.cabs.pearllib.BasePrivate
 import com.figgo.cabs.pearllib.Helper
 import kotlinx.android.synthetic.main.fragment_partner_details.*
 import org.json.JSONObject
-import org.w3c.dom.Text
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.util.HashMap
 import kotlin.jvm.Throws
 
 
-class PartnerDetails : Fragment() {
+class FiggoPartner : Fragment() {
 
     lateinit var up_adharfront: ImageView;
     lateinit var up_adharback: ImageView;
@@ -209,8 +208,6 @@ progressBar = view.findViewById(R.id.partnerprogressbar)
         defLayout = view.findViewById(R.id.choose_user)
         progressBar.visibility=View.GONE
         defLayout.visibility=View.VISIBLE
-        var data = Bundle()
-        data.putString("Parent","Partner");
         next.setOnClickListener {
             progressBar.visibility=View.VISIBLE
             defLayout.visibility=View.GONE
@@ -233,7 +230,7 @@ progressBar = view.findViewById(R.id.partnerprogressbar)
                         progressBar.visibility=View.GONE
                         defLayout.visibility=View.VISIBLE
                         prefManager.setUserType("Partner")
-                        Navigation.findNavController(view).navigate(R.id.action_partnerDetails_to_figgo_Capton,data)
+                        Navigation.findNavController(view).navigate(R.id.action_partnerDetails_to_waitingRegistration)
                     }
                 },
                 {

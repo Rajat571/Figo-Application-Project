@@ -81,7 +81,7 @@
     </fragment>
     <fragment
         android:id="@+id/partnerDetails"
-        android:name="com.figgo.cabs.FiggoPartner.UI.Fragment.PartnerDetails"
+        android:name="com.figgo.cabs.FiggoPartner.UI.Fragment.FiggoPartner"
         android:label="fragment_partner_details"
         tools:layout="@layout/fragment_partner_details" >
         <action
@@ -93,6 +93,9 @@
         <action
             android:id="@+id/action_partnerDetails_to_figgo_Capton"
             app:destination="@id/figgo_Capton" />
+        <action
+            android:id="@+id/action_partnerDetails_to_waitingRegistration"
+            app:destination="@id/waitingRegistration" />
     </fragment>
     <fragment
         android:id="@+id/driverDetailsFragment"

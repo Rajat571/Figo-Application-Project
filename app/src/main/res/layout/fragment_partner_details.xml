@@ -112,7 +112,6 @@
                         android:id="@+id/partner_panNo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableEnd="@drawable/upload"
                         android:hint="PAN No." />
 
                 </com.google.android.material.textfield.TextInputLayout>

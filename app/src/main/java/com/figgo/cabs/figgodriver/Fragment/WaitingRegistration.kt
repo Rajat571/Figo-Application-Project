@@ -17,6 +17,7 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.figgo.cabs.FiggoPartner.UI.Partner_Dashboard
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.figgodriver.UI.DriverDashBoard
@@ -32,17 +33,7 @@ private const val ARG_PARAM2 = "param2"
 class WaitingRegistration : Fragment() {
     lateinit var prefManager: PrefManager
     lateinit var dialog:ProgressDialog
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    var user_type=""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -111,6 +102,7 @@ class WaitingRegistration : Fragment() {
             var status=user.getString("status")
             var name=user.get("name")
             var num=user.getString("mobile")
+            user_type=user.getString("user_type")
             /*prefManager.setDriverName(name.toString())
             prefManager.setMobile_No(num.toString())*/
 
@@ -121,12 +113,19 @@ class WaitingRegistration : Fragment() {
                 dialog.setCancelable(true)
             }
             else{
-                dialog.hide()
-                prefManager.setRegistrationToken("Done")
 
-               // prefManager.setToken(user.getString("token"))
+                prefManager.setRegistrationToken("Done")
                 prefManager.setReferal(user.getString("referal_link"))
-                startActivity(Intent( requireContext(), DriverDashBoard::class.java))
+
+                if (user_type=="Partner"){
+                    dialog.hide()
+                    startActivity(Intent(requireContext(),Partner_Dashboard::class.java))
+                }
+                else  if (user_type=="Driver"){
+                    dialog.hide()
+                    startActivity(Intent( requireContext(), DriverDashBoard::class.java))
+                }
+
             }
         },object :Response.ErrorListener{
             override fun onErrorResponse(error: VolleyError?) {

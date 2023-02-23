@@ -34,6 +34,7 @@ class Partner_Dashboard : AppCompatActivity() {
         setContentView(R.layout.activity_partner_dashboard)
         var window=window
         var prefManager = PrefManager(this)
+        prefManager.setRegistrationToken("Done")
         var logout = findViewById<TextView>(R.id.partner_logout)
         logout.setOnClickListener {
             val alertDialog2 = AlertDialog.Builder(

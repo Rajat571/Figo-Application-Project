@@ -45,7 +45,8 @@ class WelcomeFragment : Fragment() {
                         startActivity(Intent(requireContext(),Partner_Dashboard::class.java))
                     else
                   Navigation.findNavController(view).navigate(R.id.action_welcomeDriverFragment_to_waitingRegistration,bundle)
-                }}
+                }
+            }
        // }
         },2000)
     }

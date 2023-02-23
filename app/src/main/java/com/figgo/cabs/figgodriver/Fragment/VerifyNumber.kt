@@ -26,6 +26,7 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.figgo.cabs.FiggoPartner.UI.Partner_Dashboard
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -63,6 +64,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
     var mobile_num=""
     var getotp=0
     var status=0
+    var user_type=""
     lateinit var view_timer:TextView
     lateinit var cTimer:CountDownTimer
     var googleSignInClient: GoogleSignInClient? = null
@@ -203,10 +205,20 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
 
                         token = response.getString("token")
                         Log.d("SendData", "token===" + token)
+                        try {
+                            profile_status = response.getString("profile_status").toInt()
+                            driver_id = response.getJSONObject("user").getString("id")
+                            var user=response.getJSONObject("user")
+                            user_type=user.getString("user_type")
+                            prefManager.setUserType(user_type)
+                            Log.d("VerifyNumber","User-Type==="+user_type)
+                            Log.d("VerifyNumber","profile_status==="+profile_status)
+                        }
+                        catch (e:Exception){
+                            user_type="0"
+                        }
 
-                        profile_status = response.getString("profile_status").toInt()
-                        driver_id = response.getJSONObject("user").getString("id")
-                        // var user=response.getJSONObject("user")
+
                         //   status=user.getString("status").toInt()
                         // Log.d("VerifyNumber","STATUS"+status)
 
@@ -265,6 +277,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
         Log.d("VerifyNumber","otp_check"+otp_check_url)
 
         var input_otp=view.findViewById<TextView>(R.id.enteredOTP).text.toString()
+
         Log.d("VerifyNumber","input_otp"+input_otp)
 
         var queue=Volley.newRequestQueue(requireContext())
@@ -278,6 +291,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
 
             Log.d("VerifyNumber","OTP Check RESPONSE"+response)
 
+
             if (input_otp.toInt()!=getotp) {
                 dialog.hide()
                 Toast.makeText(requireContext(), "incorrect otp"+response.getString("message"), Toast.LENGTH_SHORT).show()
@@ -289,45 +303,42 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
                 var user=response.getJSONObject("user")
                 var  statuss=user.getString("status").toInt()
 
-                if (statuss.equals(0)) {
-                    dialog.hide()
-                    /*    if (prefManager.getToken().equals("") || prefManager.getToken().equals("null")) {*/
-                    /*   if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")) {
-                           Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
-                       } else {*/
-                    if (profile_status==0 || prefManager.getRegistrationToken().equals("")) {
-                        Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+
+                if (user_type=="Partner"&&user_type.equals("Partner")){
+                    if (statuss.equals(0)) {
+                        dialog.hide()
+                        if (profile_status.equals(0) || prefManager.getRegistrationToken().equals("")) {
+                            Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                        }
+                        else {
+                            Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_waitingRegistration)
+                        }
+
                     }
-                    /* else if (status.equals(0)||status==0){
-                         Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
-                     }*/
-                    else {
+                    else{
+                        startActivity(Intent(requireContext(), Partner_Dashboard::class.java))
+                    }
+                }
+                else if (user_type=="Driver"&&user_type.equals("Driver")){
+
+                    dialog.hide()
+                    if (statuss.equals(0)) {
+                        dialog.hide()
+                        if (profile_status.equals(0)) {
+                            Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                        }
+
+                        else {
+                            Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_waitingRegistration)
+                        }
+
+                    }
+                    else{
                         startActivity(Intent(requireContext(), DriverDashBoard::class.java))
                     }
-                    //}
-                    //   }
-                    /*     else {
-                           *//*  if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")
-                        ) {
-                            Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
-                        } else {*//*
-                            if (profile_status == 0 || prefManager.getRegistrationToken().equals("")
-                            ) {
-                                Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
-                            } else {
-                                startActivity(Intent(requireContext(),DriverDashBoard::class.java)) }
-                      //  }
-                    }*/
-                    // Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
                 }
                 else{
-                    /*   dialog.hide()
-                     if (prefManager.getMpin().equals("") || prefManager.getMpin().equals("null")) {
-                           Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_MPinGenerate)
-                       }
-                      else{*/
-                    dialog.hide()
-                    startActivity(Intent(requireContext(), DriverDashBoard::class.java))
+                    Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
                 }
             }
 
