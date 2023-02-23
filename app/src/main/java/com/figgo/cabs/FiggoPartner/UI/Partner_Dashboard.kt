@@ -47,6 +47,8 @@ class Partner_Dashboard : AppCompatActivity() {
                 Toast.makeText(this,"Logout Successfully",Toast.LENGTH_SHORT).show()
                 prefManager.setToken("")
                 prefManager.setRegistrationToken("")
+                prefManager.setUserType("")
+                prefManager.setDashboard("")
                 startActivity(Intent(this, LoginActivity::class.java))
             }
             alertDialog2.setNegativeButton(
