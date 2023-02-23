@@ -80,29 +80,6 @@ class FiggoPartner : Fragment() {
 
     }
 
-    var baseprivate = object : BasePrivate(){
-        override fun setLayoutXml() {
-            TODO("Not yet implemented")
-        }
-
-        override fun initializeViews() {
-            TODO("Not yet implemented")
-        }
-
-        override fun initializeClickListners() {
-            TODO("Not yet implemented")
-        }
-
-        override fun initializeInputs() {
-            TODO("Not yet implemented")
-        }
-
-        override fun initializeLabels() {
-            TODO("Not yet implemented")
-        }
-
-    }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -209,42 +186,43 @@ progressBar = view.findViewById(R.id.partnerprogressbar)
         progressBar.visibility=View.GONE
         defLayout.visibility=View.VISIBLE
         next.setOnClickListener {
-            progressBar.visibility=View.VISIBLE
-            defLayout.visibility=View.GONE
-            var url = Helper.register_partner
-            var json = JSONObject()
-            var queue = Volley.newRequestQueue(requireContext())
-            json.put("name",name.text)
-            json.put("pan_number",panno.text)
-            json.put("aadhar_number",adharno.text)
-            json.put("aadhar_front",aadhar_front)
-            json.put("aadhar_back",aadhar_back)
-            json.put("aadhar_front_ext",aadhar_front_ext)
-            json.put("aadhar_back_ext",aadhar_back_ext)
+            if (base.validateName(binding.partnerName)&&base.validateNumber(binding.partnerMobileNo)&&base.validatePanNo(binding.partnerPanNo)&&  base.validateAadharNo(binding.partnerAdharNo)){
+                progressBar.visibility=View.VISIBLE
+                defLayout.visibility=View.GONE
+                var url = Helper.register_partner
+                var json = JSONObject()
+                var queue = Volley.newRequestQueue(requireContext())
+                json.put("name",name.text)
+                json.put("pan_number",panno.text)
+                json.put("aadhar_number",adharno.text)
+                json.put("aadhar_front",aadhar_front)
+                json.put("aadhar_back",aadhar_back)
+                json.put("aadhar_front_ext",aadhar_front_ext)
+                json.put("aadhar_back_ext",aadhar_back_ext)
 
-            var jsonObject: JsonObjectRequest = object : JsonObjectRequest(
-                Method.POST,url,json,
-                {
-                    if(it!=null){
-                        Log.d("Partner Register Response ",it.toString())
-                        progressBar.visibility=View.GONE
-                        defLayout.visibility=View.VISIBLE
-                        prefManager.setUserType("Partner")
-                        Navigation.findNavController(view).navigate(R.id.action_partnerDetails_to_waitingRegistration)
+                var jsonObject: JsonObjectRequest = object : JsonObjectRequest(
+                    Method.POST,url,json,
+                    {
+                        if(it!=null){
+                            Log.d("Partner Register Response ",it.toString())
+                            progressBar.visibility=View.GONE
+                            defLayout.visibility=View.VISIBLE
+                            prefManager.setUserType("Partner")
+                            Navigation.findNavController(view).navigate(R.id.action_partnerDetails_to_waitingRegistration)
+                        }
+                    },
+                    {
+                    })  {
+                    @Throws(AuthFailureError::class)
+                    override fun getHeaders(): MutableMap<String, String> {
+                        val headers: MutableMap<String, String> = HashMap()
+                        headers.put("Content-Type", "application/json; charset=UTF-8");
+                        headers.put("Authorization", "Bearer " + prefManager.getToken());
+                        return headers
                     }
-                },
-                {
-                })  {
-                @Throws(AuthFailureError::class)
-                override fun getHeaders(): MutableMap<String, String> {
-                    val headers: MutableMap<String, String> = HashMap()
-                    headers.put("Content-Type", "application/json; charset=UTF-8");
-                    headers.put("Authorization", "Bearer " + prefManager.getToken());
-                    return headers
                 }
+                queue.add(jsonObject)
             }
-            queue.add(jsonObject)
-
         }
         back.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_partnerDetails_to_partnerWelcomeFragment)

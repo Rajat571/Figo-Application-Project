@@ -28,7 +28,6 @@ class WelcomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         prefManager= PrefManager(requireContext())
         Handler().postDelayed({
-
             if(prefManager.getToken().equals("") || prefManager.getToken().equals("null")){
                 Navigation.findNavController(view).navigate(R.id.action_welcomeDriverFragment_to_verifyNumber2)
             }else{
