@@ -70,6 +70,7 @@ dependencies {
     implementation 'com.github.malikdawar:drawroute:1.5'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
     implementation 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1'
+    implementation 'com.squareup.picasso:picasso:2.8'
 
     implementation platform('com.google.firebase:firebase-bom:31.1.1')
 

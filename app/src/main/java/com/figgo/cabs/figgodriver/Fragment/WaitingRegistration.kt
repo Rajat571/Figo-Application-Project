@@ -32,7 +32,7 @@ private const val ARG_PARAM2 = "param2"
 
 class WaitingRegistration : Fragment() {
     lateinit var prefManager: PrefManager
-    lateinit var dialog:ProgressDialog
+//    lateinit var dialog:ProgressDialog
     var user_type=""
 
     override fun onCreateView(
@@ -55,13 +55,15 @@ class WaitingRegistration : Fragment() {
         var tv2 = view.findViewById<TextView>(R.id.textView2)
         val args = arguments
         val waiting_layout = view.findViewById<CardView>(R.id.waiting_cardview)
-        if (args != null) {
+        prefManager.setRegistrationToken("Done")
+        waiting_layout.visibility=View.VISIBLE
+ /*       if (args != null) {
             if (pref.getDashboard().equals("on"))
                 waiting_layout.visibility = View.GONE
             else
                 waiting_layout.visibility = View.VISIBLE
-        }
-        checkstatus(view)
+        }*/
+        //checkstatus(view)
         tv2.text = "Hello $name\n" +
                 "You registered an account on Figgo Driver App .Your Document Verification is under process, we will connect with you shortly"
         intent_call.data = Uri.parse("tel:"+"+919715597855")
@@ -84,7 +86,7 @@ class WaitingRegistration : Fragment() {
     private fun checkstatus(view: View) {
         /*dialog.setTitle("please wait")
         dialog.getWindow()?.setGravity(Gravity.BOTTOM);*/
-        dialog = ProgressDialog.show(requireContext(), "", "Please wait for approval...")
+     //   dialog = ProgressDialog.show(requireContext(), "", "Please wait for approval...")
 
        // var baseurl="https://test.pearl-developer.com/figo/api/check-status"
         var baseurl=Helper.check_status
@@ -110,19 +112,18 @@ class WaitingRegistration : Fragment() {
 
             if (status.equals(0)||status.toInt()==0){
 
-                dialog.setCancelable(true)
-            }
-            else{
+              //  dialog.setCancelable(true)
+            } else{
 
                 prefManager.setRegistrationToken("Done")
                 prefManager.setReferal(user.getString("referal_link"))
 
                 if (user_type=="Partner"){
-                    dialog.hide()
+                  //  dialog.hide()
                     startActivity(Intent(requireContext(),Partner_Dashboard::class.java))
                 }
                 else  if (user_type=="Driver"){
-                    dialog.hide()
+                   // dialog.hide()
                     startActivity(Intent( requireContext(), DriverDashBoard::class.java))
                 }
 

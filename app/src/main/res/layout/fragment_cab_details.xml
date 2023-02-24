@@ -18,6 +18,7 @@
             <include
                 android:id="@+id/partincludedlayout"
                 layout="@layout/layout_partneraddeddriver"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -38,7 +39,7 @@
                 app:cardCornerRadius="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/partbackgrouund">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ScrollView
                     android:layout_width="match_parent"
@@ -326,17 +327,17 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/partwork"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="514dp"
                 android:layout_marginHorizontal="@dimen/_7ssp"
-                android:layout_marginVertical="100dp"
+                android:layout_marginVertical="50dp"
                 android:background="@drawable/background_layout"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:cardCornerRadius="10dp"
                 app:layout_constraintBottom_toTopOf="@+id/partbottombuttonbar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/partbackgrouund">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ScrollView
                     android:layout_width="match_parent"
@@ -525,15 +526,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="@dimen/_7ssp"
-                android:layout_marginVertical="100dp"
                 android:background="@drawable/background_layout"
                 android:visibility="gone"
                 app:cardCornerRadius="10dp"
-                app:layout_constraintBottom_toTopOf="@+id/partbottombuttonbar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/partbackgrouund">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ScrollView
                     android:layout_width="match_parent"

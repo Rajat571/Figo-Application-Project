@@ -193,6 +193,7 @@ progressBar = view.findViewById(R.id.partnerprogressbar)
                 var json = JSONObject()
                 var queue = Volley.newRequestQueue(requireContext())
                 json.put("name",name.text)
+                prefManager.setDriverName(name.text.toString())
                 json.put("pan_number",panno.text)
                 json.put("aadhar_number",adharno.text)
                 json.put("aadhar_front",aadhar_front)
@@ -208,6 +209,8 @@ progressBar = view.findViewById(R.id.partnerprogressbar)
                             progressBar.visibility=View.GONE
                             defLayout.visibility=View.VISIBLE
                             prefManager.setUserType("Partner")
+                            prefManager.setRegistrationToken("Done")
+
                             Navigation.findNavController(view).navigate(R.id.action_partnerDetails_to_waitingRegistration)
                         }
                     },

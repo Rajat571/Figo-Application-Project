@@ -12,7 +12,7 @@
         />
 
     <item android:id="@+id/share_ride"
-        android:icon="@drawable/ic_partnersupport"
+        android:icon="@drawable/ic_callsupport"
         />
 
 </menu>

@@ -53,7 +53,7 @@
                 android:id="@+id/partner_logout"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                app:drawableEndCompat="@drawable/logoutwhite" />
+                app:drawableEndCompat="@drawable/ic_partnerlogout" />
 
         </LinearLayout>
     </LinearLayout>

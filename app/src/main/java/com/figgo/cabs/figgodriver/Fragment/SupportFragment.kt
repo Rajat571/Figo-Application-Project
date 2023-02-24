@@ -48,11 +48,7 @@ class SupportFragment : Fragment() {
     private lateinit var profile_pic:ImageView
     lateinit var imageuri: Uri;
     lateinit var pref: PrefManager
-    private val contract1 = registerForActivityResult(ActivityResultContracts.GetContent()){
-        imageuri = it!!
-        profile_pic.setImageURI(it)
-        // upload()
-    }
+
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -88,7 +84,6 @@ class SupportFragment : Fragment() {
         var history = view.findViewById<LinearLayout>(R.id.historyofrecharge)
 
 
-        profile_pic = view.findViewById<ImageView>(R.id.change_profile_pic_image)
         if(str.equals("About")){
         val myWebView: WebView = view.findViewById(R.id.about_wv)
             support.visibility=View.GONE

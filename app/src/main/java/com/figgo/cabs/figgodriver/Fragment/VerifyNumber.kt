@@ -15,6 +15,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -90,7 +91,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
         startTimer()
 
         vieW = view
-        var otp_screen = view.findViewById<CardView>(R.id.otp_screen)
+        var otp_screen = view.findViewById<ConstraintLayout>(R.id.otp_screen)
         prefManager = PrefManager(requireContext())
         binding.chooseUser.isVisible = true
         otp_screen.visibility=View.GONE
@@ -209,6 +210,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
                             profile_status = response.getString("profile_status").toInt()
                             driver_id = response.getJSONObject("user").getString("id")
                             var user=response.getJSONObject("user")
+                            prefManager.setDriverName(user.getString("name"))
                             user_type=user.getString("user_type")
                             prefManager.setUserType(user_type)
                             Log.d("VerifyNumber","User-Type==="+user_type)

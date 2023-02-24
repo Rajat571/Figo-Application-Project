@@ -68,8 +68,8 @@ class Figgo_FamilyFragment : Fragment() {
                 //childFragmentManager.beginTransaction().add(R.id.nav_controller,hotelPartner).commit()
                 var args = Bundle()
                 args.putString("Parent","Hotel");
-               // Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_comingSoonFragment,args)
-                Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_partner_end_screen,args)
+                Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_comingSoonFragment,args)
+               // Navigation.findNavController(view).navigate(R.id.action_figgo_FamilyFragment_to_partner_end_screen,args)
 
 
 

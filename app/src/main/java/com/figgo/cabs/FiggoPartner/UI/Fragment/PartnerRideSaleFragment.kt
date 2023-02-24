@@ -319,11 +319,11 @@ class PartnerRideSaleFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        binding.partdrivername.setText(prefManager.getDriverName())
+        /*binding.partdrivername.setText(prefManager.getDriverName())
         binding.partdrivermobileno.setText(prefManager.getMobileNo())
         binding.partdriverdlno.setText(prefManager.getDL_No())
         binding.partdriverPanNo.setText(prefManager.getDriverPan_no())
-        binding.partdriverAdharNo.setText(prefManager.getDriverAadhar_no())
+        binding.partdriverAdharNo.setText(prefManager.getDriverAadhar_no())*/
     }
 
     companion object {

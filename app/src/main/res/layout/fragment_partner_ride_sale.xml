@@ -103,8 +103,9 @@
                             android:layout_height="wrap_content"
                             android:background="@drawable/input_boder_profile"
                             android:hint="Mobile No."
+
                             android:imeOptions="actionNext"
-                            android:inputType="text"
+                            android:inputType="number"
                             android:padding="20dp"
                             android:textSize="13sp" />
                     </com.google.android.material.textfield.TextInputLayout>

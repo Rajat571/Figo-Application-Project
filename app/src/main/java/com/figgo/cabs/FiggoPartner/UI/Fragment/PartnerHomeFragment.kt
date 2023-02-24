@@ -61,11 +61,13 @@ class PartnerHomeFragment : Fragment() {
         var Dmobileno:String
         var Ddlno:String
 
+        dataList.clear()
+        sorttedList.clear()
         Log.d(TAG,"TOKEN "+ "4586|aNz5HXwotAMADp9SpP28AMmVqQpM6xqS2BbJ4EYg")
         var json = JSONObject()
         var jsonObjectRequest = object : JsonObjectRequest(Method.POST,url, json,{
             if(it!=null) {
-                Log.d(TAG, "GET DRIVER RES = " + it)
+                Log.d(TAG, "GET DRIVER RES = $it")
        try {
 
 

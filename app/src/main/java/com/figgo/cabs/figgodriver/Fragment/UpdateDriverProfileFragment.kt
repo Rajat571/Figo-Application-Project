@@ -23,6 +23,21 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList
+import java.io.IOException
+
+import android.graphics.BitmapFactory
+
+import android.graphics.Bitmap
+import com.squareup.picasso.Picasso
+
+import java.io.InputStream
+
+import java.net.HttpURLConnection
+
+import java.net.URL
+
+
+
 
 class UpdateDriverProfileFragment : Fragment() {
     val statelist: ArrayList<SpinnerObj> = ArrayList()
@@ -38,6 +53,8 @@ class UpdateDriverProfileFragment : Fragment() {
     lateinit var prefManager:PrefManager
     lateinit var spinner_cabcategory:Spinner
     lateinit var work_view:ConstraintLayout
+    lateinit var profile_pic_url:String
+    lateinit var driver_cab_image_url:String
     lateinit var year:Spinner
     var current_year:Int = 0
     lateinit var cab_view:ConstraintLayout
@@ -47,6 +64,8 @@ class UpdateDriverProfileFragment : Fragment() {
     lateinit var local_working_areaLayout:LinearLayout
     lateinit var local_state:Spinner
     lateinit var local_city:Spinner
+    lateinit var selfiee:ImageView
+    lateinit var drivercabImage:ImageView
     lateinit var chooseWorkingArea:Spinner
     lateinit var outstationWorkinAreaLayout:LinearLayout
     lateinit var outstationState1:Spinner
@@ -131,8 +150,10 @@ class UpdateDriverProfileFragment : Fragment() {
         var driver_adharNo = view.findViewById<EditText>(R.id.show_driverAdharNo)
         var outstationHaspMap =   ArrayList<String>()
         profile_view = view.findViewById<LinearLayout>(R.id.get_profile_layout)
+        drivercabImage = view.findViewById<ImageView>(R.id.show_car_image)
         cab_view = view.findViewById<ConstraintLayout>(R.id.get_drivercab_layout)
         work_view = view.findViewById(R.id.get_workarea_layout)
+        selfiee = view.findViewById(R.id.show_selfiee)
         bottom_nav= view.findViewById<BottomNavigationView>(R.id.driverdetails_menu)
 
         chooseWorkingArea = view.findViewById(R.id.show_working_area_spinner)
@@ -215,15 +236,66 @@ class UpdateDriverProfileFragment : Fragment() {
             if(it!=null)
             {
                 Log.d("Get Response ",""+it.toString())
-                profile_name.setText(it.getString("name"))
-                profile_mobile.setText(it.getString("mobile"))
-                driver_dlNo.setText(it.getString("dl_number"))
-                driver_panNo.setText(it.getString("pan_number"))
-                driver_adharNo.setText(it.getString("aadhar_number"))
-                if(it.getString("city")!=null)
-                 fetchState(it.getString("state").toInt(),it.getString("city").toInt())
-                else
-                 fetchState(it.getString("state").toInt(),0)
+
+
+                try {
+                    profile_name.setText(it.getString("name"))
+                }catch (e:Exception){
+                    profile_name.setText(" ")
+                }
+
+                try {
+                    profile_mobile.setText(it.getString("mobile"))
+                }catch (e:Exception){
+                    profile_mobile.setText(" ")
+                }
+
+                try {
+                    driver_dlNo.setText(it.getString("dl_number"))
+                }catch (e:Exception){
+                    driver_dlNo.setText(" ")
+                }
+
+                try {
+                    driver_panNo.setText(it.getString("pan_number"))
+                }catch (e:Exception){
+                    driver_panNo.setText(" ")
+                }
+
+                try {
+                    driver_adharNo.setText(it.getString("aadhar_number"))
+                }catch (e:Exception){
+                    driver_adharNo.setText(" ")
+                }
+
+                try {
+                    profile_pic_url = it.getJSONObject("documents").getString("driver_image")
+                    Picasso
+                        .get()
+                        .load(profile_pic_url)
+                        .into(selfiee);
+
+                }catch (e:Exception){
+                    profile_pic_url = " "
+                }
+                try {
+                    driver_cab_image_url = it.getJSONObject("documents").getString("driver_image")
+                    Picasso
+                        .get()
+                        .load(driver_cab_image_url)
+                        .into(drivercabImage);
+
+                }catch (e:Exception){
+                    driver_cab_image_url = " "
+                }
+
+
+                try {
+                    fetchState(it.getString("state").toInt(), it.getString("city").toInt())
+                }
+                catch (e:Exception) {
+                    fetchState(it.getString("state").toInt(), 0)
+                }
 
                 //baseclass.fetchStates(requireContext(),spinner_state,it.getString("state").toInt(),spinner_state,outstationHaspMap)
             }
@@ -245,6 +317,7 @@ class UpdateDriverProfileFragment : Fragment() {
                 insurance_no.setText(it.getString("insurance"))
                 local_permit.setText(it.getString("l_permit"))
                 national_permit.setText(it.getString("n_permit"))
+                Log.d("UpdateDriverProfile",""+it.getJSONObject("work").getString("state").toList())
 
                 var adapter = ArrayAdapter.createFromResource(requireContext(),R.array.CabType,android.R.layout.simple_spinner_item);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
@@ -831,4 +904,22 @@ catch (e:Exception){
             }){}
         queue.add(jsonOblect)
     }
+
+/*    fun getBitmapFromURL(src: String?): Bitmap? {
+        return try {
+            Log.e("src", src!!)
+            val url = URL(src)
+            val connection = url.openConnection() as HttpURLConnection
+            connection.doInput = true
+            connection.connect()
+            val input = connection.inputStream
+            val myBitmap = BitmapFactory.decodeStream(input)
+            Log.e("Bitmap", "returned")
+            myBitmap
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Log.e("Exception", e.message!!)
+            null
+        }
+    }*/
 }
