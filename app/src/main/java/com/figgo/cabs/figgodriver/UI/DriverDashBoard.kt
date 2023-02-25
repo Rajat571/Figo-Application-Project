@@ -386,7 +386,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
 
             true
         }
-        draw_layout.menu.findItem(R.id.change_mpin_navigation).setOnMenuItemClickListener {
+/*        draw_layout.menu.findItem(R.id.change_mpin_navigation).setOnMenuItemClickListener {
             drawer.closeDrawer(GravityCompat.END)
             bundle.putString("Key","Change_Mpin")
             var supportFrag = SupportFragment()
@@ -396,7 +396,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             homeFrame.visibility=View.VISIBLE
 
             true
-        }
+        }*/
         //deleteCache(this)
        // this.cacheDir.deleteRecursively()
         draw_layout.menu.findItem(R.id.cab_driver_details_navigation).setOnMenuItemClickListener {

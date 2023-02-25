@@ -37,7 +37,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/_5sdp"
+            android:layout_marginVertical="@dimen/_10sdp"
             android:gravity="center"
             android:orientation="horizontal"
             android:padding="@dimen/_5sdp">
@@ -51,9 +51,10 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_40sdp"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
                 android:layout_marginHorizontal="@dimen/_5sdp"
+
                 android:src="@drawable/ic_baseline_info_black" />
         </LinearLayout>
 
