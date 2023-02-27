@@ -600,7 +600,6 @@ class DriverCabDetailsFragment : Fragment() {
                         startActivityForResult(camera_intent, 21)
 
 
-
                     } else if (optionsMenu[i] == "Choose from Gallery") {
                         // choose from  external storage
                         var intent=Intent()
@@ -633,7 +632,6 @@ class DriverCabDetailsFragment : Fragment() {
                 // write code to perform some action
             }
         }
-
 
         for(i in 2000..current_year)
         {

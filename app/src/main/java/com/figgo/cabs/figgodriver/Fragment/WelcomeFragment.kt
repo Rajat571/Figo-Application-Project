@@ -76,6 +76,7 @@ class WelcomeFragment : Fragment() {
             Log.d("WaitingRegistraion","RESPONSE=="+response)
 
             var user=response.getJSONObject("user")
+
             // var location = user.getJSONObject("location")
             var status=user.getString("status")
             var name=user.get("name")

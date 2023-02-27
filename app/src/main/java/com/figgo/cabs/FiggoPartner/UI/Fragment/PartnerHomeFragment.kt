@@ -3,6 +3,7 @@ package com.figgo.cabs.FiggoPartner.UI.Fragment
 import PartnerHomeAdapter
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -61,6 +62,22 @@ class PartnerHomeFragment : Fragment() {
         var Dmobileno:String
         var Ddlno:String
 
+        binding.textView5.setOnClickListener {
+            var ref_link = prefManager.getReferal();
+
+            // sendreferal(ip_address)
+            /*    val i = Intent(Intent.ACTION_VIEW)
+                i.data = Uri.parse(ref_link)
+                startActivity(i)*/
+
+            val inviteLink: String =ref_link
+            val sendIntent = Intent()
+            sendIntent.action = Intent.ACTION_SEND
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "I’m inviting you to join Figgo Drivers,use this link to download app.. $inviteLink")
+            sendIntent.type = "text/*"
+            val shareIntent = Intent.createChooser(sendIntent, null)
+            startActivity(shareIntent)
+        }
         dataList.clear()
         sorttedList.clear()
         Log.d(TAG,"TOKEN "+ "4586|aNz5HXwotAMADp9SpP28AMmVqQpM6xqS2BbJ4EYg")
@@ -69,8 +86,6 @@ class PartnerHomeFragment : Fragment() {
             if(it!=null) {
                 Log.d(TAG, "GET DRIVER RES = $it")
        try {
-
-
            var driverArray = it.getJSONArray("drivers")
            for (i in 0 until driverArray.length()) {
                try {
