@@ -115,14 +115,14 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
         dropLocationTV.text = intent.getStringExtra("dropLocation")
         destinationLatitude = intent.getFloatExtra("destinationLatitude", 30.353355f).toDouble()
         destinationLongitude = intent.getFloatExtra("destinationLongitude", 78.02461f).toDouble()
-destinationLongitude=prefManager.getDestLon().toDouble()
+        destinationLongitude=prefManager.getDestLon().toDouble()
         destinationLatitude=prefManager.getDestLat().toDouble()
         Log.d("StartRideActivity","$destinationLatitude $destinationLongitude")
 
         startService(Intent(this,FireBaseService::class.java))
         rideId = prefManager.getRideID()
         Log.d("RideID ","$rideId")
-        var arrow_up_btn=findViewById<ImageView>(R.id.arrow_up_IV)
+/*        var arrow_up_btn=findViewById<ImageView>(R.id.arrow_up_IV)
         binding.arrowDownIV.setOnClickListener {
             TransitionManager.beginDelayedTransition( binding.startRideBottomLayout, AutoTransition())
             binding.startRideBottomLayout.visibility=View.VISIBLE
@@ -132,7 +132,7 @@ destinationLongitude=prefManager.getDestLon().toDouble()
             TransitionManager.beginDelayedTransition( binding.startRideBottomLayout, AutoTransition())
             var start_ride_bottom_layout=findViewById<LinearLayout>(R.id.start_ride_bottom_layout)
             start_ride_bottom_layout.visibility=View.GONE
-        }
+        }*/
         rideComplete.setOnClickListener {
             rideDetails()
         }

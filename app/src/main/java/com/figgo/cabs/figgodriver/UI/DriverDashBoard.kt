@@ -458,7 +458,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
 
             val ip_address:String=myFunction()
             var ref_link = prefManager.getReferal();
-           // sendreferal(ip_address)
+           //sendreferal(ip_address)
         /*    val i = Intent(Intent.ACTION_VIEW)
             i.data = Uri.parse(ref_link)
             startActivity(i)*/

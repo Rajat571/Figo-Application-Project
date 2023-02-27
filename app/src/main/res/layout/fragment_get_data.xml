@@ -26,7 +26,7 @@
             android:textAlignment="center"
             app:labelVisibilityMode="labeled"
             android:layout_margin="10dp"
-            android:background="@drawable/menu_item_background"
+            android:background="@drawable/menu_item_white"
             android:padding="3dp"
             app:menu="@menu/details_view_update_menu" />
 

@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/outstation_ride"
-        android:name="com.figgo.cabs.figgodriver.Fragment.DriverHomeFragment"
+        android:name="com.figgo.cabs.figgodriver.Fragment.outstation.OutstationHomeFragment"
         android:label="fragment_driver_home"
-        tools:layout="@layout/fragment_driver_home" />
+        tools:layout="@layout/fragment_outstation_home" />
     <fragment
         android:id="@+id/all_ride"
         android:name="com.figgo.cabs.figgodriver.Fragment.DriverRideSaleFragment"

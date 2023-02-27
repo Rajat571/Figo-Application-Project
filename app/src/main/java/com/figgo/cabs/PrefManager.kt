@@ -383,4 +383,10 @@ import android.content.SharedPreferences
      fun getDestLon():Float{
          return pref?.getFloat("DestLon",0.0f)!!
      }
+     fun setridehistoryCount(count:Int){
+         editor?.putInt("RideHistoryCount",count)
+     }
+     fun getridehistoryCount():Int{
+         return pref?.getInt("RideHistoryCount",0)!!
+     }
 }
