@@ -8,9 +8,9 @@
             <item
                 android:id="@+id/profile"
                 android:title="Profile" />
-    <item
+<!--    <item
         android:id="@+id/change_mpin_navigation"
-        android:title="Change Mpin" />
+        android:title="Change Mpin" />-->
             <item
                 android:id="@+id/cab_driver_details_navigation"
                 android:title="Driver cab" />

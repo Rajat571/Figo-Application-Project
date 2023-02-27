@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/black"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     tools:context=".Fragment.HomeDashBoard">
@@ -11,21 +13,24 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_gravity="center"
-        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="10dp"
         android:background="@drawable/menu_item_background"
         android:padding="8dp"
-        app:itemTextColor="#000F3B"
+        android:hapticFeedbackEnabled="true"
+        app:itemTextColor="@drawable/bottom_nav_title_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/home_deshboard_menu" />
 
 
+
     <fragment
         android:id="@+id/mainContainer"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,4 +40,4 @@
         app:navGraph="@navigation/home_nav_graph" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

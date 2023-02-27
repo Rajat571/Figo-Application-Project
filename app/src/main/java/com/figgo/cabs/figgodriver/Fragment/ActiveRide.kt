@@ -1,5 +1,6 @@
 package com.figgo.cabs.figgodriver.Fragment
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,11 +12,18 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.AuthFailureError
+import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.figgo.cabs.FiggoPartner.Model.AllRideData
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.figgodriver.Adapter.AllRideAdapter
 import com.figgo.cabs.figgodriver.Adapter.OutstationAdapter
+import com.figgo.cabs.pearllib.Helper
+import org.json.JSONArray
+import java.util.HashMap
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -52,35 +60,29 @@ class ActiveRide : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val allrideData = ArrayList<AllRideData>();
-        prefManager = PrefManager(requireContext())
-        val submit = view.findViewById<Button>(R.id.active_ride_submit)
-        var local = view.findViewById<TextView>(R.id.ar_local)
-        var outstation = view.findViewById<TextView>(R.id.ar_outstation)
+        apiCall(view)
+    }
 
-        allrideData.add(AllRideData("6:30 pm","PGI, Sector 12, Chandigarh","Chandigarh (Google location)"))
-        allrideData.add(AllRideData("7:30 pm","PGI, Sector 12, Chandigarh","Chandigarh (Google location)"))
-        allrideData.add(AllRideData("8:30 pm","PGI, Sector 12, Chandigarh","Chandigarh (Google location)"))
+    private fun apiCall(view: View) {
+        var activeURL = Helper.active_ride
+        var queue = Volley.newRequestQueue(requireContext())
+        var json = JSONArray()
 
-        prefManager.setActiveRide(0)
-        val recyclerView1 = view.findViewById<RecyclerView>(R.id.activeride_recyclerview)
-        recyclerView1.adapter = AllRideAdapter(allrideData)
-        recyclerView1.layoutManager = LinearLayoutManager(context)
-        local.setOnClickListener {
-            outstation.setBackgroundColor(Color.LTGRAY)
-            local.setBackgroundColor(Color.WHITE)
-            recyclerView1.adapter = AllRideAdapter(allrideData)
-            recyclerView1.layoutManager = LinearLayoutManager(context)
+        var jsonArrayRequest:JsonArrayRequest = object :JsonArrayRequest(Method.POST,activeURL,json,{
+
+        },{
+
+        }){
+            @SuppressLint("SuspiciousIndentation")
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers: MutableMap<String, String> = HashMap()
+                headers.put("Content-Type", "application/json; charset=UTF-8");
+                headers.put("Authorization", "Bearer " + prefManager.getToken());
+                return headers
+            }
         }
-        outstation.setOnClickListener {
-            local.setBackgroundColor(Color.LTGRAY)
-            outstation.setBackgroundColor(Color.WHITE)
-            recyclerView1.adapter = OutstationAdapter(allrideData)
-            recyclerView1.layoutManager = LinearLayoutManager(context)
-        }
-        submit.setOnClickListener {
-            Toast.makeText(requireContext(),"Submitted", Toast.LENGTH_SHORT).show()
-        }
+        queue.add(jsonArrayRequest)
 
     }
 

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.HorizontalScrollView
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -32,6 +33,7 @@ class RideHistory : Fragment() {
     // TODO: Rename and change types of parameters
     private var mParam1: String? = null
     private var mParam2: String? = null
+    var count:Int = -1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
@@ -50,6 +52,7 @@ class RideHistory : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         var prefManager=PrefManager(requireContext())
         var header: RecyclerView = view.findViewById<RecyclerView>(R.id.ridehistoryheader)
        // var url3 = "https://test.pearl-developer.com/figo/api/driver/ride-history"
@@ -60,7 +63,7 @@ class RideHistory : Fragment() {
         progressbar.visibility=View.VISIBLE
         data_view.visibility=View.GONE
         val queue = Volley.newRequestQueue(requireContext())
-
+var no_rides = view.findViewById<LinearLayout>(R.id.no_rides)
         var headerData = listOf<String>("Booking ID","To","From","Status","Distance","View");
         var contentdata = ArrayList<List<String>>()
        /* for (i in 0..40)
@@ -94,8 +97,10 @@ class RideHistory : Fragment() {
                         )
                         //  ride_details=allrideArray.optJSONObject(1).getJSONObject("ride_detail")
                         //Log.d("Ride Detail ",""+ride_details.toString())
+                    count = allrideArray.length()
                         for (i in 0 until allrideArray.length()) {
                             try{
+
                             ride_details =
                                 allrideArray.getJSONObject(i).getJSONObject("ride_detail")
                             booking_id = ride_details.getString("booking_id")
@@ -141,6 +146,9 @@ class RideHistory : Fragment() {
             }
         }
         queue.add(jsonObject)
+        if(count!=-1&&count==0){
+            no_rides.visibility=View.VISIBLE
+        }
 
 
     }

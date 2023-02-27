@@ -68,7 +68,7 @@
             android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="#020C2A"
+            android:background="#010719"
             android:padding="5dp"
             android:textAlignment="center"
             app:itemIconTint="@color/white"

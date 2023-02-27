@@ -372,4 +372,21 @@ import android.content.SharedPreferences
      fun getUserType():String{
          return pref?.getString("UserType","")!!
      }
+     fun setdestinationlocation(lat:Float,lon:Float){
+         editor?.putFloat("DestLat",lat)
+         editor?.putFloat("DestLon",lon)
+         editor?.commit()
+     }
+     fun getDestLat():Float{
+         return pref?.getFloat("DestLat",0.0f)!!
+     }
+     fun getDestLon():Float{
+         return pref?.getFloat("DestLon",0.0f)!!
+     }
+     fun setridehistoryCount(count:Int){
+         editor?.putInt("RideHistoryCount",count)
+     }
+     fun getridehistoryCount():Int{
+         return pref?.getInt("RideHistoryCount",0)!!
+     }
 }

@@ -55,8 +55,10 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var bookingID:String
     lateinit var bookingType:String
     lateinit var pickuplocationTV:String
+    lateinit var pickuplocation:String
     lateinit var fareprice:String
     lateinit var dropLocationTV:String
+    lateinit var dropLocation:String
     private lateinit var mMap: GoogleMap
     var rideId:Int = 0
     lateinit var prefManager: PrefManager
@@ -83,11 +85,16 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         bookingID = intent.getStringExtra("booking_id")!!
         bookingType = intent.getStringExtra("type")!!
         pickuplocationTV = intent.getStringExtra("address_name")!!
+        pickuplocation = intent.getStringExtra("address_name")!!
         dropLocationTV = intent.getStringExtra("from_name")!!
+        dropLocation = intent.getStringExtra("from_name")!!
         fareprice = intent.getStringExtra("price")!!
         rideId = intent.getIntExtra("ride_id",0)!!
+
         prefManager=PrefManager(this)
         stopService(Intent(this, MyService::class.java))
+        prefManager.setdestinationlocation(destinationLatitude.toFloat(),destinationLongitude.toFloat())
+        Log.d("CustomerCityRideDetailActivity","$destinationLatitude $destinationLongitude")
        // layout_accept_wait=findViewById(R.id.accept_wait_layout)
         //layout_customer_city_ride=findViewById(R.id.city_ride_activitylayout)
         var mapFragmentt=supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
@@ -195,7 +202,8 @@ finished=true
                 Log.d("OTP", "json2===" + json2)
 
       var jsonObjectRequest=object :JsonObjectRequest(Method.POST,URL,json2,Response.Listener<JSONObject>
-      {response ->
+      {
+              response ->
 
           Log.d("VerifyNumber","OTPresponse"+response)
           if (response!=null){
@@ -204,9 +212,11 @@ finished=true
                   startActivity(Intent(this, StartRideActivity::class.java)
                       .putExtra("bookingID",bookingID)
                       .putExtra("bookingType",bookingType)
-                      .putExtra("pickup",pickuplocationTV)
-                      .putExtra("dropLocation",dropLocationTV)
-                      .putExtra("price",fareprice))
+                      .putExtra("pickup",pickuplocation)
+                      .putExtra("dropLocation",dropLocation)
+                      .putExtra("price",fareprice)
+                      .putExtra("destinationLatitude",destinationLatitude)
+                      .putExtra("destinationLongitude",destinationLongitude))
               }
               else{
                   //Toast.makeText(this,""+response.getString("message"),Toast.LENGTH_LONG).show()

@@ -98,7 +98,7 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
        binding=DataBindingUtil.setContentView(this, R.layout.activity_start_ride)
         rideComplete = findViewById(R.id.ride_complete)
         window.setStatusBarColor(Color.parseColor("#000F3B"))
-prefManager= PrefManager(this)
+        prefManager= PrefManager(this)
 
         bookingID  = findViewById(R.id.end_booking_customer)
         bookingType = findViewById(R.id.end_booking_type)
@@ -113,11 +113,16 @@ prefManager= PrefManager(this)
         fareprice.text = intent.getStringExtra("price")
         price = intent.getStringExtra("price").toString()
         dropLocationTV.text = intent.getStringExtra("dropLocation")
+        destinationLatitude = intent.getFloatExtra("destinationLatitude", 30.353355f).toDouble()
+        destinationLongitude = intent.getFloatExtra("destinationLongitude", 78.02461f).toDouble()
+        destinationLongitude=prefManager.getDestLon().toDouble()
+        destinationLatitude=prefManager.getDestLat().toDouble()
+        Log.d("StartRideActivity","$destinationLatitude $destinationLongitude")
 
         startService(Intent(this,FireBaseService::class.java))
         rideId = prefManager.getRideID()
         Log.d("RideID ","$rideId")
-        var arrow_up_btn=findViewById<ImageView>(R.id.arrow_up_IV)
+/*        var arrow_up_btn=findViewById<ImageView>(R.id.arrow_up_IV)
         binding.arrowDownIV.setOnClickListener {
             TransitionManager.beginDelayedTransition( binding.startRideBottomLayout, AutoTransition())
             binding.startRideBottomLayout.visibility=View.VISIBLE
@@ -127,7 +132,7 @@ prefManager= PrefManager(this)
             TransitionManager.beginDelayedTransition( binding.startRideBottomLayout, AutoTransition())
             var start_ride_bottom_layout=findViewById<LinearLayout>(R.id.start_ride_bottom_layout)
             start_ride_bottom_layout.visibility=View.GONE
-        }
+        }*/
         rideComplete.setOnClickListener {
             rideDetails()
         }
@@ -292,7 +297,7 @@ try {
         json.put("ride_id",rideId)
         var jsonObject: JsonObjectRequest = object : JsonObjectRequest(Method.POST,url,json,{
             if (it!=null){
-               Toast.makeText(this,"Ride Successfully Completed",Toast.LENGTH_SHORT).show()
+               //Toast.makeText(this,"Ride Successfully Completed",Toast.LENGTH_SHORT).show()
 
 
                 dialog.show()

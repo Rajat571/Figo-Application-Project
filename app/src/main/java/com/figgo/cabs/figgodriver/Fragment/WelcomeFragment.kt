@@ -85,7 +85,7 @@ class WelcomeFragment : Fragment() {
             var user_type=user.getString("user_type")
             /*prefManager.setDriverName(name.toString())
             prefManager.setMobile_No(num.toString())*/
-                prefManager.setDriverName(name.toString())
+            prefManager.setDriverName(name.toString())
             Log.d("WaitingRegistraion","status=="+status)
 
             if (status.equals(0)||status.toInt()==0){

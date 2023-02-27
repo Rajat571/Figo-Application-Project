@@ -167,7 +167,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                     prefManager.setlatitude(lat.toFloat())
                     long = location.longitude
                     prefManager.setlongitude(long.toFloat())
-                    Toast.makeText(this,"Lat :"+lat+"\nLong: "+long, Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(this,"Lat :"+lat+"\nLong: "+long, Toast.LENGTH_SHORT).show()
                 }
             }
         // Fetching API_KEY which we wrapped

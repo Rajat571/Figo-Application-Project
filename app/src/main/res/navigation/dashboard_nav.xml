@@ -9,7 +9,7 @@
         android:name="com.figgo.cabs.figgodriver.Fragment.HomeDashBoard"
         android:label="fragment_driver_home"
 
-        tools:layout="@layout/fragment_driver_home" >
+        tools:layout="@layout/fragment_outstation_home" >
         <action
             android:id="@+id/action_homedash_to_active_ride"
             app:destination="@id/active_ride" />
@@ -19,7 +19,7 @@
         android:name="com.figgo.cabs.figgodriver.Fragment.ActiveRide"
         android:label="fragment_driver_home"
 
-        tools:layout="@layout/fragment_driver_home" >
+        tools:layout="@layout/fragment_outstation_home" >
         <action
             android:id="@+id/action_active_ride_to_homedash"
             app:destination="@id/homedash" />

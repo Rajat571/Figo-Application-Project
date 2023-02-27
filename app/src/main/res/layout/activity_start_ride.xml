@@ -79,21 +79,29 @@ xmlns:tools="http://schemas.android.com/tools"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints">
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:layout_weight="1">
             <TextView
                 android:id="@+id/textView3"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:padding="10dp"
-                android:text="LiVE ROUTING"
+                android:text="Online "
                 android:textAlignment="center"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+    <ImageView
+        android:layout_width="@dimen/_10sdp"
+        android:layout_height="@dimen/_10sdp"
+        android:src="@drawable/ic_online_green"/>
 
-
+</LinearLayout>
             <androidx.cardview.widget.CardView
                 android:id="@+id/ride_complete"
                 android:layout_width="match_parent"
@@ -123,8 +131,8 @@ xmlns:tools="http://schemas.android.com/tools"
             android:layout_margin="@dimen/_5sdp"
             android:backgroundTint="#01112E"
             app:cardCornerRadius="@dimen/_5sdp"
-            app:layout_constraintBottom_toTopOf="@+id/start_ride_bottom_layout"
 
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent">
@@ -140,8 +148,8 @@ xmlns:tools="http://schemas.android.com/tools"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="5dp"
-                    android:padding="@dimen/_2sdp"
                     android:orientation="horizontal"
+                    android:padding="@dimen/_2sdp"
                     android:weightSum="10">
 
                     <TextView
@@ -195,8 +203,8 @@ xmlns:tools="http://schemas.android.com/tools"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="6dp"
-                    android:padding="@dimen/_2sdp"
                     android:orientation="horizontal"
+                    android:padding="@dimen/_2sdp"
                     android:weightSum="10">
 
                     <TextView
@@ -232,8 +240,8 @@ xmlns:tools="http://schemas.android.com/tools"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="6dp"
-                    android:padding="@dimen/_2sdp"
                     android:orientation="horizontal"
+                    android:padding="@dimen/_2sdp"
 
                     android:weightSum="10">
 
@@ -332,70 +340,9 @@ xmlns:tools="http://schemas.android.com/tools"
             </LinearLayout>
         </LinearLayout>-->
 
-        <ImageView
-            android:id="@+id/arrow_down_IV"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:src="@drawable/arrow_up"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/map_layout"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <LinearLayout
-            android:id="@+id/start_ride_bottom_layout"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@color/white"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <ImageView
-                android:id="@+id/arrow_up_IV"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:src="@drawable/arrow_down" />
 
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_online_green" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="6dp"
-                    android:text="Online"
-                    android:textAlignment="center"
-                    android:textColor="#091139"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:src="@drawable/appicon" />
-
-        </LinearLayout>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline4"
