@@ -34,4 +34,5 @@ package com.figgo.cabs.pearllib
      var active_ride = baseurl+"driver/active-rides"
      var update_details= baseurl+"driver/update-details"
     var update_cab_details= baseurl+"driver/update-cab-details"
+     var update_work_area= baseurl+"driver/update-work-details"
 }

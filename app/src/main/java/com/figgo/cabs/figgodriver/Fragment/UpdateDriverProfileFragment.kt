@@ -36,6 +36,8 @@ import kotlinx.android.synthetic.main.update_cab.*
 class UpdateDriverProfileFragment : Fragment() {
     val statelist: ArrayList<SpinnerObj> = ArrayList()
     val citylist: ArrayList<SpinnerObj> = ArrayList()
+    val cab_category_list= ArrayList<SpinnerObj>()
+    val cab_model_list=ArrayList<SpinnerObj>()
     var statehashMap : HashMap<String, Int> = HashMap<String, Int> ()
     var cityhashMap : HashMap<String, Int> = HashMap<String, Int> ()
     var hashMap : HashMap<String, Int> = HashMap<String, Int> ()
@@ -45,7 +47,9 @@ class UpdateDriverProfileFragment : Fragment() {
     var yearList= listOf<Int>()
     lateinit var updateButton:Button
     lateinit var updateCabButton:Button
+    lateinit var updateWorkButton:Button
     lateinit var spinner_cabtype:Spinner
+    lateinit var show_working_area_spinner:Spinner
     lateinit var prefManager:PrefManager
     lateinit var spinner_cabcategory:Spinner
     lateinit var work_view:ConstraintLayout
@@ -107,6 +111,10 @@ class UpdateDriverProfileFragment : Fragment() {
     var s=""
     var t=""
     var n=""
+    var work_city=0
+    var work_state=0
+    var work_city_id=0
+    var work_state_id=0
 
     lateinit var calender: Calendar
     override fun onCreateView(
@@ -151,6 +159,7 @@ class UpdateDriverProfileFragment : Fragment() {
         bottomNavClickListener()
 
         getCabDetails()
+        getWorkDetails()
         var visible_view = bundle?.getString("Key")
 
         profile_view.visibility=View.GONE
@@ -166,6 +175,9 @@ class UpdateDriverProfileFragment : Fragment() {
         }
     }
 
+    private fun getWorkDetails() {
+
+    }
 
 
     private fun initializeViews(view: View) {
@@ -187,6 +199,8 @@ class UpdateDriverProfileFragment : Fragment() {
         bottom_nav= view.findViewById<BottomNavigationView>(R.id.driverdetails_menu)
         updateButton=view.findViewById(R.id.updateButton)
         updateCabButton=view.findViewById(R.id.updatecabButton)
+        updateWorkButton=view.findViewById(R.id.updateworkButton)
+        show_working_area_spinner=view.findViewById(R.id.show_working_area_spinner)
 
         //DRIVER CAB AND WORK
         spinner_cabtype = view.findViewById<Spinner>(R.id.drivershow_cab_category)
@@ -252,6 +266,19 @@ class UpdateDriverProfileFragment : Fragment() {
 
         }
 
+        updateWorkButton.setOnClickListener {
+            if (work_state!=work_state_id){
+                work_state=work_state_id
+                spinnerState.setSelection(work_state)
+
+            }
+            else if (work_city!=work_city_id){
+                work_city=work_city_id
+                //spinnerCity.setSelection(driver_city)
+            }
+            updateWorkArea(work_state,work_city)
+        }
+
         updateCabButton.setOnClickListener {
             if (vehicle_num.text.toString()!=driver_vechle_no){
                 driver_vechle_no=vehicle_num.text.toString()
@@ -271,6 +298,7 @@ class UpdateDriverProfileFragment : Fragment() {
             }
             else if (cabCategory_id!=v_category){
                 v_category=cabCategory_id
+
                 // spinner_cabcategory.setSelection(v_category)
 
             }
@@ -280,6 +308,7 @@ class UpdateDriverProfileFragment : Fragment() {
             }
             updateDriverCabDetailsForm(driver_vechle_no,driver_insurance_no,driver_local_permit,driver_n_permit,v_category)
         }
+
 
         insurance_no.setOnClickListener {
             calender= Calendar.getInstance()
@@ -352,8 +381,49 @@ class UpdateDriverProfileFragment : Fragment() {
             datePickerDialog.show()
         }
 
+    }
+
+    private fun updateWorkArea(work_state: Int, work_city: Int) {
+        var get_URL=Helper.update_work_area
+        Log.d("GetDATA","URL"+get_URL)
+
+        val queue = Volley.newRequestQueue(requireContext())
+
+        val jsonObject:JsonObjectRequest = object :JsonObjectRequest(Method.GET,get_URL,null,
+            {
+                if(it!=null)
+                {
+                    Log.d("Get Response ","GET RESPONSE work area"+it)
+
+                    try {
+                        var work=it.getJSONObject( "work")
+
+                        var work_place=work.getString( "work_place").toInt()
+                        this.work_city =work.getString( "city").toInt()
+                        var work_state_array=work.getJSONArray("state")
+                        for (i in 0..work_state_array.length()-1){
+                            this.work_state =work_state_array.get(i).toString().toInt()
+                            Log.d("work_state","work_state==="+work_state)
+                        }
+                    }
+                    catch (e:Exception) {
+                        fetchState(it.getString("state").toInt(), it.getString("city").toInt())
+                    }
+
+                    //baseclass.fetchStates(requireContext(),spinner_state,it.getString("state").toInt(),spinner_state,outstationHaspMap)
+                }
+            },{
 
 
+            }){
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers: MutableMap<String, String> = HashMap()
+                headers.put("Authorization", "Bearer " + prefManager.getToken())
+                return headers
+            }
+        }
+        queue.add(jsonObject)
     }
 
     private fun getDriverDetails() {
@@ -529,14 +599,17 @@ class UpdateDriverProfileFragment : Fragment() {
                 }catch (e:Exception){
                     national_permit.setText("")
                 }
+
                 try {
-                    v_category=it.getString("v_category").toInt()
-                    v_modal=it.getString("v_category").toInt()
-                    fetchCabCategory(cab_type_id)
+                    var my_circle_details=it.getJSONObject("my_circle_details")
+                    cab_type_id=my_circle_details.get("v_type").toString().toInt()
+                    v_category=my_circle_details.getString("v_category").toInt()
+                    v_modal=my_circle_details.getString("v_modal").toInt()
+                    fetchCabCategory(cab_type_id, v_category)
                     fetchModel(v_modal)
                 }
                 catch (e:Exception) {
-                    fetchCabCategory(0)
+                    fetchCabCategory(0, v_category)
                     fetchModel(0)
                 }
                 try {
@@ -546,6 +619,16 @@ class UpdateDriverProfileFragment : Fragment() {
                 catch (e:Exception) {
                     year.setSelection(1)
                 }
+                var work=it.getJSONObject( "work")
+
+                var work_place=work.getString( "work_place").toInt()
+                 work_city=work.getString( "city").toInt()
+                var work_state_array=work.getJSONArray("state")
+                for (i in 0..work_state_array.length()-1){
+                     work_state=work_state_array.get(i).toString().toInt()
+                    Log.d("work_state","work_state==="+work_state)
+                }
+
 
 
                 Log.d("Year","Year==="+yearval)
@@ -563,7 +646,7 @@ class UpdateDriverProfileFragment : Fragment() {
                         spinner_cabtype.setSelection(2)
                         cab_type_id=position
 
-                        fetchCabCategory(2)
+                        fetchCabCategory(2,v_category)
                     }
                     override fun onNothingSelected(parent: AdapterView<*>) {
                         // write code to perform some action
@@ -572,12 +655,13 @@ class UpdateDriverProfileFragment : Fragment() {
 
                 var adapter2 = ArrayAdapter.createFromResource(requireContext(),R.array.work_type,android.R.layout.simple_spinner_item);
                 chooseWorkingArea.adapter = adapter2
+                chooseWorkingArea.setSelection(work_place)
                 chooseWorkingArea.onItemSelectedListener = object :
                     AdapterView.OnItemSelectedListener{
                     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                         if(p2 == 2){
                             updatedStateList.clear()
-                            fetchState2(requireContext())
+                            fetchState2(work_state,requireContext())
                             selectedState =0
                             selectedcity = 0
                             outstationWorkinAreaLayout.visibility=View.GONE
@@ -608,7 +692,6 @@ class UpdateDriverProfileFragment : Fragment() {
 
                     }
                 }
-
 
             },{
 
@@ -654,8 +737,8 @@ class UpdateDriverProfileFragment : Fragment() {
         var URL=Helper.update_cab_details
         var queue=Volley.newRequestQueue(requireContext())
         var json=JSONObject()
-        json.put("v_category",cabCategory_id)
-        json.put("v_modal",cab_model)
+        json.put("v_category",v_category)
+        json.put("v_modal",v_modal)
         json.put("v_number",show_vechle_no.text.toString())
         json.put("insurance",driver_insurance_no)
         json.put("l_permit",driver_local_permit)
@@ -886,12 +969,83 @@ class UpdateDriverProfileFragment : Fragment() {
 
 
 
+
+    private fun fetchCabCategory(position: Int, v_category: Int) {
+        hashMap.clear()
+        cab_category_list.clear()
+        var x=-1
+        val URL=Helper.f_category
+        Log.d("SendData", "URL===" + URL)
+        val queue = Volley.newRequestQueue(requireContext())
+        val json = JSONObject()
+        var token= prefManager.getToken()
+
+        json.put("type_id",position)
+
+        Log.d("SendData", "json===" + json)
+
+        val jsonOblect=
+            object : JsonObjectRequest(Method.POST, URL, json,
+                Response.Listener<JSONObject?> { response ->
+                    Log.d("SendData", "response===" + response)
+                    if (response != null) {
+                        val status = response.getString("status")
+                        if(status.equals("1")){
+                            val jsonArray = response.getJSONArray("categories")
+                            for (i in 0..jsonArray.length()-1){
+                                val rec: JSONObject = jsonArray.getJSONObject(i)
+                                var name = rec.getString("name")
+                                var id = rec.getString("id")
+                                if(id.toInt()==v_category)
+                                    x=i
+                                cab_category_list.add(SpinnerObj(name,id))
+                                hashMap.put(name,id.toInt())
+                            }
+
+                           // val cabcategoryadapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,hashMap.keys.toList());
+                            var cabcategoryadapter=SpinnerAdapter(requireContext(),cab_category_list)
+                           // cabcategoryadapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+                            spinner_cabcategory.adapter = cabcategoryadapter
+                            if(x!=-1)
+                                spinnerState.setSelection(x)
+
+                            spinner_cabcategory?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                                    //cabCategory_id=hashMap.values.toList()[position]
+                                    cabCategory_id = cabcategoryadapter.getItem(position)!!.id.toInt()
+                                    fetchModel(cabCategory_id)
+                                    //spinner_cabcategory.setSelection(hashMap.values.toList()[position])
+
+                                }
+
+                                override fun onNothingSelected(parent: AdapterView<*>) {
+                                    hashMap.clear()
+                                }
+                            }
+                        }else{
+                        }
+
+
+                        Log.d("SendData", "json===" + json)
+
+
+                    }
+
+                }, Response.ErrorListener {
+
+                }){}
+        queue.add(jsonOblect)
+
+    }
     private fun fetchModel(position: Int) {
         modelHashMap.clear()
+        cab_model_list.clear()
         var URL=Helper.f_model
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
         var token= prefManager.getToken()
+        var tapNo:Int=0
+        var y:Int=-1
 
         json.put("category_id",position)
         Log.d("SendData", "json===" + URL)
@@ -910,19 +1064,35 @@ class UpdateDriverProfileFragment : Fragment() {
                                 val rec: JSONObject = jsonArray.getJSONObject(i)
                                 var name = rec.getString("name")
                                 var id = rec.getString("id")
+                                Log.d("MODEL ","Model==="+name+id)
+                                if(id.toInt()==v_modal) {
+                                    y = i
+                                    Log.d("v_modal",""+y)
+                                }
+                                cab_model_list.add(SpinnerObj(name,id))
                                 modelHashMap.put(name,id.toInt())
                             }
 
-                            val cabModeladapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,modelHashMap.keys.toList());
-                            cabModeladapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+                            // val cabModeladapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,modelHashMap.keys.toList());
+                            //cabModeladapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+                            var cabModeladapter=SpinnerAdapter(requireContext(),cab_model_list)
                             carModel.adapter = cabModeladapter
+                            if(y!=-1) {
+                                carModel.setSelection(cab_model)
+                                tapNo += 1
+                            }
                             carModel?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
                                 override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                                     //  fetchModel(hashMap.values.toList()[position])
+                                    cab_model = cabModeladapter.getItem(position).id.toInt()
 
-                                    Log.d("SendData", "modelHashMap.values.toList()[position]===" + modelHashMap.values.toList()[position])
-                                     cab_model=modelHashMap.values.toList()[position]
+                                    // cab_model=modelHashMap.values.toList()[position]
+                                    /*          if(position<modelHashMap.size&&position>=0) {
+                                                  tapNo += 1
 
+                                                  Log.d("SendData", "cab_model===" + cab_model)
+                                              }
+          */
                                     prefManager.setDriverVechleModel(modelHashMap.values.toList()[position])
                                     Log.d("DriverVechleModel","DriverVechleModel==="+  prefManager.setDriverVechleModel(modelHashMap.values.toList()[position]))
                                 }
@@ -947,71 +1117,9 @@ class UpdateDriverProfileFragment : Fragment() {
         queue.add(jsonOblect)
 
     }
-    private fun fetchCabCategory(position: Int) {
-        hashMap.clear()
-
-        val URL=Helper.f_category
-        Log.d("SendData", "URL===" + URL)
-        val queue = Volley.newRequestQueue(requireContext())
-        val json = JSONObject()
-        var token= prefManager.getToken()
-
-        json.put("type_id",position)
-
-        Log.d("SendData", "json===" + json)
-
-        val jsonOblect=
-            object : JsonObjectRequest(Method.POST, URL, json,
-                Response.Listener<JSONObject?> { response ->
-                    Log.d("SendData", "response===" + response)
-                    if (response != null) {
-                        val status = response.getString("status")
-                        if(status.equals("1")){
-                            val jsonArray = response.getJSONArray("categories")
-                            for (i in 0..jsonArray.length()-1){
-                                val rec: JSONObject = jsonArray.getJSONObject(i)
-                                var name = rec.getString("name")
-                                var id = rec.getString("id")
-                                hashMap.put(name,id.toInt())
-                            }
-
-                            val cabcategoryadapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,hashMap.keys.toList());
-                            cabcategoryadapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
-                            spinner_cabcategory.adapter = cabcategoryadapter
-                            spinner_cabcategory?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
-                                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                                    cabCategory_id=hashMap.values.toList()[position]
-                                    fetchModel(hashMap.values.toList()[position])
-                                    //spinner_cabcategory.setSelection(hashMap.values.toList()[position])
-
-                                    prefManager.setDriverCabCategory(hashMap.values.toList()[position].toString())
-                                    Log.d("DriverCabCategory","DriverCabCategory==="+ prefManager.setDriverCabCategory(hashMap.values.toList()[position].toString()))
 
 
-                                }
-
-                                override fun onNothingSelected(parent: AdapterView<*>) {
-                                    hashMap.clear()
-                                }
-                            }
-                        }else{
-                        }
-
-
-                        Log.d("SendData", "json===" + json)
-
-
-                    }
-
-                }, Response.ErrorListener {
-
-                }){}
-        queue.add(jsonOblect)
-
-    }
-    
-
-    private fun fetchState2(baseApbcContext: Context?) {
+    private fun fetchState2(work_state: Int, baseApbcContext: Context?) {
         statelist.clear()
         updatedStateList.clear()
         prefManager= PrefManager(baseApbcContext!!)
@@ -1020,6 +1128,7 @@ class UpdateDriverProfileFragment : Fragment() {
         var URL=Helper.get_state
         val queue = Volley.newRequestQueue(baseApbcContext)
         val json = JSONObject()
+        var x=-1
 
         json.put("country_id","101")
         Log.d("SendData", "json===" + json)
@@ -1035,6 +1144,9 @@ class UpdateDriverProfileFragment : Fragment() {
                             val rec: JSONObject = jsonArray.getJSONObject(i)
                             var name = rec.getString("name")
                             var id = rec.getString("id")
+                            if (id==work_state.toString()){
+                                x=i
+                            }
                             statelist.add(SpinnerObj(name,id))
                             hashMap.put(name,id.toInt())
                         }
@@ -1042,6 +1154,9 @@ class UpdateDriverProfileFragment : Fragment() {
                         val stateadapter = SpinnerAdapter(requireContext(),statelist)
 
                         local_state.setAdapter(stateadapter)
+                        if(x!=-1)
+                            spinnerState.setSelection(work_state)
+
                         local_state.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, position: Int, id: Long) {
 
@@ -1053,6 +1168,8 @@ class UpdateDriverProfileFragment : Fragment() {
                                     Log.d("data","selectedState===="+selectedState)
 
                                     //fetchCity(selectedState,baseApbcContext)
+
+                                     work_state_id=stateadapter.getItem(position)!!.id.toInt()
                                     fetchCity2(stateadapter.getItem(position)!!.id.toInt())
                                 }
 
@@ -1105,7 +1222,7 @@ class UpdateDriverProfileFragment : Fragment() {
                         }
 
                         val cityadapter = SpinnerAdapter(requireContext(),citylist)
-                       local_city.setAdapter(cityadapter)
+                        local_city.setAdapter(cityadapter)
                         local_city.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, position: Int, id: Long) {
 
@@ -1113,6 +1230,7 @@ class UpdateDriverProfileFragment : Fragment() {
 
                                 if(position !=0){
                                     selectedcity = citylist.get(position).id.toInt()
+                                     work_city_id=citylist.get(position).id.toInt()
 
                                     Log.d("SendData", "selectCityid===" + selectedcity)
 
@@ -1142,5 +1260,6 @@ class UpdateDriverProfileFragment : Fragment() {
             }){}
         queue.add(jsonOblect)
     }
+
 
 }
