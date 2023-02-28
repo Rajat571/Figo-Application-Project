@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import androidx.databinding.DataBindingUtil
@@ -36,6 +38,8 @@ class CityRideFragment : Fragment() {
     lateinit var cityRideCurrentListAdapter: CityRideCurrentListAdapter
     lateinit var cityRideAdvanceListAdapter: CityRideAdvanceListAdapter
     lateinit var progressBar: ProgressBar
+    lateinit var loading:LinearLayout
+    var count = 0
     lateinit var relativeLayout_data:RelativeLayout
     var ridelists=ArrayList<CityCurrentRidesList>()
     var advanceRidelists=ArrayList<CityAdvanceRideList>()
@@ -55,6 +59,7 @@ lateinit var swiperefresh:SwipeRefreshLayout
         super.onViewCreated(view, savedInstanceState)
         prefManager= PrefManager(requireContext())
         progressBar=view.findViewById<ProgressBar>(R.id.city_ride_progressbar)
+        loading = view.findViewById(R.id.loadinggif)
         relativeLayout_data = view.findViewById<RelativeLayout>(R.id.city_ride_relative_layout)
         swiperefresh = view.findViewById(R.id.pulldownforrefresh)
         //ridelists.add()
@@ -68,6 +73,12 @@ lateinit var swiperefresh:SwipeRefreshLayout
         }*/
         submitAdvanceRideForm(view)
         submitCurrentRideForm(view)
+/*        if(count<1){
+            loading.visibility=View.VISIBLE
+        }
+        else{
+            loading.visibility=View.GONE
+        }*/
         progressBar.visibility=View.VISIBLE
         relativeLayout_data.visibility=View.GONE
             binding.cityRideAdvanceRecylerview.layoutManager = LinearLayoutManager(requireContext())
@@ -103,6 +114,8 @@ lateinit var swiperefresh:SwipeRefreshLayout
 
 
         swiperefresh.setOnRefreshListener {
+            count=0
+            loading.visibility=View.VISIBLE
             swiperefresh.isRefreshing = false
             cityRideCurrentListAdapter.notifyDataSetChanged()
             cityRideAdvanceListAdapter.notifyDataSetChanged()
@@ -151,7 +164,10 @@ lateinit var swiperefresh:SwipeRefreshLayout
                             try {
                                 var current = response.getJSONObject("current")
                                 var ride_requests = current.getJSONArray("ride_requests").length()
+count = count+ride_requests
 
+                                if(ride_requests>=1)
+                                    loading.visibility=View.GONE
                                 for (i in 0 until ride_requests) {
 
                                     var data1 =
@@ -269,6 +285,9 @@ lateinit var swiperefresh:SwipeRefreshLayout
                         if (response != null) {
                             try {
                                 var data = response.getJSONArray("advance").length()
+                                count += data
+                                if(data>=1)
+                                    loading.visibility=View.GONE
                                 progressBar.visibility = View.GONE
                                 relativeLayout_data.visibility = View.VISIBLE
                                 for (i in 0 until data) {

@@ -13,13 +13,13 @@ import com.figgo.cabs.R
 import com.figgo.cabs.databinding.FragmentDriverActiveRideBinding
 import com.figgo.cabs.figgodriver.Adapter.ActiveRideAdapter
 
-import com.figgo.cabs.figgodriver.model.ActiveRide
+import com.figgo.cabs.figgodriver.model.ActiveRideData
 
 
 class DriverActiveRideFragment : Fragment() {
     lateinit var binding: FragmentDriverActiveRideBinding
     lateinit var activeRideAdapter: ActiveRideAdapter
-    var datalist=ArrayList<ActiveRide>()
+    var datalist=ArrayList<ActiveRideData>()
 
 
     override fun onCreateView(
@@ -34,15 +34,15 @@ class DriverActiveRideFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         var back = view.findViewById<TextView>(R.id.top_back)
         super.onViewCreated(view, savedInstanceState)
-
+/*
         binding.activeDriverList.layoutManager= LinearLayoutManager(requireContext())
-        datalist.add(ActiveRide("Oneway","20.10.2022","view"))
-        datalist.add(ActiveRide("Oneway","20.10.2022","view"))
-        datalist.add(ActiveRide("Oneway","20.10.2022","view"))
-        datalist.add(ActiveRide("Oneway","20.10.2022","view"))
+        datalist.add(ActiveRideData("Oneway","20.10.2022","view"))
+        datalist.add(ActiveRideData("Oneway","20.10.2022","view"))
+        datalist.add(ActiveRideData("Oneway","20.10.2022","view"))
+        datalist.add(ActiveRideData("Oneway","20.10.2022","view"))
 
         activeRideAdapter= ActiveRideAdapter(requireContext(),datalist)
-        binding.activeDriverList.adapter=activeRideAdapter
+        binding.activeDriverList.adapter=activeRideAdapter*/
         back.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_active_ride_to_home)
         }

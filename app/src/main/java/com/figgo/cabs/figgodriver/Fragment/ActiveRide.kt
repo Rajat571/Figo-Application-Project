@@ -3,15 +3,18 @@ package com.figgo.cabs.figgodriver.Fragment
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.volley.AuthFailureError
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
@@ -19,8 +22,10 @@ import com.android.volley.toolbox.Volley
 import com.figgo.cabs.FiggoPartner.Model.AllRideData
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
+import com.figgo.cabs.figgodriver.Adapter.ActiveRideAdapter
 import com.figgo.cabs.figgodriver.Adapter.AllRideAdapter
 import com.figgo.cabs.figgodriver.Adapter.OutstationAdapter
+import com.figgo.cabs.figgodriver.model.ActiveRideData
 import com.figgo.cabs.pearllib.Helper
 import org.json.JSONArray
 import java.util.HashMap
@@ -42,6 +47,10 @@ class ActiveRide : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    lateinit var recyclerView: RecyclerView
+    lateinit var loading: LinearLayout
+    lateinit var pulldown:SwipeRefreshLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -60,16 +69,93 @@ class ActiveRide : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        prefManager = PrefManager(requireContext())
+        recyclerView = view.findViewById(R.id.active_ride_recycler)
+        loading = view.findViewById(R.id.active_loadinggif)
+        pulldown = view.findViewById(R.id.active_ride_pulldown)
         apiCall(view)
+        pulldown.setOnRefreshListener {
+            loading.visibility=View.VISIBLE
+            pulldown.isRefreshing=false
+            apiCall(view)
+        }
     }
 
     private fun apiCall(view: View) {
         var activeURL = Helper.active_ride
         var queue = Volley.newRequestQueue(requireContext())
         var json = JSONArray()
+        var dataList:ArrayList<ActiveRideData> = ArrayList<ActiveRideData>()
+        var booking_id:String="- - -"
+        var type:String="- - -"
+        var to_location_lat:String="- - - "
+        var to_location_long:String="- - -"
+        var price:String = "- - - "
+        var to_name:String="- - -"
+        var from_location_lat:String="- - -"
+        var from_location_long:String="- - -"
+        var from_name:String="- - -"
+        var date_only:String="- - -"
+        var time_only:String="- - - "
+        var rideID:String="- - - "
 
         var jsonArrayRequest:JsonArrayRequest = object :JsonArrayRequest(Method.POST,activeURL,json,{
+if(it!=null){
+    for(i in 0 until it.length()){
+    if(it.length()>0)
+        loading.visibility=View.GONE
+        var data = it.getJSONObject(i)
+        try {
+            booking_id = data.getString("booking_id")
+        }catch (_:Exception){
+            booking_id = " - - - "
+        }
 
+        try {
+            to_location_lat = data.getJSONObject("to_location").getString("lat")
+            to_location_long = data.getJSONObject("to_location").getString("lng")
+            to_name = data.getJSONObject("to_location").getString("name")
+        }catch (_:Exception){ }
+
+        try {
+            from_location_lat = data.getJSONObject("from_location").getString("lat")
+            from_location_long = data.getJSONObject("from_location").getString("lng")
+            from_name = data.getJSONObject("from_location").getString("name")
+
+
+        }catch (_:Exception){ }
+
+        try {
+            type = data.getString("type")
+        }catch (_:Exception){
+
+        }
+        try{
+            date_only = data.getString("date_only")
+            time_only = data.getString("time_only")
+        }catch (_:Exception){
+
+        }
+
+        try{
+            price = data.getJSONObject("ride_details").getString("price")
+            rideID = data.getJSONObject("ride_details").getString("ride_id")
+        }catch (_:Exception){
+
+        }
+        dataList.add(ActiveRideData(booking_id, type, to_location_lat, to_location_long, to_name, from_location_lat, from_location_long, from_name, date_only, time_only,price,rideID))
+
+    }
+    try {
+        recyclerView.adapter = ActiveRideAdapter(requireContext(), dataList)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+    }catch (_:Exception){
+
+    }
+
+
+
+}
         },{
 
         }){
