@@ -48,6 +48,7 @@ class CityRideAdvanceListAdapter(var context:Context, var advanceridelist:List<C
                 Intent(context, CityRideActivity::class.java)
                 .putExtra("location_to",data.to)
                     .putExtra("location_from",data.from)
+                    .putExtra("price",data.fare_price)
                 .putExtra("customer_date",data.date)
                 .putExtra("customer_time",data.time)
                 .putExtra("current_lat",data.current_lat)
