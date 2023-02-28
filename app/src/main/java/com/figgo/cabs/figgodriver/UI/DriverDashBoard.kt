@@ -82,6 +82,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
     var lat by Delegates.notNull<Double>()
     var lon:Double = 0.0
     var x:Int = 1
+    lateinit var laoding_gif:ImageView
     lateinit var url:String
     lateinit var homeFrame:FrameLayout
     var toggleState by Delegates.notNull<Boolean>()
@@ -114,6 +115,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
          drivername=vieww.findViewById<TextView>(R.id.drivernamee)
          driver_num=vieww.findViewById<TextView>(R.id.driver_numberr)
          driverImage.setImageBitmap(image)
+
         drivername.text=prefManager.getDriverName()
         driver_num.text=prefManager.getMobileNo()
         drawer = findViewById<DrawerLayout>(R.id.Dashboard_Drawer_layout)
@@ -541,6 +543,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setStatusBarColor(Color.parseColor("#000F3B"))
+       // window.setStatusBarColor(Color.parseColor("#000000"))
         setLayoutXml()
         initializeViews()
         initializeClickListners()

@@ -7,9 +7,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -36,6 +38,8 @@ class OutstationHomeFragment : Fragment() {
     lateinit var sedanAdapter: SedanAdapter
     var ridelists= java.util.ArrayList<CityCurrentRidesList>()
     lateinit var prefManager: PrefManager
+    lateinit var outstation_loadinggif: LinearLayout
+    lateinit var swipeRefreshLayout: SwipeRefreshLayout
     var data=ArrayList<Sedan>()
 
     override fun onCreateView(
@@ -50,7 +54,14 @@ class OutstationHomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prefManager = PrefManager(requireContext())
+        outstation_loadinggif = view.findViewById(R.id.outstation_loadinggif)
+        swipeRefreshLayout = view.findViewById(R.id.outstation_swipe_refresh)
         submitCurrentRideForm(view)
+        swipeRefreshLayout.setOnRefreshListener {
+            outstation_loadinggif.visibility=View.VISIBLE
+            swipeRefreshLayout.isRefreshing=false
+            submitCurrentRideForm(view)
+        }
 
     }
     private fun submitCurrentRideForm(view: View){
@@ -74,7 +85,8 @@ class OutstationHomeFragment : Fragment() {
                             try {
                                 var current = response.getJSONObject("current")
                                 var ride_requests = current.getJSONArray("ride_requests").length()
-
+                                if(ride_requests>=1)
+                                    outstation_loadinggif.visibility=View.GONE
                                 for (i in 0 until ride_requests) {
 
                                     var data1 =
@@ -153,6 +165,7 @@ class OutstationHomeFragment : Fragment() {
                                 )
                             } catch (_: Exception) {
                             }
+                            if(requireContext()!=null)
                             recyclerView.layoutManager = LinearLayoutManager(requireContext())
                             //advanceData(response)
 
