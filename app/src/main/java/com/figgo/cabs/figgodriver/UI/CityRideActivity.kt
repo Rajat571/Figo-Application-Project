@@ -351,7 +351,16 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                                      Toast.makeText(this, status,Toast.LENGTH_SHORT).show()
                                      prefManager.setActiveRide(1)
                                      if (!status.equals("pending")) {
-                                         Toast.makeText(this,"Accepted",Toast.LENGTH_SHORT).show()
+                                         val alertDialog2 = android.app.AlertDialog.Builder(
+                                             this
+                                         )
+                                         alertDialog2.setTitle("Thankyou for waiting. Customer has accepted your ride request.")
+                                         alertDialog2.setMessage(" Please proceed.")
+                                         alertDialog2.setPositiveButton(
+                                             "Yes"
+                                         ) { dialog: DialogInterface?, which: Int ->
+
+                                             /*Toast.makeText(this,"Customer has accepted your ride request.",Toast.LENGTH_SHORT).show()*/
                                              startActivity(
                                                  Intent(
                                                      this,
@@ -372,6 +381,14 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                                                      .putExtra("customer_contact", customer_contact)
                                                      .putExtra("price",price)
                                              )
+                                         }
+                                         alertDialog2.setNegativeButton(
+                                             "Cancel"
+                                         ) { dialog: DialogInterface, which: Int ->
+                                             reject()
+                                             dialog.cancel() }
+                                         alertDialog2.show()
+
                                      }
                                  }
                                  //prefManager.setActiveRide(1)

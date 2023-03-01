@@ -52,8 +52,11 @@ class SpinnerAdapter(var context: Context, var myarrayList: List<SpinnerObj>) : 
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
         var view= LayoutInflater.from(context).inflate(R.layout.row_spinner,p2,false)
         var data= ItemHolder(view)
-        data.spinner_txt.text=myarrayList[p0].name
+        try {
+            data.spinner_txt.text = myarrayList[p0].name
+        }catch (_:Exception){
 
+        }
 
         return view
     }
