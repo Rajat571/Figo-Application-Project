@@ -54,7 +54,6 @@ class SpinnerAdapter(var context: Context, var myarrayList: List<SpinnerObj>) : 
         var data= ItemHolder(view)
         data.spinner_txt.text=myarrayList[p0].name
 
-
         return view
     }
 

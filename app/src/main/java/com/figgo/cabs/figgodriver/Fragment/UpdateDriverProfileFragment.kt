@@ -152,11 +152,12 @@ class UpdateDriverProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initializeViews(view)
         initializeClickListners(view)
+        bottomNavClickListener()
 
         var bundle = arguments
         getDriverDetails()
         work_view.visibility=View.GONE
-        bottomNavClickListener()
+
 
         getCabDetails()
         getWorkDetails()
@@ -600,18 +601,19 @@ class UpdateDriverProfileFragment : Fragment() {
                     national_permit.setText("")
                 }
 
-                try {
+          /*      try {
                     var my_circle_details=it.getJSONObject("my_circle_details")
-                    cab_type_id=my_circle_details.get("v_type").toString().toInt()
+                    cab_type_id=my_circle_details.getString("v_type").toString().toInt()
                     v_category=my_circle_details.getString("v_category").toInt()
                     v_modal=my_circle_details.getString("v_modal").toInt()
-                    fetchCabCategory(cab_type_id, v_category)
-                    fetchModel(v_modal)
+                    Log.d("CAbDATA","CAbDEtails==category and mode"+v_category+v_modal)
+                    fetchCabCategory(2)
+
                 }
                 catch (e:Exception) {
-                    fetchCabCategory(0, v_category)
-                    fetchModel(0)
-                }
+                    fetchCabCategory(2)
+
+                }*/
                 try {
                     yearval = it.getString("year")
                     year.setSelection(dateadapter.getPosition(yearval.toInt()))
@@ -646,7 +648,7 @@ class UpdateDriverProfileFragment : Fragment() {
                         spinner_cabtype.setSelection(2)
                         cab_type_id=position
 
-                        fetchCabCategory(2,v_category)
+                        fetchCabCategory(2)
                     }
                     override fun onNothingSelected(parent: AdapterView<*>) {
                         // write code to perform some action
@@ -968,9 +970,7 @@ class UpdateDriverProfileFragment : Fragment() {
     }
 
 
-
-
-    private fun fetchCabCategory(position: Int, v_category: Int) {
+/*    private fun fetchCabCategory(position: Int, v_category: Int) {
         hashMap.clear()
         cab_category_list.clear()
         var x=-1
@@ -980,7 +980,7 @@ class UpdateDriverProfileFragment : Fragment() {
         val json = JSONObject()
         var token= prefManager.getToken()
 
-        json.put("type_id",position)
+        json.put("type_id",2)
 
         Log.d("SendData", "json===" + json)
 
@@ -1015,7 +1015,6 @@ class UpdateDriverProfileFragment : Fragment() {
                                     cabCategory_id = cabcategoryadapter.getItem(position)!!.id.toInt()
                                     fetchModel(cabCategory_id)
                                     //spinner_cabcategory.setSelection(hashMap.values.toList()[position])
-
                                 }
 
                                 override fun onNothingSelected(parent: AdapterView<*>) {
@@ -1087,12 +1086,12 @@ class UpdateDriverProfileFragment : Fragment() {
                                     cab_model = cabModeladapter.getItem(position).id.toInt()
 
                                     // cab_model=modelHashMap.values.toList()[position]
-                                    /*          if(position<modelHashMap.size&&position>=0) {
+                                    *//*          if(position<modelHashMap.size&&position>=0) {
                                                   tapNo += 1
 
                                                   Log.d("SendData", "cab_model===" + cab_model)
                                               }
-          */
+          *//*
                                     prefManager.setDriverVechleModel(modelHashMap.values.toList()[position])
                                     Log.d("DriverVechleModel","DriverVechleModel==="+  prefManager.setDriverVechleModel(modelHashMap.values.toList()[position]))
                                 }
@@ -1116,8 +1115,131 @@ class UpdateDriverProfileFragment : Fragment() {
                 }){}
         queue.add(jsonOblect)
 
+    }*/
+
+    private fun fetchCabCategory(position: Int) {
+        hashMap.clear()
+        //val URL = " https://test.pearl-developer.com/figo/api/f_category"
+        val URL=Helper.f_category
+        Log.d("SendData", "URL===" + URL)
+        val queue = Volley.newRequestQueue(requireContext())
+        val json = JSONObject()
+        var token= prefManager.getToken()
+
+        json.put("type_id",2)
+
+        Log.d("SendData", "json===" + json)
+
+        val jsonOblect=
+            object : JsonObjectRequest(Method.POST, URL, json,
+                Response.Listener<JSONObject?> { response ->
+                    Log.d("SendData", "response===" + response)
+                    // Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
+                    if (response != null) {
+                        val status = response.getString("status")
+                        if(status.equals("1")){
+                            val jsonArray = response.getJSONArray("categories")
+                            for (i in 0..jsonArray.length()-1){
+                                val rec: JSONObject = jsonArray.getJSONObject(i)
+                                var name = rec.getString("name")
+                                var id = rec.getString("id")
+                                hashMap.put(name,id.toInt())
+                            }
+
+                            val cabcategoryadapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,hashMap.keys.toList());
+                            cabcategoryadapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+                            spinner_cabcategory.adapter = cabcategoryadapter
+
+                            spinner_cabcategory?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+
+                                    fetchModel(hashMap.values.toList()[position])
+                                    prefManager.setDriverCabCategory(hashMap.values.toList()[position].toString())
+                                    Log.d("DriverCabCategory","DriverCabCategory==="+ prefManager.setDriverCabCategory(hashMap.values.toList()[position].toString()))
+
+
+                                }
+
+                                override fun onNothingSelected(parent: AdapterView<*>) {
+                                    hashMap.clear()
+                                }
+                            }
+                        }else{
+                        }
+
+
+                        Log.d("SendData", "json===" + json)
+
+
+                    }
+                    // Get your json response and convert it to whatever you want.
+                }, Response.ErrorListener {
+                    // Error
+                }){}
+        queue.add(jsonOblect)
+
     }
 
+
+    private fun fetchModel(position: Int) {
+        modelHashMap.clear()
+        //val URL = "https://test.pearl-developer.com/figo/api/f_model"
+        var URL=Helper.f_model
+        val queue = Volley.newRequestQueue(requireContext())
+        val json = JSONObject()
+        var token= prefManager.getToken()
+
+        json.put("category_id",position)
+        Log.d("SendData", "json===" + URL)
+        Log.d("SendData", "json===" + json)
+
+        val jsonOblect=
+            object : JsonObjectRequest(Method.POST, URL, json,
+                Response.Listener<JSONObject?> { response ->
+                    Log.d("SendData", "response===" + response)
+                    // Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
+                    if (response != null) {
+                        val status = response.getString("status")
+                        if(status.equals("1")){
+                            val jsonArray = response.getJSONArray("models")
+                            for (i in 0..jsonArray.length()-1){
+                                val rec: JSONObject = jsonArray.getJSONObject(i)
+                                var name = rec.getString("name")
+                                var id = rec.getString("id")
+                                modelHashMap.put(name,id.toInt())
+                            }
+
+                            val cabModeladapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,modelHashMap.keys.toList());
+                            cabModeladapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+                            carModel.adapter = cabModeladapter
+                            carModel?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                                    //  fetchModel(hashMap.values.toList()[position])
+                                    Log.d("SendData", "modelHashMap.values.toList()[position]===" + modelHashMap.values.toList()[position])
+                                    prefManager.setDriverVechleModel(modelHashMap.values.toList()[position])
+                                    Log.d("DriverVechleModel","DriverVechleModel==="+  prefManager.setDriverVechleModel(modelHashMap.values.toList()[position]))
+                                }
+
+                                override fun onNothingSelected(parent: AdapterView<*>) {
+                                    modelHashMap.clear()
+                                }
+                            }
+                        }else{
+
+                        }
+
+
+                        Log.d("SendData", "json===" + json)
+
+
+                    }
+                    // Get your json response and convert it to whatever you want.
+                }, Response.ErrorListener {
+                    // Error
+                }){}
+        queue.add(jsonOblect)
+
+    }
 
     private fun fetchState2(work_state: Int, baseApbcContext: Context?) {
         statelist.clear()
@@ -1154,8 +1276,7 @@ class UpdateDriverProfileFragment : Fragment() {
                         val stateadapter = SpinnerAdapter(requireContext(),statelist)
 
                         local_state.setAdapter(stateadapter)
-                        if(x!=-1)
-                            spinnerState.setSelection(work_state)
+
 
                         local_state.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, position: Int, id: Long) {
@@ -1163,7 +1284,7 @@ class UpdateDriverProfileFragment : Fragment() {
 
                                 if(position != 0){
                                     selectedState = statelist.get(position).id.toInt()
-                                    updatedStateList.add(selectedState.toString())
+                                    updatedStateList.add(work_state.toString())
                                     //   prefManager.setdriverWorkState(state_id)
                                     Log.d("data","selectedState===="+selectedState)
 
