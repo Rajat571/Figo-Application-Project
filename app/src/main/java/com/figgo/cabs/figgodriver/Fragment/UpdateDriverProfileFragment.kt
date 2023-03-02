@@ -154,14 +154,16 @@ class UpdateDriverProfileFragment : Fragment() {
         initializeClickListners(view)
 
         var bundle = arguments
-        getDriverDetails()
+        try {
+            getDriverDetails()
+            getCabDetails()
+            getWorkDetails()
+
+        }catch (_:Exception){}
+
         work_view.visibility=View.GONE
         bottomNavClickListener()
-try {
-    getCabDetails()
-    getWorkDetails()
 
-}catch (_:Exception){}
         var visible_view = bundle?.getString("Key")
 
         profile_view.visibility=View.GONE
@@ -664,7 +666,7 @@ try {
                     }
                 }catch(_:Exception){
                     var work_state_array = work.getString("state")
-                    var work_state = work_state_array.subSequence(1,work_state_array.length-1).split(",").toList()[1]
+                    var work_state = work_state_array.subSequence(1,work_state_array.length-1).split(",").toList()[0]
                     Log.d("work_state","work_state==="+work_state)
 
                 }
