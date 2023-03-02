@@ -224,7 +224,14 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-
+<androidx.appcompat.widget.SwitchCompat
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Update mode"
+    android:checked="false"
+    android:id="@+id/cabupdate_switch"
+    android:layout_marginHorizontal="@dimen/_5sdp"
+    />
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="50dp"

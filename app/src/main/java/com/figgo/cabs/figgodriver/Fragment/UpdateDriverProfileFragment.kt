@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
@@ -97,6 +98,7 @@ class UpdateDriverProfileFragment : Fragment() {
     var driver_city=0
     var id1=0
     var id2=0
+    lateinit var switch :SwitchCompat
     var cabCategory_id=0
     var driver_vechle_no=""
     var driver_insurance_no=""
@@ -191,6 +193,7 @@ class UpdateDriverProfileFragment : Fragment() {
         driver_email= view.findViewById(R.id.show_driveremail)
         spinnerState = view.findViewById<Spinner>(R.id.show_spinner_state)
         spinnerCity = view.findViewById<Spinner>(R.id.show_spinner_city)
+        switch = view.findViewById(R.id.cabupdate_switch)
         driver_dlNo = view.findViewById<EditText>(R.id.show_driverdlno)
         driver_panNo = view.findViewById<EditText>(R.id.show_driverPanNo)
         driver_adharNo = view.findViewById<EditText>(R.id.show_driverAdharNo)
@@ -328,7 +331,7 @@ class UpdateDriverProfileFragment : Fragment() {
 
                     date = (year.toString() + "-" + (monthOfYear + 1) + "-" +dayOfMonth.toString())
                     s=date
-                    Log.d("DATETIME","DATE"+date)
+                    //Log.d("DATETIME","DATE"+date)
                     val dat1 = (dayOfMonth.toString()+"-" + (monthOfYear + 1) + "-" +year.toString())
                   insurance_no.setText(dat1)
                     insurance_no.setBackgroundResource(R.drawable.input_boder_profile)
@@ -354,7 +357,7 @@ class UpdateDriverProfileFragment : Fragment() {
 
                     date = (year.toString() + "-" + (monthOfYear + 1) + "-" +dayOfMonth.toString())
                     t=date
-                    Log.d("DATETIME","DATE"+date)
+                    //Log.d("DATETIME","DATE"+date)
                     val dat1 = (dayOfMonth.toString()+"-" + (monthOfYear + 1) + "-" +year.toString())
                    local_permit.setText(dat1)
                     local_permit.setBackgroundResource(R.drawable.input_boder_profile)
@@ -376,7 +379,7 @@ class UpdateDriverProfileFragment : Fragment() {
 
                     date = (year.toString() + "-" + (monthOfYear + 1) + "-" +dayOfMonth.toString())
                     n=date
-                    Log.d("DATETIME","DATE"+date)
+                    //Log.d("DATETIME","DATE"+date)
                     val dat1 = (dayOfMonth.toString()+"-" + (monthOfYear + 1) + "-" +year.toString())
                    national_permit.setText(dat1)
                     national_permit.setBackgroundResource(R.drawable.input_boder_profile)
@@ -387,12 +390,47 @@ class UpdateDriverProfileFragment : Fragment() {
             )
             datePickerDialog.show()
         }
+        switch.setOnCheckedChangeListener { compoundButton, b ->
+if(b){
+    var adapter = ArrayAdapter.createFromResource(
+        requireContext(),
+        R.array.CabType,
+        android.R.layout.simple_spinner_item
+    );
+    adapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+    spinner_cabtype?.adapter = adapter
+    // spinner_cabtype.setSelection(v_category)
+
+    spinner_cabtype?.onItemSelectedListener = object :
+        AdapterView.OnItemSelectedListener {
+        override fun onItemSelected(
+            parent: AdapterView<*>,
+            view: View,
+            position: Int,
+            id: Long
+        ) {
+            // Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
+            spinner_cabtype.setSelection(2)
+            cab_type_id = position
+
+            fetchCabCategory2(2)
+
+        }
+
+        override fun onNothingSelected(parent: AdapterView<*>) {
+            // write code to perform some action
+        }
+
+    }
+
+}
+        }
 
     }
 
     private fun updateWorkArea(work_state: Int, work_city: Int) {
         var get_URL=Helper.update_work_area
-        Log.d("GetDATA","URL"+get_URL)
+        //Log.d("GetDATA","URL"+get_URL)
 
         val queue = Volley.newRequestQueue(requireContext())
 
@@ -400,7 +438,7 @@ class UpdateDriverProfileFragment : Fragment() {
             {
                 if(it!=null)
                 {
-                    Log.d("Get Response ", "GET RESPONSE work area$it")
+                    //Log.d("Get Response ", "GET RESPONSE work area$it")
 
                     try {
                         var work=it.getJSONObject( "work")
@@ -410,7 +448,7 @@ class UpdateDriverProfileFragment : Fragment() {
                         var work_state_array=work.getJSONArray("state")
                         for (i in 0..work_state_array.length()-1){
                             this.work_state =work_state_array.get(i).toString().toInt()
-                            Log.d("work_state","work_state==="+work_state)
+                            //Log.d("work_state","work_state==="+work_state)
                         }
                     }
                     catch (e:Exception) {
@@ -435,7 +473,7 @@ class UpdateDriverProfileFragment : Fragment() {
 
     private fun getDriverDetails() {
         var get_URL=Helper.get_all_details
-        Log.d("GetDATA","URL"+get_URL)
+        //Log.d("GetDATA","URL"+get_URL)
 
         val queue = Volley.newRequestQueue(requireContext())
 
@@ -443,7 +481,7 @@ class UpdateDriverProfileFragment : Fragment() {
             {
                 if(it!=null)
                 {
-                    Log.d("Get Response ","GET RESPONSE"+it)
+                    //Log.d("Get Response ","GET RESPONSE"+it)
 
 
                     try {
@@ -535,8 +573,9 @@ class UpdateDriverProfileFragment : Fragment() {
         queue.add(jsonObject)
 
     }
-    private fun getCabDetails() {
 
+    private fun getCabDetails() {
+var r:Int=0
         current_year   = Calendar.getInstance().get(Calendar.YEAR)
 
         for(i in 2000..current_year)
@@ -557,8 +596,8 @@ class UpdateDriverProfileFragment : Fragment() {
                 yearval=i.toString()
 
                 //prefManager.setDriverVechleYear(i)
-                Log.d("Model year","Model year==="+i)
-                Log.d("Model year","Model year==="+ prefManager.setDriverVechleType(position.toString()))
+                //Log.d("Model year","Model year==="+i)
+                //Log.d("Model year","Model year==="+ prefManager.setDriverVechleType(position.toString()))
 
             }
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -566,42 +605,19 @@ class UpdateDriverProfileFragment : Fragment() {
             }
         }
 
-        try {
-            var adapter = ArrayAdapter.createFromResource(
-                requireContext(),
-                R.array.CabType,
-                android.R.layout.simple_spinner_item
-            );
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
-            spinner_cabtype?.adapter = adapter
-            // spinner_cabtype.setSelection(v_category)
-            spinner_cabtype?.onItemSelectedListener = object :
-                AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                    // Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
-                    spinner_cabtype.setSelection(2)
-                    cab_type_id = position
 
-                    fetchCabCategory2(2)
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>) {
-                    // write code to perform some action
-                }
-            }
-        }catch (_:Exception){}
-
-        var URL2=Helper.get_cab_work_details
-        Log.d("GetDATA", "URL$URL2")
+                    var URL2=Helper.get_cab_work_details
+        //Log.d("GetDATA", "URL$URL2")
 
         var queue2 = Volley.newRequestQueue(requireContext())
         var jsonObjectRequest2:JsonObjectRequest = object :JsonObjectRequest(Method.GET,URL2,null,
             {
-                Log.d("UpdateDriverCab","Driver-Cab"+it)
+                //Log.d("UpdateDriverCab","Driver-Cab"+it)
 
                 try {
                     driver_vechle_no=it.getString("v_number")
                     vehicle_num.setText(driver_vechle_no)
+                    
                 }catch (e:Exception){
                     vehicle_num.setText(" ")
                 }
@@ -634,13 +650,18 @@ class UpdateDriverProfileFragment : Fragment() {
                 }
 
                 try {
+
                     val my_circle_details=it.getJSONObject("my_circle_details")
                     cab_type_id=my_circle_details.getString("v_type").toInt()
                     v_category=my_circle_details.getString("v_category").toInt()
+                    spinner_cabtype.setSelection(2,false)
                     prefManager.setDriverCabCategory(v_category.toString())
                     v_modal=my_circle_details.getString("v_modal").toInt()
                     prefManager.setDriverVechleModel(v_modal)
+                    Log.d("Parameters","1 2 3 === "+cab_type_id+" "+v_category+" "+v_modal.toString())
                     fetchCabCategory(cab_type_id, v_category,v_modal)
+
+
                     //fetchModel(v_modal)
                 }
                 catch (e:Exception) {
@@ -662,21 +683,21 @@ class UpdateDriverProfileFragment : Fragment() {
                     var work_state_array = work.getJSONArray("state")
                     for (i in 0..work_state_array.length()-1){
                         work_state=work_state_array.get(i).toString().toInt()
-                        Log.d("work_state","work_state==="+work_state)
+                        //Log.d("work_state","work_state==="+work_state)
                     }
                 }catch(_:Exception){
                     var work_state_array = work.getString("state")
                     var work_state = work_state_array.subSequence(1,work_state_array.length-1).split(",").toList()[0]
-                    Log.d("work_state","work_state==="+work_state)
+                    //Log.d("work_state","work_state==="+work_state)
 
                 }
 
 
 
 
-                Log.d("Year","Year==="+yearval)
+                //Log.d("Year","Year==="+yearval)
                 //year.setSelection(dateadapter.getPosition(yearval.toInt()))
-                Log.d("UpdateDriverProfile",""+it.getJSONObject("work").getString("state").toList())
+                //Log.d("UpdateDriverProfile",""+it.getJSONObject("work").getString("state").toList())
 try {
 
     var adapter2 = ArrayAdapter.createFromResource(requireContext(),R.array.work_type,android.R.layout.simple_spinner_item);
@@ -777,12 +798,12 @@ try {
         json.put("cab_img",driver_cab_image_url)
         json.put("cab_img_ext","jpg")
 
-        Log.d("SEndDATA","Json==="+json)
+        //Log.d("SEndDATA","Json==="+json)
         var jsonObjectRequest=object :JsonObjectRequest(Method.POST,URL,json,Response.Listener<JSONObject>{
                 response ->
             context?.startActivity(Intent(requireContext(),DriverDashBoard::class.java))
 
-            Log.d("UpdateDriverProfile","UpdateDriverCabDetails==="+response)
+            //Log.d("UpdateDriverProfile","UpdateDriverCabDetails==="+response)
             Toast.makeText(context,"Your cab details update successfully",Toast.LENGTH_SHORT).show()
 
         },object:Response.ErrorListener{
@@ -814,12 +835,12 @@ try {
         json.put("state",driver_state)
         json.put("city",driver_city)
 
-        Log.d("SEndDATA","Json==="+json)
+        //Log.d("SEndDATA","Json==="+json)
         var jsonObjectRequest=object :JsonObjectRequest(Method.POST,URL,json,Response.Listener<JSONObject>{
            response ->
             driver_email.setText(driver_email.text.toString())
 
-            Log.d("UpdateDriverProfile","UpdateDriverProfile==="+response)
+            //Log.d("UpdateDriverProfile","UpdateDriverProfile==="+response)
             Toast.makeText(context,"Your profile update successfully",Toast.LENGTH_SHORT).show()
             context?.startActivity(Intent(requireContext(),DriverDashBoard::class.java))
 
@@ -843,17 +864,17 @@ try {
         statehashMap.clear()
         statelist.clear()
         val URL=Helper.get_state
-        Log.d("GetDATA","URL"+URL)
+        //Log.d("GetDATA","URL"+URL)
 try {
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
         json.put("country_id","101")
 
-        Log.d("SendData", "json===" + json)
+        //Log.d("SendData", "json===" + json)
 
         val jsonOblect=  object : JsonObjectRequest(Method.POST, URL, json,
             Response.Listener<JSONObject?> { response ->
-                Log.d("SendData", "response===" + response)
+                //Log.d("SendData", "response===" + response)
                 var x:Int=-1
                 // Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
                 if (response != null) {
@@ -871,7 +892,7 @@ try {
                             statehashMap.put(name,id.toInt())
                         }
 
-                        Log.d("SendData", "statelist===" + statelist)
+                        //Log.d("SendData", "statelist===" + statelist)
                          stateadapter = SpinnerAdapter(requireContext(),statelist)
 
                         spinnerState.setAdapter(stateadapter)
@@ -885,7 +906,7 @@ try {
                             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 try {
     id1 = stateadapter.getItem(position).id.toInt()
-    Log.d("SendData", "id1===" + stateadapter.getItem(position)!!.id.toInt())
+    //Log.d("SendData", "id1===" + stateadapter.getItem(position)!!.id.toInt())
     prefManager.setDriveState(id1!!.toInt())
     fetchCity(stateadapter.getItem(position)!!.id.toInt(),cityid)
 }
@@ -921,7 +942,7 @@ catch (_:Exception){
         citylist.clear()
         //val URL = " https://test.pearl-developer.com/figo/api/get-city"
         var URL=Helper.get_city
-        Log.d("GetDATA","URL"+URL)
+        //Log.d("GetDATA","URL"+URL)
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
         var tapNo:Int=0
@@ -929,11 +950,11 @@ catch (_:Exception){
         var y:Int=-1
         json.put("state_id",id)
 
-        Log.d("SendData", "json===" + json)
+        //Log.d("SendData", "json===" + json)
 
         val jsonOblect=  object : JsonObjectRequest(Method.POST, URL, json,
             Response.Listener<JSONObject?> { response ->
-                Log.d("SendData", "response===" + response)
+                //Log.d("SendData", "response===" + response)
                 // Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
                 if (response != null) {
                     val status = response.getString("status")
@@ -945,7 +966,7 @@ catch (_:Exception){
                             var id = rec.getString("id")
                             if(id.toInt()==cityID) {
                                 y = i
-                                Log.d("CityID",""+y)
+                                //Log.d("CityID",""+y)
                             }
                             citylist.add(SpinnerObj(name,id))
                             cityhashMap.put(name,id.toInt())
@@ -974,7 +995,7 @@ catch (_:Exception){
                                         tapNo += 1
                                         id2  = stateadapter.getItem(position).id.toInt()
                                         prefManager.setDriveCity(id2!!.toInt())
-                                        Log.d("SendData", "cityid===" + id2)
+                                        //Log.d("SendData", "cityid===" + id2)
                                     }
 
                                 }
@@ -983,13 +1004,13 @@ catch (_:Exception){
                             }
                         }
                         catch (e:Exception){
-                            Log.d("Spinner Problem", "Position null")
+                            //Log.d("Spinner Problem", "Position null")
                         }
 
                     }else{
 
                     }
-                    Log.d("SendData", "json===" + json)
+                    //Log.d("SendData", "json===" + json)
 
                 }
 
@@ -1003,21 +1024,21 @@ catch (_:Exception){
 
     private fun fetchCabCategory2(position: Int) {
         hashMap.clear()
+
         //val URL = " https://test.pearl-developer.com/figo/api/f_category"
         val URL=Helper.f_category
-        Log.d("SendData", "URL===" + URL)
+        //Log.d("SendData", "URL===" + URL)
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
         var token= prefManager.getToken()
 
         json.put("type_id",position)
 
-        Log.d("SendData", "json===" + json)
-
+        //Log.d("SendData", "json===" + json)
         val jsonOblect=
             object : JsonObjectRequest(Method.POST, URL, json,
                 Response.Listener<JSONObject?> { response ->
-                    Log.d("SendData", "response===" + response)
+                    //Log.d("SendData", "response===" + response)
                     // Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
                     if (response != null) {
                         val status = response.getString("status")
@@ -1035,12 +1056,11 @@ catch (_:Exception){
                             spinner_cabcategory.adapter = cabcategoryadapter
                             spinner_cabcategory?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
                                 override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-
-                                    fetchModel(hashMap.values.toList()[position])
-                                    prefManager.setDriverCabCategory(hashMap.values.toList()[position].toString())
-                                    Log.d("DriverCabCategory","DriverCabCategory==="+ prefManager.setDriverCabCategory(hashMap.values.toList()[position].toString()))
-
-
+                                    var id = hashMap.values.toList()[position]
+                                    Log.d("FetchCabCategoryListner","Selected_CATEGORY === "+id.toString())
+                                    fetchModel(id)
+                                    prefManager.setDriverCabCategory(id.toString())
+                                    //Log.d("DriverCabCategory","DriverCabCategory==="+ prefManager.setDriverCabCategory(hashMap.values.toList()[position].toString()))
                                 }
 
                                 override fun onNothingSelected(parent: AdapterView<*>) {
@@ -1051,7 +1071,7 @@ catch (_:Exception){
                         }
 
 
-                        Log.d("SendData", "json===" + json)
+                        //Log.d("SendData", "json===" + json)
 
 
                     }
@@ -1063,25 +1083,25 @@ catch (_:Exception){
 
     }
 
-    private fun fetchCabCategory(position: Int, v_category: Int,model:Int) {
+    private fun fetchCabCategory(cab_type: Int, v_category: Int,model:Int) {
         hashMap.clear()
         cab_category_list.clear()
         var x=-1
         try {
         val URL=Helper.f_category
-        Log.d("SendData", "URL===" + URL)
+        //Log.d("SendData", "URL===" + URL)
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
         var token= prefManager.getToken()
 
-        json.put("type_id",position)
+        json.put("type_id",cab_type)
 
-        Log.d("SendData", "json===" + json)
+        //Log.d("SendData", "json===" + json)
 
         val jsonOblect=
             object : JsonObjectRequest(Method.POST, URL, json,
                 Response.Listener<JSONObject?> { response ->
-                    Log.d("SendData", "response===" + response)
+                    //Log.d("SendData", "response===" + response)
                     if (response != null) {
                         val status = response.getString("status")
                         if(status.equals("1")){
@@ -1090,8 +1110,10 @@ catch (_:Exception){
                                 val rec: JSONObject = jsonArray.getJSONObject(i)
                                 var name = rec.getString("name")
                                 var id = rec.getString("id")
-                                if(id.toInt()==v_category)
-                                    x=i
+                                if(id.toInt()==v_category) {
+                                    Log.d("FetchCabCategory","V_CATEGORY === "+i.toString())
+                                    x = i
+                                }
                                 cab_category_list.add(SpinnerObj(name,id))
                                 hashMap.put(name,id.toInt())
                             }
@@ -1105,13 +1127,14 @@ catch (_:Exception){
                                 fetchModel(v_category,model)
                             }
 
-                            spinner_cabcategory?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
+/*                            spinner_cabcategory?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
                                 override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                                     //cabCategory_id=hashMap.values.toList()[position]
                                     try {
                                         cabCategory_id =
                                             hashMap.values.toList()[position]
                                         prefManager.setDriverCabCategory(cabCategory_id.toString())
+                                        Log.d("FetchCabCategory","Selected Category === "+cabCategory_id.toString())
                                         fetchModel(cabCategory_id)
 
                                     }catch (_:Exception){
@@ -1124,12 +1147,12 @@ catch (_:Exception){
                                 override fun onNothingSelected(parent: AdapterView<*>) {
                                     hashMap.clear()
                                 }
-                            }
+                            }*/
                         }else{
                         }
 
 
-                        Log.d("SendData", "json===" + json)
+                        //Log.d("SendData", "json===" + json)
 
 
                     }
@@ -1155,13 +1178,13 @@ catch (_:Exception){
         var y:Int=-1
 if(position!=-1) {
     json.put("category_id", position)
-    Log.d("SendData", "json===" + URL)
-    Log.d("SendData", "json===" + json)
+    //Log.d("SendData", "json===" + URL)
+    //Log.d("SendData", "json===" + json)
 
     val jsonOblect =
         object : JsonObjectRequest(Method.POST, URL, json,
             Response.Listener<JSONObject?> { response ->
-                Log.d("SendData", "response===" + response)
+                //Log.d("SendData", "response===" + response)
                 // Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
                 if (response != null) {
                     val status = response.getString("status")
@@ -1171,10 +1194,10 @@ if(position!=-1) {
                             val rec: JSONObject = jsonArray.getJSONObject(i)
                             var name = rec.getString("name")
                             var id = rec.getString("id")
-                            Log.d("MODEL ", "Model===" + name + id)
+                            //Log.d("MODEL ", "Model===" + name + id)
                             if (id.toInt() == v_modal1) {
                                 y = i
-                                Log.d("v_modal", "" + y)
+                                //Log.d("v_modal", "" + y)
                             }
                             cab_model_list.add(SpinnerObj(name, id))
                             modelHashMap.put(name, id.toInt())
@@ -1202,7 +1225,7 @@ if(position!=-1) {
 
 
                                         prefManager.setDriverVechleModel(modelHashMap.values.toList()[position])
-                                        Log.d(
+                                        //Log.d(
                                             "DriverVechleModel",
                                             "DriverVechleModel===" + prefManager.setDriverVechleModel(
                                                 modelHashMap.values.toList()[position]
@@ -1222,7 +1245,7 @@ if(position!=-1) {
                     }
 
 
-                    Log.d("SendData", "json===" + json)
+                    //Log.d("SendData", "json===" + json)
 
 
                 }
@@ -1245,18 +1268,19 @@ if(position!=-1) {
         var token= prefManager.getToken()
 
         json.put("category_id",position)
-        Log.d("SendData", "json===" + URL)
-        Log.d("SendData", "json===" + json)
+        //Log.d("SendData", "json===" + URL)
+        //Log.d("SendData", "json===" + json)
 
         val jsonOblect=
             object : JsonObjectRequest(Method.POST, URL, json,
                 Response.Listener<JSONObject?> { response ->
-                    Log.d("SendData", "response===" + response)
+                    //Log.d("SendData", "response===" + response)
                     // Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
                     if (response != null) {
                         val status = response.getString("status")
                         if(status.equals("1")){
                             val jsonArray = response.getJSONArray("models")
+
                             for (i in 0 until jsonArray.length()){
                                 val rec: JSONObject = jsonArray.getJSONObject(i)
                                 var name = rec.getString("name")
@@ -1271,17 +1295,9 @@ if(position!=-1) {
                                 override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                                     //  fetchModel(hashMap.values.toList()[position])
                                     try {
-                                        Log.d(
-                                            "SendData",
-                                            "modelHashMap.values.toList()[position]===" + modelHashMap.values.toList()[position]
-                                        )
+                                        //Log.d( "SendData","modelHashMap.values.toList()[position]===" + modelHashMap.values.toList()[position])
                                         prefManager.setDriverVechleModel(modelHashMap.values.toList()[position])
-                                        Log.d(
-                                            "DriverVechleModel",
-                                            "DriverVechleModel===" + prefManager.setDriverVechleModel(
-                                                modelHashMap.values.toList()[position]
-                                            )
-                                        )
+                                        //Log.d( "DriverVechleModel","DriverVechleModel===" + prefManager.setDriverVechleModel(modelHashMap.values.toList()[position]) )
                                     }catch (_:Exception){
 
                                     }
@@ -1296,7 +1312,7 @@ if(position!=-1) {
                         }
 
 
-                        Log.d("SendData", "json===" + json)
+                        //Log.d("SendData", "json===" + json)
 
 
                     }
@@ -1320,7 +1336,7 @@ if(position!=-1) {
         var x=-1
 
         json.put("country_id","101")
-        Log.d("SendData", "json===" + json)
+        //Log.d("SendData", "json===" + json)
 
         val jsonOblect=  object : JsonObjectRequest(Method.POST, URL, json,
             Response.Listener<JSONObject?> { response ->
@@ -1354,7 +1370,7 @@ if(position!=-1) {
                                     selectedState = statelist.get(position).id.toInt()
                                     updatedStateList.add(selectedState.toString())
                                     //   prefManager.setdriverWorkState(state_id)
-                                    Log.d("data","selectedState===="+selectedState)
+                                    //Log.d("data","selectedState===="+selectedState)
 
                                     //fetchCity(selectedState,baseApbcContext)
 
@@ -1392,11 +1408,11 @@ if(position!=-1) {
 
         json.put("state_id",localStateId)
 
-        Log.d("fetchCity", "json===" + json)
+        //Log.d("fetchCity", "json===" + json)
 
         val jsonOblect=  object : JsonObjectRequest(Method.POST, URL, json,
             Response.Listener<JSONObject?> { response ->
-                Log.d("SendData", "response===" + response)
+                //Log.d("SendData", "response===" + response)
                 // Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
                 if (response != null) {
                     val status = response.getString("status")
@@ -1421,7 +1437,7 @@ if(position!=-1) {
                                     selectedcity = citylist.get(position).id.toInt()
                                      work_city_id=citylist.get(position).id.toInt()
 
-                                    Log.d("SendData", "selectCityid===" + selectedcity)
+                                    //Log.d("SendData", "selectCityid===" + selectedcity)
 
                                 }
 
@@ -1439,7 +1455,7 @@ if(position!=-1) {
                     }
 
 
-                    Log.d("SendData", "json===" + json)
+                    //Log.d("SendData", "json===" + json)
 
 
                 }
