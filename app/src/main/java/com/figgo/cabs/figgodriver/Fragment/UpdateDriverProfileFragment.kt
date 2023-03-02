@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
@@ -98,7 +97,6 @@ class UpdateDriverProfileFragment : Fragment() {
     var driver_city=0
     var id1=0
     var id2=0
-    lateinit var switch :SwitchCompat
     var cabCategory_id=0
     var driver_vechle_no=""
     var driver_insurance_no=""
@@ -193,7 +191,6 @@ class UpdateDriverProfileFragment : Fragment() {
         driver_email= view.findViewById(R.id.show_driveremail)
         spinnerState = view.findViewById<Spinner>(R.id.show_spinner_state)
         spinnerCity = view.findViewById<Spinner>(R.id.show_spinner_city)
-        switch = view.findViewById(R.id.cabupdate_switch)
         driver_dlNo = view.findViewById<EditText>(R.id.show_driverdlno)
         driver_panNo = view.findViewById<EditText>(R.id.show_driverPanNo)
         driver_adharNo = view.findViewById<EditText>(R.id.show_driverAdharNo)
@@ -390,8 +387,7 @@ class UpdateDriverProfileFragment : Fragment() {
             )
             datePickerDialog.show()
         }
-        switch.setOnCheckedChangeListener { compoundButton, b ->
-if(b){
+
     var adapter = ArrayAdapter.createFromResource(
         requireContext(),
         R.array.CabType,
@@ -413,7 +409,7 @@ if(b){
             spinner_cabtype.setSelection(2)
             cab_type_id = position
 
-            fetchCabCategory2(2)
+            //fetchCabCategory2(2)
 
         }
 
@@ -423,8 +419,7 @@ if(b){
 
     }
 
-}
-        }
+
 
     }
 
@@ -575,7 +570,6 @@ if(b){
     }
 
     private fun getCabDetails() {
-var r:Int=0
         current_year   = Calendar.getInstance().get(Calendar.YEAR)
 
         for(i in 2000..current_year)
@@ -896,7 +890,7 @@ try {
                          stateadapter = SpinnerAdapter(requireContext(),statelist)
 
                         spinnerState.setAdapter(stateadapter)
-                        Toast.makeText(requireContext(),"StateId "+stateid.toString(),Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(requireContext(),"StateId "+stateid.toString(),Toast.LENGTH_SHORT).show()
                         if(x!=-1)
                          spinnerState.setSelection(x)
 
@@ -1024,7 +1018,6 @@ catch (_:Exception){
 
     private fun fetchCabCategory2(position: Int) {
         hashMap.clear()
-
         //val URL = " https://test.pearl-developer.com/figo/api/f_category"
         val URL=Helper.f_category
         //Log.d("SendData", "URL===" + URL)
@@ -1061,6 +1054,8 @@ catch (_:Exception){
                                     fetchModel(id)
                                     prefManager.setDriverCabCategory(id.toString())
                                     //Log.d("DriverCabCategory","DriverCabCategory==="+ prefManager.setDriverCabCategory(hashMap.values.toList()[position].toString()))
+
+
                                 }
 
                                 override fun onNothingSelected(parent: AdapterView<*>) {
@@ -1124,15 +1119,15 @@ catch (_:Exception){
                             spinner_cabcategory.adapter = cabcategoryadapter
                             if(x!=-1) {
                                 spinner_cabcategory.setSelection(x)
-                                fetchModel(v_category,model)
+                                /*fetchModel(v_category,model)*/
                             }
 
-/*                            spinner_cabcategory?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
+                            spinner_cabcategory?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
                                 override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                                     //cabCategory_id=hashMap.values.toList()[position]
                                     try {
                                         cabCategory_id =
-                                            hashMap.values.toList()[position]
+                                            cabcategoryadapter.getItem(position)!!.id.toInt()
                                         prefManager.setDriverCabCategory(cabCategory_id.toString())
                                         Log.d("FetchCabCategory","Selected Category === "+cabCategory_id.toString())
                                         fetchModel(cabCategory_id)
@@ -1147,14 +1142,10 @@ catch (_:Exception){
                                 override fun onNothingSelected(parent: AdapterView<*>) {
                                     hashMap.clear()
                                 }
-                            }*/
+                            }
                         }else{
                         }
-
-
                         //Log.d("SendData", "json===" + json)
-
-
                     }
 
                 }, Response.ErrorListener {
@@ -1280,7 +1271,6 @@ if(position!=-1) {
                         val status = response.getString("status")
                         if(status.equals("1")){
                             val jsonArray = response.getJSONArray("models")
-
                             for (i in 0 until jsonArray.length()){
                                 val rec: JSONObject = jsonArray.getJSONObject(i)
                                 var name = rec.getString("name")
