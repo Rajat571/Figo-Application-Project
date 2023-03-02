@@ -7,15 +7,18 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
 import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.Settings
 import android.transition.Slide
 import android.transition.TransitionManager
 import android.util.Log
@@ -30,6 +33,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.figgo.cabs.GPSBroadcastReceiver
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.figgodriver.Adapter.NotificationHomeAdapter
@@ -56,6 +60,7 @@ import java.net.SocketException
 import java.net.URL
 import java.util.*
 import kotlin.properties.Delegates
+
 
 class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
     var doubleBackToExitPressedOnce = false
@@ -90,6 +95,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
     lateinit var bottomNav:BottomNavigationView
     lateinit var notificationlayout:LinearLayout
     lateinit var notificationRecyclerView: RecyclerView
+    var gpsBroadcastReceiver = GPSBroadcastReceiver()
 
     val scope = CoroutineScope(Job() + Dispatchers.Main)
 
@@ -549,6 +555,9 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         initializeClickListners()
         initializeInputs()
         initializeLabels()
+
+        registerReceiver(gpsBroadcastReceiver, IntentFilter())
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -558,13 +567,6 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return
         }
         fusedLocationProviderClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, object : CancellationToken() {
@@ -575,16 +577,45 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             .addOnSuccessListener { location: Location? ->
                 if (location == null)
                     Toast.makeText(this, "Cannot get location.", Toast.LENGTH_SHORT).show()
+                val lm = getSystemService(LOCATION_SERVICE) as LocationManager
+                var gps_enabled = false
+                var network_enabled = false
+
+                try {
+                    gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                } catch (ex: java.lang.Exception) {
+                }
+
+                try {
+                    network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+                } catch (ex: java.lang.Exception) {
+                }
+
+                if (!gps_enabled && !network_enabled) {
+                    // notify user
+                    AlertDialog.Builder(applicationContext)
+                        .setMessage("ena")
+                        .setPositiveButton("Open Location",
+                            DialogInterface.OnClickListener { paramDialogInterface, paramInt ->
+                             startActivity(
+                                    Intent(
+                                        Settings.ACTION_LOCATION_SOURCE_SETTINGS
+                                    )
+                                )
+                            })
+                        .setNegativeButton("Cancel", null)
+                        .show()
+                }
                 else {
-                    lat = location.latitude
+                    lat = location!!.latitude
                     prefManager.setlatitude(lat.toFloat())
                     lon = location.longitude
                     prefManager.setlongitude(lon.toFloat())
                   //Toast.makeText(this,"Lat :"+lat+"\nLong: "+lon,Toast.LENGTH_SHORT).show()
                 }
             }
+    }
 
-   }
     fun getMacAddr(): String? {
         var ip = ""
         try {
@@ -746,6 +777,9 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         }
 
         return null
+
+
+        unregisterReceiver(gpsBroadcastReceiver)
     }
 
     override fun onBackPressed() {

@@ -350,6 +350,20 @@ xmlns:tools="http://schemas.android.com/tools">
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:layout_margin="@dimen/_5sdp" />-->
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Contatct to Customer"
+                    android:letterSpacing="0.2"
+                    android:id="@+id/contactTV"
+                    android:drawableLeft="@drawable/support_customer"
+                    android:background="@color/AppColor"
+                    android:textSize="16sp"
+                    android:layout_margin="10dp"
+                    android:textColor="@color/white"
+                    android:padding="5dp"
+                    android:gravity="center"/>
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
@@ -360,8 +374,7 @@ xmlns:tools="http://schemas.android.com/tools">
                 app:cardCornerRadius="15dp"
                 app:cardElevation="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/details_layout">
-
-                    <fragment
+                <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"

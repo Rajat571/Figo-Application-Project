@@ -136,6 +136,7 @@ class SplashActivity : AppCompatActivity() {
                         this@SplashActivity,
                         arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION),
                         PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
+
                 }
                 alertDialog2.setNegativeButton(
                     "Cancel"

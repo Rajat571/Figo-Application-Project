@@ -930,6 +930,7 @@ class DriverCabDetailsFragment : Fragment() {
                             val jsonArray = response.getJSONArray("models")
                             for (i in 0..jsonArray.length()-1){
                                 val rec: JSONObject = jsonArray.getJSONObject(i)
+
                                 var name = rec.getString("name")
                                 var id = rec.getString("id")
                                 modelHashMap.put(name,id.toInt())

@@ -10,6 +10,8 @@
     <uses-permission android:name="android.permission.CALL_COMPANION_APP" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_GPS" />
+
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
@@ -187,6 +189,14 @@
             android:name=".figgodriver.Service.MyService"
             android:enabled="true"
             android:foregroundServiceType="location" />
+        <receiver android:name=".GPSBroadcastReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.location.PROVIDERS_CHANGED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

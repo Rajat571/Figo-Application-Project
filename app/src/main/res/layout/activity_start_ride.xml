@@ -60,9 +60,18 @@ xmlns:tools="http://schemas.android.com/tools"
                         android:layout_gravity="bottom|center"
                         android:src="@drawable/go_location"
                         android:textSize="16sp"
+                        android:id="@+id/go_location"
                         app:civ_border_color="@color/black"
                         app:civ_border_width="2dp"
                         app:civ_circle_background_color="@color/black" />
+                    <pl.droidsonroids.gif.GifImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="bottom|center"
+                        android:background="#fff"
+                        android:visibility="gone"
+                        android:id="@+id/go_animation"
+                        android:src="@drawable/wait_animation" />
                 </fragment>
             </androidx.cardview.widget.CardView>
 
@@ -350,6 +359,7 @@ xmlns:tools="http://schemas.android.com/tools"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_begin="-16dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

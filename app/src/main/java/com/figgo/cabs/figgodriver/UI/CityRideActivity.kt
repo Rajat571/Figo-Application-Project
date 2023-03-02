@@ -2,6 +2,11 @@ package com.figgo.cabs.figgodriver.UI
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.ApplicationInfo
@@ -10,10 +15,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.location.Location
-import android.os.AsyncTask
-import android.os.Bundle
-import android.os.CountDownTimer
-import android.os.Handler
+import android.os.*
 import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
@@ -22,6 +24,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
 import androidx.databinding.DataBindingUtil
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
@@ -298,6 +301,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
          var queue=Volley.newRequestQueue(this)
          var json=JSONObject()
          json.put("ride_id",ride_id)
+         Log.d("Ride id","Ride id==="+json)
          var accepted:Boolean=false
 
                      val jsonOblect: JsonObjectRequest =
@@ -351,21 +355,13 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                                      Toast.makeText(this, status,Toast.LENGTH_SHORT).show()
                                      prefManager.setActiveRide(1)
                                      if (!status.equals("pending")) {
-                                         val alertDialog2 = android.app.AlertDialog.Builder(
-                                             this
-                                         )
+                                         val alertDialog2 = android.app.AlertDialog.Builder(this)
                                          alertDialog2.setTitle("Thank-you for waiting. Customer has accepted your ride request.")
                                          alertDialog2.setMessage(" Please proceed.")
-                                         alertDialog2.setPositiveButton(
-                                             "Yes"
-                                         ) { dialog: DialogInterface?, which: Int ->
-
+                                         alertDialog2.setPositiveButton("Yes") { dialog: DialogInterface?, which: Int ->
+                                             addNotification()
                                              /*Toast.makeText(this,"Customer has accepted your ride request.",Toast.LENGTH_SHORT).show()*/
-                                             startActivity(
-                                                 Intent(
-                                                     this,
-                                                     CustomerCityRideDetailActivity::class.java
-                                                 )
+                                             startActivity(Intent(this, CustomerCityRideDetailActivity::class.java)
                                                      .putExtra("booking_id", booking_id.toString())
                                                      .putExtra("type", type)
                                                      .putExtra("to_location_lat", to_location_lat)
@@ -381,6 +377,9 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                                                      .putExtra("customer_contact", customer_contact)
                                                      .putExtra("price",price)
                                              )
+
+
+
                                          }
                                          alertDialog2.setNegativeButton(
                                              "Cancel"
@@ -413,8 +412,43 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                  }}*/
 
 
-
      }
+
+     private fun addNotification() {
+         val mNotificationManager: NotificationManager
+         val mBuilder = NotificationCompat.Builder(this, "notify_001")
+         val intent = Intent(this, CityRideActivity::class.java)
+        // pref.setNotify("true")
+         var pendingIntent: PendingIntent? = null
+         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+             pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_MUTABLE)
+         }else {
+             pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+         }
+         val bigText = NotificationCompat.BigTextStyle()
+         bigText.setBigContentTitle("Booking is Accepted")
+         bigText.bigText("Your Booking is Accepted by customer...")
+         bigText.setSummaryText("Text in detail")
+
+         mBuilder.setContentIntent(pendingIntent)
+         mBuilder.setSmallIcon(R.drawable.appicon)
+         mBuilder.setContentTitle("Booking is Accepted")
+         mBuilder.setContentText("Your Booking is Accepted by Customer...")
+         mBuilder.priority = Notification.PRIORITY_MAX
+         mBuilder.setStyle(bigText)
+
+         mNotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+
+         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+             val channelId = "notify_001"
+             val channel = NotificationChannel(channelId, "Channel human readable title", NotificationManager.IMPORTANCE_HIGH)
+             mNotificationManager.createNotificationChannel(channel)
+             mBuilder.setChannelId(channelId)
+         }
+
+         mNotificationManager.notify(10, mBuilder.build())
+     }
+
 
      fun reject(){
          //var url="https://test.pearl-developer.com/figo/api/driver-ride/reject-city-ride-request"

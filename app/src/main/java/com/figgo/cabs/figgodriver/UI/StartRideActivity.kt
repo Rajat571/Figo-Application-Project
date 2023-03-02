@@ -3,6 +3,8 @@ package com.figgo.cabs.figgodriver.UI
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
@@ -99,7 +101,7 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
         rideComplete = findViewById(R.id.ride_complete)
         window.setStatusBarColor(Color.parseColor("#000F3B"))
         prefManager= PrefManager(this)
-
+        cancelNotification(this,10)
         bookingID  = findViewById(R.id.end_booking_customer)
         bookingType = findViewById(R.id.end_booking_type)
         pickuplocation = findViewById(R.id.end_pickup_location)
@@ -167,29 +169,39 @@ var count:Int = 0
 
            /* while(!endRoute) {*/
 
-try {
-    timer = object : CountDownTimer(9000000, 2000) {
-        override fun onTick(millisUntilFinished: Long) {
+            binding.goLocation.setOnClickListener {
+                binding.goLocation.visibility=View.GONE
 
-            updateRoute()
-            liveRouting(originLatitude, originLongitude, customerLAT, customerLON)
-        }
+                try {
+                    timer = object : CountDownTimer(9000000, 2000) {
+                        override fun onTick(millisUntilFinished: Long) {
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 11F))
+                            updateRoute()
+                            liveRouting(originLatitude, originLongitude, customerLAT, customerLON)
 
-        override fun onFinish() {
-            TODO("Not yet implemented")
-        }
-    }
-    (timer as CountDownTimer).start()
-    Thread.sleep(2000L)
-    }catch (e:Exception){
+                        }
 
-    }
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 11F))
+                        override fun onFinish() {
+                            TODO("Not yet implemented")
+                        }
+                    }
+                    (timer as CountDownTimer).start()
+                    Thread.sleep(2000L)
+                }catch (e:Exception){
+
+                }
+            }
+
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 9F))
             
 
         }
     }
-
+    fun cancelNotification(ctx: Context, notifyId: Int) {
+        val ns: String = Context.NOTIFICATION_SERVICE
+        val nMgr = ctx.getSystemService(ns) as NotificationManager
+        nMgr.cancel(notifyId)
+    }
     private fun updateRoute(){
         originLatitude = prefManager.getlatitude().toDouble()
         originLongitude = prefManager.getlongitude().toDouble()

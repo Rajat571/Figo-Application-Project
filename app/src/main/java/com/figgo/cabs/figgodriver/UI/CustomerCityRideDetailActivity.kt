@@ -2,11 +2,15 @@ package com.figgo.cabs.figgodriver.UI
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.app.Notification.Action
+import android.app.NotificationManager
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -69,6 +73,7 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setStatusBarColor(Color.parseColor("#000F3B"))
+
        binding=DataBindingUtil.setContentView(this,R.layout.activity_customer_city_ride_detail)
         binding.bookingCustomer.text=intent.getStringExtra("booking_id")
         binding.bookingType.text=intent.getStringExtra("type")
@@ -93,6 +98,12 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         prefManager=PrefManager(this)
         stopService(Intent(this, MyService::class.java))
+        binding.contactTV.setOnClickListener {
+            val intent = Intent(Intent.ACTION_CALL);
+            intent.data = Uri.parse("tel:123")
+           intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        }
         prefManager.setdestinationlocation(destinationLatitude.toFloat(),destinationLongitude.toFloat())
         Log.d("CustomerCityRideDetailActivity","$destinationLatitude $destinationLongitude")
        // layout_accept_wait=findViewById(R.id.accept_wait_layout)
