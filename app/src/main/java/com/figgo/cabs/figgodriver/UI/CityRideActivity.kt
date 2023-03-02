@@ -354,7 +354,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                                          val alertDialog2 = android.app.AlertDialog.Builder(
                                              this
                                          )
-                                         alertDialog2.setTitle("Thankyou for waiting. Customer has accepted your ride request.")
+                                         alertDialog2.setTitle("Thank-you for waiting. Customer has accepted your ride request.")
                                          alertDialog2.setMessage(" Please proceed.")
                                          alertDialog2.setPositiveButton(
                                              "Yes"
