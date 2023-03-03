@@ -84,6 +84,7 @@ class UpdateDriverProfileFragment : Fragment() {
     lateinit var vehicle_num:EditText
     lateinit var driver_panNo:EditText
     var updatedStateList = java.util.ArrayList<String>()
+    var updatedStateList2 = java.util.ArrayList<String>()
     var stateList = kotlin.collections.ArrayList<String>()
     var selectedcity  = 0
     var selectedState = 0
@@ -111,10 +112,13 @@ class UpdateDriverProfileFragment : Fragment() {
     var s=""
     var t=""
     var n=""
+    var work_place=0
     var work_city=0
     var work_state=0
+    var stateList2 =ArrayList<Int>()
     var work_city_id=0
     var work_state_id=0
+    var cab_id=0
 
     lateinit var calender: Calendar
     override fun onCreateView(
@@ -157,7 +161,6 @@ class UpdateDriverProfileFragment : Fragment() {
         try {
             getDriverDetails()
             getCabDetails()
-            getWorkDetails()
 
         }catch (_:Exception){}
 
@@ -179,9 +182,7 @@ class UpdateDriverProfileFragment : Fragment() {
         }
     }
 
-    private fun getWorkDetails() {
 
-    }
 
 
     private fun initializeViews(view: View) {
@@ -278,14 +279,23 @@ class UpdateDriverProfileFragment : Fragment() {
         updateWorkButton.setOnClickListener {
             if (work_state!=work_state_id){
                 work_state=work_state_id
-                local_state.setSelection(work_state)
+                //local_state.setSelection(work_state)
 
             }
-            else if (work_city!=work_city_id){
+            if (work_city!=work_city_id){
                 work_city=work_city_id
                 //spinnerCity.setSelection(driver_city)
             }
-            updateWorkArea(work_state,work_city)
+            if (updatedStateList.size>1) {
+                for (i in 1 until updatedStateList.size) {
+                    updatedStateList2.add(updatedStateList[i])
+                }
+                updateWorkArea(updatedStateList2, work_city, cab_id, work_place)
+            }else{
+                updateWorkArea(updatedStateList, work_city, cab_id, work_place)
+            }
+            updatedStateList2.clear()
+            updatedStateList.clear()
         }
 
         updateCabButton.setOnClickListener {
@@ -423,48 +433,7 @@ class UpdateDriverProfileFragment : Fragment() {
 
     }
 
-    private fun updateWorkArea(work_state: Int, work_city: Int) {
-        var get_URL=Helper.update_work_area
-        //Log.d("GetDATA","URL"+get_URL)
 
-        val queue = Volley.newRequestQueue(requireContext())
-
-        val jsonObject:JsonObjectRequest = object :JsonObjectRequest(Method.GET,get_URL,null,
-            {
-                if(it!=null)
-                {
-                    //Log.d("Get Response ", "GET RESPONSE work area$it")
-
-                    try {
-                        var work=it.getJSONObject( "work")
-
-                        var work_place=work.getString( "work_place").toInt()
-                        this.work_city =work.getString( "city").toInt()
-                        var work_state_array=work.getJSONArray("state")
-                        for (i in 0..work_state_array.length()-1){
-                            this.work_state =work_state_array.get(i).toString().toInt()
-                            //Log.d("work_state","work_state==="+work_state)
-                        }
-                    }
-                    catch (e:Exception) {
-                        fetchState(it.getString("state").toInt(), it.getString("city").toInt())
-                    }
-
-                    //baseclass.fetchStates(requireContext(),spinner_state,it.getString("state").toInt(),spinner_state,outstationHaspMap)
-                }
-            },{
-
-
-            }){
-            @Throws(AuthFailureError::class)
-            override fun getHeaders(): Map<String, String> {
-                val headers: MutableMap<String, String> = HashMap()
-                headers.put("Authorization", "Bearer " + prefManager.getToken())
-                return headers
-            }
-        }
-        queue.add(jsonObject)
-    }
 
     private fun getDriverDetails() {
         var get_URL=Helper.get_all_details
@@ -541,7 +510,6 @@ class UpdateDriverProfileFragment : Fragment() {
                     }catch (e:Exception){
                         driver_cab_image_url = " "
                     }
-
 
                     try {
                         driver_state=it.getString("state").toInt()
@@ -671,20 +639,26 @@ class UpdateDriverProfileFragment : Fragment() {
                 }
                 var work=it.getJSONObject( "work")
 
-                var work_place=work.getString( "work_place").toInt()
+                work_place=work.getString( "work_place").toInt()
                  work_city=work.getString( "city").toInt()
+                cab_id = work.getString("cab_id").toInt()
+                work_city_id=work_city
                 try {
                     var work_state_array = work.getJSONArray("state")
                     for (i in 0..work_state_array.length()-1){
                         work_state=work_state_array.get(i).toString().toInt()
-                        //Log.d("work_state","work_state==="+work_state)
+                        work_state_id=work_state
+                        stateList2.add(work_state)
+                        Log.d("UpdateWorkstate","work_state==="+work_state)
                     }
                 }catch(_:Exception){
                     var work_state_array = work.getString("state")
                     var work_state = work_state_array.subSequence(1,work_state_array.length-1).split(",").toList()[0]
-                    //Log.d("work_state","work_state==="+work_state)
+                    work_state_id=work_state.toInt()
+                    Log.d("work_state2","work_state==="+work_state)
 
                 }
+
 
 
 
@@ -700,9 +674,19 @@ try {
     chooseWorkingArea.onItemSelectedListener = object :
         AdapterView.OnItemSelectedListener{
         override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+            if(p2!=work_place)
+            cab_id=p2
             if(p2 == 2){
+
                 updatedStateList.clear()
-                fetchState2(work_state,requireContext())
+                try {
+                    Log.d("StateItemSelection", " Selected === ${stateList2[0]}")
+                    fetchState2(stateList2[0], work_city, requireContext())
+                }catch(_:Exception){
+                    Log.d("StateItemSelectionString", " Selected === ${work_state_id}")
+                    fetchState2(work_state_id, work_city, requireContext())
+                }
+
                 selectedState =0
                 selectedcity = 0
                 outstationWorkinAreaLayout.visibility=View.GONE
@@ -715,14 +699,17 @@ try {
                 local_working_areaLayout.visibility=View.GONE
             }
             else{
+
                 selectedState =0
                 selectedcity = 0
                 updatedStateList = baseprivate.fetchStates(requireContext(), outstationState1, 1, outstationState1, stateList)
+              //  updatedStateList.add(baseprivate.fetchStates(requireContext(), outstationState1, 1, outstationState1, stateList)[0])
+
                 updatedStateList =  baseprivate.fetchStates(requireContext(),outstationState2,2,outstationState2,stateList)
                 updatedStateList =   baseprivate.fetchStates(requireContext(),outstationState3,3,outstationState3,stateList)
                 updatedStateList =  baseprivate.fetchStates(requireContext(),outstationState4,4,outstationState4,stateList)
                 updatedStateList = baseprivate.fetchStates(requireContext(),outstationState5,5,outstationState5,stateList)
-
+                Log.d("UpdateDriverProfile","$updatedStateList")
                 outstationWorkinAreaLayout.visibility=View.VISIBLE
                 local_working_areaLayout.visibility=View.GONE
 
@@ -853,13 +840,50 @@ try {
                 queue.add(jsonObjectRequest)
     }
 
+    private fun updateWorkArea(work_state: java.util.ArrayList<String>, work_city: Int,cab_id:Int,work_place:Int) {
+        var get_URL=Helper.update_work_area
+        //Log.d("GetDATA","URL"+get_URL)
+
+        val queue = Volley.newRequestQueue(requireContext())
+        var json=JSONObject()
+        json.put("cab_id",cab_id)
+        json.put("work_place",work_place)
+        json.put("state",work_state)
+        json.put("city",work_city)
+
+        Log.d("UpdateDataSend","$cab_id $work_place $work_state $work_city")
+
+        val jsonObject:JsonObjectRequest = object :JsonObjectRequest(Method.POST,get_URL,json,
+            {
+                if(it!=null)
+                {
+                    Log.d("WorkUpdateApI", "RESPONSE work area ==== $it")
+
+                    context?.startActivity(Intent(requireContext(),DriverDashBoard::class.java))
+
+                    Toast.makeText(context,"Your work area details are update successfully",Toast.LENGTH_SHORT).show()
+                    //baseclass.fetchStates(requireContext(),spinner_state,it.getString("state").toInt(),spinner_state,outstationHaspMap)
+                }
+            },{
+
+                    Log.d("WorkUpdateApI", "RESPONSE work area ==== $it")
+            }){
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers: MutableMap<String, String> = HashMap()
+                headers.put("Authorization", "Bearer " + prefManager.getToken())
+                return headers
+            }
+        }
+        queue.add(jsonObject)
+    }
 
     private fun fetchState(stateid:Int,cityid:Int) {
         statehashMap.clear()
         statelist.clear()
         val URL=Helper.get_state
         //Log.d("GetDATA","URL"+URL)
-try {
+        try {
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
         json.put("country_id","101")
@@ -900,7 +924,7 @@ try {
                             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 try {
     id1 = stateadapter.getItem(position).id.toInt()
-    //Log.d("SendData", "id1===" + stateadapter.getItem(position)!!.id.toInt())
+    Log.d("SelectedID", "id1===" + stateadapter.getItem(position)!!.id.toInt())
     prefManager.setDriveState(id1!!.toInt())
     fetchCity(stateadapter.getItem(position)!!.id.toInt(),cityid)
 }
@@ -989,6 +1013,7 @@ catch (_:Exception){
                                         tapNo += 1
                                         id2  = stateadapter.getItem(position).id.toInt()
                                         prefManager.setDriveCity(id2!!.toInt())
+                                        Log.d("SelectedCityID", "id1===" + stateadapter.getItem(position).id.toInt())
                                         //Log.d("SendData", "cityid===" + id2)
                                     }
 
@@ -1314,7 +1339,7 @@ if(position!=-1) {
 
     }
 
-    private fun fetchState2(work_state: Int, baseApbcContext: Context?) {
+    private fun fetchState2(work_state: Int, work_city:Int, baseApbcContext: Context?) {
         statelist.clear()
         updatedStateList.clear()
         prefManager= PrefManager(baseApbcContext!!)
@@ -1339,6 +1364,7 @@ if(position!=-1) {
                             val rec: JSONObject = jsonArray.getJSONObject(i)
                             var name = rec.getString("name")
                             var id = rec.getString("id")
+                            Log.d("SpinnerState","Loop ==== $id")
                             if (id==work_state.toString()){
                                 x=i
                             }
@@ -1349,8 +1375,10 @@ if(position!=-1) {
                         val stateadapter = SpinnerAdapter(requireContext(),statelist)
 
                         local_state.setAdapter(stateadapter)
-                        if(x!=-1)
-                            spinnerState.setSelection(work_state)
+                        if(x!=-1) {
+                            local_state.setSelection(x)
+                            Log.d("SpinnerState","Selection ==== $x")
+                        }
 
                         local_state.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, position: Int, id: Long) {
@@ -1363,9 +1391,9 @@ if(position!=-1) {
                                     //Log.d("data","selectedState===="+selectedState)
 
                                     //fetchCity(selectedState,baseApbcContext)
-
+                                    Log.d("SelectedStateID", "id1===" + selectedState)
                                      work_state_id=stateadapter.getItem(position)!!.id.toInt()
-                                    fetchCity2(stateadapter.getItem(position)!!.id.toInt())
+                                    fetchCity2(stateadapter.getItem(position)!!.id.toInt(),work_city)
                                 }
 
                             }
@@ -1386,11 +1414,11 @@ if(position!=-1) {
         queue.add(jsonOblect)
 
     }
-    private fun fetchCity2(localStateId: Int) {
+    private fun fetchCity2(localStateId: Int,cityID:Int) {
         citylist.clear()
 
         var cityhashMap : HashMap<String, Int> = HashMap<String, Int> ()
-
+        var x=-1
         var URL=Helper.get_city
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
@@ -1412,21 +1440,24 @@ if(position!=-1) {
                             val rec: JSONObject = jsonArray.getJSONObject(i)
                             var name = rec.getString("name")
                             var id = rec.getString("id")
+                            if(cityID==id.toInt())
+                                x=i
                             citylist.add(SpinnerObj(name,id))
                             cityhashMap.put(name,id.toInt())
                         }
 
                         val cityadapter = SpinnerAdapter(requireContext(),citylist)
                         local_city.setAdapter(cityadapter)
+
+                        if(x!=-1){
+                            local_city.setSelection(x)
+                        }
                         local_city.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, position: Int, id: Long) {
-
-
-
                                 if(position !=0){
                                     selectedcity = citylist.get(position).id.toInt()
                                      work_city_id=citylist.get(position).id.toInt()
-
+                                    Log.d("SelectedCityID", "id1===" + citylist.get(position).id.toInt())
                                     //Log.d("SendData", "selectCityid===" + selectedcity)
 
                                 }
@@ -1456,5 +1487,74 @@ if(position!=-1) {
         queue.add(jsonOblect)
     }
 
+    fun fetchStates3(
+        baseApbcContext: Context?, spinner: Spinner, loc: Int,
+        spinner2: Spinner,
+        outstationStateHashMap: ArrayList<String>
+    ): ArrayList<String> {
+        //outstationStateHashMap.clear()
+        prefManager= PrefManager(baseApbcContext!!)
+        var hashMap : HashMap<String, Int> = HashMap<String, Int> ()
+        var state_id:Int = 0
+        val URL = " https://test.pearl-developer.com/figo/api/get-state"
+        val queue = Volley.newRequestQueue(baseApbcContext)
+        val json = JSONObject()
+
+        json.put("country_id","101")
+        Log.d("SendData", "json===" + json)
+
+        val jsonOblect=  object : JsonObjectRequest(Method.POST, URL, json,
+            Response.Listener<JSONObject?> { response ->
+                Log.d("SendData", "response===" + response)
+                // Toast.makeText(this.requireContext(), "response===" + response,Toast.LENGTH_SHORT).show()
+                if (response != null) {
+                    val status = response.getString("status")
+                    if(status.equals("1")){
+
+                        val jsonArray = response.getJSONArray("states")
+                        for (i in 0..jsonArray.length()-1){
+                            val rec: JSONObject = jsonArray.getJSONObject(i)
+                            var name = rec.getString("name")
+                            var id = rec.getString("id")
+                            statelist.add(SpinnerObj(name,id))
+                            hashMap.put(name,id.toInt())
+                        }
+                        //spinner
+                        val stateadapter = SpinnerAdapter(baseApbcContext,statelist)
+                        // val stateadapter =  ArrayAdapter(baseApbcContext!!,R.layout.simple_spinner_item,hashMap.keys.toList());
+                        //stateadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        spinner.setAdapter(stateadapter)
+                        spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(adapterView: AdapterView<*>?, view: View, position: Int, id: Long) {
+
+                                if(position !=0){
+                                    state_id = statelist.get(position).id.toInt()
+                                    //    prefManager.setdriverWorkState(state_id)
+                                    Log.d("data","State_id===="+state_id+loc)
+                                    outstationStateHashMap.add(state_id.toString())
+                                    // outstationStateHashMap.put("state"+loc,state_id)
+                                }
+
+
+                            }
+
+                            @SuppressLint("SetTextI18n")
+                            override fun onNothingSelected(adapter: AdapterView<*>?) {
+                                //  (binding.spinnerState.getChildAt(0) as TextView).text = "Select Category"
+                            }
+                        })
+                    }else{
+                        Toast.makeText(baseApbcContext,"Something Went Wrong !!",Toast.LENGTH_SHORT).show()
+                    }
+                }
+                // Get your json response and convert it to whatever you want.
+            }, Response.ErrorListener {
+                // Error
+            }){}
+        queue.add(jsonOblect)
+
+
+        return outstationStateHashMap
+    }
 
 }
