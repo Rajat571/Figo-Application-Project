@@ -18,6 +18,8 @@
         android:orientation="horizontal"
         >
     <LinearLayout
+        android:layout_marginVertical="14dp"
+        android:layout_marginHorizontal="2dp"
         android:layout_width="@dimen/_2sdp"
         android:layout_height="match_parent"
         android:background="#7FFA9E"
