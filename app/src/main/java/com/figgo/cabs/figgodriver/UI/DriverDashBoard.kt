@@ -548,7 +548,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.setStatusBarColor(Color.parseColor("#000F3B"))
+        window.setStatusBarColor(Color.parseColor("#010829"))
        // window.setStatusBarColor(Color.parseColor("#000000"))
         setLayoutXml()
         initializeViews()
