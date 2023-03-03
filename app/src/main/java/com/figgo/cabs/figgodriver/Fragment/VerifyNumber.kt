@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -272,86 +273,94 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
     }
 
     private fun verifyOTP(view: View) {
-        var dialog=ProgressDialog(requireContext())
+        var dialog = ProgressDialog(requireContext())
         dialog.show()
         //  var otp_check_url="https://test.pearl-developer.com/figo/api/otp/check-otp"
-        var otp_check_url=Helper.check_otp
-        Log.d("VerifyNumber","otp_check"+otp_check_url)
+        var otp_check_url = Helper.check_otp
+        Log.d("VerifyNumber", "otp_check" + otp_check_url)
+        var enteredOtp = view.findViewById<EditText>(R.id.enteredOTP)
 
-        var input_otp=view.findViewById<TextView>(R.id.enteredOTP).text.toString()
+        var input_otp = enteredOtp.text.toString()
 
-        Log.d("VerifyNumber","input_otp"+input_otp)
+        if (input_otp == "") {
+            dialog.hide()
+            enteredOtp.error = "Please input otp"
+            enteredOtp.clearFocus()
+        }
+        else{
 
-        var queue=Volley.newRequestQueue(requireContext())
-        var json2=JSONObject()
+        Log.d("VerifyNumber", "input_otp" + input_otp)
+
+        var queue = Volley.newRequestQueue(requireContext())
+        var json2 = JSONObject()
         json2.put("type", "driver")
         json2.put("type_id", driver_id.toInt())
         json2.put("otp", input_otp.toInt())
-        var jsonObjectRequest= @SuppressLint("SuspiciousIndentation")
-        object :JsonObjectRequest(Method.POST,otp_check_url,json2,Response.Listener<JSONObject>
-        {response ->
+        var jsonObjectRequest = @SuppressLint("SuspiciousIndentation")
+        object : JsonObjectRequest(Method.POST, otp_check_url, json2, Response.Listener<JSONObject>
+        { response ->
 
-            Log.d("VerifyNumber","OTP Check RESPONSE"+response)
+            Log.d("VerifyNumber", "OTP Check RESPONSE" + response)
 
 
-            if (input_otp.toInt()!=getotp) {
+            if (input_otp.toInt() != getotp || input_otp == "") {
                 dialog.hide()
-                Toast.makeText(requireContext(), "incorrect otp"+response.getString("message"), Toast.LENGTH_SHORT).show()
-            } else{
+
+                Toast.makeText(requireContext(), "incorrect otp" + response.getString("message"), Toast.LENGTH_SHORT).show()
+            } else {
                 dialog.hide()
                 prefManager.setToken(token)
 
                 prefManager.setisValidLogin(true)
-                var user=response.getJSONObject("user")
-                var  statuss=user.getString("status").toInt()
+                var user = response.getJSONObject("user")
+                var statuss = user.getString("status").toInt()
 
 
-                if (user_type=="Partner"&&user_type.equals("Partner")){
+                if (user_type == "Partner" && user_type.equals("Partner")) {
                     if (statuss.equals(0)) {
                         dialog.hide()
-                        if (profile_status.equals(0) || prefManager.getRegistrationToken().equals("")) {
-                            Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
-                        }
-                        else {
-                            Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_waitingRegistration)
+                        if (profile_status.equals(0) || prefManager.getRegistrationToken()
+                                .equals("")
+                        ) {
+                            Navigation.findNavController(view)
+                                .navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                        } else {
+                            Navigation.findNavController(view)
+                                .navigate(R.id.action_verifyNumber2_to_waitingRegistration)
                         }
 
-                    }
-                    else{
+                    } else {
                         startActivity(Intent(requireContext(), Partner_Dashboard::class.java))
                     }
-                }
-                else if (user_type=="Driver"&&user_type.equals("Driver")){
+                } else if (user_type == "Driver" && user_type.equals("Driver")) {
 
                     dialog.hide()
                     if (statuss.equals(0)) {
                         dialog.hide()
                         if (profile_status.equals(0)) {
-                            Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                            Navigation.findNavController(view)
+                                .navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                        } else {
+                            Navigation.findNavController(view)
+                                .navigate(R.id.action_verifyNumber2_to_waitingRegistration)
                         }
 
-                        else {
-                            Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_waitingRegistration)
-                        }
-
-                    }
-                    else{
+                    } else {
                         startActivity(Intent(requireContext(), DriverDashBoard::class.java))
                     }
-                }
-                else{
-                    Navigation.findNavController(view).navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
+                } else {
+                    Navigation.findNavController(view)
+                        .navigate(R.id.action_verifyNumber2_to_figgo_FamilyFragment)
                 }
             }
-
-
         }, Response.ErrorListener { error ->
             dialog.hide()
-            Log.d("VerifyNumber","ERROR"+error)
-            Toast.makeText(requireContext(),"Something went wrong",Toast.LENGTH_SHORT).show()
-        }){}
+            Log.d("VerifyNumber", "ERROR" + error)
+            Toast.makeText(requireContext(), "Something went wrong", Toast.LENGTH_SHORT).show()
+        }) {}
 
         queue.add(jsonObjectRequest)
+    }
 
     }
 

@@ -14,4 +14,5 @@
     <color name="app_color_light">#0F4963</color>
     <color name="red">#FF0000</color>
     <color name="exel">#081014</color>
+    <color name="dark_grey">#2A2C2C</color>
 </resources>

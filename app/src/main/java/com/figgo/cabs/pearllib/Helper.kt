@@ -2,7 +2,7 @@ package com.figgo.cabs.pearllib
 
  object Helper {
 
-     /**************** Driver Application ******************/
+     /**************** Driver Section ******************/
 
     var baseurl = "https://test.pearl-developer.com/figo/api/"
     var  create_driver = baseurl + "create-driver"
@@ -11,8 +11,6 @@ package com.figgo.cabs.pearllib
      var  send_otp = baseurl + "otp/send-otp"
      //var user_type = baseurl+"check-user-type"
      var user_type = baseurl+"set-type"
-  var register_partner = baseurl+"partner/register_partner"
-     var create_driverbypartner = baseurl+"partner/create-driver-by-partner"
      var check_otp= baseurl+"otp/check-otp"
      var get_state= baseurl+"get-state"
      var get_city= baseurl+"get-city"
@@ -30,9 +28,16 @@ package com.figgo.cabs.pearllib
      var ride_history= baseurl+"driver/ride-history"
      var ride_details = baseurl+"ride/ride-details"
      var ride_complete = baseurl+"ride/ride-complete"
-     var partner_getDrivers = baseurl+"partner/get-drivers"
      var active_ride = baseurl+"driver/active-rides"
      var update_details= baseurl+"driver/update-details"
     var update_cab_details= baseurl+"driver/update-cab-details"
      var update_work_area= baseurl+"driver/update-work-details"
+     var get_recharge= baseurl+"recharge/get-recharges"
+     var select_payment= baseurl+"recharge/select-payment"
+
+     /**************** Partner Section ******************/
+     var register_partner = baseurl+"partner/register_partner"
+     var create_driverbypartner = baseurl+"partner/create-driver-by-partner"
+     var partner_getDrivers = baseurl+"partner/get-drivers"
+
 }
