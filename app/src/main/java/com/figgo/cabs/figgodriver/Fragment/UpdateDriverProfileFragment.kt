@@ -675,7 +675,7 @@ try {
         AdapterView.OnItemSelectedListener{
         override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
             if(p2!=work_place)
-            cab_id=p2
+                cab_id=p2
             if(p2 == 2){
 
                 updatedStateList.clear()
@@ -712,7 +712,6 @@ try {
                 Log.d("UpdateDriverProfile","$updatedStateList")
                 outstationWorkinAreaLayout.visibility=View.VISIBLE
                 local_working_areaLayout.visibility=View.GONE
-
             }
         }
 
