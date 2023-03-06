@@ -41,6 +41,7 @@ import com.figgo.cabs.figgodriver.Fragment.*
 import com.figgo.cabs.figgodriver.Service.MyService
 import com.figgo.cabs.figgodriver.model.NotificationData
 import com.figgo.cabs.pearllib.BaseClass
+import com.figgo.cabs.pearllib.GlobalVariables
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
@@ -205,6 +206,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         topLayout.notificationbell.setOnClickListener {
             val rootView: ViewGroup = findViewById(R.id.activeRide_layout)
             val mFade: Slide =Slide(Gravity.LEFT)
+            GlobalVariables.dashboardBackCount=-1
             if(notificationlayout.visibility==View.GONE) {
 
                 TransitionManager.beginDelayedTransition(rootView, mFade)
@@ -303,6 +305,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
                 }
                 R.id.active_ride->{
                     x=1
+                    GlobalVariables.dashboardBackCount+=1
                     TransitionManager.beginDelayedTransition(rootView, mFade)
                     notificationlayout.visibility = View.GONE
                     homeFrame.visibility=View.VISIBLE
@@ -326,6 +329,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             bundle.putString("Key","Support")
             var supportFrag = SupportFragment()
             supportFrag.arguments=bundle
+            GlobalVariables.dashboardBackCount+=1
             drawer.closeDrawer(GravityCompat.END)
             offlineLayout.visibility=View.GONE
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
@@ -335,6 +339,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         }
         draw_layout.menu.findItem(R.id.About_Figgo).setOnMenuItemClickListener {
             bundle.putString("Key","About")
+            GlobalVariables.dashboardBackCount+=1
             var supportFrag = SupportFragment()
             supportFrag.arguments=bundle
             drawer.closeDrawer(GravityCompat.END)
@@ -345,6 +350,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         }
         draw_layout.menu.findItem(R.id.term_condition).setOnMenuItemClickListener {
             bundle.putString("Key","Terms")
+            GlobalVariables.dashboardBackCount+=1
             var supportFrag = SupportFragment()
             drawer.closeDrawer(GravityCompat.END)
             supportFrag.arguments=bundle
@@ -356,6 +362,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         draw_layout.menu.findItem(R.id.wallets).setOnMenuItemClickListener {
             drawer.closeDrawer(GravityCompat.END)
             offlineLayout.visibility=View.GONE
+            GlobalVariables.dashboardBackCount+=1
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,
                 AccountDetails()
             ).commit()
@@ -364,6 +371,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         }
         draw_layout.menu.findItem(R.id.ridehistoryDrawer).setOnMenuItemClickListener {
             drawer.closeDrawer(GravityCompat.END)
+            GlobalVariables.dashboardBackCount+=1
             offlineLayout.visibility=View.GONE
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,
                RideHistory()
@@ -375,6 +383,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             bundle.putString("Key","Cancel")
             var supportFrag = SupportFragment()
             supportFrag.arguments=bundle
+            GlobalVariables.dashboardBackCount+=1
             drawer.closeDrawer(GravityCompat.END)
             offlineLayout.visibility=View.GONE
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
@@ -384,6 +393,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         draw_layout.menu.findItem(R.id.profile).setOnMenuItemClickListener {
             drawer.closeDrawer(GravityCompat.END)
             bundle2.putString("Key","Profile")
+            GlobalVariables.dashboardBackCount+=1
            /* var supportFrag = SupportFragment()
             supportFrag.arguments=bundle*/
             var getData = UpdateDriverProfileFragment()
@@ -410,6 +420,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         draw_layout.menu.findItem(R.id.cab_driver_details_navigation).setOnMenuItemClickListener {
             drawer.closeDrawer(GravityCompat.END)
             bundle2.putString("Key","Cab")
+            GlobalVariables.dashboardBackCount+=1
             /* var supportFrag = SupportFragment()
              supportFrag.arguments=bundle*/
             var getData = UpdateDriverProfileFragment()
@@ -423,6 +434,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         draw_layout.menu.findItem(R.id.figgo_bussiness).setOnMenuItemClickListener {
             drawer.closeDrawer(GravityCompat.END)
             bundle.putString("Key","Buisness")
+            GlobalVariables.dashboardBackCount+=1
             var supportFrag = SupportFragment()
             supportFrag.arguments=bundle
             offlineLayout.visibility=View.GONE
@@ -434,6 +446,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         draw_layout.menu.findItem(R.id.saleRideExtra).setOnMenuItemClickListener {
             drawer.closeDrawer(GravityCompat.END)
             var salesFrag = SaleExtraBooking()
+            GlobalVariables.dashboardBackCount+=1
             offlineLayout.visibility=View.GONE
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,salesFrag).commit()
             homeFrame.visibility=View.VISIBLE
@@ -442,6 +455,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         }
         draw_layout.menu.findItem(R.id.Payment_History).setOnMenuItemClickListener {
             drawer.closeDrawer(GravityCompat.END)
+            GlobalVariables.dashboardBackCount+=1
             bundle.putString("Key","History")
             var supportFrag = SupportFragment()
             supportFrag.arguments=bundle
@@ -452,6 +466,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         }
         draw_layout.menu.findItem(R.id.share_ride_Nav).setOnMenuItemClickListener {
             drawer.closeDrawer(GravityCompat.END)
+            GlobalVariables.dashboardBackCount+=1
             var shareFrag = ShareRideFragment()
             offlineLayout.visibility=View.GONE
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,shareFrag).commit()
@@ -461,7 +476,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         }
         draw_layout.menu.findItem(R.id.share_app).setOnMenuItemClickListener {
             drawer.closeDrawer(GravityCompat.END)
-
+            GlobalVariables.dashboardBackCount+=1
             val appPackageName = packageName // getPackageName() from Context or Activity object
 
             val ip_address:String=myFunction()
@@ -492,6 +507,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
 
         }
         draw_layout.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+            GlobalVariables.dashboardBackCount+=1
             drawer.closeDrawer(GravityCompat.END)
             val alertDialog2 = AlertDialog.Builder(
                 this
@@ -787,15 +803,14 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         if (fragment.allowBackPressed()) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
             super.onBackPressed()
         }*/
-        val count = supportFragmentManager.backStackEntryCount
-        if (count == 0) {
+
+        if (GlobalVariables.dashboardBackCount == 0) {
             if (doubleBackToExitPressedOnce) {
                 // System.exit(0);
-                val a = Intent(Intent.ACTION_MAIN)
-                a.addCategory(Intent.CATEGORY_HOME)
-                a.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                startActivity(a)
-                finish()
+                val startMain = Intent(Intent.ACTION_MAIN)
+                startMain.addCategory(Intent.CATEGORY_HOME)
+                startMain.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(startMain)
                 return
             }
             this.doubleBackToExitPressedOnce = true
@@ -805,13 +820,15 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
                 doubleBackToExitPressedOnce = false
             }, 2000)
         }
-        else if(count==1){
-            supportFragmentManager.beginTransaction().replace(R.id.home_frame,
-                HomeDashBoard()
-            ).commit()
+        else if(GlobalVariables.dashboardBackCount==-1){
+            GlobalVariables.dashboardBackCount=0
+            notificationlayout.visibility = View.GONE
+            homeFrame.visibility=View.VISIBLE
 
-        }else {
+        }
+        else {
            // supportFragmentManager.popBackStack()
+            GlobalVariables.dashboardBackCount=0
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,
                HomeDashBoard()
             ).commit()

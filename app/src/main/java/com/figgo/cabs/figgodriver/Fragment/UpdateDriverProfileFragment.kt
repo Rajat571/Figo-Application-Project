@@ -1141,14 +1141,17 @@ catch (_:Exception){
                             cityhashMap.put(name,id.toInt())
 
                         }
+try {
+    val stateadapter = SpinnerAdapter(requireContext(), citylist)
 
-                        val stateadapter = SpinnerAdapter(requireContext(),citylist)
+    spinnerCity.setAdapter(stateadapter)
+    if (y != -1) {
+        spinnerCity.setSelection(y)
+        tapNo += 1
+    }
+}catch (_:java.lang.Exception){
 
-                        spinnerCity.setAdapter(stateadapter)
-                        if(y!=-1) {
-                            spinnerCity.setSelection(y)
-                            tapNo += 1
-                        }
+}
 
 
                         try{
@@ -1453,25 +1456,39 @@ if(position!=-1) {
                                 var id = rec.getString("id")
                                 modelHashMap.put(name,id.toInt())
                             }
+                            try {
 
-                            val cabModeladapter =  ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,modelHashMap.keys.toList());
-                            cabModeladapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
-                            carModel.adapter = cabModeladapter
-                            carModel?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
-                                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                                    //  fetchModel(hashMap.values.toList()[position])
-                                    try {
-                                        //Log.d( "SendData","modelHashMap.values.toList()[position]===" + modelHashMap.values.toList()[position])
-                                        prefManager.setDriverVechleModel(modelHashMap.values.toList()[position])
-                                        //Log.d( "DriverVechleModel","DriverVechleModel===" + prefManager.setDriverVechleModel(modelHashMap.values.toList()[position]) )
-                                    }catch (_:Exception){
+                                val cabModeladapter = ArrayAdapter(
+                                    requireContext(),
+                                    android.R.layout.simple_spinner_item,
+                                    modelHashMap.keys.toList()
+                                );
+                                cabModeladapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+                                carModel.adapter = cabModeladapter
+                                carModel?.onItemSelectedListener =
+                                    object : AdapterView.OnItemSelectedListener {
+                                        override fun onItemSelected(
+                                            parent: AdapterView<*>,
+                                            view: View,
+                                            position: Int,
+                                            id: Long
+                                        ) {
+                                            //  fetchModel(hashMap.values.toList()[position])
+                                            try {
+                                                //Log.d( "SendData","modelHashMap.values.toList()[position]===" + modelHashMap.values.toList()[position])
+                                                prefManager.setDriverVechleModel(modelHashMap.values.toList()[position])
+                                                //Log.d( "DriverVechleModel","DriverVechleModel===" + prefManager.setDriverVechleModel(modelHashMap.values.toList()[position]) )
+                                            } catch (_: Exception) {
 
+                                            }
+                                        }
+
+                                        override fun onNothingSelected(parent: AdapterView<*>) {
+                                            modelHashMap.clear()
+                                        }
                                     }
-                                }
+                            }catch (_:Exception){
 
-                                override fun onNothingSelected(parent: AdapterView<*>) {
-                                    modelHashMap.clear()
-                                }
                             }
                         }else{
 

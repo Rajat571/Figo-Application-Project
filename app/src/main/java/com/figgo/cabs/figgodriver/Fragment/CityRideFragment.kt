@@ -1,5 +1,7 @@
 package com.figgo.cabs.figgodriver.Fragment
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.databinding.internal.org.antlr.v4.runtime.misc.MurmurHash.finish
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
@@ -12,6 +14,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.cardview.widget.CardView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -26,8 +29,10 @@ import com.figgo.cabs.R
 import com.figgo.cabs.databinding.FragmentCityRideBinding
 import com.figgo.cabs.figgodriver.Adapter.CityRideAdvanceListAdapter
 import com.figgo.cabs.figgodriver.Adapter.CityRideCurrentListAdapter
+import com.figgo.cabs.figgodriver.UI.DriverDashBoard
 import com.figgo.cabs.figgodriver.model.CityAdvanceRideList
 import com.figgo.cabs.figgodriver.model.CityCurrentRidesList
+import com.figgo.cabs.pearllib.GlobalVariables
 import com.figgo.cabs.pearllib.Helper
 import com.google.android.gms.maps.model.*
 import org.json.JSONObject
@@ -80,6 +85,7 @@ lateinit var swiperefresh:SwipeRefreshLayout
                     it1.id,
                     AccountDetails()
                 ).commit()
+                GlobalVariables.dashboardBackCount+=1
             }
         }
 
@@ -162,6 +168,24 @@ lateinit var swiperefresh:SwipeRefreshLayout
             }
         }
         handler.postDelayed(runnable, 10000)
+
+/*        requireActivity()
+            .onBackPressedDispatcher
+            .addCallback(requireActivity(), object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    //   Log.d(TAG, "Fragment back pressed invoked")
+                    // Do custom work here
+                    startActivity(Intent(requireContext(), DriverDashBoard::class.java))
+
+
+                    // if you want onBackPressed() to be called as normal afterwards
+                    if (isEnabled) {
+                        isEnabled = false
+                        requireActivity().onBackPressed()
+                    }
+                }
+            }
+            )*/
 
     }
 

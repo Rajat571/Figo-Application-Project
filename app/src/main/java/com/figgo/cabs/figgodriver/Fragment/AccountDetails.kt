@@ -1,6 +1,7 @@
 package com.figgo.cabs.figgodriver.Fragment
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.AuthFailureError
@@ -19,6 +22,7 @@ import com.android.volley.toolbox.Volley
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.figgodriver.Adapter.RechargeLayoutAdapter
+import com.figgo.cabs.figgodriver.UI.DriverDashBoard
 import com.figgo.cabs.figgodriver.model.Recharge
 import com.figgo.cabs.pearllib.Helper
 import org.json.JSONArray
@@ -87,6 +91,23 @@ class AccountDetails : Fragment() {
             }
 
         queue.add(jsonOblect)
+
+        requireActivity()
+            .onBackPressedDispatcher
+            .addCallback(requireActivity(), object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    //   Log.d(TAG, "Fragment back pressed invoked")
+                    // Do custom work here
+                    startActivity(Intent(requireContext(),DriverDashBoard::class.java))
+                    // if you want onBackPressed() to be called as normal afterwards
+                    if (isEnabled) {
+                        isEnabled = false
+                        requireActivity().onBackPressed()
+                    }
+                }
+            }
+            )
     }
+
 
 }
