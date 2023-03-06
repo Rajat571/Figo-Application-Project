@@ -44,6 +44,7 @@ class CityRideFragment : Fragment() {
     lateinit var card:CardView
     lateinit var riderequestno:TextView
     lateinit var bookinglimit:TextView
+    lateinit var rechargeNow:TextView
 
     var count = 0
     lateinit var relativeLayout_data:RelativeLayout
@@ -71,6 +72,16 @@ lateinit var swiperefresh:SwipeRefreshLayout
         card = view.findViewById(R.id.cityride_card)
         bookinglimit = view.findViewById(R.id.citybookingLimit)
         riderequestno = view.findViewById(R.id.ride_requestlimit)
+        rechargeNow = view.findViewById(R.id.rechargenow)
+
+        rechargeNow.setOnClickListener {
+            parentFragment?.let { it1 ->
+                parentFragmentManager.beginTransaction().replace(
+                    it1.id,
+                    AccountDetails()
+                ).commit()
+            }
+        }
 
         //ridelists.add()
         //submitCurrentRideForm(view,"advance")
@@ -423,7 +434,5 @@ catch (_:Exception){
         ridelists.clear()
 
     }
-
-
 
 }

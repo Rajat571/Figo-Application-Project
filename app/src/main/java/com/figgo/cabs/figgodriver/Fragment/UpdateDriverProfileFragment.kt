@@ -1,9 +1,18 @@
 package com.figgo.cabs.figgodriver.Fragment
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +20,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.VolleyError
@@ -21,6 +32,7 @@ import com.figgo.cabs.R
 import com.figgo.cabs.figgodriver.Adapter.SpinnerAdapter
 import com.figgo.cabs.figgodriver.UI.DriverDashBoard
 import com.figgo.cabs.figgodriver.model.SpinnerObj
+import com.figgo.cabs.pearllib.BaseClass
 import com.figgo.cabs.pearllib.BasePrivate
 import com.figgo.cabs.pearllib.Helper
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -31,6 +43,8 @@ import kotlin.collections.ArrayList
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_driver_cab_details.*
 import kotlinx.android.synthetic.main.update_cab.*
+import java.io.ByteArrayOutputStream
+import java.io.IOException
 
 
 class UpdateDriverProfileFragment : Fragment() {
@@ -119,6 +133,12 @@ class UpdateDriverProfileFragment : Fragment() {
     var work_city_id=0
     var work_state_id=0
     var cab_id=0
+    var isProfileChanged:Boolean = false
+    var isCabImageChanged:Boolean = false
+    var driver_profile:String=""
+    var driver_cab_image:String=""
+    var driver_profile_ext:String=""
+    var driver_cab_image_ext:String=""
 
     lateinit var calender: Calendar
     override fun onCreateView(
@@ -147,6 +167,28 @@ class UpdateDriverProfileFragment : Fragment() {
 
         override fun initializeLabels() {
 
+        }
+
+    }
+    var base = object : BaseClass(){
+        override fun setLayoutXml() {
+            TODO("Not yet implemented")
+        }
+
+        override fun initializeViews() {
+            TODO("Not yet implemented")
+        }
+
+        override fun initializeClickListners() {
+            TODO("Not yet implemented")
+        }
+
+        override fun initializeInputs() {
+            TODO("Not yet implemented")
+        }
+
+        override fun initializeLabels() {
+            TODO("Not yet implemented")
         }
 
     }
@@ -237,6 +279,76 @@ class UpdateDriverProfileFragment : Fragment() {
     }
 
     private fun initializeClickListners(view: View) {
+        val optionsMenu = arrayOf<CharSequence>(
+            "Take Photo",
+            "Choose from Gallery",
+            "Exit"
+        )
+        val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+        selfiee.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_DENIED)
+                ActivityCompat.requestPermissions(requireActivity(),arrayOf(Manifest.permission.CAMERA), 200);
+            // set the items in builder
+
+            builder.setItems(optionsMenu,
+                DialogInterface.OnClickListener { dialogInterface, i ->
+                    if (optionsMenu[i] == "Take Photo") {
+                        // Create the camera_intent ACTION_IMAGE_CAPTURE it will open the camera for capture the image
+                        val camera_intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+                            Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        } else {
+                            TODO("VERSION.SDK_INT < CUPCAKE")
+                        }
+                        // Start the activity with camera_intent, and request pic id
+                        startActivityForResult(camera_intent, 1)
+
+
+
+                    } else if (optionsMenu[i] == "Choose from Gallery") {
+                        // choose from  external storage
+                        var intent= Intent()
+                        intent.type="image/*"
+                        intent.action= Intent.ACTION_GET_CONTENT
+                        startActivityForResult(Intent.createChooser(intent,"select Picture"),2)
+                    } else if (optionsMenu[i] == "Exit") {
+                        dialogInterface.dismiss()
+                    }
+                })
+            builder.show()
+        }
+        drivercabImage.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_DENIED)
+                ActivityCompat.requestPermissions(requireActivity(),arrayOf(Manifest.permission.CAMERA), 200);
+            // set the items in builder
+
+            builder.setItems(optionsMenu,
+                DialogInterface.OnClickListener { dialogInterface, i ->
+                    if (optionsMenu[i] == "Take Photo") {
+                        // Create the camera_intent ACTION_IMAGE_CAPTURE it will open the camera for capture the image
+                        val camera_intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+                            Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        } else {
+                            TODO("VERSION.SDK_INT < CUPCAKE")
+                        }
+                        // Start the activity with camera_intent, and request pic id
+                        startActivityForResult(camera_intent, 3)
+
+
+
+                    } else if (optionsMenu[i] == "Choose from Gallery") {
+                        // choose from  external storage
+                        var intent= Intent()
+                        intent.type="image/*"
+                        intent.action= Intent.ACTION_GET_CONTENT
+                        startActivityForResult(Intent.createChooser(intent,"select Picture"),4)
+                    } else if (optionsMenu[i] == "Exit") {
+                        dialogInterface.dismiss()
+                    }
+                })
+            builder.show()
+        }
         updateButton.setOnClickListener {
             if (profile_name.text.toString()!=driver_name){
                 driver_name=profile_name.text.toString()
@@ -508,7 +620,7 @@ class UpdateDriverProfileFragment : Fragment() {
                         profile_pic_url = " "
                     }
                     try {
-                        driver_cab_image_url = it.getJSONObject("documents").getString("driver_image")
+                        driver_cab_image_url = it.getJSONObject("documents").getString("taxi_image")
                         Picasso
                             .get()
                             .load(driver_cab_image_url)
@@ -797,8 +909,13 @@ try {
         json.put("l_permit",driver_local_permit)
         json.put("n_permit",driver_n_permit)
         json.put("year",yearval)
-        json.put("cab_img",driver_cab_image_url)
-        json.put("cab_img_ext","jpg")
+        if(isCabImageChanged){
+            json.put("cab_img",driver_cab_image )
+            json.put("cab_img_ext", driver_cab_image_ext)
+        }else {
+            json.put("cab_img", driver_cab_image_url)
+            json.put("cab_img_ext", "jpg")
+        }
 
         //Log.d("SEndDATA","Json==="+json)
         var jsonObjectRequest=object :JsonObjectRequest(Method.POST,URL,json,Response.Listener<JSONObject>{
@@ -836,6 +953,19 @@ try {
         json.put("aadhar_number",driver_adhar)
         json.put("state",driver_state)
         json.put("city",driver_city)
+        if(isProfileChanged)
+        {
+            json.put("selfie",driver_profile)
+            json.put("selfie_ext",driver_profile_ext)
+            Log.d("SelfieeEXT",driver_profile_ext.toString())
+
+        }
+        else{
+            json.put("selfie",profile_pic_url)
+            json.put("selfie_ext",".jpg")
+        }
+        Log.d("UpdateProfile",json.toString())
+       /* json.put()*/
 
         //Log.d("SEndDATA","Json==="+json)
         var jsonObjectRequest=object :JsonObjectRequest(Method.POST,URL,json,Response.Listener<JSONObject>{
@@ -848,7 +978,7 @@ try {
 
         },object:Response.ErrorListener{
             override fun onErrorResponse(error: VolleyError?) {
-
+Log.d("ErrorResponseUpdateProfile",error.toString())
             }
         })
         {
@@ -1577,5 +1707,112 @@ if(position!=-1) {
 
         return outstationStateHashMap
     }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && data != null) {
+            if (requestCode == 1) {
+                try {
+                    val photo = data!!.extras!!["data"] as Bitmap?
+                    var selectedImageUri4 = getImageUri(requireContext(), photo!!)
+                    Log.d("onActivityResult", "response" + photo)
+                    Log.d("onActivityResult", "" + selectedImageUri4.toString())
+                    driver_profile_ext = base.getExtension(selectedImageUri4!!, requireContext())
+                    var bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        selectedImageUri4
+                    )
+                    driver_profile = base.BitMapToString(bitmap).toString()
+                    /*            binding.selfiee.setCompoundDrawablesWithIntrinsicBounds(
+                                    0,
+                                    0,
+                                    R.drawable.check_circle,
+                                    0
+                                )*/
+                    selfiee.setImageBitmap(bitmap)
+                    isProfileChanged=true
+                    prefManager.setAadhar_verification_back(driver_profile)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            } else if (requestCode == 2) {
+                try {
+                    var selectedImageUri4 = data?.data
+                    Log.d("URI = ", selectedImageUri4.toString())
+                    driver_profile_ext = base.getExtension(selectedImageUri4!!, requireContext())
+                    var bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        selectedImageUri4
+                    )
+                    driver_profile = base.BitMapToString(bitmap).toString()
+                    /*      binding.selfiee.setCompoundDrawablesWithIntrinsicBounds(
+                              0,
+                              0,
+                              R.drawable.check_circle,
+                              0
+                          )*/
+                    selfiee.setImageBitmap(bitmap)
+                    isProfileChanged=true
+                    prefManager.setAadhar_verification_back(driver_profile)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+            else if (requestCode == 3) {
+                try {
+                    val photo = data!!.extras!!["data"] as Bitmap?
+                    var selectedImageUri4 = getImageUri(requireContext(), photo!!)
+                    Log.d("onActivityResult", "response" + photo)
+                    Log.d("onActivityResult", "" + selectedImageUri4.toString())
+                    driver_cab_image_ext = base.getExtension(selectedImageUri4!!, requireContext())
+                    var bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        selectedImageUri4
+                    )
+                    driver_cab_image = base.BitMapToString(bitmap).toString()
+                    /*            binding.selfiee.setCompoundDrawablesWithIntrinsicBounds(
+                                    0,
+                                    0,
+                                    R.drawable.check_circle,
+                                    0
+                                )*/
+                    drivercabImage.setImageBitmap(bitmap)
+                    isCabImageChanged=true
+                    prefManager.setAadhar_verification_front(driver_cab_image)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            } else if (requestCode == 4) {
+                try {
+                    var selectedImageUri4 = data?.data
+                    Log.d("URI = ", selectedImageUri4.toString())
+                    driver_cab_image_ext = base.getExtension(selectedImageUri4!!, requireContext())
+                    var bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        selectedImageUri4
+                    )
+                    driver_cab_image = base.BitMapToString(bitmap).toString()
+                    drivercabImage.setImageBitmap(bitmap)
+                    isCabImageChanged=true
+                    prefManager.setAadhar_verification_back(driver_cab_image)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+
+        }
+
+
+    }
+
+
+    fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
+        val bytes = ByteArrayOutputStream()
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path =   MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
+        return Uri.parse(path)
+    }
+
 
 }

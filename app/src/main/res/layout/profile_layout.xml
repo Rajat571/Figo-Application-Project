@@ -50,11 +50,10 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="10dp"
-                            android:layout_weight="1"
                             android:padding="8dp"
                             android:textStyle="bold"
                             android:text="Figgo-Sipahi"
@@ -384,7 +383,7 @@
                         android:layout_marginVertical="@dimen/_5sdp"
                         android:textColor="@color/white"
                         android:backgroundTint="@color/black"
-                        android:text="Update"
+                        android:text="Update Profile"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
