@@ -357,7 +357,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             drawer.closeDrawer(GravityCompat.END)
             offlineLayout.visibility=View.GONE
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,
-                AccountDetailsFragment()
+                AccountDetails()
             ).commit()
             homeFrame.visibility=View.VISIBLE
             true

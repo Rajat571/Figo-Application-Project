@@ -19,12 +19,14 @@ class RechargeLayoutAdapter(var data:List<Recharge>): RecyclerView.Adapter<ViewH
         holder.book_limit.text = data[position].booking_limit
         holder.ride_request.text = data[position].ride_request.toString()
         holder.recharge_amount.text = data[position].recharge_amount.toString()
+        holder.itemView.setOnClickListener {
+
+        }
     }
 
     override fun getItemCount(): Int {
     return data.size
     }
-
 }
 open class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
     var book_limit = itemView.findViewById<TextView>(R.id.bookingLimit)

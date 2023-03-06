@@ -1,36 +1,33 @@
 package com.figgo.cabs.figgodriver.Fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.AuthFailureError
+import com.android.volley.Response
+import com.android.volley.VolleyError
+import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.Volley
+import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
+import com.figgo.cabs.figgodriver.Adapter.RechargeLayoutAdapter
+import com.figgo.cabs.figgodriver.model.Recharge
+import com.figgo.cabs.pearllib.Helper
+import org.json.JSONArray
+import java.util.HashMap
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [AccountDetails.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AccountDetails : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    var recharge_list=ArrayList<Recharge>()
+    lateinit var prefManager: PrefManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,33 +39,54 @@ class AccountDetails : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var recharege = view.findViewById<LinearLayout>(R.id.rechargeClick)
-        var rechargeFragment = RechargeFragment()
-        recharege.setOnClickListener {
-            parentFragmentManager.beginTransaction().apply {
-                replace(R.id.account_detailsFrame,rechargeFragment,"")
-                commit()
-            }
-        }
-    }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AccountDetails.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AccountDetails().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        prefManager= PrefManager(requireContext())
+        getRecharges(view)
+
+    }
+    private fun getRecharges(view: View) {
+
+        var URL= Helper.get_recharge
+        var queue= Volley.newRequestQueue(requireContext())
+
+        val jsonOblect =
+            object : JsonArrayRequest(Method.GET, URL,null, Response.Listener<JSONArray> { response ->
+                Log.d("RechargeFragment", "response===" + response)
+                if (response!=null){
+                    for (i in 0..response.length()-1){
+                        var data=response.getJSONObject(i)
+                        var id=data.getString("id")
+                        var booking_limit=data.getString("booking_limit")
+                        var ride_request=data.getString("request_limit")
+                        var recharge_amount=data.getString("recharge_amount")
+                        Log.d("RechargeFragment", "data===" + id+","+booking_limit+","+ride_request+","+recharge_amount)
+                        recharge_list.add(Recharge(id,booking_limit,ride_request,recharge_amount))
+
+                    }
+                    var rechargeRecycler = view.findViewById<RecyclerView>(R.id.rechargeRecycler2)
+                    rechargeRecycler.layoutManager = LinearLayoutManager(context)
+                    rechargeRecycler.adapter = RechargeLayoutAdapter(recharge_list)
+                }
+
+            }, object : Response.ErrorListener {
+                override fun onErrorResponse(error: VolleyError?) {
+                    Log.d("CityRideActivity", "error===" + error)
+                    Toast.makeText(requireContext(), "Something went wrong!", Toast.LENGTH_LONG).show()
+                }
+            })
+
+            {
+                @SuppressLint("SuspiciousIndentation")
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val headers: MutableMap<String, String> = HashMap()
+                    headers.put("Content-Type", "application/json; charset=UTF-8");
+                    headers.put("Authorization", "Bearer " + prefManager.getToken());
+                    return headers
                 }
             }
+
+        queue.add(jsonOblect)
     }
+
 }
