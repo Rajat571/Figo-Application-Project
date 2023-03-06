@@ -65,7 +65,7 @@ class AccountDetails : Fragment() {
                     }
                     var rechargeRecycler = view.findViewById<RecyclerView>(R.id.rechargeRecycler2)
                     rechargeRecycler.layoutManager = LinearLayoutManager(context)
-                    rechargeRecycler.adapter = RechargeLayoutAdapter(recharge_list)
+                    rechargeRecycler.adapter = RechargeLayoutAdapter(requireContext(),recharge_list)
                 }
 
             }, object : Response.ErrorListener {

@@ -171,6 +171,7 @@ finished=true
        // if(finished)
 
         start.setOnClickListener {
+            cancelNotification(this,10)
 /*
             startActivity(Intent(this, StartRideActivity::class.java)
                 .putExtra("bookingID",bookingID)
@@ -262,6 +263,11 @@ finished=true
             }
             dialog.show()
         }
+    }
+    fun cancelNotification(ctx: Context, notifyId: Int) {
+        val ns: String = Context.NOTIFICATION_SERVICE
+        val nMgr = ctx.getSystemService(ns) as NotificationManager
+        nMgr.cancel(notifyId)
     }
 
     override fun onMapReady(p0: GoogleMap) {

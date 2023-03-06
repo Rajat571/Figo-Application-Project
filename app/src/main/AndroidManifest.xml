@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_GPS" />
-
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
@@ -42,20 +41,27 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
+        android:hardwareAccelerated="false"
         android:icon="@drawable/appicon"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@drawable/appicon"
         android:supportsRtl="true"
-        android:largeHeap="true"
-        android:hardwareAccelerated="false"
         android:theme="@style/Theme.FiggoDriver"
         tools:targetApi="31">
+        <activity
+            android:name=".figgodriver.UI.PaymentRechargeActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
         <service
             android:name=".figgodriver.Service.FireBaseService"
             android:enabled="true"
-            android:foregroundServiceType="location"
-            android:exported="true">
-        </service>
+            android:exported="true"
+            android:foregroundServiceType="location"></service>
 
         <activity
             android:name=".figgodriver.UI.CustomerCityRideDetailActivity"
@@ -95,14 +101,6 @@
 
         <activity
             android:name="com.figgo.cabs.hotelPartner.HotelPartnerDashboard"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".figgodriver.UI.ShareRide"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <meta-data
@@ -171,27 +169,14 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity
-            android:name=".figgodriver.UI.DriverRechargeActivity"
-            android:exported="true"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
 
         <service
             android:name=".figgodriver.Service.MyService"
             android:enabled="true"
             android:foregroundServiceType="location" />
-        <receiver android:name=".GPSBroadcastReceiver"
+
+        <receiver
+            android:name=".GPSBroadcastReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.location.PROVIDERS_CHANGED" />
@@ -199,6 +184,29 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
+
+        <receiver
+            android:name="com.razorpay.RzpTokenReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="rzp.device_token.share" />
+            </intent-filter>
+        </receiver>
+        <activity
+            android:name="com.razorpay.CheckoutActivity"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <data
+                    android:host="rzp.io"
+                    android:scheme="io.rzp" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="com.razorpay.plugin.googlepay_all"
+            android:value="com.razorpay.RzpGpayMerge" />
     </application>
 
 </manifest>

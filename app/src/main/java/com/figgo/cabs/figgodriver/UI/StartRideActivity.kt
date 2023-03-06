@@ -101,7 +101,7 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
         rideComplete = findViewById(R.id.ride_complete)
         window.setStatusBarColor(Color.parseColor("#000F3B"))
         prefManager= PrefManager(this)
-        cancelNotification(this,10)
+
         bookingID  = findViewById(R.id.end_booking_customer)
         bookingType = findViewById(R.id.end_booking_type)
         pickuplocation = findViewById(R.id.end_pickup_location)
@@ -197,11 +197,7 @@ var count:Int = 0
 
         }
     }
-    fun cancelNotification(ctx: Context, notifyId: Int) {
-        val ns: String = Context.NOTIFICATION_SERVICE
-        val nMgr = ctx.getSystemService(ns) as NotificationManager
-        nMgr.cancel(notifyId)
-    }
+
     private fun updateRoute(){
         originLatitude = prefManager.getlatitude().toDouble()
         originLongitude = prefManager.getlongitude().toDouble()

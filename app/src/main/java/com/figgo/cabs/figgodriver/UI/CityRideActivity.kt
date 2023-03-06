@@ -87,6 +87,20 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
     lateinit var baseClass: BaseClass
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
+     var booking_id:String=""
+     var type:String=""
+     var to_location_lat:String=""
+     var to_location_long:String=""
+     var address_name:String=""
+     var from_location_lat:String=""
+     var from_location_long:String=""
+     var from_name:String=""
+     var date_only:String=""
+     var time_only:String=""
+     var customer_id:String=""
+     var customer_name:String=""
+     var customer_contact:String=""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -278,19 +292,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
       //   Toast.makeText(this,"Accept API RUNIING",Toast.LENGTH_SHORT).show()
          var min=5
          var sec:Int=60
-         var booking_id:String=""
-         var type:String=""
-         var to_location_lat:String=""
-         var to_location_long:String=""
-         var address_name:String=""
-         var from_location_lat:String=""
-         var from_location_long:String=""
-         var from_name:String=""
-         var date_only:String=""
-         var time_only:String=""
-         var customer_id:String=""
-         var customer_name:String=""
-         var customer_contact:String=""
+
 
          var finished:Boolean=false
          var timertv = findViewById<TextView>(R.id.timer5min)
@@ -417,7 +419,6 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
      private fun addNotification() {
          val mNotificationManager: NotificationManager
          val mBuilder = NotificationCompat.Builder(this, "notify_001")
-         val intent = Intent(this, CityRideActivity::class.java)
         // pref.setNotify("true")
          var pendingIntent: PendingIntent? = null
          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -676,12 +677,6 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
 
          super.onBackPressed() // optional depending on your needs
      }
-
-
-
-
-
-
 
      override fun onPause() {
          super.onPause()
