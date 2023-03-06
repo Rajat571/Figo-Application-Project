@@ -79,6 +79,9 @@ abstract class BasePrivate : BaseClass() {
         var hashMap : HashMap<String, Int> = HashMap<String, Int> ()
         var state_id:Int = 0
         val URL = " https://test.pearl-developer.com/figo/api/get-state"
+var position = -1
+        var selection = prefManager.getOutstationlist()[loc-1]
+
         val queue = Volley.newRequestQueue(baseApbcContext)
         val json = JSONObject()
 
@@ -99,6 +102,11 @@ abstract class BasePrivate : BaseClass() {
                             var name = rec.getString("name")
                             var id = rec.getString("id")
                             statelist.add(SpinnerObj(name,id))
+                            if(selection.toInt()!=0){
+                                if(selection==id){
+                                    position=i
+                                }
+                            }
                             hashMap.put(name,id.toInt())
                         }
                         //spinner
@@ -106,6 +114,11 @@ abstract class BasePrivate : BaseClass() {
                         // val stateadapter =  ArrayAdapter(baseApbcContext!!,R.layout.simple_spinner_item,hashMap.keys.toList());
                         //stateadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                         spinner.setAdapter(stateadapter)
+
+                        if (position!=-1){
+                            spinner.setSelection(position)
+                        }
+
                         spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, position: Int, id: Long) {
 
@@ -113,6 +126,7 @@ abstract class BasePrivate : BaseClass() {
                                     state_id = statelist.get(position).id.toInt()
                                     //    prefManager.setdriverWorkState(state_id)
                                     Log.d("data","State_id===="+state_id+loc)
+                                    prefManager.setOutstationlist(state_id,loc-1)
                                     outstationStateHashMap.add(state_id.toString())
                                     // outstationStateHashMap.put("state"+loc,state_id)
                                 }

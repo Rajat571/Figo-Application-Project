@@ -30,28 +30,104 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:padding="@dimen/_3sdp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CityRide"
+            android:layout_margin="@dimen/_6sdp"
+            android:textStyle="bold"
+            android:textSize="@dimen/_15sdp"
+            android:textColor="#FFFFFF"
+            />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="25dp"
+        android:layout_marginBottom="20dp"
+        app:cardBackgroundColor="#2A2C2C"
+        android:layout_marginHorizontal="10dp"
+        android:id="@+id/cityride_card"
+        android:visibility="visible">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/_10sdp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/_5sdp"
             >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/_10sdp"
+    android:orientation="horizontal">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="City"
+                android:text="Booking Limit"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:layout_margin="@dimen/_5sdp"
                 android:textStyle="bold"
-                android:textSize="@dimen/_17sdp"
+                android:textSize="@dimen/_10sdp"
+                android:textColor="#FFFFFF"
+                />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="2500"
+        android:id="@+id/citybookingLimit"
+        android:layout_margin="@dimen/_5sdp"
+        android:textStyle="bold"
+        android:textSize="@dimen/_12sdp"
+        android:textColor="#36F49B"
+        />
+</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ride Request"
+                android:gravity="left"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:textSize="@dimen/_10sdp"
                 android:textColor="#FFFFFF"
                 />
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ride"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/ride_requestlimit"
+                android:text="0"
+                android:layout_margin="@dimen/_5sdp"
                 android:textStyle="bold"
-                android:textSize="@dimen/_16sdp"
-                android:textColor="#FFFFFF"
+                android:textSize="@dimen/_12sdp"
+                android:textColor="#36F49B"
                 />
+        </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Recharge Now"
+                android:drawableEnd="@drawable/ic_battery"
+                android:textColor="#EBFBF4"
+                android:textSize="@dimen/_10sdp"
+                android:gravity="right"
+                android:textStyle="bold"
+                android:layout_margin="@dimen/_5sdp"
+                android:padding="@dimen/_5sdp"
+                />
+
 <!--            <LinearLayout
                 android:layout_width="match_parent"
                 android:gravity="right"
@@ -62,6 +138,7 @@
                 android:src="@drawable/ic_routebue"/>
             </LinearLayout>-->
         </LinearLayout>
+    </androidx.cardview.widget.CardView>
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -76,8 +153,6 @@
             android:layout_marginVertical="@dimen/_20sdp"
             android:orientation="vertical">
 
-
-1
         <pl.droidsonroids.gif.GifImageView
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_150sdp"

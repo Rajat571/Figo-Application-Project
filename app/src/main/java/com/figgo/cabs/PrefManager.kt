@@ -8,6 +8,7 @@ import android.content.SharedPreferences
      private val PREF_NAME = "welcome"
      private val IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch"
      private val IS_VALID_LOGIN = "IsValidLogin"
+     var updatedStateList = java.util.ArrayList<String>()
      // shared pref mode
      var PRIVATE_MODE = 0
     var pref: SharedPreferences? = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE)
@@ -388,5 +389,16 @@ import android.content.SharedPreferences
      }
      fun getridehistoryCount():Int{
          return pref?.getInt("RideHistoryCount",0)!!
+     }
+
+     fun setOutstationlist(id:Int,num:Int){
+         editor?.putInt("State$num",id)
+         editor?.commit()
+     }
+     fun getOutstationlist():ArrayList<String>{
+         for(i in 0 until 5){
+             updatedStateList.add(pref?.getInt("State$i",0)!!.toString())
+         }
+         return updatedStateList
      }
 }

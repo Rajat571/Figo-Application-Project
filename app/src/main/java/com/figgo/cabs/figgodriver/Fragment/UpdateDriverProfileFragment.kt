@@ -286,6 +286,12 @@ class UpdateDriverProfileFragment : Fragment() {
                 work_city=work_city_id
                 //spinnerCity.setSelection(driver_city)
             }
+            if(work_place==1) {
+                updatedStateList = prefManager.getOutstationlist()
+                updateWorkArea(updatedStateList, work_city, cab_id, work_place)
+                Log.d("PrefManagerList ",updatedStateList.toString())
+            }
+            else{
             if (updatedStateList.size>1) {
                 for (i in 1 until updatedStateList.size) {
                     updatedStateList2.add(updatedStateList[i])
@@ -293,6 +299,7 @@ class UpdateDriverProfileFragment : Fragment() {
                 updateWorkArea(updatedStateList2, work_city, cab_id, work_place)
             }else{
                 updateWorkArea(updatedStateList, work_city, cab_id, work_place)
+            }
             }
             updatedStateList2.clear()
             updatedStateList.clear()
@@ -649,6 +656,7 @@ class UpdateDriverProfileFragment : Fragment() {
                         work_state=work_state_array.get(i).toString().toInt()
                         work_state_id=work_state
                         stateList2.add(work_state)
+                        prefManager.setOutstationlist(work_state,i)
                         Log.d("UpdateWorkstate","work_state==="+work_state)
                     }
                 }catch(_:Exception){
@@ -675,7 +683,7 @@ try {
         AdapterView.OnItemSelectedListener{
         override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
             if(p2!=work_place)
-                cab_id=p2
+                work_place=p2
             if(p2 == 2){
 
                 updatedStateList.clear()
@@ -699,17 +707,33 @@ try {
                 local_working_areaLayout.visibility=View.GONE
             }
             else{
-
                 selectedState =0
                 selectedcity = 0
-                updatedStateList = baseprivate.fetchStates(requireContext(), outstationState1, 1, outstationState1, stateList)
-              //  updatedStateList.add(baseprivate.fetchStates(requireContext(), outstationState1, 1, outstationState1, stateList)[0])
 
+                updatedStateList = baseprivate.fetchStates(requireContext(), outstationState1, 1, outstationState1, stateList)
+                Log.d("outstationState1",updatedStateList.toString())
                 updatedStateList =  baseprivate.fetchStates(requireContext(),outstationState2,2,outstationState2,stateList)
+                Log.d("outstationState2",updatedStateList.toString())
                 updatedStateList =   baseprivate.fetchStates(requireContext(),outstationState3,3,outstationState3,stateList)
+                Log.d("outstationState3",updatedStateList.toString())
                 updatedStateList =  baseprivate.fetchStates(requireContext(),outstationState4,4,outstationState4,stateList)
+                Log.d("outstationState4",updatedStateList.toString())
                 updatedStateList = baseprivate.fetchStates(requireContext(),outstationState5,5,outstationState5,stateList)
+                Log.d("outstationState5",updatedStateList.toString())
+
                 Log.d("UpdateDriverProfile","$updatedStateList")
+/*
+                outstationState1.onItemSelectedListener = object:
+               AdapterView.OnItemSelectedListener{
+                    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                        updatedStateList = baseprivate.fetchStates(requireContext(), outstationState1, 1, outstationState1, stateList)
+                        Log.d("outstationState11",updatedStateList.toString())
+                    }
+                    override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                }}
+*/
+
                 outstationWorkinAreaLayout.visibility=View.VISIBLE
                 local_working_areaLayout.visibility=View.GONE
             }
@@ -722,8 +746,6 @@ try {
 }catch (_:Exception){
 
 }
-
-
             },{
 
             }){

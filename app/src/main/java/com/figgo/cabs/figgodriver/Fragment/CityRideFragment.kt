@@ -11,6 +11,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
+import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,6 +41,10 @@ class CityRideFragment : Fragment() {
     lateinit var cityRideAdvanceListAdapter: CityRideAdvanceListAdapter
     lateinit var progressBar: ProgressBar
     lateinit var loading:LinearLayout
+    lateinit var card:CardView
+    lateinit var riderequestno:TextView
+    lateinit var bookinglimit:TextView
+
     var count = 0
     lateinit var relativeLayout_data:RelativeLayout
     var ridelists=ArrayList<CityCurrentRidesList>()
@@ -62,6 +68,10 @@ lateinit var swiperefresh:SwipeRefreshLayout
         loading = view.findViewById(R.id.loadinggif)
         relativeLayout_data = view.findViewById<RelativeLayout>(R.id.city_ride_relative_layout)
         swiperefresh = view.findViewById(R.id.pulldownforrefresh)
+        card = view.findViewById(R.id.cityride_card)
+        bookinglimit = view.findViewById(R.id.citybookingLimit)
+        riderequestno = view.findViewById(R.id.ride_requestlimit)
+
         //ridelists.add()
         //submitCurrentRideForm(view,"advance")
 /*        swiperefresh.setOnRefreshListener {
@@ -164,8 +174,15 @@ lateinit var swiperefresh:SwipeRefreshLayout
                             try {
                                 var current = response.getJSONObject("current")
                                 var ride_requests = current.getJSONArray("ride_requests").length()
-count = count+ride_requests
-
+                                count += ride_requests
+try{
+    riderequestno.text = current.getString("request_limit")
+    bookinglimit.text = current.getString("booking_limit")
+}
+catch (_:Exception){
+    riderequestno.text="0"
+    bookinglimit.text="0"
+}
                                 if(ride_requests>=1)
                                     loading.visibility=View.GONE
                                 for (i in 0 until ride_requests) {
@@ -289,6 +306,7 @@ count = count+ride_requests
                                 if(data>=1)
                                     loading.visibility=View.GONE
                                 progressBar.visibility = View.GONE
+
                                 relativeLayout_data.visibility = View.VISIBLE
                                 for (i in 0 until data) {
 
