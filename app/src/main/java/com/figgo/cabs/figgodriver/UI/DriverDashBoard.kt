@@ -121,6 +121,8 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
          driverImage=vieww.findViewById<ImageView>(R.id.driverIV)
          drivername=vieww.findViewById<TextView>(R.id.drivernamee)
          driver_num=vieww.findViewById<TextView>(R.id.driver_numberr)
+        var email=vieww.findViewById<TextView>(R.id.emailTV)
+        email.text=prefManager.getemail()
          driverImage.setImageBitmap(image)
 
         drivername.text=prefManager.getDriverName()
@@ -793,7 +795,6 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         }
 
         return null
-
 
         unregisterReceiver(gpsBroadcastReceiver)
     }

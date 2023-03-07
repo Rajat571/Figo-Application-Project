@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.figgo.cabs.R
 import com.figgo.cabs.figgodriver.UI.PaymentRechargeActivity
@@ -24,10 +25,12 @@ lateinit var activity:Activity
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         holder.book_limit.text = data[position].booking_limit
         holder.ride_request.text = data[position].ride_request.toString()
         holder.recharge_amount.text = data[position].recharge_amount.toString()
         holder.itemView.setOnClickListener {
+            holder.rechargeCard.background = context.getDrawable(R.drawable.booking_box_outline)
             context.startActivity(Intent(context,PaymentRechargeActivity::class.java)
                 .putExtra("amount",data[position].recharge_amount)
                 .putExtra("id",data[position].recharge_id))
@@ -42,5 +45,6 @@ open class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
     var book_limit = itemView.findViewById<TextView>(R.id.bookingLimit)
     var ride_request = itemView.findViewById<TextView>(R.id.riderequest)
     var recharge_amount =  itemView.findViewById<TextView>(R.id.rechargeamount)
+    var rechargeCard=itemView.findViewById<CardView>(R.id.rechargeCard)
 
 }

@@ -13,8 +13,10 @@ import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
@@ -25,6 +27,7 @@ import com.figgo.cabs.figgodriver.Adapter.PayHistoryAdapter
 import com.figgo.cabs.figgodriver.model.BuisnessAd
 import com.figgo.cabs.figgodriver.model.PaymentHistoryModel
 import com.figgo.cabs.pearllib.BaseClass
+import com.figgo.cabs.pearllib.Helper
 import kotlinx.android.synthetic.main.change_mpin.view.*
 import org.json.JSONObject
 
@@ -193,6 +196,45 @@ class SupportFragment : Fragment() {
     private fun paymentHistoryAdapter(view: View) {
         var history = view.findViewById<RecyclerView>(R.id.RechargeHistoryRecycler)
         var data = ArrayList<PaymentHistoryModel>()
+
+        var baseurl= Helper.recharge_history
+        var queue= Volley.newRequestQueue(requireContext())
+
+
+        var jsonObjectRequest=object : JsonObjectRequest(Method.POST,baseurl,null, Response.Listener<JSONObject>{
+                response ->
+            Log.d("Recharge history Response ",""+response)
+
+            if(!response.equals("null")){
+                var data=response.getJSONArray("history")
+                for (i in 0..data.length()-1){
+                    var data1=data.getJSONObject(i)
+                    var date=data1.getString("created_at")
+                    Log.d("Support Fragment","Date-time"+date)
+                }
+
+
+            }else{
+
+            }
+
+
+
+        },{
+
+
+
+        }){
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers: MutableMap<String, String> = java.util.HashMap()
+                headers.put("Authorization", "Bearer " + prefManager.getToken())
+                return headers
+            }
+        }
+        queue.add(jsonObjectRequest);
+
+
         data.add(PaymentHistoryModel("2.10.2022","300","Mr. XYZ XYZ","15minute 6:25pm","10 KM",1))
         data.add(PaymentHistoryModel("2.10.2022","1000","Mr. XYZ XYZ","15minute 6:25pm","10 KM",0))
         data.add(PaymentHistoryModel("2.10.2022","1500","Mr. XYZ XYZ","15minute 6:25pm","10 KM",0))
@@ -280,11 +322,11 @@ class SupportFragment : Fragment() {
     private fun figgoBuisness(view: View) {
         var buisness_recylcer = view.findViewById<RecyclerView>(R.id.Buisness_Nav_Recycler)
         var data = ArrayList<BuisnessAd>()
-        data.add(BuisnessAd("https://www.youtube.com/watch?v=5twT0x6cvcg",R.drawable.figgodriverad))
-        data.add(BuisnessAd("https://www.youtube.com/watch?v=5twT0x6cvcg",R.drawable.figgodriverad))
-        data.add(BuisnessAd("https://www.youtube.com/watch?v=5twT0x6cvcg",R.drawable.figgodriverad))
-        data.add(BuisnessAd("https://www.youtube.com/watch?v=5twT0x6cvcg",R.drawable.figgodriverad))
-        data.add(BuisnessAd("https://www.youtube.com/watch?v=5twT0x6cvcg",R.drawable.figgodriverad))
+        data.add(BuisnessAd("https://figgocabs.com",R.drawable.figgodriverad))
+        data.add(BuisnessAd("https://figgocabs.com",R.drawable.figgodriverad))
+        data.add(BuisnessAd("https://figgocabs.com",R.drawable.figgodriverad))
+        data.add(BuisnessAd("https://figgocabs.com",R.drawable.figgodriverad))
+        data.add(BuisnessAd("https://figgocabs.com",R.drawable.figgodriverad))
         buisness_recylcer.adapter= BuisnessAdapter(data,view)
         buisness_recylcer.layoutManager = LinearLayoutManager(requireContext())
     }
@@ -295,9 +337,6 @@ class SupportFragment : Fragment() {
        cab_type=view.findViewById(R.id.show_cab_type)
         model_type=view.findViewById(R.id.show_model_type)
         year_list=view.findViewById<Spinner>(R.id.show_year_list)
-
-
-
 
 
         var adapter = ArrayAdapter.createFromResource(requireContext(),R.array.CabType,android.R.layout.simple_spinner_item);

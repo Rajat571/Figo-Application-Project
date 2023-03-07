@@ -86,6 +86,14 @@ import android.content.SharedPreferences
      fun getMobileNo():String{
          return pref?.getString("mobile_no","").toString()
      }
+
+     fun setemail(email:String){
+         editor?.putString("email",email)
+         editor?.commit()
+     }
+     fun getemail():String{
+         return pref?.getString("email","").toString()
+     }
      fun setDashboard(dash:String){
          editor?.putString("dash",dash)
          editor?.commit()

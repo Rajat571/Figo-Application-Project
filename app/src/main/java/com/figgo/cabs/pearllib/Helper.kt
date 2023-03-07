@@ -34,6 +34,7 @@ package com.figgo.cabs.pearllib
      var update_work_area= baseurl+"driver/update-work-details"
      var get_recharge= baseurl+"recharge/get-recharges"
      var select_payment= baseurl+"recharge/select-payment"
+     var recharge_history= baseurl+"recharge/recharge-history"
 
      /**************** Partner Section ******************/
      var register_partner = baseurl+"partner/register_partner"
