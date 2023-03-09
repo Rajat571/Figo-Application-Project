@@ -212,6 +212,8 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
                             driver_id = response.getJSONObject("user").getString("id")
                             var user=response.getJSONObject("user")
                             prefManager.setDriverName(user.getString("name"))
+                            prefManager.setMobile_No(user.getString("mobile"))
+                            prefManager.setemail(user.getString("email"))
                             user_type=user.getString("user_type")
                             prefManager.setUserType(user_type)
                             Log.d("VerifyNumber","User-Type==="+user_type)

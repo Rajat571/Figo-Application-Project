@@ -76,35 +76,35 @@ class DriverCabDetailsFragment : Fragment() {
     /******* declaration of  images and extentions   *********/
 
     var driver_profile_ext:String=""
-   var driving_license_ext:String=""
+    var driving_license_ext:String=""
     var cab_insurance_ext:String=""
     var registration_certificate_ext:String=""
-     var national_permit_ext:String=""
-     var local_permit_ext:String=""
+    var national_permit_ext:String=""
+    var local_permit_ext:String=""
     var taxi_front_pic_ext:String=""
     var aadhar_front_ext:String=""
-     var aadhar_back_ext:String=""
+    var aadhar_back_ext:String=""
     var police_certification_ext:String=""
     var gps_certification_ext:String=""
 
-   var driver_profile:String=""
-   var driving_license:String=""
+    var driver_profile:String=""
+    var driving_license:String=""
     var cab_insrance:String  =""
     var registration_certificate:String=""
-   var national_permit:String=""
+    var national_permit:String=""
     var local_permit:String=""
-   var driver_cab_image:String=""
-     var aadhar_front:String=""
-     var aadhar_back:String=""
-   var police_certification:String=""
-   var gps_certification:String=""
-   var checked=0
+    var driver_cab_image:String=""
+    var aadhar_front:String=""
+    var aadhar_back:String=""
+    var police_certification:String=""
+    var gps_certification:String=""
+    var checked=0
     var date:String=""
     var s=""
     var t=""
     var n=""
     var temp=""
-   lateinit var calender:Calendar
+    lateinit var calender:Calendar
     var base = object : BaseClass(){
         override fun setLayoutXml() {
             TODO("Not yet implemented")
@@ -224,7 +224,7 @@ class DriverCabDetailsFragment : Fragment() {
                 next.setOnClickListener {
                     validateForm()
                 }
-               binding.uploadImage.visibility=View.GONE
+                binding.uploadImage.visibility=View.GONE
             }else{
                 //  binding.proceed.visibility=View.GONE
                 layout_cab.visibility= View.VISIBLE
@@ -267,7 +267,7 @@ class DriverCabDetailsFragment : Fragment() {
                     t=date
                     Log.d("DATETIME","DATE"+date)
                     val dat1 = (dayOfMonth.toString()+"-" + (monthOfYear + 1) + "-" +year.toString())
-                   binding.taxPermitNo.setText(dat1)
+                    binding.taxPermitNo.setText(dat1)
                     binding.insuranceNo.setBackgroundResource(R.drawable.input_boder_profile)
                 },
                 year,
@@ -307,35 +307,43 @@ class DriverCabDetailsFragment : Fragment() {
 
         binding.selfiee.setOnClickListener {
 
-         //   base.checkAndRequestPermissions(requireActivity())
+            //   base.checkAndRequestPermissions(requireActivity())
 
 
-                // set the items in builder
-                builder.setItems(optionsMenu,
-                    DialogInterface.OnClickListener { dialogInterface, i ->
-                        if (optionsMenu[i] == "Take Photo") {
-                            // Create the camera_intent ACTION_IMAGE_CAPTURE it will open the camera for capture the image
-                            val camera_intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
-                                Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                            } else {
-                                TODO("VERSION.SDK_INT < CUPCAKE")
-                            }
-                            // Start the activity with camera_intent, and request pic id
+            // set the items in builder
+            builder.setItems(optionsMenu,
+                DialogInterface.OnClickListener { dialogInterface, i ->
+                    if (optionsMenu[i] == "Take Photo") {
+                        // Create the camera_intent ACTION_IMAGE_CAPTURE it will open the camera for capture the image
+                        val camera_intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+                            Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        } else {
+                            TODO("VERSION.SDK_INT < CUPCAKE")
+                        }
+                        // Start the activity with camera_intent, and request pic id
+                      //  startActivityForResult(camera_intent, 1)
+
+                        try{
                             startActivityForResult(camera_intent, 1)
-
-
-
-                        } else if (optionsMenu[i] == "Choose from Gallery") {
-                            // choose from  external storage
+                        }
+                        catch (e:Exception){
                             var intent=Intent()
                             intent.type="image/*"
                             intent.action=Intent.ACTION_GET_CONTENT
                             startActivityForResult(Intent.createChooser(intent,"select Picture"),2)
-                        } else if (optionsMenu[i] == "Exit") {
-                            dialogInterface.dismiss()
                         }
-                    })
-                builder.show()
+
+                    } else if (optionsMenu[i] == "Choose from Gallery") {
+                        // choose from  external storage
+                        var intent=Intent()
+                        intent.type="image/*"
+                        intent.action=Intent.ACTION_GET_CONTENT
+                        startActivityForResult(Intent.createChooser(intent,"select Picture"),2)
+                    } else if (optionsMenu[i] == "Exit") {
+                        dialogInterface.dismiss()
+                    }
+                })
+            builder.show()
 
         }
         binding.drivingLicence.setOnClickListener {
@@ -774,7 +782,7 @@ class DriverCabDetailsFragment : Fragment() {
         citylist.clear()
         //prefManager=PrefManager(baseApbcContext!!)
         var cityhashMap : HashMap<String, Int> = HashMap<String, Int> ()
-       // val URL = " https://test.pearl-developer.com/figo/api/get-city"
+        // val URL = " https://test.pearl-developer.com/figo/api/get-city"
         var URL=Helper.get_city
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
@@ -881,7 +889,7 @@ class DriverCabDetailsFragment : Fragment() {
 
                                     fetchModel(hashMap.values.toList()[position])
                                     prefManager.setDriverCabCategory(hashMap.values.toList()[position].toString())
-                                     Log.d("DriverCabCategory","DriverCabCategory==="+ prefManager.setDriverCabCategory(hashMap.values.toList()[position].toString()))
+                                    Log.d("DriverCabCategory","DriverCabCategory==="+ prefManager.setDriverCabCategory(hashMap.values.toList()[position].toString()))
 
 
                                 }
@@ -969,33 +977,33 @@ class DriverCabDetailsFragment : Fragment() {
     }
 
 
-  /*  private fun calendar(edit: EditText): String {
-        val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
-        val datePickerDialog = DatePickerDialog(
-            this.requireContext(),
-            { view, year, monthOfYear, dayOfMonth ->
+    /*  private fun calendar(edit: EditText): String {
+          val c = Calendar.getInstance()
+          val year = c.get(Calendar.YEAR)
+          val month = c.get(Calendar.MONTH)
+          val day = c.get(Calendar.DAY_OF_MONTH)
+          val datePickerDialog = DatePickerDialog(
+              this.requireContext(),
+              { view, year, monthOfYear, dayOfMonth ->
 
-                date = (year.toString() + "-" + (monthOfYear + 1) + "-" +dayOfMonth.toString())
-
-
-                Log.d("DATETIME","DATE"+date)
+                  date = (year.toString() + "-" + (monthOfYear + 1) + "-" +dayOfMonth.toString())
 
 
-                val dat1 = (dayOfMonth.toString()+"-" + (monthOfYear + 1) + "-" +year.toString())
-                edit.setText(dat1)
-                binding.insuranceNo.setBackgroundResource(R.drawable.input_boder_profile)
-            },
-            year,
-            month,
-            day
-        )
-        datePickerDialog.show()
+                  Log.d("DATETIME","DATE"+date)
 
-        return temp
-    }*/
+
+                  val dat1 = (dayOfMonth.toString()+"-" + (monthOfYear + 1) + "-" +year.toString())
+                  edit.setText(dat1)
+                  binding.insuranceNo.setBackgroundResource(R.drawable.input_boder_profile)
+              },
+              year,
+              month,
+              day
+          )
+          datePickerDialog.show()
+
+          return temp
+      }*/
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -1022,6 +1030,14 @@ class DriverCabDetailsFragment : Fragment() {
                     prefManager.setDriverProfile(driver_profile)
                 } catch (e: IOException) {
                     e.printStackTrace()
+
+                }
+                catch (e:Exception){
+                    try {
+                        Toast.makeText(requireContext(),"Please pick image from gallary",Toast.LENGTH_SHORT).show()
+                    }
+                    catch (e:Exception){}
+
                 }
             } else if (requestCode == 2) {
                 try {
@@ -1042,6 +1058,13 @@ class DriverCabDetailsFragment : Fragment() {
                     prefManager.setDriverProfile(driver_profile)
                 } catch (e: IOException) {
                     e.printStackTrace()
+                }
+                catch (e:Exception){
+                    try {
+                        Toast.makeText(requireContext(),"Please pick image from gallary",Toast.LENGTH_SHORT).show()
+                    }
+                    catch (e:Exception){}
+
                 }
             } else if (requestCode == 3) {
                 try {
@@ -1066,6 +1089,13 @@ class DriverCabDetailsFragment : Fragment() {
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
+                catch (e:Exception){
+                    try {
+                        Toast.makeText(requireContext(),"Please pick image from gallary",Toast.LENGTH_SHORT).show()
+                    }
+                    catch (e:Exception){}
+
+                }
             } else if (requestCode == 4) {
                 try {
                     var selectedImageUri4 = data?.data
@@ -1084,6 +1114,13 @@ class DriverCabDetailsFragment : Fragment() {
                     )
                 } catch (e: IOException) {
                     e.printStackTrace()
+                }
+                catch (e:Exception){
+                    try {
+                        Toast.makeText(requireContext(),"Please pick image from camera",Toast.LENGTH_SHORT).show()
+                    }
+                    catch (e:Exception){}
+
                 }
             } else if (requestCode == 5) {
                 try {
@@ -1108,6 +1145,13 @@ class DriverCabDetailsFragment : Fragment() {
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
+                catch (e:Exception){
+                    try {
+                        Toast.makeText(requireContext(),"Please pick image from gallary",Toast.LENGTH_SHORT).show()
+                    }
+                    catch (e:Exception){}
+
+                }
             } else if (requestCode == 6) {
                 try {
                     var selectedImageUri4 = data?.data
@@ -1124,6 +1168,13 @@ class DriverCabDetailsFragment : Fragment() {
                         0
                     )
                 } catch (e: IOException) {
+                }
+                catch (e:Exception){
+                    try {
+                        Toast.makeText(requireContext(),"Please pick image from camera",Toast.LENGTH_SHORT).show()
+                    }
+                    catch (e:Exception){}
+
                 }
             } else if (requestCode == 7) {
                 try {
@@ -1146,6 +1197,13 @@ class DriverCabDetailsFragment : Fragment() {
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
+                catch (e:Exception){
+                    try {
+                        Toast.makeText(requireContext(),"Please pick image from gallary",Toast.LENGTH_SHORT).show()
+                    }
+                    catch (e:Exception){}
+
+                }
             } else if (requestCode == 8) {
                 try {
                     var selectedImageUri4 = data?.data
@@ -1164,6 +1222,13 @@ class DriverCabDetailsFragment : Fragment() {
                     )
                 } catch (e: IOException) {
                     e.printStackTrace()
+                }
+                catch (e:Exception){
+                    try {
+                        Toast.makeText(requireContext(),"Please pick image from gallary",Toast.LENGTH_SHORT).show()
+                    }
+                    catch (e:Exception){}
+
                 }
             } else if (requestCode == 9) {
                 try {
@@ -1185,6 +1250,13 @@ class DriverCabDetailsFragment : Fragment() {
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
+                catch (e:Exception){
+                    try {
+                        Toast.makeText(requireContext(),"Please pick image from gallary",Toast.LENGTH_SHORT).show()
+                    }
+                    catch (e:Exception){}
+
+                }
             } else if (requestCode == 10) {
                 try {
                     var selectedImageUri4 = data?.data
@@ -1202,6 +1274,13 @@ class DriverCabDetailsFragment : Fragment() {
                     )
                 } catch (e: IOException) {
                     e.printStackTrace()
+                }
+                catch (e:Exception){
+                    try {
+                        Toast.makeText(requireContext(),"Please pick image from gallary",Toast.LENGTH_SHORT).show()
+                    }
+                    catch (e:Exception){}
+
                 }
             } else if (requestCode == 11) {
                 try {
@@ -1222,6 +1301,13 @@ class DriverCabDetailsFragment : Fragment() {
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
+                catch (e:Exception){
+                    try {
+                        Toast.makeText(requireContext(),"Please pick image from gallary",Toast.LENGTH_SHORT).show()
+                    }
+                    catch (e:Exception){}
+
+                }
             } else if (requestCode == 12) {
                 try {
                     var selectedImageUri4 = data?.data
@@ -1239,6 +1325,13 @@ class DriverCabDetailsFragment : Fragment() {
                     )
                 } catch (e: IOException) {
                     e.printStackTrace()
+                }
+                catch (e:Exception){
+                    try {
+                        Toast.makeText(requireContext(),"Please pick image from camera",Toast.LENGTH_SHORT).show()
+                    }
+                    catch (e:Exception){}
+
                 }
             } else if (requestCode == 13) {
                 try {
@@ -1260,6 +1353,13 @@ class DriverCabDetailsFragment : Fragment() {
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
+                catch (e:Exception){
+                    try {
+                        Toast.makeText(requireContext(),"Please pick image from gallary",Toast.LENGTH_SHORT).show()
+                    }
+                    catch (e:Exception){}
+
+                }
             } else if (requestCode == 14) {
                 try {
                     val selectedImageUri = data?.getData()
@@ -1279,6 +1379,13 @@ class DriverCabDetailsFragment : Fragment() {
                     prefManager.setDriverCab(driver_cab_image)
                 } catch (e: IOException) {
                     e.printStackTrace()
+                }
+                catch (e:Exception){
+                    try {
+                        Toast.makeText(requireContext(),"Please pick image from camera",Toast.LENGTH_SHORT).show()
+                    }
+                    catch (e:Exception){}
+
                 }
             } else if (requestCode == 15) {
                 try {
@@ -1300,6 +1407,13 @@ class DriverCabDetailsFragment : Fragment() {
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
+                catch (e:Exception){
+                    try {
+                        Toast.makeText(requireContext(),"Please pick image from gallary",Toast.LENGTH_SHORT).show()
+                    }
+                    catch (e:Exception){}
+
+                }
             } else if (requestCode == 16) {
                 try {
                     var selectedImageUri4 = data?.data
@@ -1317,6 +1431,13 @@ class DriverCabDetailsFragment : Fragment() {
                     )
                 } catch (e: IOException) {
                     e.printStackTrace()
+                }
+                catch (e:Exception){
+                    try {
+                        Toast.makeText(requireContext(),"Please pick image from camera",Toast.LENGTH_SHORT).show()
+                    }
+                    catch (e:Exception){}
+
                 }
             } else if (requestCode == 17) {
                 try {
@@ -1339,6 +1460,13 @@ class DriverCabDetailsFragment : Fragment() {
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
+                catch (e:Exception){
+                    try {
+                        Toast.makeText(requireContext(),"Please pick image from gallary",Toast.LENGTH_SHORT).show()
+                    }
+                    catch (e:Exception){}
+
+                }
             } else if (requestCode == 18) {
                 try {
                     var selectedImageUri4 = data?.data
@@ -1358,6 +1486,13 @@ class DriverCabDetailsFragment : Fragment() {
                     prefManager.setAadhar_verification_back(aadhar_back)
                 } catch (e: IOException) {
                     e.printStackTrace()
+                }
+                catch (e:Exception){
+                    try {
+                        Toast.makeText(requireContext(),"Please pick image from camera",Toast.LENGTH_SHORT).show()
+                    }
+                    catch (e:Exception){}
+
                 }
             } else if (requestCode == 19) {
                 try {
@@ -1380,6 +1515,13 @@ class DriverCabDetailsFragment : Fragment() {
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
+                catch (e:Exception){
+                    try {
+                        Toast.makeText(requireContext(),"Please pick image from gallary",Toast.LENGTH_SHORT).show()
+                    }
+                    catch (e:Exception){}
+
+                }
             } else if (requestCode == 20) {
                 try {
                     var selectedImageUri4 = data?.data
@@ -1398,6 +1540,13 @@ class DriverCabDetailsFragment : Fragment() {
                     )
                 } catch (e: IOException) {
                     e.printStackTrace()
+                }
+                catch (e:Exception){
+                    try {
+                        Toast.makeText(requireContext(),"Please pick image from camera",Toast.LENGTH_SHORT).show()
+                    }
+                    catch (e:Exception){}
+
                 }
             } else if (requestCode == 21) {
                 try {
@@ -1426,6 +1575,13 @@ class DriverCabDetailsFragment : Fragment() {
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
+                catch (e:Exception){
+                    try {
+                        Toast.makeText(requireContext(),"Please pick image from gallary",Toast.LENGTH_SHORT).show()
+                    }
+                    catch (e:Exception){}
+
+                }
             } else if (requestCode == 22) {
                 try {
 
@@ -1440,7 +1596,7 @@ class DriverCabDetailsFragment : Fragment() {
                         selectedImageUri4
                     )
                     gps_certification = base.BitMapToString(bitmap).toString()
-                //    Log.d("DriverActiveRideFragment1", "gps_certification_ext" + gps_certification)
+                    //    Log.d("DriverActiveRideFragment1", "gps_certification_ext" + gps_certification)
                     binding.gpscertificte.setCompoundDrawablesWithIntrinsicBounds(
                         0,
                         0,
@@ -1453,9 +1609,16 @@ class DriverCabDetailsFragment : Fragment() {
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
+                catch (e:Exception){
+                    try {
+                        Toast.makeText(requireContext(),"Please pick image from camera",Toast.LENGTH_SHORT).show()
+                    }
+                    catch (e:Exception){}
+
+                }
             }
         } else {
-Toast.makeText(requireContext(),"Please upload images",Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),"Please upload images",Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -1512,7 +1675,7 @@ Toast.makeText(requireContext(),"Please upload images",Toast.LENGTH_SHORT).show(
                     next.text="Proceed"
                     if (binding.uploadImage.visibility==View.VISIBLE){
                         next.setOnClickListener {
-                           // submitForm(insurance_valid_date,local_permit_date,national_permit_date,car_category,car_model,model_year,v_number)
+                            // submitForm(insurance_valid_date,local_permit_date,national_permit_date,car_category,car_model,model_year,v_number)
 
                             if (checked==1){
                                 if (gps_certification.isEmpty()){
@@ -1611,54 +1774,54 @@ Toast.makeText(requireContext(),"Please upload images",Toast.LENGTH_SHORT).show(
         json.put("police_cer_image",police_certification)
 
         Log.d("SendData", "insurance===" + json)
-     /*   Log.d("SendData", "aadharVerificationFront===" + aadhar_front)
-        Log.d("SendData", "aadhar_back===" + aadhar_back)
-        Log.d("SendData", "police_certification===" +police_certification)
-        Log.d("SendData", "driver_profile===" + driver_profile)
-        Log.d("SendData", "driving_license" + driving_license)
-        Log.d("SendData", "police_certification_ext" + police_certification_ext)*/
+        /*   Log.d("SendData", "aadharVerificationFront===" + aadhar_front)
+           Log.d("SendData", "aadhar_back===" + aadhar_back)
+           Log.d("SendData", "police_certification===" +police_certification)
+           Log.d("SendData", "driver_profile===" + driver_profile)
+           Log.d("SendData", "driving_license" + driving_license)
+           Log.d("SendData", "police_certification_ext" + police_certification_ext)*/
 
-         val jsonOblect=
-             object : JsonObjectRequest(Method.POST, URL, json,
-                 Response.Listener<JSONObject?> { response ->
-                     Log.d("SendData", "response===" + response)
+        val jsonOblect=
+            object : JsonObjectRequest(Method.POST, URL, json,
+                Response.Listener<JSONObject?> { response ->
+                    Log.d("SendData", "response===" + response)
 
-                     if (response != null) {
+                    if (response != null) {
 
-                       //  startActivity(Intent( requireContext(), DriverDashBoard::class.java))
-                         binding.progress.isVisible = false
-                         prefManager.setDashboard("off")
-                         Toast.makeText(this.requireContext(), "Sucessfully sent data for verification.",Toast.LENGTH_SHORT).show()
-                         prefManager.setRegistrationToken("Done")
-                         val ip_address:String=myFunction()
-                         sendreferal(ip_address)
+                        //  startActivity(Intent( requireContext(), DriverDashBoard::class.java))
+                        binding.progress.isVisible = false
+                        prefManager.setDashboard("off")
+                        Toast.makeText(this.requireContext(), "Sucessfully sent data for verification.",Toast.LENGTH_SHORT).show()
+                        prefManager.setRegistrationToken("Done")
+                        val ip_address:String=myFunction()
+                        sendreferal(ip_address)
 
-                       //  prefManager.setCabFormToken("Submitted")
-                     }else{
+                        //  prefManager.setCabFormToken("Submitted")
+                    }else{
                         // Toast.makeText(this.requireContext(), "Sucessfully sent data for verification.",Toast.LENGTH_SHORT).show()
-                         baseprivate.ErrorProgressDialog(requireContext(),"101",getString(R.string.server_error))
-                     }
-                     // Get your json response and convert it to whatever you want.
-                 }, Response.ErrorListener {
-                     baseprivate.ErrorProgressDialog(requireContext(),"101",getString(R.string.server_error))
-                     Log.d("SendData", "response===" +it.message)
-                 }){
+                        baseprivate.ErrorProgressDialog(requireContext(),"101",getString(R.string.server_error))
+                    }
+                    // Get your json response and convert it to whatever you want.
+                }, Response.ErrorListener {
+                    baseprivate.ErrorProgressDialog(requireContext(),"101",getString(R.string.server_error))
+                    Log.d("SendData", "response===" +it.message)
+                }){
 
-                 @SuppressLint("SuspiciousIndentation")
-                 @Throws(AuthFailureError::class)
-                 override fun getHeaders(): Map<String, String> {
-                     val headers: MutableMap<String, String> = HashMap()
-                     headers.put("Content-Type", "application/json; charset=UTF-8");
-                     headers.put("Authorization", "Bearer " + prefManager.getToken());
-                     headers.put("Accept","application/vnd.api+json");
-                     return headers
-                 }
-             }
-         queue.add(jsonOblect)
+                @SuppressLint("SuspiciousIndentation")
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val headers: MutableMap<String, String> = HashMap()
+                    headers.put("Content-Type", "application/json; charset=UTF-8");
+                    headers.put("Authorization", "Bearer " + prefManager.getToken());
+                    headers.put("Accept","application/vnd.api+json");
+                    return headers
+                }
+            }
+        queue.add(jsonOblect)
     }
 
     private fun sendreferal(ipAddress: String) {
-       // var baseurl="https://test.pearl-developer.com/figo/api/refer/create-referel"
+        // var baseurl="https://test.pearl-developer.com/figo/api/refer/create-referel"
         var baseurl=Helper.create_referel
         var queue= Volley.newRequestQueue(requireContext())
         var json= JSONObject()
