@@ -16,10 +16,10 @@ class PayHistoryAdapter(var data:List<PaymentHistoryModel>):RecyclerView.Adapter
     }
 
     override fun onBindViewHolder(holder: PaymentHolder, position: Int) {
-        var x = data[position]
-        holder.date.text=x.paymentdate
+        var historyData = data[position]
+        holder.date.text=historyData.paymentdate
         var plusminus:String=""
-        if(x.walletbank==0) {
+        if(historyData.walletbank==0) {
             holder.amount.setTextColor(Color.parseColor("#FF0000"))
             plusminus=" - Rs."
             holder.sendpayment.visibility=View.GONE
@@ -28,12 +28,11 @@ class PayHistoryAdapter(var data:List<PaymentHistoryModel>):RecyclerView.Adapter
             holder.amount.setTextColor(Color.parseColor("#00FF00"))
             plusminus=" + Rs."
             holder.sendpayment.visibility=View.VISIBLE
-
         }
-        holder.amount.text = plusminus+x.amount
-        holder.subhistory1.text = "From :"+x.payment1
-        holder.subhistory2.text = x.payment2
-        holder.subhistory3.text = x.payment3
+        holder.amount.text = plusminus+historyData.amount
+        holder.subhistory1.text = historyData.payment1
+        holder.subhistory2.text = historyData.payment2
+        holder.subhistory3.text = historyData.payment3
     }
 
     override fun getItemCount(): Int {

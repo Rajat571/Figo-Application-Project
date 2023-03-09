@@ -30,6 +30,7 @@ import com.figgo.cabs.pearllib.BaseClass
 import com.figgo.cabs.pearllib.Helper
 import kotlinx.android.synthetic.main.change_mpin.view.*
 import org.json.JSONObject
+import java.text.SimpleDateFormat
 
 class SupportFragment : Fragment() {
     lateinit var prefManager: PrefManager
@@ -40,6 +41,7 @@ class SupportFragment : Fragment() {
     var modelHashMap  : HashMap<String, Int> = HashMap<String, Int> ()
     var yearList= listOf<Int>()
     var current_year:Int=0
+    var history_list = ArrayList<PaymentHistoryModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -195,7 +197,7 @@ class SupportFragment : Fragment() {
 
     private fun paymentHistoryAdapter(view: View) {
         var history = view.findViewById<RecyclerView>(R.id.RechargeHistoryRecycler)
-        var data = ArrayList<PaymentHistoryModel>()
+
 
         var baseurl= Helper.recharge_history
         var queue= Volley.newRequestQueue(requireContext())
@@ -210,19 +212,27 @@ class SupportFragment : Fragment() {
                 for (i in 0..data.length()-1){
                     var data1=data.getJSONObject(i)
                     var date=data1.getString("created_at")
-                    Log.d("Support Fragment","Date-time"+date)
-                }
+                    val parser =  SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                    val formatter = SimpleDateFormat("dd.MM.yyyy HH:mm")
+                    val formattedDate = formatter.format(parser.parse(date))
+                    Log.d("Support Fragment","Date-time"+formattedDate)
 
+                    var recharge_details=data1.getJSONObject("rechargedetails")
+                    var booking_limit=recharge_details.getString("booking_limit")
+                    var request_limit=recharge_details.getString("request_limit")
+                    var recharge_amount=recharge_details.getString("recharge_amount")
+
+                    Log.d("Support Fragment","Date-time"+formattedDate+"\n"+booking_limit+"\n"+request_limit+"\n"+recharge_amount)
+                    history_list.add(PaymentHistoryModel(formattedDate,recharge_amount,booking_limit,request_limit,"",recharge_amount.toInt()))
+                    history.adapter= PayHistoryAdapter(history_list)
+                    history.layoutManager=LinearLayoutManager(requireContext())
+                }
 
             }else{
 
             }
 
-
-
         },{
-
-
 
         }){
             @Throws(AuthFailureError::class)
@@ -235,15 +245,14 @@ class SupportFragment : Fragment() {
         queue.add(jsonObjectRequest);
 
 
-        data.add(PaymentHistoryModel("2.10.2022","300","Mr. XYZ XYZ","15minute 6:25pm","10 KM",1))
+/*        data.add(PaymentHistoryModel("2.10.2022","300","Mr. XYZ XYZ","15minute 6:25pm","10 KM",1))
         data.add(PaymentHistoryModel("2.10.2022","1000","Mr. XYZ XYZ","15minute 6:25pm","10 KM",0))
         data.add(PaymentHistoryModel("2.10.2022","1500","Mr. XYZ XYZ","15minute 6:25pm","10 KM",0))
         data.add(PaymentHistoryModel("2.10.2022","23","Mr. XYZ XYZ","15minute 6:25pm","10 KM",1))
         data.add(PaymentHistoryModel("2.10.2022","2300","Mr. XYZ XYZ","15minute 6:25pm","10 KM",1))
         history.adapter= PayHistoryAdapter(data)
-        history.layoutManager=LinearLayoutManager(requireContext())
+        history.layoutManager=LinearLayoutManager(requireContext())*/
     }
-
 
     private fun updateMpin(view: View) {
         var mpin_done = view.findViewById<TextView>(R.id.mpin_done)
@@ -317,7 +326,6 @@ class SupportFragment : Fragment() {
         }*/
     */
     }
-
 
     private fun figgoBuisness(view: View) {
         var buisness_recylcer = view.findViewById<RecyclerView>(R.id.Buisness_Nav_Recycler)
