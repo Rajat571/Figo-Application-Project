@@ -173,12 +173,23 @@ var count:Int = 0
                 binding.goLocation.visibility=View.GONE
 
                 try {
-                    timer = object : CountDownTimer(9000000, 2000) {
+                    timer = object : CountDownTimer(900000, 2000) {
                         override fun onTick(millisUntilFinished: Long) {
-                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 11F))
-                            updateRoute()
-                            liveRouting(originLatitude, originLongitude, customerLAT, customerLON)
-
+                            if (millisUntilFinished.toInt()%5==0) {
+                                mMap.animateCamera(
+                                    CameraUpdateFactory.newLatLngZoom(
+                                        originLocation,
+                                        11F
+                                    )
+                                )
+                                updateRoute()
+                                liveRouting(
+                                    originLatitude,
+                                    originLongitude,
+                                    customerLAT,
+                                    customerLON
+                                )
+                            }
                         }
 
                         override fun onFinish() {
