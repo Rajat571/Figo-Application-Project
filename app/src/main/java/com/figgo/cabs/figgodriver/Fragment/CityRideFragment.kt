@@ -1,4 +1,5 @@
 package com.figgo.cabs.figgodriver.Fragment
+
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.databinding.internal.org.antlr.v4.runtime.misc.MurmurHash.finish
@@ -45,32 +46,32 @@ class CityRideFragment : Fragment() {
     lateinit var cityRideCurrentListAdapter: CityRideCurrentListAdapter
     lateinit var cityRideAdvanceListAdapter: CityRideAdvanceListAdapter
     lateinit var progressBar: ProgressBar
-    lateinit var loading:LinearLayout
-    lateinit var card:CardView
-    lateinit var riderequestno:TextView
-    lateinit var bookinglimit:TextView
-    lateinit var rechargeNow:TextView
+    lateinit var loading: LinearLayout
+    lateinit var card: CardView
+    lateinit var riderequestno: TextView
+    lateinit var bookinglimit: TextView
+    lateinit var rechargeNow: TextView
 
     var count = 0
-    lateinit var relativeLayout_data:RelativeLayout
-    var ridelists=ArrayList<CityCurrentRidesList>()
-    var advanceRidelists=ArrayList<CityAdvanceRideList>()
+    lateinit var relativeLayout_data: RelativeLayout
+    var ridelists = ArrayList<CityCurrentRidesList>()
+    var advanceRidelists = ArrayList<CityAdvanceRideList>()
     lateinit var prefManager: PrefManager
-     lateinit var currentdata: CityCurrentRidesList
-lateinit var swiperefresh:SwipeRefreshLayout
+    lateinit var currentdata: CityCurrentRidesList
+    lateinit var swiperefresh: SwipeRefreshLayout
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding=DataBindingUtil.inflate(inflater, R.layout.fragment_city_ride, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_city_ride, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        prefManager= PrefManager(requireContext())
-        progressBar=view.findViewById<ProgressBar>(R.id.city_ride_progressbar)
+        prefManager = PrefManager(requireContext())
+        progressBar = view.findViewById<ProgressBar>(R.id.city_ride_progressbar)
         loading = view.findViewById(R.id.loadinggif)
         relativeLayout_data = view.findViewById<RelativeLayout>(R.id.city_ride_relative_layout)
         swiperefresh = view.findViewById(R.id.pulldownforrefresh)
@@ -78,6 +79,10 @@ lateinit var swiperefresh:SwipeRefreshLayout
         bookinglimit = view.findViewById(R.id.citybookingLimit)
         riderequestno = view.findViewById(R.id.ride_requestlimit)
         rechargeNow = view.findViewById(R.id.rechargenow)
+        cityRideCurrentListAdapter = CityRideCurrentListAdapter(
+            requireContext().applicationContext,
+            ridelists
+        )
 
         rechargeNow.setOnClickListener {
             parentFragment?.let { it1 ->
@@ -85,7 +90,7 @@ lateinit var swiperefresh:SwipeRefreshLayout
                     it1.id,
                     AccountDetails()
                 ).commit()
-                GlobalVariables.dashboardBackCount+=1
+                GlobalVariables.dashboardBackCount += 1
             }
         }
 
@@ -106,50 +111,49 @@ lateinit var swiperefresh:SwipeRefreshLayout
         else{
             loading.visibility=View.GONE
         }*/
-        progressBar.visibility=View.VISIBLE
-        relativeLayout_data.visibility=View.GONE
-            binding.cityRideAdvanceRecylerview.layoutManager = LinearLayoutManager(requireContext())
-            binding.cityRideCurrentRecylerview.layoutManager = LinearLayoutManager(requireContext())
+        progressBar.visibility = View.VISIBLE
+        relativeLayout_data.visibility = View.GONE
+        binding.cityRideAdvanceRecylerview.layoutManager = LinearLayoutManager(requireContext())
+        binding.cityRideCurrentRecylerview.layoutManager = LinearLayoutManager(requireContext())
 
-      /*  ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","","",0))
-        ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","","",0))
-        ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","","",0))
-        ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","","",0))
-        ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","","",0))
-        cityRideCurrentListAdapter= CityRideCurrentListAdapter(requireContext(),ridelists)
-        binding.cityRideCurrentRecylerview.adapter=cityRideCurrentListAdapter*/
+        /*  ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","","",0))
+          ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","","",0))
+          ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","","",0))
+          ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","","",0))
+          ridelists.add(CityCurrentRidesList("02-01-2023","12:31pm","Vivek","ISBT","premnagar","Rs 100","","","","","","",0))
+          cityRideCurrentListAdapter= CityRideCurrentListAdapter(requireContext(),ridelists)
+          binding.cityRideCurrentRecylerview.adapter=cityRideCurrentListAdapter*/
 
 
-       /* binding.current.setOnClickListener {
-            binding.current.setBackgroundResource(R.drawable.change_background)
-            binding.current.setTextColor(Color.WHITE)
-            binding.advance.setTextColor(Color.BLACK)
-            binding.advance.setBackgroundResource(R.drawable.background_card)
-            binding.cityRideCurrentRecylerview.visibility=View.VISIBLE
-            binding.cityRideAdvanceRecylerview.visibility=View.GONE
-        }
+        /* binding.current.setOnClickListener {
+             binding.current.setBackgroundResource(R.drawable.change_background)
+             binding.current.setTextColor(Color.WHITE)
+             binding.advance.setTextColor(Color.BLACK)
+             binding.advance.setBackgroundResource(R.drawable.background_card)
+             binding.cityRideCurrentRecylerview.visibility=View.VISIBLE
+             binding.cityRideAdvanceRecylerview.visibility=View.GONE
+         }
 
-        binding.advance.setOnClickListener {
-            binding.advance.setTextColor(Color.WHITE)
-            binding.current.setTextColor(Color.BLACK)
-            binding.advance.setBackgroundResource(R.drawable.change_background)
-            binding.current.setBackgroundResource(R.drawable.background_card)
-            binding.cityRideCurrentRecylerview.visibility=View.GONE
-            binding.cityRideAdvanceRecylerview.visibility=View.VISIBLE
-        }*/
+         binding.advance.setOnClickListener {
+             binding.advance.setTextColor(Color.WHITE)
+             binding.current.setTextColor(Color.BLACK)
+             binding.advance.setBackgroundResource(R.drawable.change_background)
+             binding.current.setBackgroundResource(R.drawable.background_card)
+             binding.cityRideCurrentRecylerview.visibility=View.GONE
+             binding.cityRideAdvanceRecylerview.visibility=View.VISIBLE
+         }*/
 
 
 
         swiperefresh.setOnRefreshListener {
-            count=0
-            loading.visibility=View.VISIBLE
+            count = 0
+            loading.visibility = View.VISIBLE
             swiperefresh.isRefreshing = false
             cityRideCurrentListAdapter.notifyDataSetChanged()
             cityRideAdvanceListAdapter.notifyDataSetChanged()
             submitCurrentRideForm(view)
             submitAdvanceRideForm(view)
         }
-
 
 
         val handler = Handler()
@@ -161,8 +165,7 @@ lateinit var swiperefresh:SwipeRefreshLayout
                     cityRideAdvanceListAdapter.notifyDataSetChanged()
                     submitCurrentRideForm(view)
                     submitAdvanceRideForm(view)
-                }
-                catch (e:Exception){
+                } catch (e: Exception) {
 
                 }
             }
@@ -189,7 +192,7 @@ lateinit var swiperefresh:SwipeRefreshLayout
 
     }
 
-    private fun submitCurrentRideForm(view: View){
+    private fun submitCurrentRideForm(view: View) {
         try {
             ridelists.clear()
             // val URL = "https://test.pearl-developer.com/figo/api/driver-ride/get-city-ride-request"
@@ -210,16 +213,15 @@ lateinit var swiperefresh:SwipeRefreshLayout
                                 var current = response.getJSONObject("current")
                                 var ride_requests = current.getJSONArray("ride_requests").length()
                                 count += ride_requests
-try{
-    riderequestno.text = current.getString("request_limit")
-    bookinglimit.text = current.getString("booking_limit")
-}
-catch (_:Exception){
-    riderequestno.text="0"
-    bookinglimit.text="0"
-}
-                                if(ride_requests>=1)
-                                    loading.visibility=View.GONE
+                                try {
+                                    riderequestno.text = current.getString("request_limit")
+                                    bookinglimit.text = current.getString("booking_limit")
+                                } catch (_: Exception) {
+                                    riderequestno.text = "0"
+                                    bookinglimit.text = "0"
+                                }
+                                if (ride_requests >= 1)
+                                    loading.visibility = View.GONE
                                 for (i in 0 until ride_requests) {
 
                                     var data1 =
@@ -317,7 +319,7 @@ catch (_:Exception){
                 }
 
             queue.add(jsonOblect)
-        }catch (e:Exception){
+        } catch (e: Exception) {
 
         }
         //return currentdata
@@ -338,8 +340,8 @@ catch (_:Exception){
                             try {
                                 var data = response.getJSONArray("advance").length()
                                 count += data
-                                if(data>=1)
-                                    loading.visibility=View.GONE
+                                if (data >= 1)
+                                    loading.visibility = View.GONE
                                 progressBar.visibility = View.GONE
 
                                 relativeLayout_data.visibility = View.VISIBLE
@@ -417,7 +419,7 @@ catch (_:Exception){
                 }
 
             queue.add(jsonOblect)
-        }catch (e:Exception){
+        } catch (e: Exception) {
 
         }
     }
@@ -456,7 +458,7 @@ catch (_:Exception){
 
     override fun onDestroyView() {
         super.onDestroyView()
-       advanceRidelists.clear()
+        advanceRidelists.clear()
         ridelists.clear()
 
     }
