@@ -517,36 +517,6 @@ class UpdateDriverProfileFragment : Fragment() {
             datePickerDialog.show()
         }
 
-    var adapter = ArrayAdapter.createFromResource(
-        requireContext(),
-        R.array.CabType,
-        android.R.layout.simple_spinner_item
-    );
-    adapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
-    spinner_cabtype?.adapter = adapter
-    // spinner_cabtype.setSelection(v_category)
-
-    spinner_cabtype?.onItemSelectedListener = object :
-        AdapterView.OnItemSelectedListener {
-        override fun onItemSelected(
-            parent: AdapterView<*>,
-            view: View,
-            position: Int,
-            id: Long
-        ) {
-            // Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
-            spinner_cabtype.setSelection(2)
-            cab_type_id = position
-
-            //fetchCabCategory2(2)
-
-        }
-
-        override fun onNothingSelected(parent: AdapterView<*>) {
-            // write code to perform some action
-        }
-
-    }
 
 
 
@@ -616,6 +586,7 @@ class UpdateDriverProfileFragment : Fragment() {
                             .load(profile_pic_url)
                             .into(selfiee);
 
+
                     }catch (e:Exception){
                         profile_pic_url = " "
                     }
@@ -657,6 +628,13 @@ class UpdateDriverProfileFragment : Fragment() {
     }
 
     private fun getCabDetails() {
+        var adapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.CabType,
+            android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+        spinner_cabtype?.adapter = adapter
         current_year   = Calendar.getInstance().get(Calendar.YEAR)
 
         for(i in 2000..current_year)
@@ -731,7 +709,7 @@ class UpdateDriverProfileFragment : Fragment() {
                 }
 
                 try {
-
+                    var x=0
                     val my_circle_details=it.getJSONObject("my_circle_details")
                     cab_type_id=my_circle_details.getString("v_type").toInt()
                     v_category=my_circle_details.getString("v_category").toInt()
@@ -739,15 +717,57 @@ class UpdateDriverProfileFragment : Fragment() {
                     prefManager.setDriverCabCategory(v_category.toString())
                     v_modal=my_circle_details.getString("v_modal").toInt()
                     prefManager.setDriverVechleModel(v_modal)
-                    Log.d("Parameters","1 2 3 === "+cab_type_id+" "+v_category+" "+v_modal.toString())
+                    Log.d("Parameters", "1 2 3 === $cab_type_id $v_category $v_modal")
+
+                    // spinner_cabtype.setSelection(v_category)
+
+                    spinner_cabtype?.onItemSelectedListener = object :
+                        AdapterView.OnItemSelectedListener {
+                        override fun onItemSelected(
+                            parent: AdapterView<*>,
+                            view: View,
+                            position: Int,
+                            id: Long
+                        ) {
+                            // Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
+                            //spinner_cabtype.setSelection(2)
+                            cab_type_id = position
+                            x+=1
+                            if(x>1)
+                            fetchCabCategory2(cab_type_id)
+                        }
+
+                        override fun onNothingSelected(parent: AdapterView<*>) {
+                            // write code to perform some action
+                        }
+
+                    }
+
                     fetchCabCategory(cab_type_id, v_category,v_modal)
-
-
-                    //fetchModel(v_modal)
                 }
                 catch (e:Exception) {
                     //fetchCabCategory(0, v_category,-1)
 
+                    spinner_cabtype?.onItemSelectedListener = object :
+                        AdapterView.OnItemSelectedListener {
+                        override fun onItemSelected(
+                            parent: AdapterView<*>,
+                            view: View,
+                            position: Int,
+                            id: Long
+                        ) {
+                            // Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
+                            //spinner_cabtype.setSelection(2)
+                            cab_type_id = position
+                            fetchCabCategory2(2)
+
+                        }
+
+                        override fun onNothingSelected(parent: AdapterView<*>) {
+                            // write code to perform some action
+                        }
+
+                    }
                 }
                 try {
                     yearval = it.getString("year")
@@ -1229,6 +1249,7 @@ try {
                             spinner_cabcategory?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
                                 override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                                     var id = hashMap.values.toList()[position]
+                                    cabCategory_id=id
                                     Log.d("FetchCabCategoryListner","Selected_CATEGORY === "+id.toString())
                                     fetchModel(id)
                                     prefManager.setDriverCabCategory(id.toString())
@@ -1308,7 +1329,9 @@ try {
                                         cabCategory_id =
                                             cabcategoryadapter.getItem(position)!!.id.toInt()
                                         prefManager.setDriverCabCategory(cabCategory_id.toString())
-                                        Log.d("FetchCabCategory","Selected Category === "+cabCategory_id.toString())
+                                        Log.d("FetchCabCategory",
+                                            "Selected Category === $cabCategory_id"
+                                        )
                                         fetchModel(cabCategory_id)
 
                                     }catch (_:Exception){
@@ -1749,7 +1772,7 @@ if(position!=-1) {
                                 )*/
                     selfiee.setImageBitmap(bitmap)
                     isProfileChanged=true
-                    prefManager.setAadhar_verification_back(driver_profile)
+                    prefManager.setDriverProfile(driver_profile)
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }

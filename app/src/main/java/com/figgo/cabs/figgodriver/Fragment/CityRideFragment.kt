@@ -343,6 +343,7 @@ catch (_:Exception){
                                 progressBar.visibility = View.GONE
 
                                 relativeLayout_data.visibility = View.VISIBLE
+
                                 for (i in 0 until data) {
 
                                     var data1 = response.getJSONArray("advance").getJSONObject(i)
@@ -386,7 +387,8 @@ catch (_:Exception){
                                             from_location_long,
                                             to_location_lat,
                                             to_location_long,
-                                            ride_id
+                                            ride_id,
+                                            "advance"
                                         )
                                     )
                                 }

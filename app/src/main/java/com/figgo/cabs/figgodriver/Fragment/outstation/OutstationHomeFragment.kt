@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
+import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 
@@ -36,18 +37,18 @@ import java.util.HashMap
 class OutstationHomeFragment : Fragment() {
     lateinit var binding: FragmentOutstationHomeBinding
     lateinit var sedanAdapter: SedanAdapter
-    var ridelists= java.util.ArrayList<CityCurrentRidesList>()
+    var ridelists = java.util.ArrayList<CityCurrentRidesList>()
     lateinit var prefManager: PrefManager
     lateinit var outstation_loadinggif: LinearLayout
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    var data=ArrayList<Sedan>()
+    var data = ArrayList<Sedan>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-       binding=DataBindingUtil.inflate(inflater, R.layout.fragment_outstation_home,container,false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_outstation_home, container, false)
         return binding.root
     }
 
@@ -56,15 +57,90 @@ class OutstationHomeFragment : Fragment() {
         prefManager = PrefManager(requireContext())
         outstation_loadinggif = view.findViewById(R.id.outstation_loadinggif)
         swipeRefreshLayout = view.findViewById(R.id.outstation_swipe_refresh)
-        submitCurrentRideForm(view)
+        submitOnewayRide(view)
+        //submitCurrentRideForm(view)
         swipeRefreshLayout.setOnRefreshListener {
-            outstation_loadinggif.visibility=View.VISIBLE
-            swipeRefreshLayout.isRefreshing=false
-            submitCurrentRideForm(view)
+            outstation_loadinggif.visibility = View.VISIBLE
+            swipeRefreshLayout.isRefreshing = false
+            submitOnewayRide(view)
+            //submitCurrentRideForm(view)
+
         }
 
     }
-    private fun submitCurrentRideForm(view: View){
+
+    private fun submitOnewayRide(view: View) {
+        var url = Helper.outstation_oneway_request
+        var queue = Volley.newRequestQueue(requireContext())
+        var jsonObject = object :
+            JsonObjectRequest(Method.POST, url, null, Response.Listener<JSONObject> { response ->
+                Log.d("OutstationHomeFragment", "Response===" + response)
+                outstation_loadinggif.visibility = View.GONE
+                if (response != null) {
+                    try {
+                        Log.d("OutstationHomeFragment", "Response===" + response)
+                        var data = response.getJSONObject("493")
+                        var booking_id = data.getString("booking_id")
+                        var ride_id = data.getString("id")
+                        var ride_request_id = data.getString("id")
+                        var date = data.getString("date_only")
+                        var time = data.getString("time_only")
+
+
+                        var to_location = data.getJSONObject("to_location")
+                        var to_lat = to_location.getString("lat")
+                        var to_long = to_location.getString("lng")
+                        var to_name = to_location.getString("name")
+
+                        var from_location = data.getJSONObject("from_location")
+                        var from_lat = from_location.getString("lat")
+                        var from_long = from_location.getString("lng")
+                        var from_name = from_location.getString("name")
+
+                        var pricedata = data.getJSONObject("price")
+                        var price = pricedata.getString("avg")
+                        Log.d(
+                            "SEndData",
+                            "DATA====" + booking_id + "," + date + "," + time + "," + to_name +
+                                    "," + from_name + "," + price
+                        )
+                        ridelists.add(
+                            CityCurrentRidesList(
+                                date, time, booking_id, to_name, from_name,
+                                price, to_lat, to_long, from_lat,
+                                from_long, ride_id, ride_request_id, 2
+                            )
+                        )
+                    }
+                    catch (e:Exception){
+
+                    }
+                }
+                ridelists.reverse()
+                Log.d("Outstation", ridelists.toString())
+                var recyclerView = view.findViewById<RecyclerView>(R.id.outstation_recyclerview)
+                recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                recyclerView.adapter = OutstationRideAdapter(
+                    requireContext().applicationContext,
+                    ridelists
+                )
+            }, object : Response.ErrorListener {
+                override fun onErrorResponse(error: VolleyError?) {
+                    Log.d("SendData", "error===$error")
+                }
+            }) {
+            override fun getHeaders(): MutableMap<String, String> {
+                val headers: MutableMap<String, String> = HashMap()
+                headers.put("Content-Type", "application/json; charset=UTF-8")
+                headers.put("Authorization", "Bearer " + prefManager.getToken())
+                return headers
+            }
+        }
+        queue.add(jsonObject)
+
+    }
+
+    private fun submitCurrentRideForm(view: View) {
         try {
             ridelists.clear()
             // val URL = "https://test.pearl-developer.com/figo/api/driver-ride/get-city-ride-request"
@@ -85,8 +161,8 @@ class OutstationHomeFragment : Fragment() {
                             try {
                                 var current = response.getJSONObject("current")
                                 var ride_requests = current.getJSONArray("ride_requests").length()
-                                if(ride_requests>=1)
-                                    outstation_loadinggif.visibility=View.GONE
+                                if (ride_requests >= 1)
+                                    outstation_loadinggif.visibility = View.GONE
                                 for (i in 0 until ride_requests) {
 
                                     var data1 =
@@ -126,9 +202,7 @@ class OutstationHomeFragment : Fragment() {
                                     var from_location_long = from_location.getString("lng")
                                     var from_name = from_location.getString("name")
                                     Log.d(
-                                        "SendData",
-                                        "to_location" + from_location_lat + "\n" + from_location_long + "\n" + from_name
-                                    )
+                                        "SendData","to_location" + from_location_lat + "\n" + from_location_long + "\n" + from_name)
 
                                     var date_only = ride_detail.getString("date_only")
                                     var time_only = ride_detail.getString("time_only")
@@ -138,7 +212,6 @@ class OutstationHomeFragment : Fragment() {
                                     Log.d("SendData", "price" + price)
 
                                     /////Advance
-
                                     ridelists.add(
                                         CityCurrentRidesList(
                                             date_only,
@@ -158,15 +231,15 @@ class OutstationHomeFragment : Fragment() {
                                     )
                                 }
                                 ridelists.reverse()
-                                Log.d("Outstation",ridelists.toString())
+                                Log.d("Outstation", ridelists.toString())
                                 recyclerView.adapter = OutstationRideAdapter(
                                     requireContext().applicationContext,
                                     ridelists
                                 )
                             } catch (_: Exception) {
                             }
-                            if(requireContext()!=null)
-                            recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                            if (requireContext() != null)
+                                recyclerView.layoutManager = LinearLayoutManager(requireContext())
                             //advanceData(response)
 
 
@@ -185,11 +258,10 @@ class OutstationHomeFragment : Fragment() {
                 }
 
             queue.add(jsonOblect)
-        }catch (e:Exception){
+        } catch (e: Exception) {
 
         }
     }
-
 
 
 }

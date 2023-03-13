@@ -50,6 +50,7 @@ class OutstationRideAdapter(var context: Context, var ridelist:List<CityCurrentR
                 .putExtra("customer_booking_id",data.cutomer_name)
                 .putExtra("ride_id",data.ride_id)
                 .putExtra("ride_request_id",data.ride_request_id)
+                    .putExtra("Outstaion_id",data.y)
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
             //deleteCache(context)
 

@@ -157,19 +157,18 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
 
         }
     }
-
     override fun initializeClickListners() {
         var id=intent.getStringExtra("booking_id")
         Log.d("DriverDashBoard","DriverDashBoard"+id)
         drawer.addDrawerListener(action_bar_toggle)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+       // image =baseclass.StringToBitMap(prefManager.getDriverProfile())
         image =baseclass.StringToBitMap(prefManager.getDriverProfile())
         val rootView: ViewGroup = findViewById(R.id.activeRide_layout)
         val mFade: Slide =Slide(Gravity.LEFT)
         menu.setOnClickListener {
             drawer.openDrawer(GravityCompat.END)
         }
-
         whataspp.setOnClickListener {
 
             val i = Intent(Intent.ACTION_VIEW)

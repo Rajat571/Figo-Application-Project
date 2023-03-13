@@ -35,9 +35,7 @@ class PayHistoryAdapter(var data:List<PaymentHistoryModel>):RecyclerView.Adapter
         holder.subhistory3.text = historyData.payment3
     }
 
-    override fun getItemCount(): Int {
-        return data.size
-    }
+    override fun getItemCount()=data.size
 }
 class PaymentHolder(itemView: View): ViewHolder(itemView){
     var date = itemView.findViewById<TextView>(R.id.history_date)
