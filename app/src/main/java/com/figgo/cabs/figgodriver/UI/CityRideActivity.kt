@@ -124,10 +124,10 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
 
 
       //  liveRouting.firebaseInit(ride_id)
-        ride_request_id=intent.getStringExtra("ride_request_id")!!.toInt()
+      //  ride_request_id=intent.getStringExtra("ride_request_id")!!.toInt()
         defaultLayout=findViewById(R.id.city_ride_defaultlayout)
         acceptwaitLayout=findViewById(R.id.cityride_wait_layout)
-        Log.d("CityRideActivity","ride_id====="+ride_request_id+"+"+ride_id)
+        Log.d("CityRideActivity","ride_id====="+ride_id)
         binding.locationTo.text=address_to
         binding.locationFrom.text=intent.getStringExtra("location_from")
         binding.cityRideDate.text=date
@@ -248,10 +248,11 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
     private fun initializeClickListners() {
 
         binding.rejectCityRideBtn.setOnClickListener {
-            reject()
+          //  reject()
         }
 
         binding.acceptCityRideBtn.setOnClickListener {
+
             accepted=1
            // var url="https://test.pearl-developer.com/figo/api/driver-ride/accept-city-ride-request"
 
@@ -287,8 +288,6 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
 
             }
             (timer as CountDownTimer).start()
-
-
 
          }
     }

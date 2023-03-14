@@ -209,7 +209,47 @@ class CityRideFragment : Fragment() {
                             ////Current
                             var y = 0
                             try {
-                                var current = response.getJSONObject("current")
+                                var current=response.getJSONArray("current")
+                                if (current.length()!=0){
+                                    loading.visibility = View.GONE
+                                }
+                                else{
+                                    loading.visibility=View.VISIBLE
+                                }
+                                for (i in 0..current.length()-1){
+
+                                    var data=current.getJSONObject(i)
+                                    var booking_id= data.getString("booking_id")
+                                    Log.d("SendData","Booking_id"+booking_id)
+                                    var ride_id = data.getString("id")
+                                    var to_location =
+                                        data.getJSONObject("to_location")
+                                    var to_location_lat = to_location.getString("lat")
+                                    var to_location_long = to_location.getString("lng")
+
+                                    var address_name = to_location.getString("name")
+                                    var from_location = data.getJSONObject("from_location")
+                                    var from_location_lat = from_location.getString("lat")
+                                    var from_location_long = from_location.getString("lng")
+                                    var from_name = from_location.getString("name")
+
+                                    var date_only = data.getString("date_only")
+                                    var time_only = data.getString("time_only")
+                                    var price1 = data.getJSONObject("price")
+                                    var price=price1.getString("avg")
+                                    ridelists.add(CityCurrentRidesList(date_only, time_only, booking_id, address_name, from_name, price, to_location_lat, to_location_long, from_location_lat, from_location_long, ride_id, y))
+
+
+                                }
+                                ridelists.reverse()
+                                cityRideCurrentListAdapter = CityRideCurrentListAdapter(
+                                    requireContext().applicationContext,
+                                    ridelists
+                                )
+                                binding.cityRideCurrentRecylerview.adapter =
+                                    cityRideCurrentListAdapter
+
+                            /*    var current = response.getJSONObject("current")
                                 var ride_requests = current.getJSONArray("ride_requests").length()
                                 count += ride_requests
                                 try {
@@ -246,11 +286,10 @@ class CityRideFragment : Fragment() {
                                     var to_location_lat = to_location.getString("lat")
                                     var to_location_long = to_location.getString("lng")
                                     var address_name = to_location.getString("name")
-                                    /*   Log.d(
+                                    *//*   Log.d(
                                     "SendData",
                                     "to_location" + to_location_lat + "\n" + to_location_long + "\n" + address_name
-                                )*/
-
+                                )*//*
                                     var from_location =
                                         response.getJSONObject("current")
                                             .getJSONArray("ride_requests")
@@ -270,8 +309,6 @@ class CityRideFragment : Fragment() {
 
                                     var price = data1.getString("price")
                                     Log.d("SendData", "price" + price)
-
-                                    /////Advance
 
                                     ridelists.add(
                                         CityCurrentRidesList(
@@ -297,7 +334,7 @@ class CityRideFragment : Fragment() {
                                     ridelists
                                 )
                                 binding.cityRideCurrentRecylerview.adapter =
-                                    cityRideCurrentListAdapter
+                                    cityRideCurrentListAdapter*/
                             } catch (_: Exception) {
                             }
                             //advanceData(response)
@@ -339,10 +376,12 @@ class CityRideFragment : Fragment() {
                             try {
                                 var data = response.getJSONArray("advance").length()
                                 count += data
-                                if (data >= 1)
+                                if (data >= 1){
                                     loading.visibility = View.GONE
-                                progressBar.visibility = View.GONE
-
+                                    progressBar.visibility = View.GONE}
+                                else{
+                                    loading.visibility = View.VISIBLE
+                                }
                                 relativeLayout_data.visibility = View.VISIBLE
 
                                 for (i in 0 until data) {
@@ -358,6 +397,7 @@ class CityRideFragment : Fragment() {
                                     var to_location_lat = to_location.getString("lat")
                                     var to_location_long = to_location.getString("lng")
                                     var address_name = to_location.getString("name")
+
                                     Log.d(
                                         "SendData",
                                         "to_location" + to_location_lat + "\n" + to_location_long + "\n" + address_name

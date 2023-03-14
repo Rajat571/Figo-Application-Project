@@ -112,7 +112,7 @@ class OutstationHomeFragment : Fragment() {
                             ridelists.add(CityCurrentRidesList(
                                 date, time, booking_id, to_name, from_name,
                                 price, to_lat, to_long, from_lat,
-                                from_long, ride_id, ride_request_id, 2))
+                                from_long, ride_id, 2))
                         }
                     }
                     catch (e:Exception){
