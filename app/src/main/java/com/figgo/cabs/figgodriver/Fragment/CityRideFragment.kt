@@ -81,8 +81,7 @@ class CityRideFragment : Fragment() {
         rechargeNow = view.findViewById(R.id.rechargenow)
         cityRideCurrentListAdapter = CityRideCurrentListAdapter(
             requireContext().applicationContext,
-            ridelists
-        )
+            ridelists)
 
         rechargeNow.setOnClickListener {
             parentFragment?.let { it1 ->
