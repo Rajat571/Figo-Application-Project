@@ -15,6 +15,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.cardview.widget.CardView
 import androidx.databinding.DataBindingUtil
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
+import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.figgo.cabs.PrefManager
@@ -83,16 +85,9 @@ class CityRideFragment : Fragment() {
             requireContext().applicationContext,
             ridelists)
 
-        rechargeNow.setOnClickListener {
-            parentFragment?.let { it1 ->
-                parentFragmentManager.beginTransaction().replace(
-                    it1.id,
-                    AccountDetails()
-                ).commit()
-                GlobalVariables.dashboardBackCount += 1
-            }
-        }
 
+
+        getUserRecharge()
         //ridelists.add()
         //submitCurrentRideForm(view,"advance")
 /*        swiperefresh.setOnRefreshListener {
@@ -191,6 +186,56 @@ class CityRideFragment : Fragment() {
 
     }
 
+    private fun getUserRecharge() {
+        var url=Helper.get_user_recharge
+        var queue=Volley.newRequestQueue(requireContext())
+        var jsonobjectRequest=object :JsonObjectRequest(Method.POST,url,null,Response.Listener<JSONObject>{
+            response ->
+            Log.d("get_user_recharge","response==="+response)
+            if (response!=null){
+                try {
+                    riderequestno.text = response.getString("request_limit")
+                    bookinglimit.text = response.getString("booking_limit")
+                } catch (_: Exception) {
+                    riderequestno.text = "0"
+                    bookinglimit.text = "0"
+                }
+                rechargeNow.setOnClickListener {
+                    if (response.getString("request_limit").toInt()==0){
+                        Toast.makeText(requireContext(),"Your balance is  over please recharge ",Toast.LENGTH_SHORT).show()
+                        parentFragment?.let { it1 ->
+                            parentFragmentManager.beginTransaction().replace(
+                                it1.id,
+                                AccountDetails()
+                            ).commit()
+                            GlobalVariables.dashboardBackCount += 1
+                        }
+                    }
+                    else{
+                        Toast.makeText(requireContext(),"Your balance is not over yet",Toast.LENGTH_SHORT).show()
+
+                    }
+
+                }
+
+            }
+        },object :Response.ErrorListener{
+            override fun onErrorResponse(error: VolleyError?) {
+
+            }
+        })
+        {
+            override fun getHeaders(): Map<String, String> {
+                val headers: MutableMap<String, String> = HashMap()
+                headers.put("Content-Type", "application/json; charset=UTF-8")
+                headers.put("Authorization", "Bearer " + prefManager.getToken())
+                return headers
+            }
+        }
+        queue.add(jsonobjectRequest)
+
+    }
+
     private fun submitCurrentRideForm(view: View) {
         try {
             ridelists.clear()
@@ -237,8 +282,11 @@ class CityRideFragment : Fragment() {
                                     var time_only = data.getString("time_only")
                                     var price1 = data.getJSONObject("price")
                                     var price=price1.getString("avg")
-                                    ridelists.add(CityCurrentRidesList(date_only, time_only, booking_id, address_name, from_name, price, to_location_lat, to_location_long, from_location_lat, from_location_long, ride_id, y))
+                                    var rideeRequest=data.getJSONObject("ride_request")
+                                    var ride_request_id=rideeRequest.getString("id")
+                                    Log.d("SendDATA","Ride-Request api"+ride_request_id)
 
+                                    ridelists.add(CityCurrentRidesList(date_only, time_only, booking_id, address_name, from_name, price, to_location_lat, to_location_long, from_location_lat, from_location_long, ride_id, y,ride_request_id))
 
                                 }
                                 ridelists.reverse()

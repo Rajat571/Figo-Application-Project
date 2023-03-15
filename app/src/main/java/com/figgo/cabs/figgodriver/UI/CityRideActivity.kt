@@ -124,7 +124,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
 
 
       //  liveRouting.firebaseInit(ride_id)
-      //  ride_request_id=intent.getStringExtra("ride_request_id")!!.toInt()
+        ride_request_id=intent.getStringExtra("ride_request_id")!!.toInt()
         defaultLayout=findViewById(R.id.city_ride_defaultlayout)
         acceptwaitLayout=findViewById(R.id.cityride_wait_layout)
         Log.d("CityRideActivity","ride_id====="+ride_id)
@@ -248,7 +248,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
     private fun initializeClickListners() {
 
         binding.rejectCityRideBtn.setOnClickListener {
-          //  reject()
+            reject()
         }
 
         binding.acceptCityRideBtn.setOnClickListener {
@@ -583,7 +583,6 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
          mNotificationManager.notify(10, mBuilder.build())
      }
 
-
      fun reject(){
          //var url="https://test.pearl-developer.com/figo/api/driver-ride/reject-city-ride-request"
          var url=Helper.reject_city_ride_request
@@ -591,6 +590,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
          var queue=Volley.newRequestQueue(this)
          var json=JSONObject()
          json.put("ride_request_id",ride_request_id)
+         json.put("ride_id",ride_id)
 
 
          val jsonOblect: JsonObjectRequest =
@@ -602,8 +602,6 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                          var message=response.getString("message")
                          Toast.makeText(this@CityRideActivity, "rejected"+message, Toast.LENGTH_LONG).show()
                          //finish()
-
-
                      }
                      // Get your json response and convert it to whatever you want.
                  }, object : com.android.volley.Response.ErrorListener {
@@ -626,7 +624,6 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
 
          queue.add(jsonOblect)
          // Toast.makeText(this,"Accepted",Toast.LENGTH_SHORT).show()
-
 
          // Toast.makeText(this," This Booking is rejected",Toast.LENGTH_SHORT).show()
          // finish()
