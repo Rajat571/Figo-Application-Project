@@ -719,7 +719,6 @@ class UpdateDriverProfileFragment : Fragment() {
                     prefManager.setDriverVechleModel(v_modal)
                     Log.d("Parameters", "1 2 3 === $cab_type_id $v_category $v_modal")
 
-                    // spinner_cabtype.setSelection(v_category)
 
                     spinner_cabtype?.onItemSelectedListener = object :
                         AdapterView.OnItemSelectedListener {
@@ -734,7 +733,7 @@ class UpdateDriverProfileFragment : Fragment() {
                             cab_type_id = position
                             x+=1
                             if(x>1)
-                            fetchCabCategory2(cab_type_id)
+                                fetchCabCategory2(cab_type_id)
                         }
 
                         override fun onNothingSelected(parent: AdapterView<*>) {
@@ -793,9 +792,16 @@ class UpdateDriverProfileFragment : Fragment() {
                     }
                 }catch(_:Exception){
                     var work_state_array = work.getString("state")
-                    var work_state = work_state_array.subSequence(1,work_state_array.length-1).split(",").toList()[0]
-                    work_state_id=work_state.toInt()
-                    Log.d("work_state2","work_state==="+work_state)
+                    try {
+                        var work_state =
+                            work_state_array.subSequence(1, work_state_array.length - 1).split(",")
+                                .toList()[0]
+                        work_state_id = work_state.toInt()
+                        Log.d("work_state2", "work_state===" + work_state)
+                    }catch (_:Exception){
+                        var work_state =0;
+                        work_state_id = 0;
+                    }
 
                 }
 
@@ -973,6 +979,7 @@ try {
         json.put("aadhar_number",driver_adhar)
         json.put("state",driver_state)
         json.put("city",driver_city)
+        Log.d("DriverCity",driver_city.toString())
         if(isProfileChanged)
         {
             json.put("selfie",driver_profile)
@@ -1184,10 +1191,19 @@ try {
                                     id: Long
                                 ) {
                                     if(position<cityhashMap.size&&position>=0) {
-                                        tapNo += 1
-                                        id2  = stateadapter.getItem(position).id.toInt()
-                                        prefManager.setDriveCity(id2!!.toInt())
-                                        Log.d("SelectedCityID", "id1===" + stateadapter.getItem(position).id.toInt())
+                                        try {
+                                            tapNo += 1
+
+                                            id2 = citylist.get(position).id.toInt()
+
+                                            prefManager.setDriveCity(id2!!.toInt())
+                                            Log.d(
+                                                "SelectedCityID",
+                                                "id1===" + stateadapter.getItem(position).id.toInt()
+                                            )
+                                        }catch (_:Exception){
+
+                                        }
                                         //Log.d("SendData", "cityid===" + id2)
                                     }
 
@@ -1646,7 +1662,8 @@ if(position!=-1) {
                         local_city.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, position: Int, id: Long) {
                                 if(position !=0){
-                                    selectedcity = citylist.get(position).id.toInt()
+                                    selectedcity =
+                                        citylist.get(position).id.toInt()
                                      work_city_id=citylist.get(position).id.toInt()
                                     Log.d("SelectedCityID", "id1===" + citylist.get(position).id.toInt())
                                     //Log.d("SendData", "selectCityid===" + selectedcity)

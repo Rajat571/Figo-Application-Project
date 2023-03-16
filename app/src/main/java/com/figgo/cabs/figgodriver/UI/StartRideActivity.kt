@@ -150,7 +150,7 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
         val customerRef = database.getReference("1070 customer")
         val driverRef = database.getReference("1070 customer")*/
 
-var count:Int = 0
+        var count:Int = 0
         Toast.makeText(this,"Ride ID $rideId",Toast.LENGTH_SHORT).show()
         val mapFragment = supportFragmentManager.findFragmentById(R.id.mapend) as SupportMapFragment
         updateRoute()
@@ -183,12 +183,7 @@ var count:Int = 0
                                     )
                                 )
                                 updateRoute()
-                                liveRouting(
-                                    originLatitude,
-                                    originLongitude,
-                                    customerLAT,
-                                    customerLON
-                                )
+                                liveRouting(originLatitude, originLongitude, customerLAT, customerLON)
                             }
                         }
 
