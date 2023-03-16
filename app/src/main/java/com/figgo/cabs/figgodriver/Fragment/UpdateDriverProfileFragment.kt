@@ -654,9 +654,6 @@ class UpdateDriverProfileFragment : Fragment() {
                 val i = yearList[position]
                 yearval=i.toString()
 
-                //prefManager.setDriverVechleYear(i)
-                //Log.d("Model year","Model year==="+i)
-                //Log.d("Model year","Model year==="+ prefManager.setDriverVechleType(position.toString()))
 
             }
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -664,15 +661,12 @@ class UpdateDriverProfileFragment : Fragment() {
             }
         }
 
-
-                    var URL2=Helper.get_cab_work_details
+        var URL2=Helper.get_cab_work_details
         //Log.d("GetDATA", "URL$URL2")
 
         var queue2 = Volley.newRequestQueue(requireContext())
         var jsonObjectRequest2:JsonObjectRequest = object :JsonObjectRequest(Method.GET,URL2,null,
             {
-                //Log.d("UpdateDriverCab","Driver-Cab"+it)
-
                 try {
                     driver_vechle_no=it.getString("v_number")
                     vehicle_num.setText(driver_vechle_no)
@@ -713,12 +707,13 @@ class UpdateDriverProfileFragment : Fragment() {
                     val my_circle_details=it.getJSONObject("my_circle_details")
                     cab_type_id=my_circle_details.getString("v_type").toInt()
                     v_category=my_circle_details.getString("v_category").toInt()
-                    spinner_cabtype.setSelection(2,false)
+                    //spinner_cabtype.setSelection(cab_type_id,false)
                     prefManager.setDriverCabCategory(v_category.toString())
                     v_modal=my_circle_details.getString("v_modal").toInt()
                     prefManager.setDriverVechleModel(v_modal)
                     Log.d("Parameters", "1 2 3 === $cab_type_id $v_category $v_modal")
-
+                    prefManager.setDriverCabCategory(v_category.toString())
+                    prefManager.setDriverVechleModel(v_modal)
 
                     spinner_cabtype?.onItemSelectedListener = object :
                         AdapterView.OnItemSelectedListener {
@@ -730,19 +725,27 @@ class UpdateDriverProfileFragment : Fragment() {
                         ) {
                             // Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
                             //spinner_cabtype.setSelection(2)
-                            cab_type_id = position
-                            x+=1
-                            if(x>1)
-                                fetchCabCategory2(cab_type_id)
+                            if(position==0) {
+                                fetchCabCategory(cab_type_id, v_category, v_modal)
+                                Log.d("Selected0", "Position$position")
+                            }
+                            else {
+                                fetchCabCategory(position, v_category, v_modal)
+                                Log.d("Selected", "Position$position")
+                            }
+
+                            //fetchCabCategory(position, v_category,v_modal)
                         }
 
                         override fun onNothingSelected(parent: AdapterView<*>) {
                             // write code to perform some action
+
                         }
 
                     }
 
-                    fetchCabCategory(cab_type_id, v_category,v_modal)
+
+
                 }
                 catch (e:Exception) {
                     //fetchCabCategory(0, v_category,-1)
@@ -755,11 +758,9 @@ class UpdateDriverProfileFragment : Fragment() {
                             position: Int,
                             id: Long
                         ) {
-                            // Toast.makeText(requireContext(),""+position, Toast.LENGTH_SHORT).show()
-                            //spinner_cabtype.setSelection(2)
+                            Log.d("SelectedCatch","Position"+position)
                             cab_type_id = position
-                            fetchCabCategory2(2)
-
+                            fetchCabCategory2(position)
                         }
 
                         override fun onNothingSelected(parent: AdapterView<*>) {
@@ -775,8 +776,9 @@ class UpdateDriverProfileFragment : Fragment() {
                 catch (e:Exception) {
                     year.setSelection(1)
                 }
-                var work=it.getJSONObject( "work")
 
+
+                var work=it.getJSONObject( "work")
                 work_place=work.getString( "work_place").toInt()
                  work_city=work.getString( "city").toInt()
                 cab_id = work.getString("cab_id").toInt()
@@ -812,7 +814,7 @@ class UpdateDriverProfileFragment : Fragment() {
                 //Log.d("Year","Year==="+yearval)
                 //year.setSelection(dateadapter.getPosition(yearval.toInt()))
                 //Log.d("UpdateDriverProfile",""+it.getJSONObject("work").getString("state").toList())
-try {
+                try {
 
     var adapter2 = ArrayAdapter.createFromResource(requireContext(),R.array.work_type,android.R.layout.simple_spinner_item);
     chooseWorkingArea.adapter = adapter2
@@ -935,6 +937,7 @@ try {
         json.put("l_permit",driver_local_permit)
         json.put("n_permit",driver_n_permit)
         json.put("year",yearval)
+        Log.d("DataSend","V_CAtegory $vmodel  $v_category")
         if(isCabImageChanged){
             json.put("cab_img",driver_cab_image )
             json.put("cab_img_ext", driver_cab_image_ext)
@@ -1317,7 +1320,7 @@ try {
                         val status = response.getString("status")
                         if(status.equals("1")){
                             val jsonArray = response.getJSONArray("categories")
-                            for (i in 0..jsonArray.length()-1){
+                            for (i in 0 until jsonArray.length()){
                                 val rec: JSONObject = jsonArray.getJSONObject(i)
                                 var name = rec.getString("name")
                                 var id = rec.getString("id")
@@ -1335,7 +1338,7 @@ try {
                             spinner_cabcategory.adapter = cabcategoryadapter
                             if(x!=-1) {
                                 spinner_cabcategory.setSelection(x)
-                                /*fetchModel(v_category,model)*/
+
                             }
 
                             spinner_cabcategory?.onItemSelectedListener = object :   AdapterView.OnItemSelectedListener {
@@ -1348,7 +1351,12 @@ try {
                                         Log.d("FetchCabCategory",
                                             "Selected Category === $cabCategory_id"
                                         )
-                                        fetchModel(cabCategory_id)
+                                        if(x!=-1) {
+                                            x=-1;
+                                            fetchModel(v_category, model)
+                                        }
+                                        else
+                                            fetchModel(cabCategory_id)
 
                                     }catch (_:Exception){
 
@@ -1516,6 +1524,7 @@ if(position!=-1) {
                                             try {
                                                 //Log.d( "SendData","modelHashMap.values.toList()[position]===" + modelHashMap.values.toList()[position])
                                                 prefManager.setDriverVechleModel(modelHashMap.values.toList()[position])
+                                                Log.d("VMODEL2"," "+modelHashMap.values.toList()[position])
                                                 //Log.d( "DriverVechleModel","DriverVechleModel===" + prefManager.setDriverVechleModel(modelHashMap.values.toList()[position]) )
                                             } catch (_: Exception) {
 
