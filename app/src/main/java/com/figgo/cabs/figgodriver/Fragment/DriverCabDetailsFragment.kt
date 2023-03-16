@@ -1740,7 +1740,7 @@ class DriverCabDetailsFragment : Fragment() {
         json.put("l_permit",local_permit_date)
         json.put("n_permit",national_permit_date)
         json.put("work_place",prefManager.getDriverVechleType().toInt())
-        json.put("work_state", updatedStateList)
+        json.put("work_state", prefManager.updatedStateList)
         json.put("work_city",selectedcity)
         // json.put("selected_state",updatedStateList)
 

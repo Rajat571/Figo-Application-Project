@@ -86,6 +86,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
     private lateinit var mMap: GoogleMap
     lateinit var baseClass: BaseClass
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    var ride_type=""
 
      var booking_id:String=""
      var type:String=""
@@ -100,6 +101,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
      var customer_id:String=""
      var customer_name:String=""
      var customer_contact:String=""
+     var outstation_id=0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -117,12 +119,15 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
         des_lat=intent.getStringExtra("des_lat")!!.toDouble()
         des_long=intent.getStringExtra("des_long")!!.toDouble()
          ride_id=intent.getStringExtra("ride_id")!!.toInt()
+        ride_type=intent.getStringExtra("ride_type").toString()
+        outstation_id=intent.getIntExtra("outstation_id",0)
+
 
       //  liveRouting.firebaseInit(ride_id)
         ride_request_id=intent.getStringExtra("ride_request_id")!!.toInt()
         defaultLayout=findViewById(R.id.city_ride_defaultlayout)
         acceptwaitLayout=findViewById(R.id.cityride_wait_layout)
-        Log.d("CityRideActivity","ride_id====="+ride_request_id+"+"+ride_id)
+        Log.d("CityRideActivity","ride_id====="+ride_id)
         binding.locationTo.text=address_to
         binding.locationFrom.text=intent.getStringExtra("location_from")
         binding.cityRideDate.text=date
@@ -247,6 +252,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
         }
 
         binding.acceptCityRideBtn.setOnClickListener {
+
             accepted=1
            // var url="https://test.pearl-developer.com/figo/api/driver-ride/accept-city-ride-request"
 
@@ -283,136 +289,263 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
             }
             (timer as CountDownTimer).start()
 
-
-
          }
     }
-     private fun acceptwait(){
+     private fun acceptwait() {
          Log.d("RES CITY", "Enter Functions")
-      //   Toast.makeText(this,"Accept API RUNIING",Toast.LENGTH_SHORT).show()
-         var min=5
-         var sec:Int=60
+         //   Toast.makeText(this,"Accept API RUNIING",Toast.LENGTH_SHORT).show()
+         var min = 5
+         var sec: Int = 60
 
-
-         var finished:Boolean=false
+         var finished: Boolean = false
          var timertv = findViewById<TextView>(R.id.timer5min)
 
+         if (ride_type == "advance") {
+             var url=Helper.accept_advance_ride_request
 
-         var url=Helper.accept_city_ride_request
+             Log.d("CityRideActivity", "Advance Accept status URL===" + url)
+             var queue = Volley.newRequestQueue(this)
+             var json = JSONObject()
+             json.put("ride_id", ride_id)
+             Log.d("Ride id", "Ride id===" + json)
+
+
+             val jsonOblect: JsonObjectRequest =
+                 object : JsonObjectRequest(Method.POST, url, json,
+                     com.android.volley.Response.Listener<JSONObject?> { response ->
+
+                         if (response != null) {
+
+                             var data = response.getJSONObject("data")
+
+                             var ride = data.getJSONObject("ride")
+                             var id = ride.getString("id")
+                             var status = ride.getString("status")
+                             booking_id = ride.getString("booking_id")
+                             type = ride.getString("type")
+
+                             Log.d("RES CITY", "Advance Accept status response===" + response)
+
+
+                             var to_location =
+                                 response.getJSONObject("data").getJSONObject("ride")
+                                     .getJSONObject("to_location")
+                             to_location_lat = to_location.getString("lat")
+                             to_location_long = to_location.getString("lng")
+                             address_name = to_location.getString("name")
+                             /*     Log.d(
+                                             "SendData",
+                                             "to_location" + to_location_lat + "\n" + to_location_long + "\n" + address_name
+                                         )*/
+
+                             var from_location = response.getJSONObject("data").getJSONObject("ride")
+                                 .getJSONObject("from_location")
+                             from_location_lat = from_location.getString("lat")
+                             from_location_long = from_location.getString("lng")
+                             from_name = from_location.getString("name")
+                             /*       Log.d(
+                                             "SendData",
+                                             "to_location" + from_location_lat + "\n" + from_location_long + "\n" + from_name
+                                         )*/
+
+                             date_only = ride.getString("date_only")
+                             time_only = ride.getString("time_only")
+                             var customer =
+                                 response.getJSONObject("data").getJSONObject("customer")
+                             customer_id = customer.getString("id")
+                             customer_name = customer.getString("name")
+                             customer_contact = customer.getString("contact_no")
+                             Toast.makeText(this, status, Toast.LENGTH_SHORT).show()
+                             prefManager.setActiveRide(1)
+                             if (!status.equals("pending")) {
+                                 val alertDialog2 = android.app.AlertDialog.Builder(this)
+                                 alertDialog2.setTitle("Thank-you for waiting. Customer has accepted your ride request.")
+                                 alertDialog2.setMessage(" Please proceed.")
+                                 alertDialog2.setPositiveButton("Yes") { dialog: DialogInterface?, which: Int ->
+                                     addNotification()
+                                     /*Toast.makeText(this,"Customer has accepted your ride request.",Toast.LENGTH_SHORT).show()*/
+                                     if (outstation_id==2){}
+                                     else{
+                                     startActivity(
+                                         Intent(this, CustomerCityRideDetailActivity::class.java)
+                                             .putExtra("booking_id", booking_id.toString())
+                                             .putExtra("type", type)
+                                             .putExtra("to_location_lat", to_location_lat)
+                                             .putExtra("to_location_long", to_location_long)
+                                             .putExtra("address_name", address_name)
+                                             .putExtra("from_location_lat", from_location_lat)
+                                             .putExtra("from_location_long", from_location_long)
+                                             .putExtra("from_name", from_name)
+                                             .putExtra("date_only", date_only)
+                                             .putExtra("time_only", time_only)
+                                             .putExtra("ride_id", ride_id)
+                                             .putExtra("customer_name", customer_name)
+                                             .putExtra("customer_contact", customer_contact)
+                                             .putExtra("price", price)
+                                             .putExtra("ride_type", type)
+                                     )
+                                     }
+
+                                 }
+                                 alertDialog2.setNegativeButton(
+                                     "Cancel"
+                                 ) { dialog: DialogInterface, which: Int ->
+                                     reject()
+                                     dialog.cancel()
+                                 }
+                                 alertDialog2.show()
+
+                             }
+                         }
+                         //prefManager.setActiveRide(1)
+                         // startActivity(Intent(this,DriverDashBoard::class.java))
+
+
+                     },
+                     Response.ErrorListener { error ->
+                         Log.d(
+                             "CityRideActivity",
+                             "error===" + error
+                         )
+                     }) {
+                     @SuppressLint("SuspiciousIndentation")
+                     @Throws(AuthFailureError::class)
+                     override fun getHeaders(): Map<String, String> {
+                         val headers: MutableMap<String, String> = HashMap()
+
+
+                         headers.put("Content-Type", "application/json; charset=UTF-8");
+                         headers.put("Authorization", "Bearer " + prefManager.getToken());
+                         return headers
+                     }
+                 }
+             queue.add(jsonOblect)
+         }
+         else{
+
+         var url = Helper.accept_city_ride_request
          Log.d("CityRideActivity", "Accept status URL===" + url)
-         var queue=Volley.newRequestQueue(this)
-         var json=JSONObject()
-         json.put("ride_id",ride_id)
-         Log.d("Ride id","Ride id==="+json)
-         var accepted:Boolean=false
+         var queue = Volley.newRequestQueue(this)
+         var json = JSONObject()
+         json.put("ride_id", ride_id)
+         Log.d("Ride id", "Ride id===" + json)
+         var accepted: Boolean = false
 
-                     val jsonOblect: JsonObjectRequest =
-                         object : JsonObjectRequest(Method.POST, url, json,
-                             com.android.volley.Response.Listener<JSONObject?> { response ->
-                                // Log.d("CityRideActivityRes", "Accept status response===" + response)
+         val jsonOblect: JsonObjectRequest =
+             object : JsonObjectRequest(Method.POST, url, json,
+                 com.android.volley.Response.Listener<JSONObject?> { response ->
+                     // Log.d("CityRideActivityRes", "Accept status response===" + response)
 
-                                 var message = response.getString("message")
-                                 //     Toast.makeText(this@CityRideActivity, ""+message, Toast.LENGTH_LONG).show()
+                     var message = response.getString("message")
+                     //     Toast.makeText(this@CityRideActivity, ""+message, Toast.LENGTH_LONG).show()
 
-                                 if (response != null) {
+                     if (response != null) {
 
-                                     var data = response.getJSONObject("data")
+                         var data = response.getJSONObject("data")
 
-                                     var ride = data.getJSONObject("ride")
-                                     var id = ride.getString("id")
-                                     var status = ride.getString("status")
-                                     booking_id = ride.getString("booking_id")
-                                     type = ride.getString("type")
-                                     Log.d("RES CITY", "Accept status response===" + response)
-                                  //   Log.d("CityRideActivity", "id===" + booking_id)
+                         var ride = data.getJSONObject("ride")
+                         var id = ride.getString("id")
+                         var status = ride.getString("status")
+                         booking_id = ride.getString("booking_id")
+                         type = ride.getString("type")
 
-                                     var to_location =
-                                         response.getJSONObject("data").getJSONObject("ride")
-                                             .getJSONObject("to_location")
-                                     to_location_lat = to_location.getString("lat")
-                                      to_location_long = to_location.getString("lng")
-                                      address_name = to_location.getString("name")
-                                /*     Log.d(
+                         Log.d("RES CITY", "Accept status response===" + response)
+                         //   Log.d("CityRideActivity", "id===" + booking_id)
+
+                         var to_location =
+                             response.getJSONObject("data").getJSONObject("ride")
+                                 .getJSONObject("to_location")
+                         to_location_lat = to_location.getString("lat")
+                         to_location_long = to_location.getString("lng")
+                         address_name = to_location.getString("name")
+                         /*     Log.d(
                                          "SendData",
                                          "to_location" + to_location_lat + "\n" + to_location_long + "\n" + address_name
                                      )*/
 
-                                   var from_location = response.getJSONObject("data").getJSONObject("ride")
-                                             .getJSONObject("from_location")
-                                      from_location_lat = from_location.getString("lat")
-                                      from_location_long = from_location.getString("lng")
-                                      from_name = from_location.getString("name")
-                              /*       Log.d(
+                         var from_location = response.getJSONObject("data").getJSONObject("ride")
+                             .getJSONObject("from_location")
+                         from_location_lat = from_location.getString("lat")
+                         from_location_long = from_location.getString("lng")
+                         from_name = from_location.getString("name")
+                         /*       Log.d(
                                          "SendData",
                                          "to_location" + from_location_lat + "\n" + from_location_long + "\n" + from_name
                                      )*/
 
-                                      date_only = ride.getString("date_only")
-                                      time_only = ride.getString("time_only")
-                                      var customer =
-                                         response.getJSONObject("data").getJSONObject("customer")
-                                      customer_id = customer.getString("id")
-                                      customer_name = customer.getString("name")
-                                      customer_contact = customer.getString("contact_no")
-                                     Toast.makeText(this, status,Toast.LENGTH_SHORT).show()
-                                     prefManager.setActiveRide(1)
-                                     if (!status.equals("pending")) {
-                                         val alertDialog2 = android.app.AlertDialog.Builder(this)
-                                         alertDialog2.setTitle("Thank-you for waiting. Customer has accepted your ride request.")
-                                         alertDialog2.setMessage(" Please proceed.")
-                                         alertDialog2.setPositiveButton("Yes") { dialog: DialogInterface?, which: Int ->
-                                             addNotification()
-                                             /*Toast.makeText(this,"Customer has accepted your ride request.",Toast.LENGTH_SHORT).show()*/
-                                             startActivity(Intent(this, CustomerCityRideDetailActivity::class.java)
-                                                     .putExtra("booking_id", booking_id.toString())
-                                                     .putExtra("type", type)
-                                                     .putExtra("to_location_lat", to_location_lat)
-                                                     .putExtra("to_location_long", to_location_long)
-                                                     .putExtra("address_name", address_name)
-                                                     .putExtra("from_location_lat", from_location_lat)
-                                                     .putExtra("from_location_long", from_location_long)
-                                                     .putExtra("from_name", from_name)
-                                                     .putExtra("date_only", date_only)
-                                                     .putExtra("time_only", time_only)
-                                                     .putExtra("ride_id", ride_id)
-                                                     .putExtra("customer_name", customer_name)
-                                                     .putExtra("customer_contact", customer_contact)
-                                                     .putExtra("price",price)
-                                             )
+                         date_only = ride.getString("date_only")
+                         time_only = ride.getString("time_only")
+                         var customer =
+                             response.getJSONObject("data").getJSONObject("customer")
+                         customer_id = customer.getString("id")
+                         customer_name = customer.getString("name")
+                         customer_contact = customer.getString("contact_no")
+                         Toast.makeText(this, status, Toast.LENGTH_SHORT).show()
+                         prefManager.setActiveRide(1)
+                         if (!status.equals("pending")) {
+                             val alertDialog2 = android.app.AlertDialog.Builder(this)
+                             alertDialog2.setTitle("Thank-you for waiting. Customer has accepted your ride request.")
+                             alertDialog2.setMessage(" Please proceed.")
+                             alertDialog2.setPositiveButton("Yes") { dialog: DialogInterface?, which: Int ->
+                                 addNotification()
+                                 /*Toast.makeText(this,"Customer has accepted your ride request.",Toast.LENGTH_SHORT).show()*/
+                                 startActivity(
+                                     Intent(this, CustomerCityRideDetailActivity::class.java)
+                                         .putExtra("booking_id", booking_id.toString())
+                                         .putExtra("type", type)
+                                         .putExtra("to_location_lat", to_location_lat)
+                                         .putExtra("to_location_long", to_location_long)
+                                         .putExtra("address_name", address_name)
+                                         .putExtra("from_location_lat", from_location_lat)
+                                         .putExtra("from_location_long", from_location_long)
+                                         .putExtra("from_name", from_name)
+                                         .putExtra("date_only", date_only)
+                                         .putExtra("time_only", time_only)
+                                         .putExtra("ride_id", ride_id)
+                                         .putExtra("customer_name", customer_name)
+                                         .putExtra("customer_contact", customer_contact)
+                                         .putExtra("price", price)
+                                         .putExtra("ride_type", type)
+                                 )
 
 
-
-                                         }
-                                         alertDialog2.setNegativeButton(
-                                             "Cancel"
-                                         ) { dialog: DialogInterface, which: Int ->
-                                             reject()
-                                             dialog.cancel() }
-                                         alertDialog2.show()
-
-                                     }
-                                 }
-                                 //prefManager.setActiveRide(1)
-                                 // startActivity(Intent(this,DriverDashBoard::class.java))
-
-
-                             },
-                             Response.ErrorListener { error -> Log.d("CityRideActivity", "error===" + error) }) {
-                             @SuppressLint("SuspiciousIndentation")
-                             @Throws(AuthFailureError::class)
-                             override fun getHeaders(): Map<String, String> {
-                                 val headers: MutableMap<String, String> = HashMap()
-
-
-                                 headers.put("Content-Type", "application/json; charset=UTF-8");
-                                 headers.put("Authorization", "Bearer " + prefManager.getToken());
-                                 return headers
                              }
-                         }
-                     queue.add(jsonOblect)
-               /*      delay(10000L)
-                 }}*/
+                             alertDialog2.setNegativeButton(
+                                 "Cancel"
+                             ) { dialog: DialogInterface, which: Int ->
+                                 reject()
+                                 dialog.cancel()
+                             }
+                             alertDialog2.show()
 
+                         }
+                     }
+                     //prefManager.setActiveRide(1)
+                     // startActivity(Intent(this,DriverDashBoard::class.java))
+
+
+                 },
+                 Response.ErrorListener { error ->
+                     Log.d(
+                         "CityRideActivity",
+                         "error===" + error
+                     )
+                 }) {
+                 @SuppressLint("SuspiciousIndentation")
+                 @Throws(AuthFailureError::class)
+                 override fun getHeaders(): Map<String, String> {
+                     val headers: MutableMap<String, String> = HashMap()
+
+
+                     headers.put("Content-Type", "application/json; charset=UTF-8");
+                     headers.put("Authorization", "Bearer " + prefManager.getToken());
+                     return headers
+                 }
+             }
+         queue.add(jsonOblect)
+         /*      delay(10000L)
+                 }}*/
+     }
 
      }
 
@@ -450,7 +583,6 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
          mNotificationManager.notify(10, mBuilder.build())
      }
 
-
      fun reject(){
          //var url="https://test.pearl-developer.com/figo/api/driver-ride/reject-city-ride-request"
          var url=Helper.reject_city_ride_request
@@ -458,6 +590,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
          var queue=Volley.newRequestQueue(this)
          var json=JSONObject()
          json.put("ride_request_id",ride_request_id)
+         json.put("ride_id",ride_id)
 
 
          val jsonOblect: JsonObjectRequest =
@@ -469,8 +602,6 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                          var message=response.getString("message")
                          Toast.makeText(this@CityRideActivity, "rejected"+message, Toast.LENGTH_LONG).show()
                          //finish()
-
-
                      }
                      // Get your json response and convert it to whatever you want.
                  }, object : com.android.volley.Response.ErrorListener {
@@ -493,7 +624,6 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
 
          queue.add(jsonOblect)
          // Toast.makeText(this,"Accepted",Toast.LENGTH_SHORT).show()
-
 
          // Toast.makeText(this," This Booking is rejected",Toast.LENGTH_SHORT).show()
          // finish()

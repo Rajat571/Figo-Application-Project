@@ -95,6 +95,9 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         dropLocation = intent.getStringExtra("from_name")!!
         fareprice = intent.getStringExtra("price")!!
         rideId = intent.getIntExtra("ride_id",0)!!
+        var ride_type=intent.getStringExtra("ride_type")
+
+
 
         prefManager=PrefManager(this)
         stopService(Intent(this, MyService::class.java))

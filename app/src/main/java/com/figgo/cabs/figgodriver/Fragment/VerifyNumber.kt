@@ -140,8 +140,6 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
         resentOTP=view.findViewById<Button>(R.id.resent_otp)
 
 
-
-
         verify_btn.setOnClickListener {
             verifyOTP(view)
         }
@@ -214,6 +212,9 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
                             prefManager.setDriverName(user.getString("name"))
                             prefManager.setMobile_No(user.getString("mobile"))
                             prefManager.setemail(user.getString("email"))
+                           var documents= user.getJSONObject( "documents")
+                            prefManager.setDriverProfile(documents.getString( "driver_image"))
+                            Log.d("VerifyNumber","User-Image==="+  documents.getString( "driver_image"))
                             user_type=user.getString("user_type")
                             prefManager.setUserType(user_type)
                             Log.d("VerifyNumber","User-Type==="+user_type)

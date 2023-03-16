@@ -586,6 +586,7 @@ class UpdateDriverProfileFragment : Fragment() {
                             .load(profile_pic_url)
                             .into(selfiee);
 
+
                     }catch (e:Exception){
                         profile_pic_url = " "
                     }
@@ -734,8 +735,6 @@ class UpdateDriverProfileFragment : Fragment() {
                             x+=1
                             if(x>1)
                             fetchCabCategory2(cab_type_id)
-
-
                         }
 
                         override fun onNothingSelected(parent: AdapterView<*>) {
@@ -1773,7 +1772,7 @@ if(position!=-1) {
                                 )*/
                     selfiee.setImageBitmap(bitmap)
                     isProfileChanged=true
-                    prefManager.setAadhar_verification_back(driver_profile)
+                    prefManager.setDriverProfile(driver_profile)
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }

@@ -49,7 +49,7 @@ class CityRideCurrentListAdapter(var context:Context, var ridelist:List<CityCurr
                     .putExtra("des_long",data.des_long)
                     .putExtra("customer_booking_id",data.cutomer_name)
                     .putExtra("ride_id",data.ride_id)
-                    .putExtra("ride_request_id",data.ride_request_id)
+                .putExtra("ride_request_id",data.ride_request_id)
                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
             //deleteCache(context)
 
