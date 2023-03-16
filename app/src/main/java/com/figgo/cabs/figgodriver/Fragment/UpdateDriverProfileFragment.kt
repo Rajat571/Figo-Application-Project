@@ -807,8 +807,6 @@ class UpdateDriverProfileFragment : Fragment() {
 
 
 
-
-
                 //Log.d("Year","Year==="+yearval)
                 //year.setSelection(dateadapter.getPosition(yearval.toInt()))
                 //Log.d("UpdateDriverProfile",""+it.getJSONObject("work").getString("state").toList())
