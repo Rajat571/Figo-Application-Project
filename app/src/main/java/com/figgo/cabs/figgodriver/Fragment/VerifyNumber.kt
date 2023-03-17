@@ -15,7 +15,6 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
@@ -44,6 +43,10 @@ import com.figgo.cabs.figgodriver.UI.DriverDashBoard
 
 import com.figgo.cabs.pearllib.BaseClass
 import com.figgo.cabs.pearllib.Helper
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.fragment_m_pin_generate.*
 
 import org.json.JSONObject
@@ -67,6 +70,7 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
     var getotp=0
     var status=0
     var user_type=""
+    var deviceToken:String=""
     lateinit var view_timer:TextView
     lateinit var cTimer:CountDownTimer
     var googleSignInClient: GoogleSignInClient? = null
@@ -148,7 +152,8 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
             //verifyOTP(view)
             resentOTP.visibility=View.GONE
             startTimer()
-            sendOPT(view)
+            getDeviceToken(view)
+            sendOPT(view, deviceToken)
             /*   val otp1 = "https://test.pearl-developer.com/figo/api/otp/send-otp"
 
                val queue2 = Volley.newRequestQueue(requireContext())
@@ -175,6 +180,8 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
 
         }
         binding.continuetv.setOnClickListener {
+
+
             dialog.show()
             if ( baseClass.validateNumber(binding.inputNumber)){
 
@@ -183,19 +190,42 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
                 otp_screen.visibility=View.VISIBLE
 
                 mobile_num = binding.inputNumber.text.toString()
-                sendOPT(view)
+                getDeviceToken(view)
+
+
+
                 // val URL = "https://test.pearl-developer.com/figo/api/create-driver"
 
         }}
     }
 
-    private fun sendOPT(view:View){
+    private fun getDeviceToken(view: View) {
+        val realtimeDatabase = Firebase.database
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                return@OnCompleteListener
+            }
+             deviceToken = task.result.toString()
+            sendOPT(view,deviceToken)
+            Log.d("Send data","Device Token"+deviceToken)
+            val tokenDirRef = realtimeDatabase.getReference("Tokens")
+
+            tokenDirRef.setValue(deviceToken.toString())
+        })
+
+    }
+
+    private fun sendOPT(view: View, deviceToken: String){
+
+        Log.d("Send data","Device Token"+ deviceToken)
         var URL=Helper.create_driver
         // val otp1 = "https://test.pearl-developer.com/figo/api/otp/send-otp"
         val otp1=Helper.send_otp
         val queue = Volley.newRequestQueue(requireContext())
         val json = JSONObject()
         json.put("mobile", mobile_num)
+        json.put("device_token", deviceToken)
+        Log.d("SENDDATA","JSONDATA"+json)
         Log.d("VerifyNumber", "response===" + URL)
         val jsonOblect: JsonObjectRequest =
             object : JsonObjectRequest(Method.POST, URL, json,
