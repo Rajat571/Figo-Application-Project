@@ -122,7 +122,12 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
          drivername=vieww.findViewById<TextView>(R.id.drivernamee)
          driver_num=vieww.findViewById<TextView>(R.id.driver_numberr)
         var email=vieww.findViewById<TextView>(R.id.emailTV)
-        email.text=prefManager.getemail()
+        if(prefManager.getemail() == "null"){
+            email.text="- - -"
+        }else{
+            email.text=prefManager.getemail()
+        }
+            //email.text=prefManager.getemail()
          driverImage.setImageBitmap(image)
 
         drivername.text=prefManager.getDriverName()
@@ -498,13 +503,25 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
         }
 
         vieww.setOnClickListener {
-            drawer.closeDrawer(GravityCompat.END)
+
+            /*drawer.closeDrawer(GravityCompat.END)
             bundle.putString("Key","Profile")
             var supportFrag = SupportFragment()
             supportFrag.arguments=bundle
             offlineLayout.visibility=View.GONE
             supportFragmentManager.beginTransaction().replace(R.id.home_frame,supportFrag).commit()
             homeFrame.visibility=View.VISIBLE
+*/
+            drawer.closeDrawer(GravityCompat.END)
+            bundle2.putString("Key","Profile")
+            GlobalVariables.dashboardBackCount+=1
+            var getData = UpdateDriverProfileFragment()
+            getData.arguments=bundle2
+            offlineLayout.visibility=View.GONE
+            supportFragmentManager.beginTransaction().replace(R.id.home_frame,getData,"Home").commit()
+            homeFrame.visibility=View.VISIBLE
+
+            true
 
         }
         draw_layout.menu.findItem(R.id.logout).setOnMenuItemClickListener {

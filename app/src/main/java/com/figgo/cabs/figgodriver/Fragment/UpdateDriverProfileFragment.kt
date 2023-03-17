@@ -540,6 +540,8 @@ class UpdateDriverProfileFragment : Fragment() {
                     try {
 
                         driver_name=it.getString("name")
+                        if(driver_name.equals("null"))
+                            driver_name=""
                         profile_name.setText(driver_name)
                     }catch (e:Exception){
                         profile_name.setText(" ")
@@ -547,6 +549,9 @@ class UpdateDriverProfileFragment : Fragment() {
 
                     try {
                         driver_mobile=it.getString("mobile")
+
+                        if(driver_mobile.equals("null"))
+                            driver_mobile=""
                         profile_mobile.setText(driver_mobile)
                     }catch (e:Exception){
                         profile_mobile.setText(" ")
@@ -554,12 +559,16 @@ class UpdateDriverProfileFragment : Fragment() {
 
                     try {
                        var email=it.getString("email")
+                        if(email.equals("null"))
+                            email=""
                        driver_email.setText(email)
                     }catch (e:Exception){
                        driver_email.setText(" ")
                     }
                     try {
                         driver_dl=it.getString("dl_number")
+                        if(driver_dl.equals("null"))
+                            driver_dl=""
                         driver_dlNo.setText(driver_dl)
                     }catch (e:Exception){
                         driver_dlNo.setText(" ")
@@ -567,6 +576,8 @@ class UpdateDriverProfileFragment : Fragment() {
 
                     try {
                         driver_panno=it.getString("pan_number")
+                        if(driver_panno.equals("null"))
+                            driver_panno=""
                         driver_panNo.setText(driver_panno)
                     }catch (e:Exception){
                         driver_panNo.setText(" ")
@@ -574,6 +585,8 @@ class UpdateDriverProfileFragment : Fragment() {
 
                     try {
                         driver_adhar=it.getString("aadhar_number")
+                        if(driver_adhar.equals("null"))
+                            driver_adhar=""
                         driver_adharNo.setText(driver_adhar)
                     }catch (e:Exception){
                         driver_adharNo.setText(" ")

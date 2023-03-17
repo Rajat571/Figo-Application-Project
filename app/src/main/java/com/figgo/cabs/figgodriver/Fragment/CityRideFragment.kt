@@ -187,6 +187,8 @@ class CityRideFragment : Fragment() {
     }
 
     private fun getUserRecharge() {
+        var requestlimit  = ""
+        var bookinglimitstr = ""
         var url=Helper.get_user_recharge
         var queue=Volley.newRequestQueue(requireContext())
         var jsonobjectRequest=object :JsonObjectRequest(Method.POST,url,null,Response.Listener<JSONObject>{
@@ -194,14 +196,27 @@ class CityRideFragment : Fragment() {
             Log.d("get_user_recharge","response==="+response)
             if (response!=null){
                 try {
-                    riderequestno.text = response.getString("request_limit")
-                    bookinglimit.text = response.getString("booking_limit")
+
+                    if(!response.getString("request_limit").equals("null"))
+                        requestlimit = response.getString("request_limit")
+                    else
+                        requestlimit = "0"
+
+                    if(!response.getString("booking_limit").equals("null"))
+                        bookinglimitstr = response.getString("booking_limit")
+                    else
+                        bookinglimitstr = "0"
+                    riderequestno.text = requestlimit
+                    bookinglimit.text = bookinglimitstr
                 } catch (_: Exception) {
+                    requestlimit="0"
+                    bookinglimitstr="0"
                     riderequestno.text = "0"
                     bookinglimit.text = "0"
                 }
+
                 rechargeNow.setOnClickListener {
-                    if (response.getString("request_limit").toInt()==0){
+                    if (requestlimit.toInt()==0){
                         Toast.makeText(requireContext(),"Your balance is  over please recharge ",Toast.LENGTH_SHORT).show()
                         parentFragment?.let { it1 ->
                             parentFragmentManager.beginTransaction().replace(
