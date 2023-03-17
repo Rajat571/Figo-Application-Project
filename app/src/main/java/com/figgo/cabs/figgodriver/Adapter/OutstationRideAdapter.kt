@@ -36,7 +36,7 @@ class OutstationRideAdapter(var context: Context, var ridelist:List<CityCurrentR
         holder.itemView.setOnClickListener {
             holder.rideCardview.background = context.getDrawable(R.drawable.booking_box_outline)
             //holder.rideCardview.setCardBackgroundColor(Color.GREEN)
-            context.startActivity(
+/*            context.startActivity(
                 Intent(context, CityRideActivity::class.java)
                 .putExtra("location_to",data.to)
                 .putExtra("location_from",data.from)
@@ -50,7 +50,7 @@ class OutstationRideAdapter(var context: Context, var ridelist:List<CityCurrentR
                 .putExtra("customer_booking_id",data.cutomer_name)
                 .putExtra("ride_id",data.ride_id)
                     .putExtra("Outstaion_id",data.y)
-                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK))*/
             //deleteCache(context)
 
         }

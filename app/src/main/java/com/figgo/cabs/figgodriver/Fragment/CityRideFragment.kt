@@ -81,7 +81,12 @@ class CityRideFragment : Fragment() {
         bookinglimit = view.findViewById(R.id.citybookingLimit)
         riderequestno = view.findViewById(R.id.ride_requestlimit)
         rechargeNow = view.findViewById(R.id.rechargenow)
-        cityRideCurrentListAdapter = CityRideCurrentListAdapter(requireContext().applicationContext, ridelists)
+        try {
+            cityRideCurrentListAdapter =
+                CityRideCurrentListAdapter(requireContext().applicationContext, ridelists)
+        }catch (_:Exception){
+
+        }
 
         getUserRecharge()
 
@@ -96,13 +101,17 @@ class CityRideFragment : Fragment() {
 
 
         swiperefresh.setOnRefreshListener {
-            count = 0
-            loading.visibility = View.VISIBLE
-            swiperefresh.isRefreshing = false
-            cityRideCurrentListAdapter.notifyDataSetChanged()
-            cityRideAdvanceListAdapter.notifyDataSetChanged()
-            submitCurrentRideForm(view)
-            submitAdvanceRideForm(view)
+            try {
+                count = 0
+                loading.visibility = View.VISIBLE
+                swiperefresh.isRefreshing = false
+                cityRideCurrentListAdapter.notifyDataSetChanged()
+                cityRideAdvanceListAdapter.notifyDataSetChanged()
+                submitCurrentRideForm(view)
+                submitAdvanceRideForm(view)
+            }catch (_:Exception){
+
+            }
         }
 
         val handler = Handler()
