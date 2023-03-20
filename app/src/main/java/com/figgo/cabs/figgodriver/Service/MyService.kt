@@ -119,12 +119,15 @@ prefManager= PrefManager(applicationContext)
                         prefManager.setlongitude(lon.toFloat())
                         x=x+0.02f
                         geocoder = Geocoder(this, Locale.getDefault())
+try {
+    address = geocoder.getFromLocation(lat, lon, 1)
+    if (address != null) {
+        addressName += address.get(0).getAddressLine(0)
+        // Toast.makeText(this,"Address =  "+addressName,Toast.LENGTH_SHORT).show()
+    }
+}catch (_:Exception){
 
-                        address = geocoder.getFromLocation(lat,lon,1)
-                        if(address!=null){
-                            addressName+=address.get(0).getAddressLine(0)
-                           // Toast.makeText(this,"Address =  "+addressName,Toast.LENGTH_SHORT).show()
-                        }
+}
                         // prefManager.setlongitude(lon.toFloat())
 
                         val URL = "https://test.pearl-developer.com/figo/api/post-location"

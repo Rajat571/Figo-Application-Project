@@ -43,12 +43,12 @@ class PartnerActiveRideFragment : Fragment() {
 
     private fun paymentHistoryAdapter(view: View) {
         var history = view.findViewById<RecyclerView>(R.id.partRechargeHistoryRecycler)
-        var data = ArrayList<PaymentHistoryModel>()
+        var data = ArrayList<PaymentHistoryModel>()/*
         data.add(PaymentHistoryModel("2.10.2022","300","Mr. XYZ XYZ","15minute 6:25pm","10 KM",1))
         data.add(PaymentHistoryModel("2.10.2022","1000","Mr. XYZ XYZ","15minute 6:25pm","10 KM",0))
         data.add(PaymentHistoryModel("2.10.2022","1500","Mr. XYZ XYZ","15minute 6:25pm","10 KM",0))
         data.add(PaymentHistoryModel("2.10.2022","23","Mr. XYZ XYZ","15minute 6:25pm","10 KM",1))
-        data.add(PaymentHistoryModel("2.10.2022","2300","Mr. XYZ XYZ","15minute 6:25pm","10 KM",1))
+        data.add(PaymentHistoryModel("2.10.2022","2300","Mr. XYZ XYZ","15minute 6:25pm","10 KM",1))*/
         history.adapter= PartnerPaymentHistoryAdapter(data)
         history.layoutManager=LinearLayoutManager(requireContext())
     }

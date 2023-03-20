@@ -102,8 +102,8 @@ class ActiveRide : Fragment() {
         var jsonArrayRequest:JsonArrayRequest = object :JsonArrayRequest(Method.POST,activeURL,json,{
 if(it!=null){
     for(i in 0 until it.length()){
-    if(it.length()>0)
-        loading.visibility=View.GONE
+        if(it.length()>0)
+            loading.visibility=View.GONE
         var data = it.getJSONObject(i)
         try {
             booking_id = data.getString("booking_id")

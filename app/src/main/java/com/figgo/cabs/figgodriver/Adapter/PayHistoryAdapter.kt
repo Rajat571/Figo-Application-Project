@@ -16,7 +16,12 @@ class PayHistoryAdapter(var data:List<PaymentHistoryModel>):RecyclerView.Adapter
     }
 
     override fun onBindViewHolder(holder: PaymentHolder, position: Int) {
+
         var historyData = data[position]
+        if(historyData.type==1){
+            holder.l1.text = ""
+            holder.l2.text = "Transaction ID"
+        }
         holder.date.text=historyData.paymentdate
         var plusminus:String=""
         if(historyData.walletbank==0) {
@@ -44,4 +49,6 @@ class PaymentHolder(itemView: View): ViewHolder(itemView){
     var subhistory2 = itemView.findViewById<TextView>(R.id.history_detail2)
     var sendpayment = itemView.findViewById<ImageView>(R.id.sendpayment)
     var subhistory3 = itemView.findViewById<TextView>(R.id.history_detail3)
+    var l1 = itemView.findViewById<TextView>(R.id.paymentL1)
+    var l2 = itemView.findViewById<TextView>(R.id.paymentL2)
 }

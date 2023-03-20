@@ -214,13 +214,14 @@ class CityRideFragment : Fragment() {
                             var y = 0
                             try {
                                 var current=response.getJSONArray("current")
-                                if (current.length()!=0){
+                                count+=current.length()
+                                if (count>0){
                                     loading.visibility = View.GONE
                                 }
                                 else{
                                     loading.visibility=View.VISIBLE
                                 }
-                                for (i in 0..current.length()-1){
+                                for (i in 0 until current.length()){
 
                                     var data=current.getJSONObject(i)
                                     var booking_id= data.getString("booking_id")
@@ -298,13 +299,16 @@ class CityRideFragment : Fragment() {
                             try {
                                 var data = response.getJSONArray("advance").length()
                                 count += data
-                                if (data >= 1){
+                                if (count >= 1){
                                     loading.visibility = View.GONE
-                                    progressBar.visibility = View.GONE}
+                                    progressBar.visibility = View.GONE
+                                    relativeLayout_data.visibility = View.VISIBLE
+                                }
                                 else{
                                     loading.visibility = View.VISIBLE
+                                    relativeLayout_data.visibility = View.GONE
                                 }
-                                relativeLayout_data.visibility = View.VISIBLE
+
 
                                 for (i in 0 until data) {
 

@@ -9,10 +9,11 @@
     tools:context=".figgodriver.Fragment.UpdateDriverProfileFragment">
 
     <LinearLayout
+        android:id="@+id/linearLayout2main"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,13 +22,13 @@
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/driverdetails_menu"
             android:layout_width="match_parent"
-            app:itemTextColor="@drawable/view_details_bottom_nav_color"
             android:layout_height="48dp"
-            android:textAlignment="center"
-            app:labelVisibilityMode="labeled"
             android:layout_margin="10dp"
             android:background="@drawable/menu_item_white"
             android:padding="3dp"
+            android:textAlignment="center"
+            app:itemTextColor="@drawable/view_details_bottom_nav_color"
+            app:labelVisibilityMode="labeled"
             app:menu="@menu/details_view_update_menu" />
 
         <include
@@ -39,11 +40,36 @@
             android:id="@+id/get_drivercab_layout"
             layout="@layout/update_cab"
             android:visibility="gone" />
+
         <include
             android:id="@+id/get_workarea_layout"
-            layout="@layout/layoutworkingarea"
-            />
+            layout="@layout/layoutworkingarea" />
     </LinearLayout>
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gif_view"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_200sdp"
+        android:src="@drawable/gif_profile"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <ProgressBar
+        android:id="@+id/updatePrograssBar"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

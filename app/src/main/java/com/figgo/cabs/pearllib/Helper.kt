@@ -37,9 +37,7 @@ package com.figgo.cabs.pearllib
      var recharge_history= baseurl+"recharge/recharge-history"
     var outstation_oneway_request= baseurl+"Oneway/getRequest"
      var get_user_recharge= baseurl+"recharge/get-user-recharge"
-
-
-
+var all_transactions = baseurl+"wallet/get-transaction-history"
     var accept_advance_ride_request= baseurl+"advance-ride/accept-advance-ride-request"
 
      /**************** Partner Section ******************/

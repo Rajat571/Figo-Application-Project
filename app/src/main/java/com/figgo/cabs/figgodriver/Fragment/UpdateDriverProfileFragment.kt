@@ -43,6 +43,7 @@ import kotlin.collections.ArrayList
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_driver_cab_details.*
 import kotlinx.android.synthetic.main.update_cab.*
+import pl.droidsonroids.gif.GifImageView
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 
@@ -97,6 +98,10 @@ class UpdateDriverProfileFragment : Fragment() {
     lateinit var insurance_no:EditText
     lateinit var vehicle_num:EditText
     lateinit var driver_panNo:EditText
+    lateinit var gif_view:GifImageView
+    lateinit var linearlayout2:LinearLayout
+    lateinit var updatePrograssBar:ProgressBar
+
     var updatedStateList = java.util.ArrayList<String>()
     var updatedStateList2 = java.util.ArrayList<String>()
     var stateList = kotlin.collections.ArrayList<String>()
@@ -139,6 +144,7 @@ class UpdateDriverProfileFragment : Fragment() {
     var driver_cab_image:String=""
     var driver_profile_ext:String=""
     var driver_cab_image_ext:String=""
+
 
     lateinit var calender: Calendar
     override fun onCreateView(
@@ -213,6 +219,8 @@ class UpdateDriverProfileFragment : Fragment() {
 
         profile_view.visibility=View.GONE
         cab_view.visibility=View.GONE
+        linearlayout2.visibility=View.GONE
+        gif_view.visibility=View.VISIBLE
         if(visible_view.equals("Profile"))
         {
             profile_view.visibility=View.VISIBLE
@@ -248,7 +256,8 @@ class UpdateDriverProfileFragment : Fragment() {
         updateCabButton=view.findViewById(R.id.updatecabButton)
         updateWorkButton=view.findViewById(R.id.updateworkButton)
         show_working_area_spinner=view.findViewById(R.id.show_working_area_spinner)
-
+        gif_view = view.findViewById(R.id.gif_view)
+        linearlayout2 = view.findViewById(R.id.linearLayout2main)
         //DRIVER CAB AND WORK
         spinner_cabtype = view.findViewById<Spinner>(R.id.drivershow_cab_category)
         spinner_cabcategory = view.findViewById<Spinner>(R.id.show_cab_type)
@@ -258,7 +267,7 @@ class UpdateDriverProfileFragment : Fragment() {
         local_permit = view.findViewById<EditText>(R.id.show_tax_permit_no)
         national_permit = view.findViewById<EditText>(R.id.show_national_permit_date)
         year = view.findViewById<Spinner>(R.id.show_year_list)
-
+        updatePrograssBar = view.findViewById(R.id.updatePrograssBar)
         chooseWorkingArea = view.findViewById(R.id.show_working_area_spinner)
 
         //OUTSTATION
@@ -273,7 +282,6 @@ class UpdateDriverProfileFragment : Fragment() {
         local_working_areaLayout = view.findViewById(R.id.show_working_local_layout)
         local_state = view.findViewById(R.id.show_select_state_local)
         local_city = view.findViewById(R.id.show_select_city)
-
 
 
     }
@@ -350,6 +358,7 @@ class UpdateDriverProfileFragment : Fragment() {
             builder.show()
         }
         updateButton.setOnClickListener {
+            updatePrograssBar.visibility=View.VISIBLE
             if (profile_name.text.toString()!=driver_name){
                 driver_name=profile_name.text.toString()
                 //profile_name.setText(driver_name)
@@ -389,6 +398,7 @@ class UpdateDriverProfileFragment : Fragment() {
         }
 
         updateWorkButton.setOnClickListener {
+            updatePrograssBar.visibility=View.VISIBLE
             if (work_state!=work_state_id){
                 work_state=work_state_id
                 //local_state.setSelection(work_state)
@@ -418,6 +428,7 @@ class UpdateDriverProfileFragment : Fragment() {
         }
 
         updateCabButton.setOnClickListener {
+            updatePrograssBar.visibility=View.VISIBLE
             if (vehicle_num.text.toString()!=driver_vechle_no){
                 driver_vechle_no=vehicle_num.text.toString()
                 vehicle_num.setText(driver_vechle_no)
@@ -535,7 +546,8 @@ class UpdateDriverProfileFragment : Fragment() {
                 if(it!=null)
                 {
                     //Log.d("Get Response ","GET RESPONSE"+it)
-
+                    gif_view.visibility=View.GONE
+                    linearlayout2.visibility=View.VISIBLE
 
                     try {
 
@@ -680,6 +692,8 @@ class UpdateDriverProfileFragment : Fragment() {
         var queue2 = Volley.newRequestQueue(requireContext())
         var jsonObjectRequest2:JsonObjectRequest = object :JsonObjectRequest(Method.GET,URL2,null,
             {
+                gif_view.visibility=View.GONE
+                linearlayout2.visibility=View.VISIBLE
                 try {
                     driver_vechle_no=it.getString("v_number")
                     vehicle_num.setText(driver_vechle_no)

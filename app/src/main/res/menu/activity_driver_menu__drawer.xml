@@ -29,7 +29,7 @@
         android:title="Recharge"/>
     <item
         android:id="@+id/Payment_History"
-        android:title="Payment History"/>
+        android:title="Wallet"/>
 
             <item
                 android:id="@+id/figgo_bussiness"

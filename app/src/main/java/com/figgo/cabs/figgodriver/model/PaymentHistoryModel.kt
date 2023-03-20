@@ -7,4 +7,5 @@ data class PaymentHistoryModel(
     var payment2:String,
     var payment3:String,
     var walletbank:Int,
+    var type:Int
 )

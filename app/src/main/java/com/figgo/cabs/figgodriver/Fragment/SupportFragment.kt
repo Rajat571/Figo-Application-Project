@@ -1,6 +1,7 @@
 package com.figgo.cabs.figgodriver.Fragment
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.webkit.WebView
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
@@ -37,6 +39,7 @@ class SupportFragment : Fragment() {
     lateinit var cab_type:Spinner
     lateinit var model_type:Spinner
     lateinit var year_list:Spinner
+    lateinit var total_payemnt:TextView
     var hashMap : HashMap<String, Int> = HashMap<String, Int> ()
     var modelHashMap  : HashMap<String, Int> = HashMap<String, Int> ()
     var yearList= listOf<Int>()
@@ -87,7 +90,7 @@ class SupportFragment : Fragment() {
         var str = bundle?.getString("Key")
         var buisness_recylcer = view.findViewById<RecyclerView>(R.id.Buisness_Nav_Recycler)
         var history = view.findViewById<LinearLayout>(R.id.historyofrecharge)
-
+        total_payemnt = view.findViewById(R.id.total_payemnt)
 
         if(str.equals("About")){
         val myWebView: WebView = view.findViewById(R.id.about_wv)
@@ -198,8 +201,24 @@ class SupportFragment : Fragment() {
     private fun paymentHistoryAdapter(view: View) {
         var history = view.findViewById<RecyclerView>(R.id.RechargeHistoryRecycler)
 
+var paymentButton = view.findViewById<ImageView>(R.id.sendpayment)
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.withdrawdialogbox)
+        var cancel = dialog.findViewById<Button>(R.id.withdrawCancel)
+        var sucess = dialog.findViewById<Button>(R.id.withdrawSucess)
+        paymentButton.setOnClickListener {
+dialog.show()
+        }
+        sucess.setOnClickListener {
+            dialog.dismiss()
+        }
+        cancel.setOnClickListener {
+            dialog.dismiss()
+        }
 
-        var baseurl= Helper.recharge_history
+        var baseurl= Helper.all_transactions
         var queue= Volley.newRequestQueue(requireContext())
 
 
@@ -208,13 +227,34 @@ class SupportFragment : Fragment() {
             Log.d("Recharge history Response ",""+response)
 
             if(!response.equals("null")){
-                var data=response.getJSONArray("history")
-                for (i in 0..data.length()-1){
-                    var data1=data.getJSONObject(i)
+                var data=response.getJSONObject("transactions")
+                var alltransactios = data.getJSONArray("all_transactions")
+                var rechargehistory = data.getJSONArray("rechargehistory")
+                var total = data.getString("total_balance")
+                total_payemnt.text = "Rs."+total
+
+                for (i in 0 until alltransactios.length()){
+                    var data1=alltransactios.getJSONObject(i)
                     var date=data1.getString("created_at")
                     val parser =  SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
                     val formatter = SimpleDateFormat("dd.MM.yyyy HH:mm")
                     val formattedDate = formatter.format(parser.parse(date))
+                    Log.d("Support Fragment","Date-time"+formattedDate)
+
+                    var transaction_id=data1.getString("transaction_id")
+                    var amount=data1.getString("amount")
+
+                    Log.d("Support Fragment","Date-time"+formattedDate+"\n"+" "+"\n"+transaction_id+"\n"+amount)
+                    history_list.add(PaymentHistoryModel(formattedDate,amount,"",transaction_id,"",amount.toInt(),1))
+
+                }
+                for (i in 0 until rechargehistory.length()){
+                    var data1=rechargehistory.getJSONObject(i)
+                    var date=data1.getString("created_at")
+                    val parser =  SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                    val formatter = SimpleDateFormat("dd.MM.yyyy HH:mm")
+                    val formattedDate = formatter.format(parser.parse(date))
+
                     Log.d("Support Fragment","Date-time"+formattedDate)
 
                     var recharge_details=data1.getJSONObject("rechargedetails")
@@ -223,9 +263,14 @@ class SupportFragment : Fragment() {
                     var recharge_amount=recharge_details.getString("recharge_amount")
 
                     Log.d("Support Fragment","Date-time"+formattedDate+"\n"+booking_limit+"\n"+request_limit+"\n"+recharge_amount)
-                    history_list.add(PaymentHistoryModel(formattedDate,recharge_amount,booking_limit,request_limit,"",recharge_amount.toInt()))
-                    history.adapter= PayHistoryAdapter(history_list)
-                    history.layoutManager=LinearLayoutManager(requireContext())
+                    history_list.add(PaymentHistoryModel(formattedDate,recharge_amount,booking_limit,request_limit,"",recharge_amount.toInt(),0))
+
+                }
+                history.adapter= PayHistoryAdapter(history_list)
+                try {
+                    history.layoutManager = LinearLayoutManager(requireContext())
+                }catch (_:Exception){
+
                 }
 
             }else{

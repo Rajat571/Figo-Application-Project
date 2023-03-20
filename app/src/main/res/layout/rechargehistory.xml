@@ -2,15 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/profile_gradient"
+    android:background="@color/black"
     android:orientation="vertical"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/_10sdp"
-        android:background="#10100F"
+        android:paddingHorizontal="@dimen/_10sdp"
+        android:paddingVertical="@dimen/_40sdp"
+        android:background="@drawable/profile_gradient"
         android:orientation="vertical"
         >
         <LinearLayout
@@ -38,29 +39,32 @@
                 android:layout_marginHorizontal="@dimen/_3sdp"
                 android:fontFamily="@font/potta_one"
                 android:gravity="center"
-                android:text="Rs.18540"
-                android:textColor="@color/white"
+                android:text="Rs. X X X X"
+                android:id="@+id/total_payemnt"
+                android:textColor="@color/black"
                 android:textSize="@dimen/_20sdp" />
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Payment History"
-            android:gravity="center"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:textColor="#828282"
-            android:textStyle="bold"
-            android:textSize="@dimen/_12sdp"
-            android:layout_marginHorizontal="@dimen/_12sdp"
-            />
+
     </LinearLayout>
 
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Payment History"
+        android:gravity="left"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:textColor="#828282"
+        android:textStyle="bold"
+        android:textSize="@dimen/_12sdp"
+        android:layout_marginHorizontal="@dimen/_4sdp"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/black"
+        android:layout_marginTop="@dimen/_5sdp"
         android:id="@+id/RechargeHistoryRecycler"
         />
 

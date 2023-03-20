@@ -109,12 +109,12 @@
 
 </LinearLayout>
     <LinearLayout
-        android:layout_width="350dp"
-        android:layout_height="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
         android:orientation="vertical"
-        android:visibility="gone"
         android:layout_gravity="center"
-        android:background="#329EAD"
+        android:visibility="gone"
+        android:background="#fdb813"
         />
 
 </LinearLayout>

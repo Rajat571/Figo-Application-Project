@@ -810,7 +810,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
 
      override fun onPause() {
          super.onPause()
-         timer?.cancel() // timer is a reference to my inner CountDownTimer class
+         /*timer?.cancel()*/ // timer is a reference to my inner CountDownTimer class
          //timer = null
      }
 }
