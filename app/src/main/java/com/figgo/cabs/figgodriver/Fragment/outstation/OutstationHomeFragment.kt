@@ -103,6 +103,8 @@ class OutstationHomeFragment : Fragment() {
 
                             var pricedata = data.getJSONObject("price")
                             var price = pricedata.getString("avg")
+
+                            var status = data.getString("status")
                             Log.d(
 
                                 "SEndData",
@@ -112,7 +114,8 @@ class OutstationHomeFragment : Fragment() {
                             ridelists.add(CityCurrentRidesList(
                                 date, time, booking_id, to_name, from_name,
                                 price, to_lat, to_long, from_lat,
-                                from_long, ride_id, 2,""))
+                                from_long, ride_id,status, 2))
+
                         }
                     }
                     catch (e:Exception){

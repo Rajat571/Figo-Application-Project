@@ -15,4 +15,6 @@
     <color name="red">#FF0000</color>
     <color name="exel">#081014</color>
     <color name="dark_grey">#2A2C2C</color>
+
+    <color name="black_shade">#515151</color>
 </resources>
