@@ -186,6 +186,7 @@
             android:enabled="true"
             android:foregroundServiceType="location" />
 
+
         <receiver
             android:name=".GPSBroadcastReceiver"
             android:exported="true">

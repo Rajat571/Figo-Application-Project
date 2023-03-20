@@ -464,4 +464,5 @@ class VerifyNumber : Fragment(),GoogleApiClient.OnConnectionFailedListener  {
         }
         cTimer.start()
     }
+
 }
