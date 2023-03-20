@@ -1,5 +1,6 @@
 package com.figgo.cabs.figgodriver.Fragment
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
@@ -24,6 +25,7 @@ class CustomerCityRideDetails : Fragment() {
     lateinit var binding: FragmentCustomerCityRideDetailsBinding
 
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

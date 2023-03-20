@@ -496,7 +496,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                                          .putExtra("to_location_lat", to_location_lat)
                                          .putExtra("to_location_long", to_location_long)
                                          .putExtra("address_name", address_name)
-                                         .putExtra("from_location_lat", from_location_lat)
+                                          .putExtra("from_location_lat", from_location_lat)
                                          .putExtra("from_location_long", from_location_long)
                                          .putExtra("from_name", from_name)
                                          .putExtra("date_only", date_only)

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -9,11 +9,11 @@ xmlns:tools="http://schemas.android.com/tools"
         android:layout_height="match_parent"
         android:background="#000F3B"
         android:padding="@dimen/_3sdp"
-        tools:context=".StartRideActivity">
+        tools:context=".figgodriver.Fragment.outstation.OutstationStartRideActivity">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/map_layout"
+            android:id="@+id/outstation_map_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="#000F3B"
@@ -24,7 +24,7 @@ xmlns:tools="http://schemas.android.com/tools"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout11">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card"
+                android:id="@+id/outstation_card"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
 
@@ -35,13 +35,13 @@ xmlns:tools="http://schemas.android.com/tools"
                 tools:layout_editor_absoluteX="9dp">
 
                 <fragment
-                    android:id="@+id/mapend"
+                    android:id="@+id/outstation_mapend"
                     android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
-                     android:layout_height="match_parent">
+                    android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/end_price"
+                        android:id="@+id/outstation_end_price"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -60,7 +60,7 @@ xmlns:tools="http://schemas.android.com/tools"
                         android:layout_gravity="bottom|center"
                         android:src="@drawable/go_location"
                         android:textSize="16sp"
-                        android:id="@+id/go_location"
+                        android:id="@+id/outstation_go_location"
                         app:civ_border_color="@color/black"
                         app:civ_border_width="2dp"
                         app:civ_circle_background_color="@color/black" />
@@ -70,7 +70,7 @@ xmlns:tools="http://schemas.android.com/tools"
                         android:layout_gravity="bottom|center"
                         android:background="#fff"
                         android:visibility="gone"
-                        android:id="@+id/go_animation"
+                        android:id="@+id/outstation_go_animation"
                         android:src="@drawable/wait_animation" />
                 </fragment>
             </androidx.cardview.widget.CardView>
@@ -79,7 +79,7 @@ xmlns:tools="http://schemas.android.com/tools"
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
-            android:id="@+id/linearLayout11"
+            android:id="@+id/outstation_linearLayout11"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -88,38 +88,38 @@ xmlns:tools="http://schemas.android.com/tools"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:orientation="horizontal"
-    android:layout_weight="1">
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="Online "
-                android:textAlignment="center"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-    <ImageView
-        android:layout_width="@dimen/_10sdp"
-        android:layout_height="@dimen/_10sdp"
-        android:src="@drawable/ic_online_green"/>
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/outstation_textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="Online "
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+                <ImageView
+                    android:layout_width="@dimen/_10sdp"
+                    android:layout_height="@dimen/_10sdp"
+                    android:src="@drawable/ic_online_green"/>
 
-</LinearLayout>
+            </LinearLayout>
             <androidx.cardview.widget.CardView
-                android:id="@+id/ride_complete"
+                android:id="@+id/outstation_ride_complete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_margin="@dimen/_5sdp"
                 android:backgroundTint="#62F196"
                 app:cardCornerRadius="@dimen/_10sdp"
-             >
+                >
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -134,7 +134,7 @@ xmlns:tools="http://schemas.android.com/tools"
         </LinearLayout>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardView3"
+            android:id="@+id/outstation_cardView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_5sdp"
@@ -170,7 +170,7 @@ xmlns:tools="http://schemas.android.com/tools"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/end_booking_customer"
+                        android:id="@+id/outstation_end_booking_customer"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="7.2"
@@ -197,7 +197,7 @@ xmlns:tools="http://schemas.android.com/tools"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/end_booking_type"
+                        android:id="@+id/outstation_end_booking_type"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="7.2"
@@ -226,7 +226,7 @@ xmlns:tools="http://schemas.android.com/tools"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/end_pickup_location"
+                        android:id="@+id/outstation_end_pickup_location"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -264,7 +264,7 @@ xmlns:tools="http://schemas.android.com/tools"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/end_drop_location"
+                        android:id="@+id/outstation_end_drop_location"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -354,7 +354,7 @@ xmlns:tools="http://schemas.android.com/tools"
 
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline4"
+            android:id="@+id/outstation_guideline4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
