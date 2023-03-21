@@ -423,7 +423,7 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
         //customerLocation = LatLng(cust_lat)
         val height = 80
         val width = 80
-        val bitmapdraw = resources.getDrawable(R.drawable.ic_drivercab) as BitmapDrawable
+        val bitmapdraw = resources.getDrawable(R.drawable.ic_carfront) as BitmapDrawable
         val b = bitmapdraw.bitmap
         val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
         mMap.addMarker(

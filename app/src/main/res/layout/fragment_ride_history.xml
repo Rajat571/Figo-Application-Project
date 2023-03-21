@@ -13,7 +13,7 @@
      android:id="@+id/linearLayout10"
      android:layout_width="match_parent"
      android:layout_height="50dp"
-     android:background="#001E2C"
+     android:background="#000C12"
      android:gravity="center"
      app:layout_constraintEnd_toEndOf="parent"
      app:layout_constraintHorizontal_bias="0.5"
