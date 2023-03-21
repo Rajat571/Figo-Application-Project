@@ -101,7 +101,7 @@ class OutstationStartRideActivity: AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=DataBindingUtil.setContentView(this, R.layout.activity_outstation_start_ride)
-        rideComplete = findViewById(R.id.ride_complete)
+        rideComplete = findViewById(R.id.outstation_ride_complete)
         window.setStatusBarColor(Color.parseColor("#000F3B"))
         prefManager= PrefManager(this)
 
@@ -120,7 +120,7 @@ class OutstationStartRideActivity: AppCompatActivity(), OnMapReadyCallback {
         dropLocationTV.text = intent.getStringExtra("dropLocation")
         destinationLongitude=prefManager.getDestLon().toDouble()
         destinationLatitude=prefManager.getDestLat().toDouble()
-        Log.d("StartRideActivity","$destinationLatitude $destinationLongitude")
+        Log.d("OutstationStartRideActivity","$destinationLatitude $destinationLongitude")
 
         startService(Intent(this,FireBaseService::class.java))
         rideId = prefManager.getRideID()
@@ -155,7 +155,7 @@ class OutstationStartRideActivity: AppCompatActivity(), OnMapReadyCallback {
 
         var count:Int = 0
         Toast.makeText(this,"Ride ID $rideId",Toast.LENGTH_SHORT).show()
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.mapend) as SupportMapFragment
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.outstation_mapend) as SupportMapFragment
         updateRoute()
         val scope = CoroutineScope(Job() + Dispatchers.Main)
         mapFragment.getMapAsync(this)
@@ -176,9 +176,7 @@ class OutstationStartRideActivity: AppCompatActivity(), OnMapReadyCallback {
                 binding.outstationGoLocation.visibility=View.GONE
 
                 try {
-                    timer = object : CountDownTimer(900000, 2000) {
-                        override fun onTick(millisUntilFinished: Long) {
-                            if (millisUntilFinished.toInt()%5==0) {
+
                                 mMap.animateCamera(
                                     CameraUpdateFactory.newLatLngZoom(
                                         originLocation,
@@ -187,15 +185,7 @@ class OutstationStartRideActivity: AppCompatActivity(), OnMapReadyCallback {
                                 )
                                 updateRoute()
                                 liveRouting(originLatitude, originLongitude, customerLAT, customerLON)
-                            }
-                        }
 
-                        override fun onFinish() {
-                            TODO("Not yet implemented")
-                        }
-                    }
-                    (timer as CountDownTimer).start()
-                    Thread.sleep(2000L)
                 }catch (e:Exception){
 
                 }
@@ -418,7 +408,6 @@ class OutstationStartRideActivity: AppCompatActivity(), OnMapReadyCallback {
 
     fun liveRouting(driver_lat:Double,driver_lon:Double,cust_lat:Double,cust_lon:Double){
 
-        mMap.clear()
 
         driverlocation   = LatLng(driver_lat, driver_lon)
         dropLocation  = LatLng(destinationLatitude, destinationLongitude)
@@ -458,9 +447,7 @@ class OutstationStartRideActivity: AppCompatActivity(), OnMapReadyCallback {
         var url:String=getDirectionURL(driverlocation!!, dropLocation!!,"AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
 
         GetDirection(url).execute()
-        Handler().postDelayed({
-            //do something
-        }, 5000)
+
     }
 
     /*fun setCurrentLatLon(){

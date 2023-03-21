@@ -238,9 +238,12 @@ class CityRideFragment : Fragment() {
                                     var date_only = data.getString("date_only")
                                     var time_only = data.getString("time_only")
                                     var price1 = data.getJSONObject("price")
+
+                                    var actual_distance = data.getString("actual_distance")
+                                    var status = data.getString("status")
                                     var price=price1.getString("avg")
                                     ridelists.add(CityCurrentRidesList(date_only, time_only, booking_id, address_name, from_name, price, to_location_lat, to_location_long, from_location_lat, from_location_long, ride_id
-                                        , "",y))
+                                        , actual_distance,status,y))
 
 
                                 }
