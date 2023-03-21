@@ -6,9 +6,10 @@
     android:orientation="horizontal"
     android:layout_height="wrap_content">
     <LinearLayout
-        android:layout_width="120dp"
-        android:layout_height="65dp"
+        android:layout_width="100dp"
+        android:layout_height="45dp"
         android:minWidth="80dp"
+        android:id="@+id/boxLinear"
         android:layout_margin="@dimen/_1sdp"
         >
         <TextView

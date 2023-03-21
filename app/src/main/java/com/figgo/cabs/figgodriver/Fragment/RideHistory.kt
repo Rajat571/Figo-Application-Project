@@ -22,6 +22,7 @@ import com.figgo.cabs.figgodriver.Adapter.RideHistoryRowAdapter
 import com.figgo.cabs.pearllib.Helper
 import org.json.JSONArray
 import org.json.JSONObject
+import pl.droidsonroids.gif.GifImageView
 import java.util.HashMap
 
 /**
@@ -58,7 +59,7 @@ class RideHistory : Fragment() {
        // var url3 = "https://test.pearl-developer.com/figo/api/driver/ride-history"
         var url3=Helper.ride_history
         Log.d("RideHistory","URL"+url3)
-        var progressbar = view.findViewById<ProgressBar>(R.id.ridehistory_progressbar)
+        var progressbar = view.findViewById<GifImageView>(R.id.ridehistory_progressbar)
         var data_view = view.findViewById<HorizontalScrollView>(R.id.ridehisory_data)
         progressbar.visibility=View.VISIBLE
         data_view.visibility=View.GONE
@@ -85,16 +86,14 @@ var no_rides = view.findViewById<LinearLayout>(R.id.no_rides)
                         var status: String
                         var actual_distance: String
                         var price: String
-                        contentdata.add(
-                            listOf(
+                        contentdata.add(listOf(
                                 "Booking ID",
                                 "To",
                                 "From",
                                 "Status",
                                 "Distance",
                                 "View"
-                            )
-                        )
+                            ))
                         //  ride_details=allrideArray.optJSONObject(1).getJSONObject("ride_detail")
                         //Log.d("Ride Detail ",""+ride_details.toString())
                     count = allrideArray.length()
@@ -120,7 +119,7 @@ var no_rides = view.findViewById<LinearLayout>(R.id.no_rides)
                                     from,
                                     status,
                                     actual_distance,
-                                    "View"
+                                    "View $i"
                                 )
                             )
                             }
@@ -129,9 +128,12 @@ var no_rides = view.findViewById<LinearLayout>(R.id.no_rides)
                             }
 
                         }
+try {
+    header.adapter = RideHistoryRowAdapter(contentdata, requireContext())
+    header.layoutManager = LinearLayoutManager(requireContext())
+}catch (_:Exception){
 
-                        header.adapter = RideHistoryRowAdapter(contentdata, requireContext())
-                        header.layoutManager = LinearLayoutManager(requireContext())
+}
 
                 }
             },{

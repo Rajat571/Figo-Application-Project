@@ -25,7 +25,13 @@ class RideHistoryAdapter(var data: List<String>,var x:Int,var context:Context):R
 
     override fun onBindViewHolder(holder: RideHistoryHolder, position: Int) {
         var prefManager=PrefManager(context)
-        if (data[position].equals("View")&&x!=0)
+        if(position==1||position==2){
+            val layoutParams = holder.boxLinear.layoutParams
+            layoutParams.width = 600
+
+            holder.boxLinear.layoutParams = layoutParams
+        }
+        if (data[position].split(" ")[0].equals("View")&&x!=0)
         {
             holder.boxTV.setBackgroundColor(context.getColor(R.color.app_color))
             holder.boxTV.setTextColor(context.getColor(R.color.white))
@@ -75,7 +81,7 @@ class RideHistoryAdapter(var data: List<String>,var x:Int,var context:Context):R
                                 //  ride_details=allrideArray.optJSONObject(1).getJSONObject("ride_detail")
                                 //Log.d("Ride Detail ",""+ride_details.toString())
                                 ride_details =
-                                    allrideArray.optJSONObject(x).getJSONObject("ride_detail")
+                                    allrideArray.optJSONObject(data[position].split(" ")[1].toInt()).getJSONObject("ride_detail")
                                 if (!ride_details.getString("booking_id").equals("null"))
                                     booking_id = ride_details.getString("booking_id")
                                 else
@@ -189,7 +195,10 @@ class RideHistoryAdapter(var data: List<String>,var x:Int,var context:Context):R
                 //Toast.makeText(context,"VIEW",Toast.LENGTH_SHORT).show()
             }
         }
-        holder.boxTV.text= data[position]
+        if(data[position].split(" ")[0].equals("View"))
+            holder.boxTV.text = "View"
+        else
+            holder.boxTV.text= data[position]
         if (x==0){
             //holder.boxTV.setTextColor(Color.WHITE)
             holder.block.setBackgroundColor(context.getColor(R.color.exel))
@@ -212,4 +221,5 @@ class RideHistoryHolder(itemView: View):ViewHolder(itemView){
     var boxTV=itemView.findViewById<TextView>(R.id.tablecontentTV)
     var block = itemView.findViewById<LinearLayout>(R.id.blocklinear)
     var side = itemView.findViewById<LinearLayout>(R.id.history_side_band)
+    var boxLinear = itemView.findViewById<LinearLayout>(R.id.boxLinear)
 }

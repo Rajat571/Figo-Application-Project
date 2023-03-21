@@ -28,7 +28,8 @@ import com.figgo.cabs.figgodriver.Adapter.OutstationAdapter
 import com.figgo.cabs.figgodriver.model.ActiveRideData
 import com.figgo.cabs.pearllib.Helper
 import org.json.JSONArray
-import java.util.HashMap
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -147,6 +148,7 @@ if(it!=null){
 
     }
     try {
+        Collections.reverse(dataList)
         recyclerView.adapter = ActiveRideAdapter(requireContext(), dataList)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }catch (_:Exception){

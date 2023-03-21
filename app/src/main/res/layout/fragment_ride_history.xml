@@ -29,10 +29,17 @@
       android:textStyle="bold" />
  </LinearLayout>
 
- <ProgressBar
+<!-- <ProgressBar
      android:id="@+id/ridehistory_progressbar"
      android:layout_width="100dp"
      android:layout_height="100dp"
+ />-->
+ <pl.droidsonroids.gif.GifImageView
+     android:id="@+id/ridehistory_progressbar"
+     android:layout_width="@dimen/_200sdp"
+     android:layout_height="@dimen/_200sdp"
+     android:src="@drawable/gif_profile"
+     android:visibility="visible"
      app:layout_constraintBottom_toBottomOf="parent"
      app:layout_constraintEnd_toEndOf="parent"
      app:layout_constraintHorizontal_bias="0.5"
