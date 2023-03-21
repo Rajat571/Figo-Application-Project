@@ -104,6 +104,8 @@ class OutstationHomeFragment : Fragment() {
                             var pricedata = data.getJSONObject("price")
                             var price = pricedata.getString("avg")
 
+                            var  actual_distance=data.getString("actual_distance")
+
                             var status = data.getString("status")
                             Log.d(
 
@@ -114,7 +116,7 @@ class OutstationHomeFragment : Fragment() {
                             ridelists.add(CityCurrentRidesList(
                                 date, time, booking_id, to_name, from_name,
                                 price, to_lat, to_long, from_lat,
-                                from_long, ride_id,status, 2))
+                                from_long, ride_id,actual_distance,status, 2))
 
                         }
                     }

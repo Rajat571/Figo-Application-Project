@@ -56,6 +56,7 @@ class OutstationRideAdapter(var context: Context, var ridelist:List<CityCurrentR
         holder.customer_date.text=data.date
         holder.bookingId.text=data.cutomer_name
          holder.fare_price.text=data.fare_price
+        holder.actual_distance.text=data.actual_distance
 
         holder.payment_status.text =data.status
 
@@ -173,6 +174,7 @@ class OutstationRideAdapter(var context: Context, var ridelist:List<CityCurrentR
         var innerLL =itemView.findViewById<LinearLayout>(R.id.innerLL)
         var closeIV =itemView.findViewById<TextView>(R.id.cancel)
         var payment_status = itemView.findViewById<TextView>(R.id.outcustomer_status)
+        var actual_distance = itemView.findViewById<TextView>(R.id.total_distence)
 
         var acceptBtn =itemView.findViewById<TextView>(R.id.accept_city_ride_btn)
         var processBar =itemView.findViewById<ProgressBar>(R.id.outstation_progressbar)
