@@ -62,6 +62,7 @@ class OutstationCustomerCityRideDetailActivity: AppCompatActivity(), OnMapReadyC
     lateinit var pickuplocation:String
     lateinit var fareprice:String
     lateinit var dropLocationTV:String
+    lateinit var actual_distance:String
     lateinit var dropLocation:String
     private lateinit var mMap: GoogleMap
     var rideId:Int = 0
@@ -73,16 +74,22 @@ class OutstationCustomerCityRideDetailActivity: AppCompatActivity(), OnMapReadyC
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setStatusBarColor(Color.parseColor("#000F3B"))
+try {
+    binding =
+        ActivityOutstationCustomerCityRideDetailBinding.inflate(layoutInflater)
+    setContentView(binding.root)
+}catch (_:Exception){
 
-        binding=DataBindingUtil.setContentView(this,R.layout.activity_outstation_customer_city_ride_detail)
+}
         binding.outstationBookingCustomer.text=intent.getStringExtra("booking_id")
         binding.outstationBookingType.text=intent.getStringExtra("type")
         binding.outstationPickupLocation.text=intent.getStringExtra("address_name")
         binding.outstationDropLocation.text=intent.getStringExtra("from_name")
         var price=intent.getStringExtra("price")
         binding.outstationPrice.text=price
-        val timeonly = intent.getStringExtra("time_only")
-        binding.outstationAllrideTime.text=timeonly
+        actual_distance = intent.getStringExtra("actual_distance").toString()
+        Log.d("Actual Distance2","$actual_distance")
+        binding.outstationDistance.text=actual_distance
         binding.outstationRideDate.text=intent.getStringExtra("date_only")
         binding.outstationRideTime.text=intent.getStringExtra("time_only")
         originLatitude= intent.getStringExtra("to_location_lat")!!.toDouble()

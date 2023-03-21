@@ -120,6 +120,7 @@ class OutstationStartRideActivity: AppCompatActivity(), OnMapReadyCallback {
         dropLocationTV.text = intent.getStringExtra("dropLocation")
         destinationLongitude=prefManager.getDestLon().toDouble()
         destinationLatitude=prefManager.getDestLat().toDouble()
+
         Log.d("OutstationStartRideActivity","$destinationLatitude $destinationLongitude")
 
         startService(Intent(this,FireBaseService::class.java))

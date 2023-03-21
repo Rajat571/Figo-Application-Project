@@ -131,6 +131,7 @@ class OutstationRideAdapter(var context: Context, var ridelist:List<OutstationRi
                                         .putExtra("des_long",data.des_long)
                                         .putExtra("customer_booking_id",data.cutomer_name)
                                         .putExtra("ride_id",data.ride_id)
+                                        .putExtra("actual_distance",data.actual_distance)
                                         .putExtra("Outstaion_id",data.y)
                                         .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
                             }

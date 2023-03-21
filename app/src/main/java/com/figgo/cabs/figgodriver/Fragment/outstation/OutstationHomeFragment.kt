@@ -128,11 +128,15 @@ class OutstationHomeFragment : Fragment() {
                 var recyclerView = view.findViewById<RecyclerView>(R.id.outstation_recyclerview)
                 try{    recyclerView.layoutManager = LinearLayoutManager(requireContext())}
                 catch (e:Exception){}
+try {
+    recyclerView.adapter = OutstationRideAdapter(
+        requireContext().applicationContext,
+        ridelists
+    )
 
-                recyclerView.adapter = OutstationRideAdapter(
-                    requireContext().applicationContext,
-                    ridelists
-                )
+}catch (_:Exception){
+
+}
             }, object : Response.ErrorListener {
                 override fun onErrorResponse(error: VolleyError?) {
                     Log.d("SendData", "error===$error")

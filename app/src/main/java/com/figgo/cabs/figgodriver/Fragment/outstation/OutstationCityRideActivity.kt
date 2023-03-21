@@ -67,6 +67,7 @@ class OutstationCityRideActivity : AppCompatActivity()
     var ride_id:Int=0
     var accepted:Int=0
     var ride_request_id:Int=0
+    var actual_distance=""
     var customer_booking_id:String=""
     private var originLatitude: Double =30.28401063526107
     private var originLongitude: Double = 77.99210085398012
@@ -99,7 +100,6 @@ class OutstationCityRideActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         binding=DataBindingUtil.setContentView(this, R.layout.activity_outstation_city_ride)
         window.setStatusBarColor(Color.parseColor("#000F3B"))
-        var liveRouting = LiveRouting()
 
         var address_to= intent.getStringExtra("location_to")
         var date=intent.getStringExtra("customer_date")
@@ -110,9 +110,11 @@ class OutstationCityRideActivity : AppCompatActivity()
         des_lat=intent.getStringExtra("des_lat")!!.toDouble()
         des_long=intent.getStringExtra("des_long")!!.toDouble()
         ride_id=intent.getStringExtra("ride_id")!!.toInt()
+        actual_distance=intent.getStringExtra("actual_distance").toString()
         ride_type=intent.getStringExtra("ride_type").toString()
         outstation_id=intent.getIntExtra("outstation_id",0)
 
+        Log.d("Actual Distance","$actual_distance")
         //defaultLayout=findViewById(R.id.outsation_city_ride_defaultlayout)
         //  liveRouting.firebaseInit(ride_id)
         //  ride_request_id=intent.getStringExtra("ride_request_id")!!.toInt()
@@ -368,6 +370,7 @@ class OutstationCityRideActivity : AppCompatActivity()
                                                 .putExtra("date_only", date_only)
                                                 .putExtra("time_only", time_only)
                                                 .putExtra("ride_id", ride_id)
+                                                .putExtra("actual_distance",actual_distance)
                                                 .putExtra("customer_name", customer_name)
                                                 .putExtra("customer_contact", customer_contact)
                                                 .putExtra("price", price)
@@ -491,6 +494,7 @@ class OutstationCityRideActivity : AppCompatActivity()
                                             .putExtra("from_location_long", from_location_long)
                                             .putExtra("from_name", from_name)
                                             .putExtra("date_only", date_only)
+                                            .putExtra("actual_distance",actual_distance)
                                             .putExtra("time_only", time_only)
                                             .putExtra("ride_id", ride_id)
                                             .putExtra("customer_name", customer_name)
