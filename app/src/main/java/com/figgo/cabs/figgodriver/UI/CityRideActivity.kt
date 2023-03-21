@@ -2,11 +2,7 @@ package com.figgo.cabs.figgodriver.UI
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.Context
+import android.app.*
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.ApplicationInfo
@@ -21,7 +17,6 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
@@ -56,6 +51,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
 import java.util.*
+
 
 class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMarkerClickListener
  {
@@ -209,7 +205,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
             mMap = it
             val height = 80
             val width = 80
-            val bitmapdraw = resources.getDrawable(R.drawable.location_green) as BitmapDrawable
+            val bitmapdraw = resources.getDrawable(R.drawable.ic_destination) as BitmapDrawable
             val b = bitmapdraw.bitmap
             val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
             val originLocation = LatLng(current_lat!!, current_long!!)
@@ -393,7 +389,11 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                                      reject()
                                      dialog.cancel()
                                  }
-                                 alertDialog2.show()
+                                 if (!(this@CityRideActivity).isFinishing) {
+                                     //show dialog
+                                     alertDialog2.show()
+                                 }
+
 
                              }
                          }

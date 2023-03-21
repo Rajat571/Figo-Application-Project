@@ -180,8 +180,6 @@ class OutstationRideAdapter(var context: Context, var ridelist:List<OutstationRi
         var acceptBtn =itemView.findViewById<TextView>(R.id.accept_city_ride_btn)
         var processBar =itemView.findViewById<ProgressBar>(R.id.outstation_progressbar)
 
-
-
 //        var user_id = itemView.findViewById<TextView>(R.id.userId)
     }
 

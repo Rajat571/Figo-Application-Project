@@ -75,7 +75,7 @@ class RideHistoryAdapter(var data: List<String>,var x:Int,var context:Context):R
                                 //  ride_details=allrideArray.optJSONObject(1).getJSONObject("ride_detail")
                                 //Log.d("Ride Detail ",""+ride_details.toString())
                                 ride_details =
-                                    allrideArray.optJSONObject(x - 1).getJSONObject("ride_detail")
+                                    allrideArray.optJSONObject(x).getJSONObject("ride_detail")
                                 if (!ride_details.getString("booking_id").equals("null"))
                                     booking_id = ride_details.getString("booking_id")
                                 else

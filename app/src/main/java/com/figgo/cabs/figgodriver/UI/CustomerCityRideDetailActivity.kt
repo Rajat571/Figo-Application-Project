@@ -120,7 +120,7 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             val originLocation = LatLng(prefManager.getlatitude().toDouble(), prefManager.getlongitude().toDouble())
             val height = 80
             val width = 80
-            val bitmapdraw = resources.getDrawable(R.drawable.location_green) as BitmapDrawable
+            val bitmapdraw = resources.getDrawable(R.drawable.ic_destination) as BitmapDrawable
             val b = bitmapdraw.bitmap
             val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
             // val originLocation = LatLng( originLatitude, originLongitude)
