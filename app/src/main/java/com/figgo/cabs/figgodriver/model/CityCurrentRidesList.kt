@@ -15,6 +15,7 @@ data class CityCurrentRidesList(
     var actual_distance:String,
     var status: String,
     var y:Int,
+    var ride_request_id:String
 
 //    var booking_id:String
 )

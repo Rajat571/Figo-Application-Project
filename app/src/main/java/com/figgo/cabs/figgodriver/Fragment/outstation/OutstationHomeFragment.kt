@@ -25,7 +25,7 @@ import com.figgo.cabs.R
 import com.figgo.cabs.databinding.FragmentOutstationHomeBinding
 import com.figgo.cabs.figgodriver.Adapter.CityRideCurrentListAdapter
 import com.figgo.cabs.figgodriver.Adapter.OutstationRideAdapter
-import com.figgo.cabs.figgodriver.model.CityCurrentRidesList
+import com.figgo.cabs.figgodriver.model.OutstationRideModel
 
 import com.figgo.cabs.figgodriver.model.Sedan
 import com.figgo.cabs.pearllib.Helper
@@ -38,7 +38,7 @@ import java.util.HashMap
 class OutstationHomeFragment : Fragment() {
     lateinit var binding: FragmentOutstationHomeBinding
     lateinit var sedanAdapter: SedanAdapter
-    var ridelists = java.util.ArrayList<CityCurrentRidesList>()
+    var ridelists = java.util.ArrayList<OutstationRideModel>()
     lateinit var prefManager: PrefManager
     lateinit var outstation_loadinggif: LinearLayout
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
@@ -113,7 +113,7 @@ class OutstationHomeFragment : Fragment() {
                                 "DATA====" + booking_id + "," + date + "," + time + "," + to_name +
                                         "," + from_name + "," + price
                             )
-                            ridelists.add(CityCurrentRidesList(
+                            ridelists.add(OutstationRideModel(
                                 date, time, booking_id, to_name, from_name,
                                 price, to_lat, to_long, from_lat,
                                 from_long, ride_id,actual_distance,status, 2))

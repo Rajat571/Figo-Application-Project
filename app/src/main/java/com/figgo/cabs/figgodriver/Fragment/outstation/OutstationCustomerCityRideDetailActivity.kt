@@ -238,23 +238,36 @@ finished=true
                                 .putExtra("destinationLongitude",destinationLongitude))
                         }
                         else{
-                            //Toast.makeText(this,""+response.getString("message"),Toast.LENGTH_LONG).show()
+                            try {
+                                Toast.makeText(
+                                    this,
+                                    "" + response.getString("message"),
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }catch (_:Exception){
+
+                            }
 
                         }
                     }
                 },object :Response.ErrorListener{
                     override fun onErrorResponse(error: VolleyError?) {
                         Log.d("VerifyNumber","ERROR"+error)
+                        try {
+                            Toast.makeText(this@OutstationCustomerCityRideDetailActivity, "Please enter correct OTP", Toast.LENGTH_LONG).show()
+                        }catch (_:Exception){
+
+                        }
 //                        ridestartotp.setError("wrong otp")
 //                        Toast.makeText(this@OutstationCustomerCityRideDetailActivity,"Entered wrong otp",Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this@OutstationCustomerCityRideDetailActivity,OutstationStartRideActivity::class.java)
+/*                        startActivity(Intent(this@OutstationCustomerCityRideDetailActivity,OutstationStartRideActivity::class.java)
                             .putExtra("bookingID",bookingID)
                             .putExtra("bookingType",bookingType)
                             .putExtra("pickup",pickuplocation)
                             .putExtra("dropLocation",dropLocation)
                             .putExtra("price",fareprice)
                             .putExtra("destinationLatitude",destinationLatitude)
-                            .putExtra("destinationLongitude",destinationLongitude))
+                            .putExtra("destinationLongitude",destinationLongitude))*/
 
                     }
                 }){

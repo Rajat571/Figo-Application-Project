@@ -22,17 +22,18 @@ import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.figgodriver.Fragment.outstation.OutstationCityRideActivity
 import com.figgo.cabs.figgodriver.model.CityCurrentRidesList
+import com.figgo.cabs.figgodriver.model.OutstationRideModel
 import com.figgo.cabs.pearllib.Helper
 import org.json.JSONObject
 import java.io.File
 import java.util.ArrayList
 import java.util.HashMap
 
-class OutstationRideAdapter(var context: Context, var ridelist:List<CityCurrentRidesList>):
+class OutstationRideAdapter(var context: Context, var ridelist:List<OutstationRideModel>):
     RecyclerView.Adapter<OutstationRideAdapter.OutstationRideHolder>() {
 
     lateinit var prefManager: PrefManager
-    var ridelists = ArrayList<CityCurrentRidesList>()
+    var ridelists = ArrayList<OutstationRideModel>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OutstationRideHolder {
         return OutstationRideHolder(LayoutInflater.from(context).inflate(R.layout.outstationridelistlayout,parent,false))
     }
