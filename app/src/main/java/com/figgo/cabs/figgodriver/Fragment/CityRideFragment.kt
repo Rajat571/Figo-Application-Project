@@ -146,13 +146,17 @@ class CityRideFragment : Fragment() {
 
 
         swiperefresh.setOnRefreshListener {
-            count = 0
-            loading.visibility = View.VISIBLE
-            swiperefresh.isRefreshing = false
-            cityRideCurrentListAdapter.notifyDataSetChanged()
-            cityRideAdvanceListAdapter.notifyDataSetChanged()
-            submitCurrentRideForm(view)
-            submitAdvanceRideForm(view)
+            try {
+                count = 0
+                loading.visibility = View.VISIBLE
+                swiperefresh.isRefreshing = false
+                cityRideCurrentListAdapter.notifyDataSetChanged()
+                cityRideAdvanceListAdapter.notifyDataSetChanged()
+                submitCurrentRideForm(view)
+                submitAdvanceRideForm(view)
+            } catch (_:Exception){
+
+            }
         }
 
 

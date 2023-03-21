@@ -246,7 +246,6 @@ dialog.show()
 
                     Log.d("Support Fragment","Date-time"+formattedDate+"\n"+" "+"\n"+transaction_id+"\n"+amount)
                     history_list.add(PaymentHistoryModel(formattedDate,amount,"",transaction_id,"",amount.toInt(),1))
-
                 }
                 for (i in 0 until rechargehistory.length()){
                     var data1=rechargehistory.getJSONObject(i)
