@@ -82,6 +82,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
     private lateinit var mMap: GoogleMap
     lateinit var baseClass: BaseClass
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+     lateinit var timertv :TextView
     var ride_type=""
 
      var booking_id:String=""
@@ -117,7 +118,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
          ride_id=intent.getStringExtra("ride_id")!!.toInt()
         ride_type=intent.getStringExtra("ride_type").toString()
         outstation_id=intent.getIntExtra("outstation_id",0)
-
+        timertv = findViewById<TextView>(R.id.timer5min)
 
       //  liveRouting.firebaseInit(ride_id)
         ride_request_id=intent.getStringExtra("ride_request_id")!!.toInt()
@@ -254,7 +255,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
 
             defaultLayout.visibility= View.GONE
             acceptwaitLayout.visibility=View.VISIBLE
-            var timertv = findViewById<TextView>(R.id.timer5min)
+
             var min=5
             var sec:Int=60
             timer = object: CountDownTimer(300000, 1000) {
@@ -294,7 +295,6 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
          var sec: Int = 60
 
          var finished: Boolean = false
-         var timertv = findViewById<TextView>(R.id.timer5min)
 
          if (ride_type == "advance") {
              var url=Helper.accept_advance_ride_request
@@ -354,6 +354,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                              Toast.makeText(this, status, Toast.LENGTH_SHORT).show()
                              prefManager.setActiveRide(1)
                              if (!status.equals("pending")) {
+
                                  val alertDialog2 = android.app.AlertDialog.Builder(this)
                                  alertDialog2.setTitle("Thank-you for waiting. Customer has accepted your ride request.")
                                  alertDialog2.setMessage(" Please proceed.")
@@ -362,6 +363,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                                      /*Toast.makeText(this,"Customer has accepted your ride request.",Toast.LENGTH_SHORT).show()*/
                                      if (outstation_id==2){}
                                      else{
+
                                      startActivity(
                                          Intent(this, CustomerCityRideDetailActivity::class.java)
                                              .putExtra("booking_id", booking_id.toString())
@@ -380,6 +382,8 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                                              .putExtra("price", price)
                                              .putExtra("ride_type", type)
                                      )
+                                         timer?.cancel()
+                                         timer?.onFinish()
                                      }
 
                                  }
