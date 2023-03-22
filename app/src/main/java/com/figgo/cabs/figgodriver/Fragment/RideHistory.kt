@@ -23,6 +23,7 @@ import com.figgo.cabs.pearllib.Helper
 import org.json.JSONArray
 import org.json.JSONObject
 import pl.droidsonroids.gif.GifImageView
+import java.util.Collections
 import java.util.HashMap
 
 /**
@@ -86,14 +87,7 @@ var no_rides = view.findViewById<LinearLayout>(R.id.no_rides)
                         var status: String
                         var actual_distance: String
                         var price: String
-                        contentdata.add(listOf(
-                                "Booking ID",
-                                "To",
-                                "From",
-                                "Status",
-                                "Distance",
-                                "View"
-                            ))
+
                         //  ride_details=allrideArray.optJSONObject(1).getJSONObject("ride_detail")
                         //Log.d("Ride Detail ",""+ride_details.toString())
                     count = allrideArray.length()
@@ -129,6 +123,15 @@ var no_rides = view.findViewById<LinearLayout>(R.id.no_rides)
 
                         }
 try {
+    contentdata.add(listOf(
+        "Booking ID",
+        "To",
+        "From",
+        "Status",
+        "Distance",
+        "View"
+    ))
+    Collections.reverse(contentdata)
     header.adapter = RideHistoryRowAdapter(contentdata, requireContext())
     header.layoutManager = LinearLayoutManager(requireContext())
 }catch (_:Exception){

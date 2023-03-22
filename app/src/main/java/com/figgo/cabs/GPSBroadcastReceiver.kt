@@ -16,7 +16,7 @@ class GPSBroadcastReceiver:BroadcastReceiver() {
             ) {
                 //isGPSEnabled = true;
             } else {
-                Toast.makeText(p0,"Please on your location",Toast.LENGTH_SHORT).show()
+                Toast.makeText(p0,"Please Turn ON your location",Toast.LENGTH_SHORT).show()
                 //isGPSEnabled = false;
             }
         } catch (ex: Exception) {
