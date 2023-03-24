@@ -859,6 +859,8 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
           checkDownloadPermission()*/
         startService(Intent(this, MyService::class.java))
         Log.i("state", "onResume")
+
+
     }
     override fun onStart() {
         super.onStart()
@@ -895,5 +897,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
             false
         }
     }
+
+
 
 }

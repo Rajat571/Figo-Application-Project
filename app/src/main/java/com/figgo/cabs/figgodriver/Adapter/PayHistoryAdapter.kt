@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.figgo.cabs.R
@@ -21,6 +22,13 @@ class PayHistoryAdapter(var data:List<PaymentHistoryModel>):RecyclerView.Adapter
         if(historyData.type==1){
             holder.l1.text = ""
             holder.l2.text = "Transaction ID"
+            holder.recharegeView.visibility = View.GONE
+            holder.wallet_view.visibility = View.VISIBLE
+        }
+        else{
+
+            holder.recharegeView.visibility = View.VISIBLE
+            holder.wallet_view.visibility = View.GONE
         }
         holder.date.text=historyData.paymentdate
         var plusminus:String=""
@@ -51,4 +59,7 @@ class PaymentHolder(itemView: View): ViewHolder(itemView){
     var subhistory3 = itemView.findViewById<TextView>(R.id.history_detail3)
     var l1 = itemView.findViewById<TextView>(R.id.paymentL1)
     var l2 = itemView.findViewById<TextView>(R.id.paymentL2)
+
+    var recharegeView = itemView.findViewById<LinearLayout>(R.id.recharege_view)
+    var wallet_view = itemView.findViewById<LinearLayout>(R.id.wallet_view)
 }

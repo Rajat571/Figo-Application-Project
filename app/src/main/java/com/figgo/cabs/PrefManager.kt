@@ -409,4 +409,87 @@ import android.content.SharedPreferences
          }
          return updatedStateList
      }
+
+
+
+     fun setToLatL(lat:String){
+         editor?.putString("lat_to_l",lat)
+         editor?.commit()
+     }
+
+     fun getToLatL():String{
+         return pref?.getString("lat_to_l","null").toString()
+     }
+     fun setToLngL(lat:String){
+         editor?.putString("lng_to_l",lat)
+         editor?.commit()
+     }
+
+     fun getToLngL():String{
+         return pref?.getString("lng_to_l","null").toString()
+     }
+     fun setToLngM(lat:String){
+         editor?.putString("lng_to_m",lat)
+         editor?.commit()
+     }
+
+     fun getToLngM():String{
+         return pref?.getString("lng_to_m","null").toString()
+     }
+     fun setToLatM(lat:String){
+         editor?.putString("lat_to_m",lat)
+         editor?.commit()
+     }
+
+     fun getToLatM():String{
+         return pref?.getString("lat_to_m","null").toString()
+     }
+
+
+     fun setType(type:String){
+         editor?.putString("type",type)
+         editor?.commit()
+     }
+
+     fun getType():String{
+         return pref?.getString("type","null").toString()
+     }
+     fun setTypeC(type:String){
+         editor?.putString("typeC",type)
+         editor?.commit()
+     }
+
+     fun getTypeC():String{
+         return pref?.getString("typeC","null").toString()
+     }
+
+     fun setToLatMC(lat:String){
+         editor?.putString("lat_to_mc",lat)
+         editor?.commit()
+     }
+
+     fun getToLatMC():String{
+         return pref?.getString("lat_to_mc","null").toString()
+     }
+
+     fun setToLngMC(lat:String){
+         editor?.putString("lng_to_mc",lat)
+         editor?.commit()
+     }
+     fun setToLatLC(lat:String){
+         editor?.putString("lat_to_lc",lat)
+         editor?.commit()
+     }
+
+     fun getToLatLC():String{
+         return pref?.getString("lat_to_lc","null").toString()
+     }
+
+     fun setToLngLC(lat:String){
+         editor?.putString("lng_to_lc",lat)
+         editor?.commit()
+     }
+     fun getToLngLC():String{
+         return pref?.getString("lng_to_lc","null").toString()
+     }
 }

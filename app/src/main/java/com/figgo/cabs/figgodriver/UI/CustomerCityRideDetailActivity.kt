@@ -2,7 +2,6 @@ package com.figgo.cabs.figgodriver.UI
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.app.Notification.Action
 import android.app.NotificationManager
 import android.content.Context
 import android.content.DialogInterface
@@ -12,19 +11,12 @@ import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.AsyncTask
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.util.Log
-import android.view.View
 import android.view.Window
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
@@ -46,10 +38,11 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.gson.Gson
+import com.google.maps.android.SphericalUtil
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
-import java.util.HashMap
+
 
 class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private var originLatitude: Double =0.0
@@ -63,12 +56,16 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var fareprice:String
     lateinit var dropLocationTV:String
     lateinit var dropLocation:String
+    lateinit var distanceKM:TextView
+    lateinit var distancetodrop:TextView
     private lateinit var mMap: GoogleMap
     var rideId:Int = 0
     lateinit var prefManager: PrefManager
     lateinit var binding:ActivityCustomerCityRideDetailBinding
+
     //lateinit var layout_accept_wait:LinearLayout
     //lateinit var layout_customer_city_ride:LinearLayout
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,29 +74,43 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
        binding=DataBindingUtil.setContentView(this,R.layout.activity_customer_city_ride_detail)
         binding.bookingCustomer.text=intent.getStringExtra("booking_id")
         binding.bookingType.text=intent.getStringExtra("type")
-        binding.pickupLocation.text=intent.getStringExtra("address_name")
-        binding.dropLocation.text=intent.getStringExtra("from_name")
+        binding.pickupLocation.text=intent.getStringExtra("from_name")
+        binding.dropLocation.text=intent.getStringExtra("address_name")
         var price=intent.getStringExtra("300")
         binding.rideDate.text=intent.getStringExtra("date_only")
         binding.allrideTime.text=intent.getStringExtra("time_only")
         originLatitude= intent.getStringExtra("to_location_lat")!!.toDouble()
         originLongitude=intent.getStringExtra("to_location_long")!!.toDouble()
+
+        //destination == pickup
         destinationLatitude=intent.getStringExtra("from_location_lat")!!.toDouble()
         destinationLongitude=intent.getStringExtra("from_location_long")!!.toDouble()
 
+
+
         bookingID = intent.getStringExtra("booking_id")!!
         bookingType = intent.getStringExtra("type")!!
-        pickuplocationTV = intent.getStringExtra("address_name")!!
-        pickuplocation = intent.getStringExtra("address_name")!!
-        dropLocationTV = intent.getStringExtra("from_name")!!
-        dropLocation = intent.getStringExtra("from_name")!!
+        pickuplocationTV = intent.getStringExtra("from_name")!!
+        pickuplocation = intent.getStringExtra("from_name")!!
+        dropLocationTV = intent.getStringExtra("address_name")!!
+        dropLocation = intent.getStringExtra("address_name")!!
         fareprice = intent.getStringExtra("price")!!
+        binding.price.text = fareprice
+        distanceKM = findViewById(R.id.distanceKM)
+        distancetodrop = findViewById(R.id.distancetodrop)
+        prefManager=PrefManager(this)
+
         rideId = intent.getIntExtra("ride_id",0)!!
         var ride_type=intent.getStringExtra("ride_type")
 
+        distanceKM.text =distance(prefManager.getlatitude().toDouble(), prefManager.getlongitude().toDouble(),destinationLatitude,destinationLongitude).toString().subSequence(0,4).toString()+"KM"
+        distancetodrop.text =distance(destinationLatitude,destinationLongitude,originLatitude,originLongitude).toString().subSequence(0,4).toString()+"KM"
+
+/*        distanceKM.text =distanceBetween(LatLng(prefManager.getlatitude().toDouble(), prefManager.getlongitude().toDouble()),LatLng(destinationLatitude,destinationLongitude)).toString()
+        distancetodrop.text =distanceBetween(LatLng(destinationLatitude,destinationLongitude),LatLng(originLatitude,originLongitude)).toString()*/
 
 
-        prefManager=PrefManager(this)
+
         stopService(Intent(this, MyService::class.java))
         binding.contactTV.setOnClickListener {
             val intent = Intent(Intent.ACTION_CALL);
@@ -120,19 +131,25 @@ class CustomerCityRideDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             val originLocation = LatLng(prefManager.getlatitude().toDouble(), prefManager.getlongitude().toDouble())
             val height = 80
             val width = 80
-            val bitmapdraw = resources.getDrawable(R.drawable.ic_destination) as BitmapDrawable
+            val bitmapdraw = resources.getDrawable(R.drawable.ic_custmarker) as BitmapDrawable
             val b = bitmapdraw.bitmap
             val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
+
+            val bitmapdraw2 = resources.getDrawable(R.drawable.ic_driverlocation) as BitmapDrawable
+            val b2 = bitmapdraw2.bitmap
+            val driverMarker = Bitmap.createScaledBitmap(b2, width, height, false)
             // val originLocation = LatLng( originLatitude, originLongitude)
             mMap.addMarker(MarkerOptions()
-                .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
-                .position(originLocation).title("Current location"))
-            val destinationLocation = LatLng(destinationLatitude!!, destinationLongitude!!)
+                .icon(BitmapDescriptorFactory.fromBitmap(driverMarker))
+                .position(originLocation).title("My Location"))
+            val pickupoint = LatLng(destinationLatitude!!, destinationLongitude!!)
             //val destinationLocation = LatLng(destinationLatitude, destinationLongitude)
-            mMap.addMarker(MarkerOptions().position(destinationLocation).title("Pickup"))
-            val urll = getDirectionURL(originLocation, destinationLocation, "AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
+            mMap.addMarker(MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                .position(pickupoint).title("Customer Pickup-point"))
+            val urll = getDirectionURL(originLocation, pickupoint, "AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
             GetDirection(urll).execute()
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 14F))
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 15F))
 
         }
 
@@ -433,5 +450,30 @@ finished=true
             ))
     }
 
+    private fun distance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
+        val theta = lon1 - lon2
+        var dist = (Math.sin(deg2rad(lat1))
+                * Math.sin(deg2rad(lat2))
+                + (Math.cos(deg2rad(lat1))
+                * Math.cos(deg2rad(lat2))
+                * Math.cos(deg2rad(theta))))
+        dist = Math.acos(dist)
+        dist = rad2deg(dist)
+        dist = dist * 60 * 1.1515
+        return dist
+    }
 
+    private fun deg2rad(deg: Double): Double {
+        return deg * Math.PI / 180.0
+    }
+
+    private fun rad2deg(rad: Double): Double {
+        return rad * 180.0 / Math.PI
+    }
+
+    fun distanceBetween(point1: LatLng?, point2: LatLng?): Double? {
+        return if (point1 == null || point2 == null) {
+            null
+        } else SphericalUtil.computeDistanceBetween(point1, point2)
+    }
 }

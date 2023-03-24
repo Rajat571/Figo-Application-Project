@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        >
+
+<!--    <include layout="@layout/header_layout"
+        android:id="@+id/layout"
+        app:layout_constraintBottom_toTopOf="@id/backgrouund"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="NotSibling" />-->
+
+<!--
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></ScrollView>
+-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/backgrouund"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/background"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints" >
+
+        <ImageView
+            android:layout_width="356dp"
+            android:layout_height="154dp"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="#E6E7E9"
+        app:cardCornerRadius="35dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/backgrouund"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_marginLeft="3dp"
+                android:id="@+id/live"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="15dp"
+                android:text="Live"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:id="@+id/advance"
+                android:layout_height="wrap_content"
+                android:text="Advanced"
+                android:textSize="16sp"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:padding="15dp"/>
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></ScrollView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:id="@+id/livecard"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/backgrouund"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="8dp">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_gravity="center"
+                android:layout_marginRight="4dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="21.3.2023"
+                android:background="@drawable/background_card"
+                android:padding="8dp"
+                android:layout_marginRight="50dp"
+                android:textAlignment="center"
+                android:layout_gravity="center"/>
+            <ImageView
+                android:layout_gravity="center"
+                android:layout_marginLeft="50dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/background_card"
+                android:padding="8dp"
+                android:text="02:20 PM"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="3"
+                android:background="@drawable/out_line_box"
+                android:hint="Auto detect live location"
+                android:padding="9dp" />
+
+            <LinearLayout
+                android:layout_margin="2dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/background_card"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_baseline_location_on_24"/>
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="Location"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+            <EditText
+                android:background="@drawable/out_line_box"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_gravity="center"
+                android:padding="9dp"
+                android:layout_height="wrap_content"
+                android:hint="Fill manual"/>
+            <LinearLayout
+                android:layout_margin="2dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/background_card"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_baseline_location_on_24"/>
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="Location"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/out_line_box"
+                android:padding="8dp"
+                android:text="Adult" />
+
+            <TextView
+                android:padding="8dp"
+                android:layout_marginLeft="4dp"
+                android:layout_width="0dp"
+                android:background="@drawable/out_line_box"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Kids"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+           <!-- <ImageView
+          android:layout_width="40dp"
+          android:layout_height="40dp"
+          android:src="@drawable/more"/>-->
+
+           <!-- <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/idAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:src="@drawable/ic_add"/>-->
+            <ImageView
+                android:id="@+id/idAdd"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:visibility="visible"
+                />
+
+
+
+            <LinearLayout
+                android:id="@+id/llSearch"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/edtName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="3"
+                    android:background="@drawable/out_line_box"
+                    android:inputType="textPostalAddress"
+                    android:hint="Enter Check point name"
+                    android:padding="9dp" />
+
+<!--
+                <ImageView
+                    android:id="@+id/idCheck"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    android:src="@drawable/check"/>
+-->
+
+                <LinearLayout
+                    android:id="@+id/location"
+                    android:layout_margin="2dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_card"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/locationIV"
+                        android:layout_width="30dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_baseline_location_on_24"/>
+                    <TextView
+                        android:id="@+id/locationTV"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:text="Location"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:id="@+id/recycler_list"
+            />
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:textColor="@color/white"
+            android:padding="14dp"
+            android:gravity="center"
+            android:background="@color/black"
+            android:layout_marginTop="10dp"
+            android:textAllCaps="true"
+            android:backgroundTint="#000F3B"/>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="300dp" />
+
+    </LinearLayout>
+        </ScrollView>
+    </androidx.cardview.widget.CardView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

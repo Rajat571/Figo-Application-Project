@@ -215,6 +215,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".figgodriver.UI.LocationPickerActivity"
+            android:exported="false"/>
+
         <meta-data
             android:name="com.razorpay.plugin.googlepay_all"
             android:value="com.razorpay.RzpGpayMerge" />

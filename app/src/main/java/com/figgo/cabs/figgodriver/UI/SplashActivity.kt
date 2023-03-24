@@ -10,11 +10,14 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.NavHostFragment
+import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
+import com.figgo.cabs.figgodriver.Service.MyService
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
@@ -163,5 +166,24 @@ class SplashActivity : AppCompatActivity() {
 
             }
         }
+    }
+    override fun onResume() {
+        super.onResume()
+        /*  registerBroadcast()
+          getStart()
+
+          checkDownloadPermission()*/
+        var prefManager = PrefManager(this)
+        prefManager.setType("")
+        prefManager.setToLatL("")
+        prefManager.setToLngL("")
+        prefManager.setToLatM("")
+        prefManager.setToLngM("")
+        prefManager.setTypeC("")
+        prefManager.setToLatLC("")
+        prefManager.setToLngLC("")
+        prefManager.setToLatMC("")
+        prefManager.setToLngMC("")
+
     }
 }
