@@ -13,11 +13,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +29,8 @@ import com.figgo.cabs.R
 import com.figgo.cabs.figgodriver.Adapter.AddShareAdapter
 import com.figgo.cabs.figgodriver.UI.LocationPickerActivity
 import com.figgo.cabs.figgodriver.model.LIstModel
+import kotlinx.android.synthetic.main.active_ride_layout.view.*
+import kotlinx.android.synthetic.main.fragment_share_ride.*
 import java.util.*
 
 
@@ -50,6 +55,7 @@ class ShareRideFragment : Fragment() {
     lateinit var destinationSetText: TextView
     lateinit var share_date: TextView
     lateinit var share_time: TextView
+    lateinit var locationLL: LinearLayout
     lateinit var calender:Calendar
     private var param1: String? = null
     private var param2: String? = null
@@ -94,12 +100,44 @@ class ShareRideFragment : Fragment() {
 
         timerOk = view.findViewById(R.id.timerOk)
 
+        locationLL = view.findViewById<LinearLayout>(R.id.idLocationLL)
 
+
+
+
+
+
+                locationLL.setOnClickListener {
+            val internet: Boolean = isOnline(requireActivity())
+            if (internet == true) {
+                selects = ""
+                pref.setType("3")
+                val i = Intent(requireActivity(), LocationPickerActivity::class.java)
+                startActivityForResult(i, ADDRESS_PICKER_REQUEST)
+            } else {
+                Toast.makeText(requireActivity(), "Please turn on internet", Toast.LENGTH_LONG)
+                    .show()
+            }
+
+
+                if (checkpoint_edittext.text.toString().isNotEmpty()) {
+                    arrCard.add(LIstModel(checkpoint_edittext.text.toString(),pref.getCheckLat(),pref.getCheckLng()))
+                    recyclerView.adapter?.notifyDataSetChanged()
+
+                    closeKeyboard(checkpoint_edittext)
+                    checkpoint_edittext.setText("")
+            }
+        }
         add_checkpoint.setOnClickListener {
             try {
                 if (checkpoint_edittext.text.toString().isNotEmpty()) {
-                    arrCard.add(LIstModel(checkpoint_edittext.text.toString()))
+                    arrCard.add(LIstModel(checkpoint_edittext.text.toString(),pref.getCheckLat(),pref.getCheckLng()))
                     recyclerView.adapter?.notifyDataSetChanged()
+
+                    closeKeyboard(checkpoint_edittext)
+                    checkpoint_edittext.setText("")
+
+
                 }
             } catch (_: Exception) {
 
@@ -192,6 +230,8 @@ class ShareRideFragment : Fragment() {
 
     }
 
+
+
     override fun onResume() {
         super.onResume()
 
@@ -232,11 +272,81 @@ class ShareRideFragment : Fragment() {
             } else {
                 getDestinationLoc()
             }
+            if (pref.getCheckLat().equals("")) {
 
+            } else {
+                getCheckPoint()
+            }
+
+        }
+        else if (pref.getType().equals("3")){
+
+            if (pref.getToLatL().equals("")) {
+
+            } else {
+                if (pref.getToLatL().equals("")) {
+
+                } else {
+                    getCurrentLoc()
+
+                }
+                if (pref.getCheckLat().equals("")) {
+
+                } else {
+                    getCheckPoint()
+                }
+            }
+            if (pref.getToLatM().equals("")) {
+
+            } else {
+                if (pref.getToLatL().equals("")) {
+
+                } else {
+                    getDestinationLoc()
+
+                }
+            }
+            if (pref.getCheckLat().equals("")) {
+
+            } else {
+                getCheckPoint()
+            }
 
         }
     }
 
+    private fun getCheckPoint() {
+
+            to_lat = pref.getCheckLat().toDouble()
+            to_lng = pref.getCheckLng().toDouble()
+
+            var geocoder: Geocoder
+            val addresses: List<Address>
+            geocoder = Geocoder(requireActivity(), Locale.getDefault())
+
+
+            var strAdd: String? = null
+            try {
+                val addresses = geocoder.getFromLocation(to_lat!!, to_lng!!, 1)
+                if (addresses != null) {
+                    val returnedAddress = addresses[0]
+                    val strReturnedAddress = java.lang.StringBuilder("")
+                    for (i in 0..returnedAddress.maxAddressLineIndex) {
+                        strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n")
+                    }
+                    strAdd = strReturnedAddress.toString()
+                    Log.w(" Current loction address", strReturnedAddress.toString())
+                } else {
+                    Log.w(" Current loction address", "No Address returned!")
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.w(" Current loction address", e.printStackTrace().toString())
+            }
+            checkpoint_edittext?.setText(strAdd)
+
+
+    }
 
     private fun getCurrentLoc() {
         to_lat = pref.getToLatL().toDouble()
@@ -321,5 +431,13 @@ class ShareRideFragment : Fragment() {
             }
         }
         return false
+    }
+
+    private fun closeKeyboard(view: View) {
+
+        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken,0)
+
+
     }
 }

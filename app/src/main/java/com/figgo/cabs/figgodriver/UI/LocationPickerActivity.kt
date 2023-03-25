@@ -319,9 +319,15 @@ class LocationPickerActivity :AppCompatActivity(), OnMapReadyCallback, RideCityA
                     pref.setToLngL(mLongitude.toString())
                     db.addAddress(addressline2?.text.toString(),mLatitude.toString(),mLongitude.toString())
                     // historyAddList.add(HistoryAdd(addressline2?.text.toString(),mLatitude.toString(),mLongitude.toString()))
-                }else{
+                }else if(pref.getType().equals("2")){
                     pref.setToLatM(mLatitude.toString())
                     pref.setToLngM(mLongitude.toString())
+                    db.addAddress(addressline2?.text.toString(),mLatitude.toString(),mLongitude.toString())
+                    //  historyAddList.add(HistoryAdd(addressline2?.text.toString(),mLatitude.toString(),mLongitude.toString()))
+
+                }else if(pref.getType().equals("3")){
+                    pref.setCheckLat(mLatitude.toString())
+                    pref.setCheckLng(mLongitude.toString())
                     db.addAddress(addressline2?.text.toString(),mLatitude.toString(),mLongitude.toString())
                     //  historyAddList.add(HistoryAdd(addressline2?.text.toString(),mLatitude.toString(),mLongitude.toString()))
 
@@ -923,18 +929,24 @@ class LocationPickerActivity :AppCompatActivity(), OnMapReadyCallback, RideCityA
                 if (pref.getType().equals("1")) {
                     pref.setToLatL(locationByGps?.latitude.toString())
                     pref.setToLngL(locationByGps?.longitude.toString())
-                }else{
+                }else  if (pref.getType().equals("2")){
                     pref.setToLatM(locationByGps?.latitude.toString())
                     pref.setToLngM(locationByGps?.longitude.toString())
+                }else  if (pref.getType().equals("3")){
+                    pref.setCheckLat(locationByGps?.latitude.toString())
+                    pref.setCheckLng(locationByGps?.longitude.toString())
                 }
                 finish()
             }else{
                 if (pref.getType().equals("1")) {
                     pref.setToLatL(locationByNetwork?.latitude.toString())
                     pref.setToLngL(locationByNetwork?.longitude.toString())
-                }else{
+                }else  if (pref.getType().equals("2")){
                     pref.setToLatM(locationByNetwork?.latitude.toString())
                     pref.setToLngM(locationByNetwork?.longitude.toString())
+                }else  if (pref.getType().equals("3")){
+                    pref.setCheckLat(locationByNetwork?.latitude.toString())
+                    pref.setCheckLng(locationByNetwork?.longitude.toString())
                 }
                 finish()
 
@@ -950,9 +962,12 @@ class LocationPickerActivity :AppCompatActivity(), OnMapReadyCallback, RideCityA
                 if (pref.getType().equals("1")) {
                     pref.setToLatL(locationByNetwork?.latitude.toString())
                     pref.setToLngL(locationByNetwork?.longitude.toString())
-                }else{
+                }else  if (pref.getType().equals("2")){
                     pref.setToLatM(locationByNetwork?.latitude.toString())
                     pref.setToLngM(locationByNetwork?.longitude.toString())
+                }else  if (pref.getType().equals("3")){
+                    pref.setCheckLat(locationByNetwork?.latitude.toString())
+                    pref.setCheckLng(locationByNetwork?.longitude.toString())
                 }
                 finish()
             }

@@ -492,4 +492,23 @@ import android.content.SharedPreferences
      fun getToLngLC():String{
          return pref?.getString("lng_to_lc","null").toString()
      }
-}
+     fun setCheckLng(lng:String){
+         editor?.putString("check_lng",lng)
+         editor?.commit()
+     }
+
+     fun getCheckLng(): String {
+
+         return pref?.getString("check_lng","null").toString()
+     }
+
+     fun setCheckLat(lat:String){
+         editor?.putString("check_lat",lat)
+         editor?.commit()
+     }
+
+     fun getCheckLat(): String {
+
+         return pref?.getString("check_lat","null").toString()
+     }
+ }
