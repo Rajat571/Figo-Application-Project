@@ -3,10 +3,12 @@
     <array name="preloaded_fonts" translatable="false">
         <item>@font/alfa_slab_one</item>
         <item>@font/amarante</item>
+        <item>@font/andika_new_basic</item>
         <item>@font/archivo_black</item>
         <item>@font/arimo</item>
         <item>@font/audiowide</item>
         <item>@font/baloo_da</item>
+        <item>@font/baloo_tamma</item>
         <item>@font/candal</item>
         <item>@font/potta_one</item>
         <item>@font/rubik_mono_one</item>

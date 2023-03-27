@@ -66,8 +66,11 @@ class FireBaseService : Service() {
 
 
         prefManager= PrefManager(applicationContext)
-rideID = prefManager.getRideID()
-        scope.launch(Dispatchers.IO) {  latlong() }
+        rideID = prefManager.getRideID()
+
+        scope.launch(Dispatchers.IO) {
+            latlong()
+        }
 
         // Toast.makeText(applicationContext,"sucess",Toast.LENGTH_SHORT).show()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) startMyOwnForeground() else startForeground(

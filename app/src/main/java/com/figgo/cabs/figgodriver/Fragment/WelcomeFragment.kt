@@ -1,13 +1,13 @@
 package com.figgo.cabs.figgodriver.Fragment
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.widget.TextView
 import androidx.navigation.Navigation
 import com.android.volley.Response
 import com.android.volley.VolleyError
@@ -23,6 +23,7 @@ import org.json.JSONObject
 
 class WelcomeFragment : Fragment() {
     lateinit var prefManager: PrefManager
+    lateinit var dialog:Dialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +36,24 @@ class WelcomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prefManager= PrefManager(requireContext())
+        dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.badconnectionlayout)
+        dialog.getWindow()?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        var reconnectNow = dialog.findViewById<TextView>(R.id.reconnect)
+        var reconnectlater = dialog.findViewById<TextView>(R.id.reconnectlater)
+        reconnectNow.setOnClickListener {
+            dialog.dismiss()
+            checkstatus(view)
+        }
+        reconnectlater.setOnClickListener {
+            dialog.dismiss()
+            val startMain = Intent(Intent.ACTION_MAIN)
+            startMain.addCategory(Intent.CATEGORY_HOME)
+            startMain.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(startMain)
+        }
         Handler().postDelayed({
             if(prefManager.getToken().equals("") || prefManager.getToken().equals("null")){
                 Navigation.findNavController(view).navigate(R.id.action_welcomeDriverFragment_to_verifyNumber2)
@@ -111,6 +130,8 @@ class WelcomeFragment : Fragment() {
         },object : Response.ErrorListener{
             override fun onErrorResponse(error: VolleyError?) {
                 Log.d("WaitingRegistraion","ERROR"+error)
+
+                dialog.show()
             }
         })
         {}

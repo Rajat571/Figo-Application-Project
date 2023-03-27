@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_marginHorizontal="10dp"
+    android:paddingHorizontal="@dimen/_20sdp"
+    android:paddingVertical="@dimen/_12sdp"
+    android:layout_height="wrap_content">
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_150sdp"
+        android:src="@drawable/gif_serversearch"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/andika_new_basic"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textSize="@dimen/_10sdp"
+        android:text="Oops!\nServer is taking longer than usual to respond.\nPlease check your internet connection or \n try again later."
+        android:textColor="@color/black"
+        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_5sdp"
+            android:text="Reconnect Now"
+            android:gravity="left"
+            android:id="@+id/reconnect"
+            android:layout_weight="1"
+            android:textSize="12dp"
+            android:textColor="#5B81F3"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Try Again Later"
+            android:padding="@dimen/_5sdp"
+            android:gravity="right"
+            android:textSize="12dp"
+            android:id="@+id/reconnectlater"
+            android:layout_weight="1"
+            android:textColor="#3A6AF6"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+
+</LinearLayout>
