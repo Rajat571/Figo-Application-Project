@@ -511,4 +511,11 @@ import android.content.SharedPreferences
 
          return pref?.getString("check_lat","null").toString()
      }
+     fun setServiceStatus(status:Boolean){
+         editor?.putBoolean("service",status)
+         editor?.commit()
+     }
+     fun isServiceRunning():Boolean{
+         return pref?.getBoolean("service",true)!!
+     }
  }

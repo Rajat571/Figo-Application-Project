@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
 
     android:layout_height="match_parent"
-    tools:context=".WelcomeActivity">
+    tools:context=".figgodriver.UI.WelcomeActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/welcome_Layout"
@@ -84,7 +84,8 @@
                     android:layout_marginTop="20dp"
                     android:background="@drawable/background_card"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/taxicap" />
+                    android:src="@drawable/taxicap"
+                    />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

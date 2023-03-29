@@ -1,73 +1,61 @@
 package com.figgo.cabs.figgodriver.UI
 
-import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.Dialog
-import android.app.NotificationManager
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
-import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.ColorDrawable
+import android.net.ConnectivityManager
 import android.os.AsyncTask
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.view.Window
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.transition.AutoTransition
-import androidx.transition.TransitionManager
 import com.android.volley.AuthFailureError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.databinding.ActivityStartRideBinding
-import com.figgo.cabs.figgodriver.Location
 import com.figgo.cabs.figgodriver.MapData
 import com.figgo.cabs.figgodriver.Service.FireBaseService
-import com.figgo.cabs.figgodriver.Service.MyService
 import com.figgo.cabs.pearllib.Helper
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
-import com.google.android.gms.tasks.CancellationToken
-import com.google.android.gms.tasks.CancellationTokenSource
-import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.android.libraries.places.api.Places
-
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
+import io.reactivex.annotations.NonNull
 import kotlinx.android.synthetic.main.otp_start_layout.*
+import kotlinx.android.synthetic.main.service_dialog.*
 import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONObject
-import org.w3c.dom.Text
-import java.util.HashMap
+
 
 class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -133,6 +121,11 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
             var start_ride_bottom_layout=findViewById<LinearLayout>(R.id.start_ride_bottom_layout)
             start_ride_bottom_layout.visibility=View.GONE
         }*/
+
+
+
+
+
         rideComplete.setOnClickListener {
             rideDetails()
         }
@@ -146,6 +139,8 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
             Places.initialize(applicationContext.applicationContext,apiKey)
         }
 
+
+
 /*        val database = FirebaseDatabase.getInstance()
         val customerRef = database.getReference("1070 customer")
         val driverRef = database.getReference("1070 customer")*/
@@ -154,6 +149,26 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
         Toast.makeText(this,"Ride ID $rideId",Toast.LENGTH_SHORT).show()
         val mapFragment = supportFragmentManager.findFragmentById(R.id.mapend) as SupportMapFragment
         updateRoute()
+
+        //Dialog BOX
+        val dialog = Dialog(this@StartRideActivity)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.service_dialog)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val tvMsg : TextView = dialog.findViewById(R.id.msgTV)
+        val tvYes : TextView = dialog.findViewById(R.id.yesTV)
+        val tvNo : TextView = dialog.findViewById(R.id.noTV)
+        val serverImg : ImageView = dialog.findViewById(R.id.serviceIV)
+
+        tvMsg.text = "Please Enable live routing for better experience "
+        tvYes.setOnClickListener {
+            prefManager.setServiceStatus(true)
+        }
+        tvNo.setOnClickListener {
+            dialog.dismiss()
+        }
         val scope = CoroutineScope(Job() + Dispatchers.Main)
         mapFragment.getMapAsync(this)
         mapFragment.getMapAsync {
@@ -166,6 +181,7 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
             mMap.addMarker(MarkerOptions().position(destinationLocation).title("hi"))
             val urll = getDirectionURL(originLocation, destinationLocation, "AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
             //GetDirection(urll).execute()
+            prefManager.setServiceStatus(true)
 
            /* while(!endRoute) {*/
 
@@ -182,8 +198,20 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
                                         11F
                                     )
                                 )
-                                updateRoute()
-                                liveRouting(originLatitude, originLongitude, customerLAT, customerLON)
+                                if(prefManager.isServiceRunning()){
+                                    liveRouting(originLatitude, originLongitude, customerLAT, customerLON)
+                                    updateRoute()
+                                }
+
+                                else
+                                {
+
+                                    dialog.show()
+
+
+
+                                }
+
                             }
                         }
 
@@ -494,4 +522,10 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onDestroy()
         stopService(Intent(this,FireBaseService::class.java))
     }*/
+
+
+
+
 }
+
+

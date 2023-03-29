@@ -1,15 +1,12 @@
 package com.figgo.cabs.figgodriver.Service
 
 import android.Manifest
-import android.app.Notification
+import android.app.*
 import android.content.Intent
 import android.os.CountDownTimer
 import android.os.Build
 import android.os.IBinder
 import androidx.annotation.RequiresApi
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.Service
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Address
@@ -31,6 +28,7 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
+import com.figgo.cabs.figgodriver.UI.DriverDashBoard
 import kotlinx.coroutines.*
 import org.json.JSONObject
 import java.util.*
@@ -49,13 +47,16 @@ class MyService : Service() {
     lateinit var address:List<Address>
     var bi = Intent(COUNTDOWN_BR)
     var cdt: CountDownTimer? = null
-    override fun onStartCommand(
-        intent: Intent,
-        flags: Int,
-        startId: Int
-    ): Int {
-        return START_STICKY
+
+
+
+override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+    when (intent?.action) {
+        "com.example.simpleapp.DISABLE_SERVICE" -> stopSelf()
     }
+    return START_STICKY
+}
+
 
     override fun onTaskRemoved(rootIntent: Intent) {
         /* Intent restartServiceTask = new Intent(getApplicationContext(),this.getClass());
@@ -177,11 +178,24 @@ try {
         val manager = (getSystemService(NOTIFICATION_SERVICE) as NotificationManager)
         manager.createNotificationChannel(chan)
         val notificationBuilder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+
+        val disableIntent = Intent(this, MyService::class.java).apply {
+            action = "com.example.simpleapp.DISABLE_SERVICE"
+        }
+        val disablePendingIntent = PendingIntent.getService(
+            this,
+            0,
+            disableIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+        )
+
+
         val notification: Notification = notificationBuilder.setOngoing(true)
             .setSmallIcon(R.drawable.appicon_small)
             .setContentTitle("Figgo Cabs is finding new bookings for you.")
             .setPriority(NotificationManager.IMPORTANCE_MIN)
             .setCategory(Notification.CATEGORY_SERVICE)
+            .addAction(R.drawable.disable_button,"Disable",disablePendingIntent)
             .build()
         startForeground(2, notification)
     //    Log.d("SEND DATA","Response service==="+channelName)
@@ -195,3 +209,4 @@ try {
 
 
 }
+

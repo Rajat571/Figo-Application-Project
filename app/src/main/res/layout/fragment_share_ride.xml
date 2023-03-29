@@ -228,7 +228,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="@dimen/_10sdp"
                             android:layout_weight="4"
-                            android:hint="Checkpoint/Waypoint" />
+                            android:hint="Checkpoint/Waypoint"
+                            tools:ignore="TouchTargetSizeCheck" />
 
                         <LinearLayout
                             android:id="@+id/idLocationLL"

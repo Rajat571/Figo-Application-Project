@@ -100,7 +100,7 @@ class ShareRideFragment : Fragment() {
 
         timerOk = view.findViewById(R.id.timerOk)
 
-        locationLL = view.findViewById<LinearLayout>(R.id.idLocationLL)
+        locationLL = view.findViewById(R.id.idLocationLL)
 
 
 

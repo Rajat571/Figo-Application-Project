@@ -1,10 +1,7 @@
 package com.figgo.cabs.figgodriver.Service
 
 import android.Manifest
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.Service
+import android.app.*
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -32,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
 import kotlinx.coroutines.*
+import java.lang.Compiler.disable
 
 class FireBaseService : Service() {
     private val REQUEST_LOCATION = 1
@@ -57,6 +55,13 @@ class FireBaseService : Service() {
         flags: Int,
         startId: Int
     ): Int {
+        when(intent.action){
+
+            "com.example.simpleapp.DISABLE_Firebase_SERVICE" -> {
+                stopSelf()
+                prefManager.setServiceStatus(false)
+            }
+        }
         return START_STICKY
     }
 
@@ -71,6 +76,7 @@ class FireBaseService : Service() {
         scope.launch(Dispatchers.IO) {
             latlong()
         }
+        //disableService()
 
         // Toast.makeText(applicationContext,"sucess",Toast.LENGTH_SHORT).show()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) startMyOwnForeground() else startForeground(
@@ -78,6 +84,8 @@ class FireBaseService : Service() {
             Notification()
         )
     }
+
+
 
 
     private suspend fun latlong() {
@@ -130,11 +138,22 @@ class FireBaseService : Service() {
             val manager = (getSystemService(NOTIFICATION_SERVICE) as NotificationManager)
             manager.createNotificationChannel(chan)
             val notificationBuilder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+
+            val disableIntent = Intent(this, FireBaseService::class.java).apply {
+                action = "com.example.simpleapp.DISABLE_Firebase_SERVICE"
+            }
+            val disablePendingIntent = PendingIntent.getService(
+                this,
+                0,
+                disableIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+            )
             val notification: Notification = notificationBuilder.setOngoing(true)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle("")
                 .setPriority(NotificationManager.IMPORTANCE_MIN)
                 .setCategory(Notification.CATEGORY_SERVICE)
+                .addAction(R.drawable.disable_button,"Disable Live Routing",disablePendingIntent)
                 .build()
             startForeground(2, notification)
             //    Log.d("SEND DATA","Response service==="+channelName)
