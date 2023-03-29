@@ -102,7 +102,7 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
         pickuplocation.text = intent.getStringExtra("pickup")
         fareprice.text = intent.getStringExtra("price")
         price = intent.getStringExtra("price").toString()
-    dropLocationTV.text = intent.getStringExtra("dropLocation")
+        dropLocationTV.text = intent.getStringExtra("dropLocation")
         destinationLongitude=prefManager.getDestLon().toDouble()
         destinationLatitude=prefManager.getDestLat().toDouble()
         Log.d("StartRideActivity","$destinationLatitude $destinationLongitude")
@@ -110,6 +110,7 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
         startService(Intent(this,FireBaseService::class.java))
         rideId = prefManager.getRideID()
         Log.d("RideID ","$rideId")
+
 /*        var arrow_up_btn=findViewById<ImageView>(R.id.arrow_up_IV)
         binding.arrowDownIV.setOnClickListener {
             TransitionManager.beginDelayedTransition( binding.startRideBottomLayout, AutoTransition())
@@ -338,8 +339,6 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
         var jsonObject: JsonObjectRequest = object : JsonObjectRequest(Method.POST,url,json,{
             if (it!=null){
                //Toast.makeText(this,"Ride Successfully Completed",Toast.LENGTH_SHORT).show()
-
-
                 dialog.show()
             }
         },{
@@ -480,7 +479,7 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
         val destination = "$destinationLatitude,$destinationLongitude"
         Log.e("Origin ", "$source\n Destination $destination")
         //GetDirection().execute(source, destination)
-        var url:String=getDirectionURL(driverlocation!!, dropLocation!!,"AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU")
+        var url:String=getDirectionURL(driverlocation!!, dropLocation!!,"")
 
         GetDirection(url).execute()
         Handler().postDelayed({

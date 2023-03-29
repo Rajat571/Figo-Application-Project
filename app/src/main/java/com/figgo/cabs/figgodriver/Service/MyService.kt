@@ -191,7 +191,7 @@ try {
 
 
         val notification: Notification = notificationBuilder.setOngoing(true)
-            .setSmallIcon(R.drawable.appicon_small)
+            .setSmallIcon(R.drawable.figgo_removedbg)
             .setContentTitle("Figgo Cabs is finding new bookings for you.")
             .setPriority(NotificationManager.IMPORTANCE_MIN)
             .setCategory(Notification.CATEGORY_SERVICE)

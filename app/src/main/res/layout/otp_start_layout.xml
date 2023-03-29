@@ -5,6 +5,17 @@
     android:orientation="vertical"
     android:padding="@dimen/_10sdp"
     android:layout_height="wrap_content">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -112,11 +123,14 @@
         android:textColor="#0380E3"
         android:layout_margin="@dimen/_5sdp"
         android:id="@+id/drop"
-        android:textSize="@dimen/_15sdp"
+        android:textSize="@dimen/_10sdp"
         android:text=""/>
 
 
     </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -125,18 +139,19 @@
         android:orientation="horizontal"
         >
 
-    <EditText
-        android:layout_width="0dp"
-        android:layout_marginRight="5dp"
-        android:layout_weight="1"
-        android:padding="6dp"
-        android:id="@+id/ridestartotp"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:layout_gravity="center"
-        android:hint="Booking OTP"
-        android:background="@drawable/edittext"
-        android:autofillHints="" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:padding="6dp"
+            android:id="@+id/ridestartotp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:textSize="@dimen/_10sdp"
+            android:layout_gravity="center"
+            android:hint="Booking OTP"
+            android:background="@drawable/edittext"
+            android:autofillHints="" />
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -145,6 +160,7 @@
             android:layout_height="wrap_content"
             android:text="Submit"
             android:id="@+id/dialog_submit"
+            android:textSize="@dimen/_10sdp"
             android:backgroundTint="#FFC107"
             />
     </LinearLayout>

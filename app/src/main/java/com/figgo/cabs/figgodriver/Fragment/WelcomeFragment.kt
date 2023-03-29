@@ -130,7 +130,6 @@ class WelcomeFragment : Fragment() {
         },object : Response.ErrorListener{
             override fun onErrorResponse(error: VolleyError?) {
                 Log.d("WaitingRegistraion","ERROR"+error)
-
                 dialog.show()
             }
         })
