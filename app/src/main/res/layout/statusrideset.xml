@@ -46,7 +46,7 @@
                         android:id="@+id/allride_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-condensed-medium"
+
                         android:padding="3dp"
                         android:text="06:30 pm"
                         android:textColor="@color/black"
@@ -124,7 +124,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="35dp"
-                    android:fontFamily="sans-serif-condensed-medium"
+
                     android:padding="5dp"
                     android:text="PGI, Sector 12, Chandihgarh"
                     android:textSize="16sp" />
@@ -135,7 +135,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="35dp"
                     android:layout_marginTop="5dp"
-                    android:fontFamily="sans-serif-condensed-medium"
+
                     android:padding="5dp"
                     android:text="Chandigarh (Google location)"
                     android:textSize="16sp" />

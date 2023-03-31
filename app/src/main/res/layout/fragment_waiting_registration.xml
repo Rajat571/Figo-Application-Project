@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:fontFamily="sans-serif-medium"
+
                 android:text="Hello [name]
 You registered an account on Figgo Driver App.Your Document Verification is under process, we will connect with you shortly."
                 android:textAlignment="center"

@@ -41,7 +41,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="serif"
                 android:id="@+id/become_the_luxury"
                 android:text="BECOME THE LUXURY"
                 android:textAlignment="center"

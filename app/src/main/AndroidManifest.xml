@@ -22,7 +22,8 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.READ_CLIPBOARD" />
     <uses-permission android:name="android.permission.WRITE_CLIPBOARD" />
-    <uses-permission android:name="android.permission.LOCAL_MAC_ADDRESS" />
+    <uses-permission android:name="android.permission.LOCAL_MAC_ADDRESS"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission
         android:name="android.permission.BIND_ACCESSIBILITY_SERVICE"
         tools:ignore="ProtectedPermissions" />
@@ -47,7 +48,7 @@
         android:largeHeap="true"
         android:roundIcon="@drawable/appicon"
         android:supportsRtl="true"
-        android:theme="@style/Theme.FiggoDriver"
+        android:theme="@style/table_row_item"
         tools:targetApi="31">
         <activity
             android:name=".figgodriver.Fragment.outstation.OutstationStartRideActivity"
@@ -55,11 +56,11 @@
         <activity
             android:name=".figgodriver.Fragment.outstation.OutstationCustomerCityRideDetailActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+           />
         <activity
             android:name=".figgodriver.Fragment.outstation.OutstationCityRideActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+            />
         <activity
             android:name=".figgodriver.UI.PaymentRechargeActivity"
             android:exported="false">
@@ -106,14 +107,14 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCbd3JqvfSx0p74kYfhRTXE7LZghirSDoU" />
-        <meta-data
+    <!--    <meta-data
             android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
+            android:resource="@array/preloaded_fonts" />-->
 
         <activity
             android:name="com.figgo.cabs.hotelPartner.HotelPartnerDashboard"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+           >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -121,7 +122,7 @@
         <activity
             android:name=".figgodriver.UI.RequestAllRide"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+           >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -129,7 +130,7 @@
         <activity
             android:name=".figgodriver.UI.DriverDashBoard"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+           >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -137,7 +138,7 @@
         <activity
             android:name=".figgodriver.UI.PriceDetailsActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+           >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -145,7 +146,7 @@
         <activity
             android:name="com.figgo.cabs.FiggoPartner.UI.Partner_Dashboard"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+           >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -153,7 +154,7 @@
         <activity
             android:name=".figgodriver.UI.LoginActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+           >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -161,7 +162,7 @@
         <activity
             android:name=".figgodriver.UI.WelcomeActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+           >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -169,7 +170,7 @@
         <activity
             android:name=".figgodriver.UI.SplashActivity"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+           >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -152,6 +152,10 @@ class CityRideFragment : Fragment() {
                         bookinglimitstr = response.getString("booking_limit")
                     else
                         bookinglimitstr = "0"
+
+                    if(requestlimit.toInt()<=0)
+                        requestlimit = "0"
+                    prefManager.setRemainingRides(requestlimit.toInt())
                     riderequestno.text = requestlimit
                     bookinglimit.text = bookinglimitstr
                 } catch (_: Exception) {

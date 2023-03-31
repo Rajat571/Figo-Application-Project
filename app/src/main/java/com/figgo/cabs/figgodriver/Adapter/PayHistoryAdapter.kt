@@ -32,7 +32,7 @@ class PayHistoryAdapter(var data:List<PaymentHistoryModel>):RecyclerView.Adapter
         }
         holder.date.text=historyData.paymentdate
         var plusminus:String=""
-        if(historyData.walletbank==0) {
+        if(historyData.walletbank.equals("0")) {
             holder.amount.setTextColor(Color.parseColor("#FF0000"))
             plusminus=" - Rs."
             holder.sendpayment.visibility=View.GONE

@@ -6,6 +6,6 @@ data class PaymentHistoryModel(
     var payment1:String,
     var payment2:String,
     var payment3:String,
-    var walletbank:Int,
+    var walletbank:String,
     var type:Int
 )

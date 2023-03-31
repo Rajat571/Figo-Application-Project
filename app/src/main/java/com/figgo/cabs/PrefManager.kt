@@ -518,4 +518,12 @@ import android.content.SharedPreferences
      fun isServiceRunning():Boolean{
          return pref?.getBoolean("service",true)!!
      }
+
+     fun setRemainingRides(requestNo:Int){
+         editor?.putInt("requestNo",requestNo)
+         editor?.commit()
+     }
+     fun getRemainingRides():Int{
+         return pref?.getInt("requestNo",0)!!
+     }
  }

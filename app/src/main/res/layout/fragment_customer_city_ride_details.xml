@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8sp"
                     android:layout_marginTop="4sp"
-                    android:fontFamily="sans-serif-black"
+
                     android:padding="4sp"
                     android:text="25.06.2022"
                     android:id="@+id/ride_date"
@@ -78,7 +78,7 @@
                     android:layout_marginHorizontal="@dimen/_12sdp"
                     android:layout_gravity="center"
                     android:id="@+id/ride_time"
-                    android:fontFamily="sans-serif-black"
+
                     android:padding="3sp"
                     android:text="06:20PM"
                     android:textColor="@color/black"
@@ -121,7 +121,7 @@
                     android:id="@+id/allride_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed-medium"
+
                     android:padding="3dp"
                     android:text="06:30 pm"
                     android:textColor="@color/black"

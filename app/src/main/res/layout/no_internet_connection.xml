@@ -34,7 +34,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="200dp"
         android:background="@drawable/btn_bg"
-        android:fontFamily="sans-serif"
+
         android:gravity="center"
         android:paddingBottom="7dp"
         android:text="Try again"

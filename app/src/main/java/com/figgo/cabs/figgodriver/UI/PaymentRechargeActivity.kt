@@ -118,8 +118,15 @@ class PaymentRechargeActivity :BaseClass(),PaymentResultListener {
 
             }, object : Response.ErrorListener {
                 override fun onErrorResponse(error: VolleyError?) {
-                    Log.d("Payment Recharge", "error===" + error)
-                    Toast.makeText(this@PaymentRechargeActivity, "Something went wrong!", Toast.LENGTH_LONG).show()
+                    try {
+                        Log.d("Payment Recharge", "error===" + error)
+                        Toast.makeText(
+                            this@PaymentRechargeActivity,
+                            "Something went wrong!",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }catch (_:Exception){
+                    }
                 }
             })
 

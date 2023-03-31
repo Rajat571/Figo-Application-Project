@@ -110,9 +110,9 @@ prefManager= PrefManager(applicationContext)
                 override fun isCancellationRequested() = false
             })
                 .addOnSuccessListener { location: Location? ->
-                    if (location == null)
-                      //  Toast.makeText(this, "Cannot get location.", Toast.LENGTH_SHORT).show()
-                    else {
+               /*     if (location == null)
+                      //  Toast.makeText(this, "Cannot get location.", Toast.LENGTH_SHORT).show()*/
+                        if (location != null) {
 
                         lat = location.latitude
                         prefManager.setlatitude(lat.toFloat())

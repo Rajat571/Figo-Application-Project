@@ -20,7 +20,7 @@ class PartnerPaymentHistoryAdapter(var data:List<PaymentHistoryModel>): Recycler
         var x = data[position]
         holder.date.text=x.paymentdate
         var plusminus:String=""
-        if(x.walletbank==0) {
+        if(x.walletbank.equals("0")) {
             holder.amount.setTextColor(Color.parseColor("#FF0000"))
             plusminus=" - Rs."
             holder.sendpayment.visibility= View.GONE

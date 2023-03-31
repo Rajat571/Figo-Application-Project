@@ -33,7 +33,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
+
             android:text="Raj Sharma"
             android:id="@+id/drivernamee"
             android:textColor="@color/white"
@@ -42,7 +42,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
+
             android:textSize="@dimen/_12sdp"
             android:text="9501500439"
             android:id="@+id/driver_numberr"
@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/_12sdp"
-            android:fontFamily="sans-serif-black"
+
             android:text="mm@gmail.com"
             android:textColor="@color/white" />
 

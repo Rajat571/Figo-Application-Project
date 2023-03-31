@@ -83,7 +83,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8sp"
                         android:layout_marginTop="4sp"
-                        android:fontFamily="sans-serif-black"
+
                         android:padding="4sp"
                         android:text="25.06.2022"
                         android:textColor="@color/black"
@@ -112,7 +112,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginHorizontal="@dimen/_12sdp"
-                        android:fontFamily="sans-serif-black"
+
                         android:padding="3sp"
                         android:text="06:20PM"
                         android:textColor="@color/black"

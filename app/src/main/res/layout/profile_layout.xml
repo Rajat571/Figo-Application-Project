@@ -495,7 +495,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="sans-serif-light"
+
                 android:text="Name"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
@@ -521,7 +521,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="sans-serif-light"
+
                 android:text="State"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
@@ -546,7 +546,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="sans-serif-light"
+
                 android:text="City"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
@@ -571,7 +571,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="sans-serif-light"
+
                 android:text="Mobile No."
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
@@ -596,7 +596,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="sans-serif-light"
+
                 android:text="Email ID"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />

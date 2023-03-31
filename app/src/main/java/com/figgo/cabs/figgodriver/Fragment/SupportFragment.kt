@@ -221,7 +221,6 @@ dialog.show()
         var baseurl= Helper.all_transactions
         var queue= Volley.newRequestQueue(requireContext())
 
-
         var jsonObjectRequest=object : JsonObjectRequest(Method.POST,baseurl,null, Response.Listener<JSONObject>{
                 response ->
             Log.d("Recharge history Response ",""+response)
@@ -230,7 +229,7 @@ dialog.show()
                 var data=response.getJSONObject("transactions")
                 var alltransactios = data.getJSONArray("all_transactions")
                 var rechargehistory = data.getJSONArray("rechargehistory")
-                var total = data.getString("total_balance")
+                var total = response.getString("total")
                 total_payemnt.text = "Rs."+total
 
                 for (i in 0 until alltransactios.length()){
@@ -242,10 +241,15 @@ dialog.show()
                     Log.d("Support Fragment","Date-time"+formattedDate)
 
                     var transaction_id=data1.getString("transaction_id")
-                    var amount=data1.getString("amount")
+                    var amount=""
+                    try {
+                        amount = data1.getDouble("amount").toString()
+                    }catch (_:Exception){
+                        amount = data1.getString("amount")
+                    }
 
                     Log.d("Support Fragment","Date-time"+formattedDate+"\n"+" "+"\n"+transaction_id+"\n"+amount)
-                    history_list.add(PaymentHistoryModel(formattedDate,amount,"",transaction_id,"",amount.toInt(),1))
+                    history_list.add(PaymentHistoryModel(formattedDate,amount,"",transaction_id,"",amount,1))
                 }
                 for (i in 0 until rechargehistory.length()){
                     var data1=rechargehistory.getJSONObject(i)
@@ -262,7 +266,7 @@ dialog.show()
                     var recharge_amount=recharge_details.getString("recharge_amount")
 
                     Log.d("Support Fragment","Date-time"+formattedDate+"\n"+booking_limit+"\n"+request_limit+"\n"+recharge_amount)
-                    history_list.add(PaymentHistoryModel(formattedDate,recharge_amount,booking_limit,request_limit,"",recharge_amount.toInt(),0))
+                    history_list.add(PaymentHistoryModel(formattedDate,recharge_amount,booking_limit,request_limit,"",recharge_amount,0))
 
                 }
                 history.adapter= PayHistoryAdapter(history_list)

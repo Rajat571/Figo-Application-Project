@@ -6,9 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView.Adapter
+import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
+import com.figgo.cabs.figgodriver.Fragment.prefManager
 import com.figgo.cabs.figgodriver.UI.CityRideActivity
 import com.figgo.cabs.figgodriver.model.CityCurrentRidesList
 import java.io.File
@@ -26,7 +29,7 @@ class CityRideCurrentListAdapter(var context:Context, var ridelist:List<CityCurr
      val data=ridelist[position]
        /*
         holder.customer_name.text=data.cutomer_name*/
-
+var prefManager =PrefManager(context)
         holder.location_from.text=data.from
         holder.location_to.text=data.to
         holder.customer_time.text=data.time
@@ -35,22 +38,29 @@ class CityRideCurrentListAdapter(var context:Context, var ridelist:List<CityCurr
        // holder.fare_price.text=data.fare_price
 
         holder.itemView.setOnClickListener {
-            holder.rideCardview.background = context.getDrawable(R.drawable.booking_box_outline)
-           //holder.rideCardview.setCardBackgroundColor(Color.GREEN)
-            context.startActivity(Intent(context, CityRideActivity::class.java)
-                    .putExtra("location_to",data.to)
-                    .putExtra("location_from",data.from)
-                    .putExtra("price",data.fare_price)
-                    .putExtra("customer_date",data.date)
-                    .putExtra("customer_time",data.time)
-                    .putExtra("current_lat",data.current_lat)
-                    .putExtra("current_long",data.current_long)
-                    .putExtra("des_lat",data.des_lat)
-                    .putExtra("des_long",data.des_long)
-                    .putExtra("customer_booking_id",data.cutomer_name)
-                    .putExtra("ride_id",data.ride_id)
-                .putExtra("ride_request_id",data.ride_request_id)
-                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            if(prefManager.getRemainingRides()<=0){
+                Toast.makeText(context,"Please recharge to accept more rides.",Toast.LENGTH_SHORT).show()
+            }
+            else {
+                holder.rideCardview.background = context.getDrawable(R.drawable.booking_box_outline)
+                //holder.rideCardview.setCardBackgroundColor(Color.GREEN)
+                context.startActivity(
+                    Intent(context, CityRideActivity::class.java)
+                        .putExtra("location_to", data.to)
+                        .putExtra("location_from", data.from)
+                        .putExtra("price", data.fare_price)
+                        .putExtra("customer_date", data.date)
+                        .putExtra("customer_time", data.time)
+                        .putExtra("current_lat", data.current_lat)
+                        .putExtra("current_long", data.current_long)
+                        .putExtra("des_lat", data.des_lat)
+                        .putExtra("des_long", data.des_long)
+                        .putExtra("customer_booking_id", data.cutomer_name)
+                        .putExtra("ride_id", data.ride_id)
+                        .putExtra("ride_request_id", data.ride_request_id)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                )
+            }
             //deleteCache(context)
 
         }

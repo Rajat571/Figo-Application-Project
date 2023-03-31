@@ -50,7 +50,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:fontFamily="sans-serif-black"
+
                             android:padding="3sp"
                             android:text="25.06.2022"
                             android:textAlignment="textStart"
@@ -70,7 +70,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:fontFamily="sans-serif-black"
+
                             android:padding="3sp"
                             android:text="06:20PM"
                             android:textAlignment="textEnd"
@@ -136,7 +136,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:fontFamily="sans-serif-condensed-medium"
+
                             android:padding="3dp"
                             android:layout_margin="7dp"
                             android:text="06:30 pm"
@@ -148,7 +148,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="7dp"
-                            android:fontFamily="sans-serif-condensed-medium"
+
                             android:padding="3dp"
                             android:text="248.22"
                             android:textColor="@color/black"
@@ -157,7 +157,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="7dp"
-                            android:fontFamily="sans-serif-condensed-medium"
+
                             android:layout_marginRight="30dp"
                             android:text="Km"
                             android:textColor="@color/black"
@@ -175,7 +175,7 @@
                                 android:textAlignment="center"
                                 android:text="Distance"
                                 android:textStyle="bold"
-                                android:fontFamily="sans-serif-condensed-medium"
+
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_12sdp"/>
                             <!-- <Space
@@ -190,7 +190,7 @@
                                 android:layout_marginLeft="10dp"
                                 android:text="500.24"
                                 android:textAlignment="center"
-                                android:fontFamily="sans-serif-condensed-medium"
+
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_12sdp" />
 
@@ -198,7 +198,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Km"
-                                android:fontFamily="sans-serif-condensed-medium"
+
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_12sdp"/>
 

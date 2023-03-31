@@ -44,7 +44,7 @@
                     android:layout_marginLeft="10sp"
                     android:layout_marginTop="4sp"
                     android:background="#DEE1E1"
-                    android:fontFamily="sans-serif-black"
+
                     android:padding="4sp"
                     android:text="25.06.2022"
                     android:textColor="@color/black"
@@ -71,7 +71,7 @@
 
                     android:layout_gravity="center"
                     android:background="#DEE1E1"
-                    android:fontFamily="sans-serif-black"
+
                     android:padding="3sp"
                     android:text="06:20PM"
                     android:textColor="@color/black"
