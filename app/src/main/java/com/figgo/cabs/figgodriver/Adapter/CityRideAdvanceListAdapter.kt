@@ -57,7 +57,7 @@ class CityRideAdvanceListAdapter(var context:Context, var advanceridelist:List<C
                 .putExtra("des_long",data.des_long)
                 .putExtra("customer_booking_id",data.booking_id)
                 .putExtra("ride_id",data.ride_id)
-                .putExtra("ride_request_id","3")
+                .putExtra("ride_request_id",data.ride_request_id)
                     .putExtra("ride_type",data.type))
 
         }

@@ -246,8 +246,15 @@ class CityRideFragment : Fragment() {
                                     var time_only = data.getString("time_only")
                                     var price1 = data.getJSONObject("price")
                                     var price=price1.getString("avg")
-                                    var rideeRequest=data.getJSONObject("ride_request")
-                                    var ride_request_id=rideeRequest.getString("id")
+
+                                    var rideeRequest = JSONObject()
+                                    var ride_request_id = "0"
+                                    try {
+                                        rideeRequest = data.getJSONObject("ride_request")
+                                        ride_request_id = rideeRequest.getString("id")
+                                    }catch(_:Exception){
+                                        ride_request_id = "0"
+                                    }
                                     var actual_distance = data.getString("actual_distance")
                                     var status = data.getString("status")
                                     Log.d("SendDATA","Ride-Request api"+ride_request_id)
@@ -360,6 +367,15 @@ class CityRideFragment : Fragment() {
                                     )
                                     var date_only = data1.getString("date_only")
                                     var time_only = data1.getString("time_only")
+
+                                    var rideeRequest = JSONObject()
+                                    var ride_request_id = "0"
+                                    try {
+                                        rideeRequest = data1.getJSONObject("ride_request")
+                                        ride_request_id = rideeRequest.getString("id")
+                                    }catch(_:Exception){
+                                        ride_request_id = "0"
+                                    }
                                     advanceRidelists.add(
                                         CityAdvanceRideList(
                                             date_only,
@@ -373,7 +389,8 @@ class CityRideFragment : Fragment() {
                                             to_location_lat,
                                             to_location_long,
                                             ride_id,
-                                            "advance"
+                                            "advance",
+                                            ride_request_id
                                         )
                                     )
                                 }

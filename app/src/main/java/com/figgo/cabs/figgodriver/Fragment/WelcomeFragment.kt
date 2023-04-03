@@ -6,12 +6,14 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.figgo.cabs.FiggoPartner.UI.Partner_Dashboard
 import com.figgo.cabs.PrefManager
@@ -78,15 +80,11 @@ class WelcomeFragment : Fragment() {
         },2000)
     }
     private fun checkstatus(view: View) {
-        /*dialog.setTitle("please wait")
-        dialog.getWindow()?.setGravity(Gravity.BOTTOM);*/
-        //   dialog = ProgressDialog.show(requireContext(), "", "Please wait for approval...")
-
         // var baseurl="https://test.pearl-developer.com/figo/api/check-status"
         var baseurl= Helper.check_status
         var queue= Volley.newRequestQueue(requireContext())
         var json= JSONObject()
-        json.put("token", prefManager.getToken())
+        //json.put("token", prefManager.getToken())
 
         var jsonObjectRequest=object :
             JsonObjectRequest(Method.POST,baseurl,json, Response.Listener<JSONObject>{
@@ -133,8 +131,40 @@ class WelcomeFragment : Fragment() {
                 dialog.show()
             }
         })
-        {}
+        {
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers: MutableMap<String, String> = HashMap()
+                headers.put("Authorization", "Bearer " + prefManager.getToken())
+                headers.put("Content-Type", "application/json; charset=UTF-8");
+                headers.put("Accept", "application/vnd.api+json");
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                return headers
+            }
+            }
         queue.add(jsonObjectRequest)
+
+/*        var string=""
+        val stringRequest: StringRequest = object : StringRequest(Method.POST, baseurl,
+            Response.Listener {
+                              Log.d("StringResponse","$it")
+            }, Response.ErrorListener { }) {
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers: MutableMap<String, String> = HashMap()
+                headers.put("Authorization", "Bearer" + prefManager.getToken())
+                headers.put("Content-Type", "application/json; charset=UTF-8");
+                headers.put("Accept", "application/vnd.api+json");
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                return headers
+            }
+
+            @Throws(AuthFailureError::class)
+            override fun getBody(): ByteArray {
+                return "Your JSON body".toByteArray()
+            }
+        }
+        queue.add(stringRequest)*/
 
     }
 }

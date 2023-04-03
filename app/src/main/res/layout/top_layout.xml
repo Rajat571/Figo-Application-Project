@@ -52,7 +52,7 @@
             android:id="@+id/toggle_off"
             android:gravity="center"
             android:layout_weight="1"
-            android:textSize="@dimen/_12sdp"
+            android:textSize="@dimen/_10sdp"
             android:textStyle="bold"
             android:textColor="@color/black"
             />
@@ -63,7 +63,7 @@
             android:id="@+id/toggle_on"
             android:gravity="center"
             android:layout_weight="1"
-            android:textSize="@dimen/_12sdp"
+            android:textSize="@dimen/_10sdp"
             android:textStyle="bold"
             android:background="#4CAF50"
             android:textColor="@color/black"
