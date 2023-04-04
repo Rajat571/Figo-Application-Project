@@ -280,7 +280,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                 override fun onFinish() {
                     //navigatenext()
                    // Toast.makeText(this,"Booking Failed",Toast.LENGTH_SHORT).show()
-                    reject()
+                    //reject()
                 }
 
             }
@@ -346,11 +346,29 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
 
                              date_only = ride.getString("date_only")
                              time_only = ride.getString("time_only")
-                             var customer =
-                                 response.getJSONObject("data").getJSONObject("customer")
-                             customer_id = customer.getString("id")
-                             customer_name = customer.getString("name")
-                             customer_contact = customer.getString("contact_no")
+                             try {
+                                 var customer =
+                                     response.getJSONObject("data").getJSONObject("customer")
+
+                                 if (customer.getString("id").equals("null"))
+                                     customer_id = " - - - "
+                                 else
+                                     customer_id = customer.getString("id")
+
+                                 if (customer.getString("name").equals("null"))
+                                     customer_name = " - - - "
+                                 else
+                                     customer_name = customer.getString("name")
+
+                                 if (customer.getString("contact_no").equals("null"))
+                                     customer_contact = " - - - "
+                                 else
+                                     customer_contact = customer.getString("contact_no")
+                             }catch (_:Exception){
+                                 customer_id = " - - - "
+                                 customer_name = " - - - "
+                                 customer_contact = " - - - "
+                             }
                              Toast.makeText(this, status, Toast.LENGTH_SHORT).show()
                              prefManager.setActiveRide(1)
                              if (!status.equals("pending")) {
@@ -361,8 +379,6 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                                  alertDialog2.setPositiveButton("Yes") { dialog: DialogInterface?, which: Int ->
                                      addNotification()
                                      /*Toast.makeText(this,"Customer has accepted your ride request.",Toast.LENGTH_SHORT).show()*/
-                                     if (outstation_id==2){}
-                                     else{
 
                                      startActivity(
                                          Intent(this, CustomerCityRideDetailActivity::class.java)
@@ -384,7 +400,6 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                                      )
                                          timer?.cancel()
                                          timer?.onFinish()
-                                     }
 
                                  }
                                  alertDialog2.setNegativeButton(

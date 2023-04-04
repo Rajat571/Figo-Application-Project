@@ -1,7 +1,7 @@
 package com.figgo.cabs.figgodriver.UI
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
+import android.app.Activity
 import android.app.Dialog
 import android.content.*
 import android.content.pm.ApplicationInfo
@@ -9,13 +9,10 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.ColorDrawable
-import android.net.ConnectivityManager
 import android.os.AsyncTask
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
-import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.view.Window
@@ -42,12 +39,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.libraries.places.api.Places
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
-import io.reactivex.annotations.NonNull
 import kotlinx.android.synthetic.main.otp_start_layout.*
 import kotlinx.android.synthetic.main.service_dialog.*
 import kotlinx.coroutines.*
@@ -100,7 +92,11 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
         bookingID.text = intent.getStringExtra("bookingID")
         bookID = intent.getStringExtra("bookingID").toString()
         pickuplocation.text = intent.getStringExtra("pickup")
-        fareprice.text = intent.getStringExtra("price")
+        Toast.makeText(this,"Press Go Button to start Live Routing",Toast.LENGTH_SHORT).show()
+        if(intent.getStringExtra("price").equals("")||intent.getStringExtra("price").equals("null")||intent.getStringExtra("price").equals(null))
+            fareprice.text=" - - - "
+        else
+            fareprice.text = intent.getStringExtra("price")
         price = intent.getStringExtra("price").toString()
         dropLocationTV.text = intent.getStringExtra("dropLocation")
         destinationLongitude=prefManager.getDestLon().toDouble()
@@ -156,15 +152,18 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.service_dialog)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        //dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         val tvMsg : TextView = dialog.findViewById(R.id.msgTV)
         val tvYes : TextView = dialog.findViewById(R.id.yesTV)
         val tvNo : TextView = dialog.findViewById(R.id.noTV)
         val serverImg : ImageView = dialog.findViewById(R.id.serviceIV)
 
-        tvMsg.text = "Please Enable live routing for better experience "
+        tvMsg.text = "Please Enable live routing background Service for better experience "
         tvYes.setOnClickListener {
+            dialog.dismiss()
+            startService(Intent(this,FireBaseService::class.java))
             prefManager.setServiceStatus(true)
         }
         tvNo.setOnClickListener {
@@ -188,28 +187,34 @@ class StartRideActivity : AppCompatActivity(), OnMapReadyCallback {
 
             binding.goLocation.setOnClickListener {
                 binding.goLocation.visibility=View.GONE
+                mMap.animateCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        originLocation,
+                        11F
+                    )
+                )
+                liveRouting(originLatitude, originLongitude, customerLAT, customerLON)
+                updateRoute()
 
                 try {
-                    timer = object : CountDownTimer(900000, 2000) {
+                    timer = object : CountDownTimer(7000000, 2000) {
                         override fun onTick(millisUntilFinished: Long) {
+
+                            Log.d("StartRideACtivity LOG"," $millisUntilFinished")
                             if (millisUntilFinished.toInt()%5==0) {
-                                mMap.animateCamera(
-                                    CameraUpdateFactory.newLatLngZoom(
-                                        originLocation,
-                                        11F
-                                    )
-                                )
+
                                 if(prefManager.isServiceRunning()){
+                                    Log.d("StartRideACtivity"," IF")
                                     liveRouting(originLatitude, originLongitude, customerLAT, customerLON)
                                     updateRoute()
                                 }
-
                                 else
                                 {
-
-                                    dialog.show()
-
-
+                                    Log.d("StartRideACtivity","else")
+                                    if (!(this@StartRideActivity).isFinishing) {
+                                        //show dialog
+                                        dialog.show()
+                                    }
 
                                 }
 

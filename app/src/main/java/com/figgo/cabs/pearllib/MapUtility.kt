@@ -46,9 +46,9 @@ object MapUtility {
 
     fun showToast(context: Context?, message: String?) {
         try {
-            val toast = Toast.makeText(context, message, Toast.LENGTH_SHORT)
+/*            val toast = Toast.makeText(context, message, Toast.LENGTH_SHORT)
             toast.setGravity(Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL, 0, 0)
-            toast.show()
+            toast.show()*/
         } catch (ex: Exception) {
         }
     }

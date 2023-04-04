@@ -38,6 +38,7 @@ import com.figgo.cabs.PrefManager
 import com.figgo.cabs.R
 import com.figgo.cabs.figgodriver.Adapter.NotificationHomeAdapter
 import com.figgo.cabs.figgodriver.Fragment.*
+import com.figgo.cabs.figgodriver.Service.FireBaseService
 import com.figgo.cabs.figgodriver.Service.MyService
 import com.figgo.cabs.figgodriver.model.NotificationData
 import com.figgo.cabs.pearllib.BaseClass
@@ -121,6 +122,7 @@ class DriverDashBoard : BaseClass(),CoroutineScope by MainScope() {
          driverImage=vieww.findViewById<ImageView>(R.id.driverIV)
          drivername=vieww.findViewById<TextView>(R.id.drivernamee)
          driver_num=vieww.findViewById<TextView>(R.id.driver_numberr)
+        stopService(Intent(this,FireBaseService::class.java))
         var email=vieww.findViewById<TextView>(R.id.emailTV)
         if(prefManager.getemail() == "null"){
             email.text="- - -"

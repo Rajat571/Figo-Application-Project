@@ -10,6 +10,7 @@ import android.location.Geocoder
 import android.os.Build
 import android.os.CountDownTimer
 import android.os.IBinder
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -102,6 +103,7 @@ class FireBaseService : Service() {
                     var LAT = snapshot.child("LAT ").value
                     var LON = snapshot.child("LON ").value
                     try {
+                        Log.d("CustomerCordinates","$LAT - $LON")
                         prefManager.setCustomerlocation(LAT.toString().toFloat(),LON.toString().toFloat())
                     }
                     catch (e:Exception){
@@ -185,7 +187,7 @@ class FireBaseService : Service() {
         })
             .addOnSuccessListener { location: android.location.Location? ->
                 if (location == null)
-                    Toast.makeText(this, "Cannot get location.", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(this, "Cannot get location.", Toast.LENGTH_SHORT).show()
                 else {
                     originLatitude = location.latitude
                     prefManager.setlatitude(originLatitude.toFloat())

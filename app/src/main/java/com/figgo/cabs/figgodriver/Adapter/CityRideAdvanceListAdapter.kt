@@ -58,7 +58,7 @@ class CityRideAdvanceListAdapter(var context:Context, var advanceridelist:List<C
                 .putExtra("customer_booking_id",data.booking_id)
                 .putExtra("ride_id",data.ride_id)
                 .putExtra("ride_request_id",data.ride_request_id)
-                    .putExtra("ride_type",data.type))
+                    .putExtra("ride_type","advance"))
 
         }
        // deleteCache(context)
