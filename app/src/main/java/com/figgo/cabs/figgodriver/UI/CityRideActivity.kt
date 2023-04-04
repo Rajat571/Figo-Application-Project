@@ -318,7 +318,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                              var id = ride.getString("id")
                              var status = ride.getString("status")
                              booking_id = ride.getString("booking_id")
-                             type = ride.getString("type")
+                             type = ride.getString("booking_type")
 
                              Log.d("RES CITY", "Advance Accept status response===" + response)
 
@@ -466,7 +466,7 @@ class CityRideActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMar
                          var id = ride.getString("id")
                          var status = ride.getString("status")
                          booking_id = ride.getString("booking_id")
-                         type = ride.getString("type")
+                         type = ride.getString("booking_type")
 
                          Log.d("RES CITY", "Accept status response===" + response)
                          //   Log.d("CityRideActivity", "id===" + booking_id)

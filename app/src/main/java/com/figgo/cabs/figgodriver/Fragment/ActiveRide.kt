@@ -127,7 +127,7 @@ if(it!=null){
         }catch (_:Exception){ }
 
         try {
-            type = data.getString("type")
+            type = data.getString("booking_type")
         }catch (_:Exception){
 
         }

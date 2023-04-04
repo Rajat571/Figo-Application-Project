@@ -313,7 +313,7 @@ class OutstationCityRideActivity : AppCompatActivity()
                             var id = ride.getString("id")
                             var status = ride.getString("status")
                             booking_id = ride.getString("booking_id")
-                            type = ride.getString("type")
+                            type = ride.getString("booking_type")
 
                             Log.d("RES CITY", "Advance Accept status response===" + response)
 
@@ -439,7 +439,7 @@ class OutstationCityRideActivity : AppCompatActivity()
                             var id = ride.getString("id")
                             var status = ride.getString("status")
                             booking_id = ride.getString("booking_id")
-                            type = ride.getString("type")
+                            type = ride.getString("booking_type")
 
                             Log.d("RES CITY", "Accept status response===" + response)
                             //   Log.d("CityRideActivity", "id===" + booking_id)
@@ -450,6 +450,7 @@ class OutstationCityRideActivity : AppCompatActivity()
                             to_location_lat = to_location.getString("lat")
                             to_location_long = to_location.getString("lng")
                             address_name = to_location.getString("name")
+
                             /*     Log.d(
                                             "SendData",
                                             "to_location" + to_location_lat + "\n" + to_location_long + "\n" + address_name
