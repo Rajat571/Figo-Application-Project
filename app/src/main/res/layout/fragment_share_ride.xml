@@ -322,7 +322,7 @@
         app:layout_constraintEnd_toEndOf="@+id/sharetimePicker" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/createshareride"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_10sdp"

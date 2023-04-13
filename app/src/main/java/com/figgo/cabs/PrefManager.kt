@@ -526,4 +526,18 @@ import android.content.SharedPreferences
      fun getRemainingRides():Int{
          return pref?.getInt("requestNo",0)!!
      }
+
+     fun setPermissionDeniedCount(cut:Int){
+         var x = this.getPermissionDeniedCount()
+         if(cut==0)
+             x=0
+         else
+            x+=1
+         editor?.putInt("deniedCount",x)
+         editor?.commit()
+     }
+     fun getPermissionDeniedCount():Int{
+         return pref?.getInt("deniedCount",0)!!
+     }
+
  }

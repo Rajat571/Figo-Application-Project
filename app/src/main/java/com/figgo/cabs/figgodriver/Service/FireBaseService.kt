@@ -109,8 +109,6 @@ class FireBaseService : Service() {
                     catch (e:Exception){
 
                     }
-
-
                     //Log.d("$this", "Lat = $LAT ,Lon = $LON")
                 }
 

@@ -29,6 +29,9 @@ import com.figgo.cabs.R
 import com.figgo.cabs.figgodriver.Adapter.AddShareAdapter
 import com.figgo.cabs.figgodriver.UI.LocationPickerActivity
 import com.figgo.cabs.figgodriver.model.LIstModel
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.active_ride_layout.view.*
 import kotlinx.android.synthetic.main.fragment_share_ride.*
 import java.util.*
@@ -60,6 +63,8 @@ class ShareRideFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private val ADDRESS_PICKER_REQUEST = 1
+    private lateinit var db: FirebaseFirestore
+    lateinit var createshareride:Button
     var selects: String? = ""
 
     val pref: PrefManager
@@ -97,15 +102,11 @@ class ShareRideFragment : Fragment() {
         shareride_calendar = view.findViewById(R.id.shareride_calendar)
         share_date = view.findViewById(R.id.share_date)
         share_time = view.findViewById(R.id.share_time)
-
+        createshareride = view.findViewById(R.id.createshareride)
         timerOk = view.findViewById(R.id.timerOk)
 
         locationLL = view.findViewById(R.id.idLocationLL)
-
-
-
-
-
+        db = Firebase.firestore
 
                 locationLL.setOnClickListener {
             val internet: Boolean = isOnline(requireActivity())
@@ -228,8 +229,33 @@ class ShareRideFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = AddShareAdapter(requireContext(), arrCard)
 
+        createshareride.setOnClickListener {
+            //sendToFirebase()
+            writeToFirebase()
+        }
+
     }
 
+    private fun sendToFirebase() {
+        val driver = hashMapOf(
+            "token" to "qwwwwwwrtyuiopsdfas[",
+            "Module" to "ShareRide",
+            "Location 1" to "Doiwala2",
+            "Location 2" to "Jogiwala2",
+            "Location 3" to "Rishikesh2",
+            "Seats" to "4",
+            "timing" to "5:30pm"
+        )
+
+        db.collection("drivers")
+            .add(driver)
+            .addOnSuccessListener {
+                Log.d("Main","Data added succesfully $it")
+            }
+            .addOnFailureListener {
+                Log.d("Main","Data failed to add $it")
+            }
+    }
 
 
     override fun onResume() {
@@ -435,9 +461,33 @@ class ShareRideFragment : Fragment() {
 
     private fun closeKeyboard(view: View) {
 
-        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view.windowToken,0)
+        val imm =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
 
 
     }
+
+    private fun writeToFirebase() {
+        val driver = hashMapOf(
+            "token" to "qwwwwwwrtyuiopsdfas[",
+            "Module" to "ShareRide",
+            "Location 1" to "Doiwala2",
+            "Location 2" to "Jogiwala2",
+            "Location 3" to "Rishikesh2",
+            "Seats" to "4",
+            "timing" to "5:30pm"
+        )
+
+        db.collection("drivers")
+            .add(driver)
+            .addOnSuccessListener {
+                Log.d("Main","Data added succesfully $it")
+            }
+            .addOnFailureListener {
+                Log.d("Main","Data failed to add $it")
+            }
+    }
+
+
 }
